@@ -1,0 +1,45 @@
+@import "../../../pulpox_ads_nuevo/assets/scss/base/colors.scss";
+
+@import "../../../pulpox_ads_nuevo/assets/scss/base/config.scss";
+
+/* ANUNCIO PREVIEW*/
+
+.icon-label {
+	display: inline-block;
+	//background-color: gray;
+	vertical-align: text-bottom;
+}
+
+#titulo_preview {
+	word-break: break-all;
+	word-wrap: break-word;
+}
+
+.anuncio-nuevo-preview_icon {
+	//background-color: red;
+	height: 1.5em;
+	vertical-align: text-bottom;
+}
+
+#anuncio_preview {
+	border-style: solid;
+	border-width: 1px;
+	border-color: lightgray;
+	border-radius: $border_radius;
+	word-break: break-all;
+	word-wrap: break-word;
+	padding: 0.5em;
+}
+.carousel-inner {
+	max-height: 20em;
+}
+
+.carousel-control-prev,
+.carousel-control-next {
+	width: 50%;
+}
+
+.carousel-inner {
+	padding: 1em;
+	max-width: 40em;
+}

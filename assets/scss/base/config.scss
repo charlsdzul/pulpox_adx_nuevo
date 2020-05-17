@@ -1,0 +1,34 @@
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+
+body {
+	margin: 0;
+	font-family: lato;
+}
+
+a {
+	text-decoration: none;
+}
+
+img {
+	max-width: 100%;
+}
+
+li {
+	list-style: none;
+}
+
+$border_radius: 4px;
+
+.btn-pulpox-primary {
+	background-color: $color_cherry;
+	color: white;
+}
+
+.btn-pulpox-secondary {
+	background-color: $color_orange;
+	color: white;
+}
