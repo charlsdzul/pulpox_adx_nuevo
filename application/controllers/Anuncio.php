@@ -39,9 +39,50 @@ class Anuncio extends CI_Controller {
 
     function publicar(){
         $nuevo_anuncio = json_encode($this->input->post());
+        $nuevo_anuncio=json_decode($nuevo_anuncio);
         $public_id = $this->anuncio_model->generarPublicId();
-        $response = $this->anuncio_model->publicar($nuevo_anuncio, $public_id);  
-        echo $response;    
+        $response['codigo'] = 0;
+        $response['mensaje']= 'Anuncio publicado exitosamente.'; 
+
+
+        //VALIDACIÓN TÍTULO
+        if(strlen($nuevo_anuncio->titulo)=='' ){  
+          $response['codigo'] = 1;
+          $response['mensaje']= 'Necesita ingresar un título para su anuncio.';           
+          echo json_encode($response); 
+          die();
+        }else{
+          if(strlen($nuevo_anuncio->titulo)<=50 ){ 
+          }else{
+            $response['codigo']  = 1;
+            $response['mensaje'] = 'Título demasiado largo. Edite.';  
+            echo json_encode($response);  
+            die();     
+          } 
+        }
+
+        //VALIDACIÓN TÍTULO
+        if(strlen($nuevo_anuncio->anuncio)=='' ){  
+          $response['codigo'] = 1;
+          $response['mensaje']= 'Necesita ingresar un mensaje su anuncio.';           
+          echo json_encode($response); 
+          die();
+        }else{
+          if(strlen($nuevo_anuncio->anuncio)<=1000 ){ 
+          }else{
+            $response['codigo']  = 1;
+            $response['mensaje'] = 'Título demasiado largo. Edite.';  
+            echo json_encode($response);    
+            die();   
+          } 
+        }      
+
+        echo json_encode($response); 
+       
+ 
+    
+
+         
     } 
 }
 

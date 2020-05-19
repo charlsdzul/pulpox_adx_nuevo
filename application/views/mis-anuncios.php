@@ -5,14 +5,12 @@
       <tr>        
         <th class="th-sm">#</th>        
         <th class="th-sm">Título</th>
-        <th class="th-sm">Estado</th>
-        <th class="th-sm">Ciudad</th>
+        <th class="th-sm">Lugar</th> 
         <th class="th-sm">Sección</th>
-        <th class="th-sm">Apartado</th>
         <th class="th-sm">ID</th>
         <th class="th-sm">Creado</th>
         <th class="th-sm">Estatus</th>
-        <th class="th-sm"></th>
+        
       </tr>
     </thead>
     <tbody class='pulpox-table-tbody'>
@@ -21,14 +19,11 @@
       <tr>
         <th class="th-sm">#</th>        
         <th class="th-sm">Título</th>
-        <th class="th-sm">Estado</th>
-        <th class="th-sm">Ciudad</th>
+        <th class="th-sm">Lugar</th> 
         <th class="th-sm">Sección</th>
-        <th class="th-sm">Apartado</th>
         <th class="th-sm">ID</th>
         <th class="th-sm">Creado</th>
         <th class="th-sm">Estatus</th>
-        <th class="th-sm"></th>
       </tr>
     </tfoot>
   </table>
@@ -80,19 +75,17 @@
 
         data += `<tr> 
         <td>${index+1}</td>        
-        <td><a href= '<?php echo base_url() . 'index.php/misanuncios/ver/';?>${mis_anuncios[index].public_id}'>${mis_anuncios[index].titulo}</a></td>
-        <td>${estado}</td>
-        <td>${ciudad}</td>
-        <td>${seccion}</td>
-        <td>${apartado}</td>
+        <td><a class='pulpox-table--titulo' href= '<?php echo base_url() . 'index.php/misanuncios/ver/';?>${mis_anuncios[index].public_id}'>${mis_anuncios[index].titulo}</a></td>
+        <td>${estado} / ${ciudad}</td>
+        <td>${seccion} / ${apartado}</td>
         <td>${mis_anuncios[index].public_id}</td>
         <td>${mis_anuncios[index].creado}</td>
         <td>${estatus}</td>
-        <td>
+      <!--  <td>
           <a href= '<?php echo base_url() . 'index.php/misanuncios/ver/';?>${mis_anuncios[index].public_id}'>  
             <img src="<?php echo base_url()?>assets/icons/visibility-24px.svg" id='anuncio-nuevo-preview_icon--lugar' class='anuncio-nuevo-preview_icon'>
           </a>
-        </td>
+        </td>-->
        
         </tr>
        
@@ -109,22 +102,6 @@
   });
 
 
-  function editarAnuncio(param){
-    console.log(param)
-
-    console.log('editando...' + param.id)
-/*
-    let collapse = `
-    <div class="collapse" id="collapseExample">
-      <div class="card card-body">
-        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
-      </div>
-    </div>
-`;
-
-param.append(collapse)
-*/
-  }
 
 
 

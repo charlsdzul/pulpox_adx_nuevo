@@ -11,7 +11,7 @@ class Anuncio_model extends CI_Model {
                 
     function publicar($nuevo_anuncio, $public_id){ 
 
-        $nuevo_anuncio=json_decode($nuevo_anuncio); //Recibe un objeto como string
+         //Recibe un objeto como string
 
         //var_dump($nuevo_anuncio);
 

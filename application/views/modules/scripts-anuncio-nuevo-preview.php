@@ -33,9 +33,18 @@ if(sessionStorage.getItem(`correo_${anuncio_id}`)!=''){
  * Guardar anuncio
 */
 
-  $(document).ready(function() {
+  $(document).ready(function() {    
 
       $('#boton_publicar').click(function(){
+
+        let dialog_publicando = $.dialog({
+            icon: 'fa fa-spinner fa-spin',
+            title: 'Publicando...',
+            type: 'green',
+            content: 'Estamos publicando tu anuncio!',
+            closeIcon:false,
+        });       
+    
         var nuevo_anuncio={}
         nuevo_anuncio['titulo'] = sessionStorage.getItem(`titulo_${anuncio_id}`)
         nuevo_anuncio['anuncio']  = sessionStorage.getItem(`anuncio_${anuncio_id}`)
@@ -48,23 +57,64 @@ if(sessionStorage.getItem(`correo_${anuncio_id}`)!=''){
         nuevo_anuncio['correo'] = sessionStorage.getItem(`correo_${anuncio_id}`)
         nuevo_anuncio['id'] = sessionStorage.getItem(`correo_${anuncio_id}`)
 
+        $.post("<?php echo base_url().'index.php/anuncio/publicar/'?>",  nuevo_anuncio)   
+        .done(function(response) { 
 
-        $.post("<?php echo base_url().'index.php/anuncio/publicar/'?>",  nuevo_anuncio)
-       
-        .done(function(response) {         
-           console.dir(response)
+            dialog_publicando.close();
+            response = JSON.parse(response);
+              if(response.codigo!=0){
+                $.confirm({
+                title: 'Detectamos un problema.',
+                content: response.mensaje,
+                type: 'orange',
+                typeAnimated: true,
+                buttons: {               
+                    close: function () {
+                    }                }
+                });
+              }else{
+                $.confirm({
+                icon: 'fas fa-check-circle',
+                title: 'Publicado',
+                type: 'green',
+                content: 'Tú anuncio ya se publicó. ¿A dónde quieres ir?',
+                closeIcon:false,
+                buttons: {
+                  nuevoAnuncio: {
+                      text: 'Nuevo Anuncio',
+                      btnClass: 'btn-pulpox-primary',
+                      keys: ['enter', 'shift'],
+                      action: function(){
+                        location.href = "<?php echo base_url() . 'index.php/anuncio/nuevo'; ?>" 
+                      }
+                  },
+                  misAnuncios: {
+                      text: 'mis Anuncios',
+                      btnClass: 'btn-pulpox-primary',
+                      keys: ['enter', 'shift'],
+                      action: function(){
+                        location.href = "<?php echo base_url() . 'index.php/misanuncios'; ?>" 
+                      }
+                  }
+                }
+                });        
+              }        
         })
-        .fail(function() {
-            console.log(response)
+      .fail(function() {
+
+          $.confirm({
+            title: 'Detectamos un problema.',
+            content: 'Nuestro servidor tiene problemas actualmente. Intente más tarde.',
+            type: 'red',
+            typeAnimated: true,
+            buttons: {               
+                close: function () {
+                }
+            }
+        });
+
         })    
-     
-        
-
-
       })
-
 });
- 
-
 
 </script>
