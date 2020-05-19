@@ -13,9 +13,21 @@ $('#estado_ciudad').text(estado_ciudad)
 $('#seccion_apartado').text(seccion_apartado)
 
 
-$('#telefono_preview').text(sessionStorage.getItem(`telefono_${anuncio_id}`))
-$('#celular_preview').text(sessionStorage.getItem(`celular_${anuncio_id}`))
-$('#correo_preview').text(sessionStorage.getItem(`correo_${anuncio_id}`))
+if(sessionStorage.getItem(`telefono_${anuncio_id}`)!=''){
+  $('#telefono_preview').text(sessionStorage.getItem(`telefono_${anuncio_id}`))
+  $('#div_telefono_preview').css('display', 'inline-block')
+}
+
+if(sessionStorage.getItem(`celular_${anuncio_id}`)!=''){
+  $('#celular_preview').text(sessionStorage.getItem(`celular_${anuncio_id}`))
+  $('#div_celular_preview').css('display', 'inline-block')
+}
+
+if(sessionStorage.getItem(`correo_${anuncio_id}`)!=''){
+  $('#correo_preview').text(sessionStorage.getItem(`correo_${anuncio_id}`))
+  $('#div_correo_preview').css('display', 'inline-block')
+}
+
 
 /**
  * Guardar anuncio
@@ -40,11 +52,10 @@ $('#correo_preview').text(sessionStorage.getItem(`correo_${anuncio_id}`))
         $.post("<?php echo base_url().'index.php/anuncio/publicar/'?>",  nuevo_anuncio)
        
         .done(function(response) {         
-            console.log('Respuesta de servidor: ')
            console.dir(response)
         })
         .fail(function() {
-            console.log('errorr!!!!')
+            console.log(response)
         })    
      
         
@@ -52,22 +63,6 @@ $('#correo_preview').text(sessionStorage.getItem(`correo_${anuncio_id}`))
 
       })
 
-
-
-
-
-
-
-
-console.log(titulo)
-    console.log(anuncio)
-    console.log(estado)
-    console.log(ciudad)
-    console.log(seccion)
-    console.log(apartado)
-    console.log(telefono)
-    console.log(celular)
-    console.log(correo)
 });
  
 

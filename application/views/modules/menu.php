@@ -11,7 +11,7 @@
         <a class="nav-link" href="#">Inicio <span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">Mis Anuncios</a>
+        <a class="nav-link" href="<?php echo base_url() . 'index.php/' .'misanuncios'?>" >Mis Anuncios</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="<?php echo base_url() . 'index.php/' .'anuncio/nuevo/'?>" tabindex="-1">Nuevo</a>

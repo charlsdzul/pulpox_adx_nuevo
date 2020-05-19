@@ -1,0 +1,64 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: lato;
+}
+
+a {
+  text-decoration: none;
+}
+
+img {
+  max-width: 100%;
+}
+
+li {
+  list-style: none;
+}
+
+.btn-pulpox-primary {
+  background-color: #a30036;
+  color: white;
+}
+
+.btn-pulpox-secondary {
+  background-color: #a35200;
+  color: white;
+}
+
+.btn-pulpox-primary-disabled {
+  background-color: #6c3749;
+  color: white;
+}
+
+.pulpox-invalid-feedback {
+  color: red;
+  font-size: 0.75em;
+  display: none;
+}
+
+.pulpox-table--thead {
+  background-color: #a30036;
+  color: white;
+  border-radius: 4px;
+}
+
+.page-link {
+  background-color: #a35200;
+  color: WHITE;
+}
+
+.page-link {
+  background-color: #a35200;
+  color: WHITE;
+}
+
+.active {
+  background-color: #a30036;
+  color: WHITE;
+}

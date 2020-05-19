@@ -6,6 +6,7 @@ class Anuncio extends CI_Controller {
      function __construct() {
         parent::__construct();
         $this->load->helper('url'); 
+        $this->load->model('anuncio_model');
     }
 
     function nuevo($anuncio_id = null){
@@ -38,11 +39,9 @@ class Anuncio extends CI_Controller {
 
     function publicar(){
         $nuevo_anuncio = json_encode($this->input->post());
-       echo $nuevo_anuncio;
-
-
-
-    
+        $public_id = $this->anuncio_model->generarPublicId();
+        $response = $this->anuncio_model->publicar($nuevo_anuncio, $public_id);  
+        echo $response;    
     } 
 }
 

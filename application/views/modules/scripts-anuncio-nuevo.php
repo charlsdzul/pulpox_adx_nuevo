@@ -1,30 +1,37 @@
 <script src="<?php echo base_url();?>assets/util/estados.js"></script>
-<script src="<?php echo base_url();?>assets/util/ciudades_CHH.js"></script>
+<script src="<?php echo base_url();?>assets/util/ciudades.js"></script>
 <script src="<?php echo base_url();?>assets/util/secciones.js"></script>
 <script src="<?php echo base_url();?>assets/util/apartados.js"></script>
 
 <script>
+    var anuncio_id = <?php echo $anuncio_id?>; //Variable pasada a al view
 
 /**
- * Validación para el formulario en generales
+ * Validación para el formulario 
+ * Valida elementos con la clase 'pulpox-validar'
  */
-    (function() {
-    'use strict';
-    window.addEventListener('load', function() {
-        // Fetch all the forms we want to apply custom Bootstrap validation styles to
-        var forms = document.getElementsByClassName('needs-validation');
-        // Loop over them and prevent submission
-        var validation = Array.prototype.filter.call(forms, function(form) {
-        form.addEventListener('submit', function(event) {
-            if (form.checkValidity() === false) {
-            event.preventDefault();
-            event.stopPropagation();
-            }
-            form.classList.add('was-validated');
-        }, false);
-        });
-    }, false);
-    })();
+
+        $('#boton_previzualizar').click(function(){
+            /*
+            * Valida campos requeridos
+            */
+            let elementos_validados = 0; //Se validarán seis elementos.
+            $('.pulpox-validar').each(function(i){
+                if($(this).val()==''){
+                    $(this).css('border-color','red')
+                    $(this).next().show()  //Muestra el div con mensaje de error                   
+                }else{
+                    $(this).css('border-color','')
+                    $(this).next().hide() 
+                    elementos_validados++;
+                }                
+            });
+
+            if(elementos_validados==6){
+                window.location.href =  "<?php echo base_url() . 'index.php/' .'anuncio/preview/' . $anuncio_id; ?>" 
+            }          
+        })
+
 
 
 /**
@@ -131,7 +138,7 @@
 /**
  * Asignar valores previamente almacenados
 */
-        let anuncio_id = <?php echo $anuncio_id?> //Variable pasada a al view
+        
 
         $('#titulo').val(sessionStorage.getItem(`titulo_${anuncio_id}`))
         $('#anuncio').val(sessionStorage.getItem(`anuncio_${anuncio_id}`))

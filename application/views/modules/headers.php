@@ -11,7 +11,8 @@
    
     <link rel="stylesheet" href="<?php echo base_url();?>assets/css/main-menu.css">
     <link rel="stylesheet" href="<?php echo base_url();?>assets/css/anuncio-nuevo.css">
-    <!-- JS  -->
+    <link rel="stylesheet" href="<?php echo base_url();?>assets/css/mis-anuncios.css">
+   
     
    <!-- <script src="<?php echo base_url();?>assets/libs/jquery-3.1.1/jquery-3.1.1.min.js"></script>  -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -19,7 +20,9 @@
     <script src="<?php echo base_url();?>assets/libs/bootstrap-4.4.1-dist/js/bootstrap.min.js"></script>
     <script src="<?php echo base_url();?>assets/libs/mimo84-bootstrap-maxlength-765c012/dist/bootstrap-maxlength.min.js"></script>
 
-
+ <!-- JS  -->
+    <!-- MDBootstrap Datatables  -->
+    <script type="text/javascript" src="<?php echo base_url();?>assets/libs/MDB-Free_4.18.0/js/addons/datatables.min.js"></script>
 
 
 

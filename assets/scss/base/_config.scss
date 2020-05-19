@@ -1,3 +1,5 @@
+@import "../../../pulpox_ads_nuevo/assets/scss/base/colors.scss";
+
 *,
 *::before,
 *::after {
@@ -31,4 +33,15 @@ $border_radius: 4px;
 .btn-pulpox-secondary {
 	background-color: $color_orange;
 	color: white;
+}
+
+.btn-pulpox-primary-disabled {
+	background-color: $color_cherry-disabled;
+	color: white;
+}
+
+.pulpox-invalid-feedback {
+	color: red;
+	font-size: 0.75em;
+	display: none;
 }

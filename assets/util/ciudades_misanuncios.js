@@ -1,4 +1,4 @@
-var ciudades_CHH = {
+var ciudades = {
 	CHH11: "Juárez",
 	CHH01: "Delicias",
 	CHH02: "Cuauhtémoc",

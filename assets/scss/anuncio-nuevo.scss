@@ -1,5 +1,3 @@
-@import "../../../pulpox_ads_nuevo/assets/scss/base/colors.scss";
-
 @import "../../../pulpox_ads_nuevo/assets/scss/base/config.scss";
 
 /* ANUNCIO PREVIEW*/
@@ -7,7 +5,7 @@
 .icon-label {
 	display: inline-block;
 	//background-color: gray;
-	vertical-align: text-bottom;
+	vertical-align: text-top;
 }
 
 #titulo_preview {
@@ -15,10 +13,13 @@
 	word-wrap: break-word;
 }
 
+.icon-label {
+	vertical-align: baseline;
+}
+
 .anuncio-nuevo-preview_icon {
-	//background-color: red;
 	height: 1.5em;
-	vertical-align: text-bottom;
+	display: inline-block;
 }
 
 #anuncio_preview {
@@ -42,4 +43,10 @@
 .carousel-inner {
 	padding: 1em;
 	max-width: 40em;
+}
+
+#div_telefono_preview,
+#div_celular_preview,
+#div_correo_preview {
+	display: none;
 }

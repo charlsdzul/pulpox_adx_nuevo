@@ -31,10 +31,21 @@ li {
   color: white;
 }
 
+.btn-pulpox-primary-disabled {
+  background-color: #6c3749;
+  color: white;
+}
+
+.pulpox-invalid-feedback {
+  color: red;
+  font-size: 0.75em;
+  display: none;
+}
+
 /* ANUNCIO PREVIEW*/
 .icon-label {
   display: inline-block;
-  vertical-align: text-bottom;
+  vertical-align: text-top;
 }
 
 #titulo_preview {
@@ -42,9 +53,13 @@ li {
   word-wrap: break-word;
 }
 
+.icon-label {
+  vertical-align: baseline;
+}
+
 .anuncio-nuevo-preview_icon {
   height: 1.5em;
-  vertical-align: text-bottom;
+  display: inline-block;
 }
 
 #anuncio_preview {
@@ -69,4 +84,10 @@ li {
 .carousel-inner {
   padding: 1em;
   max-width: 40em;
+}
+
+#div_telefono_preview,
+#div_celular_preview,
+#div_correo_preview {
+  display: none;
 }
