@@ -20,15 +20,22 @@
     <script src="<?php echo base_url();?>assets/libs/bootstrap-4.4.1-dist/js/bootstrap.min.js"></script>
     <script src="<?php echo base_url();?>assets/libs/mimo84-bootstrap-maxlength-765c012/dist/bootstrap-maxlength.min.js"></script>
 
- <!-- JS  -->
-    <!-- MDBootstrap Datatables  -->
-    <script type="text/javascript" src="<?php echo base_url();?>assets/libs/MDB-Free_4.18.0/js/addons/datatables.min.js"></script>
+
+<!-- MDBootstrap Datatables  -->
+   <script type="text/javascript" src="<?php echo base_url();?>assets/libs/MDB-Free_4.18.0/js/addons/datatables.min.js"></script>
 
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
+ <!-- jQueryConfirm -->
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
 
 
+ <!-- Jquery UI  -->
+ <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    
+
+<!-- Material Icons  -->
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
     
 <!-- 

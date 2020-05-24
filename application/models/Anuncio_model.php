@@ -9,11 +9,7 @@ class Anuncio_model extends CI_Model {
     }
                  
                 
-    function publicar($nuevo_anuncio, $public_id){ 
-
-         //Recibe un objeto como string
-
-        //var_dump($nuevo_anuncio);
+    function publicar($nuevo_anuncio, $public_id){        
 
         $data = array(  
             'public_id'=>$public_id,
@@ -26,7 +22,7 @@ class Anuncio_model extends CI_Model {
             'telefono'=> $nuevo_anuncio->telefono, 
             'celular'=> $nuevo_anuncio->celular,
             'correo'=> $nuevo_anuncio->correo,
-            'creado'=> date("Y-m-d"), 
+            'creado'=> date("Y-m-d H:i:s"), 
             'usuario_id'=> 111, 
             );
 

@@ -73,7 +73,22 @@
         mis_anuncios[index].estatus==1 ? estatus = 'INACTIVO' : '';
         mis_anuncios[index].estatus==2 ? estatus = 'ELIMINADO' : '';
 
-        data += `<tr> 
+        if(mis_anuncios[index].estatus==0){
+          estatus = 'ACTIVO';
+           back_color ='';
+        }
+        if(mis_anuncios[index].estatus==1){
+          estatus = 'INACTIVO';
+           back_color = '#ffbb33';
+        }
+        if(mis_anuncios[index].estatus==2){
+          estatus = 'ELIMINADO'
+           back_color = '#ff4444';
+        }
+
+       
+
+        data += `<tr style='background-color:${back_color}'> 
         <td>${index+1}</td>        
         <td><a class='pulpox-table--titulo' href= '<?php echo base_url() . 'index.php/misanuncios/ver/';?>${mis_anuncios[index].public_id}'>${mis_anuncios[index].titulo}</a></td>
         <td>${estado} / ${ciudad}</td>
