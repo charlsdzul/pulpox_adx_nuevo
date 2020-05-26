@@ -1,49 +1,6 @@
 @import "../../../pulpox_ads_nuevo/assets/scss/base/config.scss";
 
-/* ANUNCIO PREVIEW*/
-
-.icon-label {
-	display: inline-block;
-	//background-color: gray;
-	vertical-align: text-top;
-}
-
-#titulo_preview {
-	word-break: break-all;
-	word-wrap: break-word;
-}
-
-.icon-label {
-	vertical-align: baseline;
-}
-
-.anuncio-nuevo-preview_icon {
-	height: 1.5em;
-	display: inline-block;
-}
-
-#anuncio_preview {
-	border-style: solid;
-	border-width: 1px;
-	border-color: lightgray;
-	border-radius: $border_radius;
-	word-break: break-all;
-	word-wrap: break-word;
-	padding: 0.5em;
-}
-.carousel-inner {
-	max-height: 20em;
-}
-
-.carousel-control-prev,
-.carousel-control-next {
-	width: 50%;
-}
-
-.carousel-inner {
-	padding: 1em;
-	max-width: 40em;
-}
+/* Formulario Nuevo Anuncio*/
 
 #div_telefono_preview,
 #div_celular_preview,
@@ -78,7 +35,6 @@
 }
 
 .panel-image--icon {
-	//background-color: red;
 	&:hover {
 		cursor: pointer;
 	}
@@ -96,7 +52,6 @@
 	border-radius: $border_radius;
 	background-color: $color_progress;
 	width: 0;
-	//max-width: 100%;
 	height: 100%;
 	font-size: 0.6em;
 	text-align: center;
@@ -105,8 +60,6 @@
 
 .panel-image--div-delete {
 	width: 100%;
-	//background-color: red;
-
 	text-align: center;
 }
 
@@ -116,4 +69,78 @@
 	&:hover {
 		cursor: pointer;
 	}
+}
+
+.pulpox-message--principal {
+	text-align: center;
+	width: 100%;
+	color: $color_cherry;
+}
+
+/* ANUNCIO PREVIEW*/
+
+.icon-label {
+	display: inline-block;
+	//background-color: gray;
+	vertical-align: text-top;
+}
+
+#titulo_preview {
+	word-break: break-all;
+	word-wrap: break-word;
+}
+
+.icon-label {
+	vertical-align: baseline;
+}
+
+.anuncio-nuevo-preview_icon {
+	height: 1.5em;
+	display: inline-block;
+}
+
+#anuncio_preview {
+	border-style: solid;
+	border-width: 1px;
+	border-color: lightgray;
+	border-radius: $border_radius;
+	word-break: break-all;
+	word-wrap: break-word;
+	padding: 0.5em;
+}
+
+/* CAROUSEL DE IMÁGENES*/
+
+.carousel-control-prev,
+.carousel-control-next {
+	width: 50%;
+}
+
+.carousel {
+	width: 20em;
+	height: 18em;
+}
+
+.carousel .carousel-item {
+	background-color: lightgray;
+}
+
+.carousel-inner {
+	width: 100%;
+	height: 100%;
+	margin: auto;
+	text-align: center;
+}
+
+.carousel-item {
+	height: 100%;
+	width: 100%;
+}
+
+.carousel-inner--img {
+	max-width: 100%;
+	max-height: 100%;
+}
+.carousel-control-prev {
+	color: orange;
 }

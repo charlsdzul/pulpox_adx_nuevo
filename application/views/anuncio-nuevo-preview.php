@@ -1,6 +1,6 @@
 <body  class=' row justify-content-center'>
 
-    <div id='nuevo_anuncio_previo' class='col-10 col-sm-10 col-md-8 col-lg-8 col-xl-5'  >
+    <div id='nuevo_anuncio_previo' class='col-10 col-sm-10 col-md-8 col-lg-8 col-xl-5 mt-3'>
       
         <div class="row justify-content-center">
             <div class="col-10 col-sm-10 col-md-12 col-lg-12 col-xl-12">
@@ -21,40 +21,13 @@
             </div>
         </div>
 
-        <div class="row justify-content-center ">
-            <div id="carouselExampleIndicators" class="carousel slide col-10 col-sm-10 col-md-12 col-lg-12 col-xl-12" data-ride="carousel">
-                <ol class="carousel-indicators">
-                    <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-                    <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-                    <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-                </ol>
-                <div class="carousel-inner ">
-                    <div class="carousel-item active">
-                        <img class="" src="https://www.w3schools.com/bootstrap/la.jpg" alt="First slide">
-                        </div>
-                        <div class="carousel-item">
-                        <img class="" src="https://www.w3schools.com/bootstrap/la.jpg" alt="Second slide">
-                        </div>
-                        <div class="carousel-item">
-                        <img class="" src="https://www.w3schools.com/bootstrap/la.jpg" alt="Third slide">
-                    </div>
-                </div>
-                <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="sr-only">Previous</span>
-                </a>
-                <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="sr-only">Next</span>
-                </a>
-            </div>  
+        <div class="row justify-content-center pulpox-carousel">               
         </div>
-
 
         <div class="row justify-content-left mt-3 mb-3">
             <div class="col-10 col-sm-10 col-md-12 col-lg-12 col-xl-12">
-                <div id="anuncio_preview">  
-                </div>
+                <pre><div id="anuncio_preview">  
+                </div></pre>
             </div>
         </div>
 
@@ -84,6 +57,11 @@
 
     <div class="row justify-content-center col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 mt-5">
     <a href="<?php echo base_url() . 'index.php/' .'anuncio/nuevo/' . $anuncio_id; ?>" id='boton_editar' class="btn ml-1 mr-1 btn-pulpox-secondary">Editar</a>
-    <a id='boton_publicar' class="btn btn-pulpox-primary">Publicar</a>
+    <button id='boton_publicar' class="btn btn-pulpox-primary">Publicar</button>
     </div>
+
+
+
+
+
 </body>

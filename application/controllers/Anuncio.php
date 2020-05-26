@@ -96,56 +96,68 @@ class Anuncio extends CI_Controller {
     function subirImagenTemporal($anuncio_id=null){
 
       if($anuncio_id==null){
+
         redirect("index.php/anuncio/nuevo/");
-      }else{
-        $filename = $_FILES['imagen']['name']; 
+
+      }else{           
+
         $numero = $_POST['numero']; 
         $response['codigo'] = 0;
         $response['mensaje'] = 'imagen_ok';
 
-
         $imagen_tipo=$_FILES["imagen"]["type"];
-        $imagen_nombre_temporal = $_FILES['imagen']['name'];    
-        $imagen_extension = explode(".",$imagen_nombre_temporal);   
-        $imagen_nombre = 'img_'.$numero.'_'.$anuncio_id."_".date("Y-m-d").'.'.$imagen_extension[1];
+        $imagen_tamano = $_FILES['imagen']['size']; 
+        $imagen_nombre_temporal = $_FILES['imagen']['name'];           
+        
+        $imagen_extension = pathinfo($imagen_nombre_temporal, PATHINFO_EXTENSION);
+
+        $imagen_nombre = 'img_'.$numero.'_'.$anuncio_id."_".date("Y-m-d").'.'.$imagen_extension;
 
         $imagen_folder_path=$this->ruta_imagenes_temporales.$anuncio_id; 
         $imagen_path       =$this->ruta_imagenes_temporales.$anuncio_id.'/'.$imagen_nombre;         
-        
-        if ($imagen_tipo == "image/jpeg" || $imagen_tipo == "image/jpg" || $imagen_tipo == "image/png" || $imagen_tipo == "image/gif"){
 
-          //Si no existe el folder, lo crea
-          if(file_exists($imagen_folder_path)){
-          }else{
-            mkdir($imagen_folder_path, 0700);
-          }
+        $extensiones_validas = array('gif', 'png', 'jpg', 'jpeg');
 
-          //Si existe imagen previa, segun el numero de la imagen la elimina y almacena la nueva
-          if(file_exists($imagen_path)){
-              unlink($imagen_path);                 
-          }
+        //Valida extensión del archivo
+        if (in_array($imagen_extension, $extensiones_validas)) {
 
-          //Mueve la imagen temporal al servidor
-              if(move_uploaded_file($_FILES['imagen']['tmp_name'], $imagen_path)){
-                $response['codigo'] = 0;
-                $response['mensaje'] = $imagen_path;
-
-              }else{
-                $response['codigo']= 2;
-                $response['mensaje']=  'Lo sentimos, hubo un problema al subir su imágen. Intente otra.';
+          if($imagen_tamano<=5000000){
+              
+            //Si no existe el folder, lo crea
+            if(!(file_exists($imagen_folder_path))){
+              mkdir($imagen_folder_path, 0700);
+            }
+    
+              //Si existe imagen previa, segun el numero de la imagen la elimina y almacena la nueva
+              if(file_exists($imagen_path)){
+                  unlink($imagen_path);                 
               }
-            
+      
+              //Mueve la imagen temporal al servidor
+              if(move_uploaded_file($_FILES['imagen']['tmp_name'], $imagen_path)){
+                  $response['codigo'] = 0;
+                  $response['mensaje'] = $imagen_path;
+      
+              }else{
+                  $response['codigo']= 3;
+                  $response['mensaje']=  'Lo sentimos, hubo un problema al subir su imágen. Intente otra.';
+              }
 
-      }else{
-        $response['codigo']= 1;
-        $response['mensaje']= 'Lo sentimos, el tipo de imágen es inválido. Intenta con JPG, JPEG, PNG o GIF.';
-      }
+           
+          }else{
+            $response['codigo']= 2;
+            $response['mensaje']=  'La imágen es demasiado grande. Máximo 5 MB.';
+          }  
+            
+        }else{
+
+          $response['codigo']= 1;
+          $response['mensaje']= 'Elige una imágen con extensión JPG, JPEG, PNG, GIF.';
+
+        }      
 
         echo json_encode($response);
-      }  
-
-
-     
+      }       
       
     }
 
@@ -158,13 +170,13 @@ class Anuncio extends CI_Controller {
         $numero = $_POST['numero']; 
         $path_imagen = $_POST['path_imagen']; 
         $response['codigo'] = 0;
-        $response['mensaje'] = 'imagen_delete_ok';
+        $response['mensaje'] = 'imagen_delete_ok'; 
 
-       // echo $path_imagen;
+        $img_explode =  explode( '/', $path_imagen ); //explode con '/'
+        $img_explode_2 =  explode( '?', $img_explode[7] ); //explode con '?'
 
-        $img_explode =  explode( '/', $path_imagen );
-        $nuevo_path_imagen = $this->ruta_imagenes_temporales.$img_explode[6].'/'.$img_explode[7]; 
-      
+        $nuevo_path_imagen = $this->ruta_imagenes_temporales.$img_explode[6].'/'.$img_explode_2[0]; 
+
         if(file_exists($nuevo_path_imagen)){
             unlink($nuevo_path_imagen);                 
         }else{
