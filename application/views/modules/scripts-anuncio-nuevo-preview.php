@@ -47,8 +47,7 @@
   function guardaAnuncio(anuncio_id){
     /**
       Guarda el anuncio.
-    */
-   
+    */   
 
       let dialog_publicando = $.dialog({
           icon: 'fa fa-spinner fa-spin',
@@ -68,7 +67,17 @@
       nuevo_anuncio['telefono']  = sessionStorage.getItem(`telefono_${anuncio_id}`)
       nuevo_anuncio['celular']  = sessionStorage.getItem(`celular_${anuncio_id}`)
       nuevo_anuncio['correo'] = sessionStorage.getItem(`correo_${anuncio_id}`)
-      nuevo_anuncio['id'] = sessionStorage.getItem(`correo_${anuncio_id}`)
+      nuevo_anuncio['id_temporal'] = anuncio_id
+
+    for (let index = 1; index < 11; index++) {
+
+      if(sessionStorage.getItem(`img_${index}_${anuncio_id}`)==null){
+        nuevo_anuncio[`img_${index}`] = '';
+      }
+      nuevo_anuncio[`img_${index}`] = sessionStorage.getItem(`img_${index}_${anuncio_id}`);
+      
+    }
+
 
       $.post("<?php echo base_url().'index.php/anuncio/publicar/'?>",  nuevo_anuncio)   
         .done(function(response) { 
