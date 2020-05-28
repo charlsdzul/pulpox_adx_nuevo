@@ -12,6 +12,7 @@ class MisAnuncios_model extends CI_Model {
     function obtenerMisAnuncios(){ 
        
             $this->db->select("*");
+            $this->db->order_by('creado', 'DESC');
            // $this->db->where("id",$evaluacion_id);
             $res = $this->db->get('anuncios');
             $j=0;
@@ -26,6 +27,7 @@ class MisAnuncios_model extends CI_Model {
                 $misanuncios[$j]['estatus'] = $row->sta;
                 $j++;
             } 
+         
             return $misanuncios;      
           
         }
