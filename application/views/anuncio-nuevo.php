@@ -1,9 +1,9 @@
 <body  class=' row justify-content-center'>
 
-    <form  id='nuevo_anuncio_form' class='col-10 col-sm-10 col-md-8 col-lg-8 col-xl-5 mt-3' >
+    <form  id='nuevo_anuncio_form' class='col-10 col-sm-10 col-md-8 col-lg-8 col-xl-5 mt-3' >    
       
         <div class="form-row justify-content-center">
-            <div class="form-group col-10 col-sm-10 col-md-12 col-lg-12 col-xl-12">
+            <div class="form-group col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
                 <label for="titulo">Título</label>
                 <input type="text" id='titulo' class="form-control pulpox-validar" maxlength="50" >
                 <div class="pulpox-invalid-feedback">
@@ -13,9 +13,9 @@
         </div>
 
         <div class="form-row justify-content-center">
-            <div class="form-group col-10 col-sm-10 col-md-12 col-lg-12 col-xl-12">
+            <div class="form-group col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
                 <label for="anuncio">Anuncio</label>
-             <pre> <textarea id='anuncio' class="form-control pulpox-validar" aria-label="With textarea" rows="10" maxlength="1000"> </textarea></pre>
+             <pre class="pulpox-validar"> <textarea id='anuncio' class="form-control pulpox-validar" aria-label="With textarea" rows="10" maxlength="1000"> </textarea></pre>
                 <div class="pulpox-invalid-feedback">
                         Escribe tu anuncio
                 </div>
@@ -23,39 +23,47 @@
         </div>
 
         <div class="form-row form-row justify-content-center">
-            <div class="form-group col-10 col-sm-5 col-md-3 col-lg-6 col-xl-6">
+            <div class="form-group col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
                 <label for="estado">Estado*</label>
-                <select id="estado" class="form-control pulpox-validar"  >                 
+                <select id="estado" class="form-control pulpox-validar-select">                 
                 </select>   
                 <div class="pulpox-invalid-feedback">
                        Elije un Estado
                 </div>
             </div>
 
-            <div class="form-group col-10 col-sm-5 col-md-3 col-lg-6 col-xl-6">
+            <div class="form-group col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
                 <label for="ciudad">Ciudad</label>
-                <select id="ciudad" class="form-control pulpox-validar" >
-                    
+                <select id="ciudad" class="form-control pulpox-validar-select" >             
                 </select>  
                 <div class="pulpox-invalid-feedback">
                         Elije una ciudad
                 </div>
             </div>
+        </div>
+        
+        <div class="form-row form-row justify-content-center">
+            <div class="form-group col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
+                <label for="modalidad">Modalidad</label>
+                <select id="modalidad" class="form-control pulpox-validar-select">                 
+                </select>  
+                <div class="pulpox-invalid-feedback">
+                        Elije una modalidad
+                </div>
+            </div>
 
-            <div class="form-group col-10 col-sm-5 col-md-3 col-lg-6 col-xl-6">
+            <div class="form-group col-12 col-sm-6 col-md-4 col-lg-4 col-xl-4">
                 <label for="seccion">Sección</label>
-                <select id="seccion" class="form-control pulpox-validar" >
+                <select id="seccion" class="form-control pulpox-validar-select" >
                 </select>  
                 <div class="pulpox-invalid-feedback">
                         Elije una sección
                 </div>
-            </div>
+            </div>         
 
-         
-
-            <div class="form-group col-10 col-sm-5 col-md-3 col-lg-6 col-xl-6">
+            <div class="form-group col-12 col-sm-6 col-md-4 col-lg-4 col-xl-4">
                 <label for="apartado">Apartado</label>
-                <select id="apartado" class="form-control pulpox-validar" >
+                <select id="apartado" class="form-control pulpox-validar-select" disabled >                    
                 </select>  
                 <div class="pulpox-invalid-feedback">
                         Elije un apartado
@@ -64,7 +72,7 @@
         </div>
 
         <div class="form-row justify-content-center">
-            <div class="form-group col-5 col-sm-5 col-md-3 col-lg-3 col-xl-3">
+            <div class="form-group col-6 col-sm-6 col-md-3 col-lg-3 col-xl-3">
                 <label for="telefono">Tel (opcional)</label>
                 <input id='telefono' type="text" class="form-control" maxlength="10">
                 <div class="pulpox-invalid-feedback">
@@ -73,7 +81,7 @@
                 <small  class="form-text text-muted">Ej. 6561234567</small>                
             </div>
 
-            <div class="form-group col-5 col-sm-5 col-md-3 col-lg-3 col-xl-3">
+            <div class="form-group col-6 col-sm-6 col-md-3 col-lg-3 col-xl-3">
                 <label for="celular">Cel (opcional)</label>
                 <input id="celular" type="email" class="form-control" maxlength="10">
                 <div class="pulpox-invalid-feedback">
@@ -82,7 +90,7 @@
                 <small class="form-text text-muted">Ej. 6561234567</small>
             </div>
 
-            <div class="form-group col-10 col-sm-10 col-md-6 col-lg-6 col-xl-6">
+            <div class="form-group col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
                 <label for="correo">Correo (opcional)</label>
                 <input id="correo" type="email" class="form-control"  >
                 <div class="pulpox-invalid-feedback">

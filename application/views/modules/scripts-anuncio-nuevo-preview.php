@@ -62,6 +62,7 @@
       nuevo_anuncio['anuncio']  = sessionStorage.getItem(`anuncio_${anuncio_id}`)
       nuevo_anuncio['estado'] = sessionStorage.getItem(`estado_${anuncio_id}`)
       nuevo_anuncio['ciudad'] = sessionStorage.getItem(`ciudad_${anuncio_id}`)
+      nuevo_anuncio['modalidad']  = sessionStorage.getItem(`modalidad_${anuncio_id}`)
       nuevo_anuncio['seccion']  = sessionStorage.getItem(`seccion_${anuncio_id}`)
       nuevo_anuncio['apartado']  = sessionStorage.getItem(`apartado_${anuncio_id}`)
       nuevo_anuncio['telefono']  = sessionStorage.getItem(`telefono_${anuncio_id}`)
@@ -70,14 +71,11 @@
       nuevo_anuncio['id_temporal'] = anuncio_id
 
     for (let index = 1; index < 11; index++) {
-
       if(sessionStorage.getItem(`img_${index}_${anuncio_id}`)==null){
         nuevo_anuncio[`img_${index}`] = '';
       }
-      nuevo_anuncio[`img_${index}`] = sessionStorage.getItem(`img_${index}_${anuncio_id}`);
-      
+      nuevo_anuncio[`img_${index}`] = sessionStorage.getItem(`img_${index}_${anuncio_id}`);      
     }
-
 
       $.post("<?php echo base_url().'index.php/anuncio/publicar/'?>",  nuevo_anuncio)   
         .done(function(response) { 
@@ -173,13 +171,14 @@
     /** Recibe valoresque han sido almacenados en sessionStorage en el Anuncio Nuevo.*/
 
     $('#titulo_preview').text(sessionStorage.getItem(`titulo_${anuncio_id}`))
-    $('#anuncio_preview').html(sessionStorage.getItem(`anuncio_${anuncio_id}`))
-
-    let estado_ciudad = sessionStorage.getItem(`estado_text_${anuncio_id}`) + ' / ' + sessionStorage.getItem(`ciudad_text_${anuncio_id}`)
-    let seccion_apartado =  sessionStorage.getItem(`seccion_text_${anuncio_id}`) + ' / ' + sessionStorage.getItem(`apartado_text_${anuncio_id}`)
+    $('#titulo_preview').text(sessionStorage.getItem(`titulo_${anuncio_id}`))
+    $('#modalidad_preview').html(sessionStorage.getItem(`modalidad_${anuncio_id}`))
+    let estado_ciudad = sessionStorage.getItem(`estado_${anuncio_id}`) + ' / ' + sessionStorage.getItem(`ciudad_${anuncio_id}`)
+    let seccion_apartado =  sessionStorage.getItem(`seccion_${anuncio_id}`) + ' / ' + sessionStorage.getItem(`apartado_${anuncio_id}`)
     $('#estado_ciudad').text(estado_ciudad)
     $('#seccion_apartado').text(seccion_apartado)
 
+    $('#anuncio_preview').html(sessionStorage.getItem(`anuncio_${anuncio_id}`))
 
     if(sessionStorage.getItem(`telefono_${anuncio_id}`)!=''){
       $('#telefono_preview').text(sessionStorage.getItem(`telefono_${anuncio_id}`))
@@ -195,6 +194,42 @@
       $('#correo_preview').text(sessionStorage.getItem(`correo_${anuncio_id}`))
       $('#div_correo_preview').css('display', 'inline-block')
     }
+
+    switch (sessionStorage.getItem(`modalidad_${anuncio_id}`)) {
+        case 'Compro':
+        $('#modalidad_mensaje').html('El anunciante está comprando. ¿Puedes ofrecerle algo? ¡Contáctalo!')     
+        break;
+      
+        case 'Busco':
+        $('#modalidad_mensaje').html('El anunciante está buscando algo. ¿Puedes ayudarlo? ¡Contáctalo!')     
+        break;  
+
+        case 'Dono':
+        $('#modalidad_mensaje').html('El anunciante está donando. ¿Lo necesitas? ¡Contáctalo!')     
+        break;
+
+        case 'Promuevo':
+        $('#modalidad_mensaje').html('El anunciante está promoviendo. ¿Te interesa? ¡Contáctalo!')     
+        break;
+
+        case 'Regalo':
+        $('#modalidad_mensaje').html('El anunciante está regalando. ¿Lo quieres? ¡Contáctalo!')     
+        break;
+
+        case 'Rento':
+        $('#modalidad_mensaje').html('El anunciante está rentando ¿Lo necesitas? ¡Contáctalo!')     
+        break;
+
+        case 'Traspaso':
+        $('#modalidad_mensaje').html('El anunciante está traspasando. ¿Te interesa? ¡Contáctalo!')     
+        break;
+
+        case 'Vendo':
+        $('#modalidad_mensaje').html('El anunciante está vendiendo. ¿Te interesa? ¡Contáctalo!')     
+        break;    
+     
+    }
   }  
 
 </script>
+

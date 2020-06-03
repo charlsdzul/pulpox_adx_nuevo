@@ -8,13 +8,30 @@ class Anuncio_model extends CI_Model {
         $this->load->database(); //cargar base de datos
         $this->carpeta_final_anuncio = "imagenes_anuncios/"; 
         $this->carpeta_temporal_anuncio = "imagenes_temporales/anuncios/"; 
+        $this->TABLAS = [
+        'ciudad' => 'cat_municipios',
+        'estado' => 'cat_estados',
+        'modalidad' => 'cat_modalidades',
+        'seccion' => 'cat_secciones',
+        'apartado' => 'cat_apartados'];
     }
                      
-    function publicar($nuevo_anuncio, $public_id){       
+    function publicar($nuevo_anuncio, $public_id){    
+        
+        //Obtener sigla Estado
+        $nuevo_anuncio->estado = $this->db->get_where('cat_estados', array('nombre' =>  $nuevo_anuncio->estado))->row()->sigla;        
+        //Obtener sigla  Ciudad
+        $nuevo_anuncio->ciudad = $this->db->get_where('cat_municipios', array('nombre' => $nuevo_anuncio->ciudad))->row()->sigla;  
+        //Obtener sigla  Seccion
+        $nuevo_anuncio->seccion = $this->db->get_where('cat_secciones', array('nombre' => $nuevo_anuncio->seccion))->row()->sigla;  
+        //Obtener sigla  Apartado
+        $nuevo_anuncio->apartado = $this->db->get_where('cat_apartados', array('nombre' => $nuevo_anuncio->apartado))->row()->sigla;
+
         $data = array(  
             'public_id'=>$public_id,
             'titulo'=> $nuevo_anuncio->titulo,
             'anuncio'=> $nuevo_anuncio->anuncio, 
+            'modalidad'=> $nuevo_anuncio->modalidad, 
             'estado'=> $nuevo_anuncio->estado,
             'ciudad'=> $nuevo_anuncio->ciudad,
             'seccion'=> $nuevo_anuncio->seccion,
@@ -41,12 +58,18 @@ class Anuncio_model extends CI_Model {
 
 
         if($this->db->insert('anuncios',$data)){
-            $id_bdd= $this->db->insert_id();    
-            $response = $this->moverImagenes($data_imagenes,$id_bdd,$public_id);
+            $id_bdd= $this->db->insert_id(); 
+
+             $estaVacio = count(array_unique($data_imagenes))===1;
+
+            if($estaVacio==FALSE){ //Si el array NO ESTA VACIO, procede a almacenar las imagenes que tiene
+                $response = $this->moverImagenes($data_imagenes,$id_bdd,$public_id);
+            }
+
             return  'publicado_OK';
 
         }else{
-                return 'publicado_ERROR';
+            return 'publicado_ERROR';
         }         
     }
 
@@ -57,7 +80,7 @@ class Anuncio_model extends CI_Model {
              * Elimina folder temporal
              * */       
                      
-            for ($i=1; $i < 11 ; $i++) { 
+            for ($i=1; $i < (count($data_imagenes)+1) ; $i++) { 
 
                 if($data_imagenes["img_$i"]!=''){   
 
@@ -121,33 +144,67 @@ class Anuncio_model extends CI_Model {
                 }
             }  
 
-            //Remover folder temporal
-            rmdir($path_folder_temporal); 
-
-        }
-
-        function generarPublicId(){            
-            $str_result = '#$0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';             
-            return substr(str_shuffle($str_result), 0, 30); 
-        }
-
-
-        function obtenerDatosAnuncioPublico($anuncio_id){
-            $this->db->select('titulo, anuncio, estado,ciudad,seccion,apartado,telefono,celular,correo,img_1,img_2,img_3,img_4,img_5,img_6,img_7,img_8,img_9,img_10');
-            $query = $this->db->get_where('anuncios', array('public_id' => $anuncio_id));
+            if(file_exists($path_folder_temporal)){
+                //Remover folder temporal
+                rmdir($path_folder_temporal); 
+            }
             
+
+    }    
+   
+    function generarPublicId(){            
+        $str_result = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';             
+        return substr(str_shuffle($str_result), 0, 30); 
+    }
+
+    function obtenerDatosAnuncioPublico($anuncio_id){
+            $this->db->select('public_id, titulo, anuncio, estado,ciudad,modalidad,seccion,apartado,telefono,celular,correo,img_1,img_2,img_3,img_4,img_5,img_6,img_7,img_8,img_9,img_10');
+            $query = $this->db->get_where('anuncios', array('public_id' => $anuncio_id));
+                        
             if($query->num_rows() > 0){
-                return $query->row_array();
+                $datos_anuncio = $query->row_array();
+
+                //Definir Estado
+                $datos_anuncio['estado'] = $this->db->get_where('cat_estados', array('sigla' => $datos_anuncio['estado']))->row()->nombre;
+               
+                //Definir Ciudad
+                $datos_anuncio['ciudad'] = $this->db->get_where('cat_municipios', array('sigla' => $datos_anuncio['ciudad']))->row()->nombre;
+
+                //Definir Seccion
+                $datos_anuncio['seccion'] = $this->db->get_where('cat_secciones', array('sigla' => $datos_anuncio['seccion']))->row()->nombre;
+
+                //Definir Apartado
+                $datos_anuncio['apartado'] = $this->db->get_where('cat_apartados', array('sigla' => $datos_anuncio['apartado']))->row()->nombre;
+
+
+
+                //Definir nombre de imagen
+                for ($i=1; $i < 11; $i++) { 
+                    if($datos_anuncio["img_$i"]!=''){
+                        $datos_anuncio["img_$i"] = $this->carpeta_final_anuncio.$datos_anuncio['public_id'].'/'.$datos_anuncio["img_$i"];
+                    }
+                }
+
+                return $datos_anuncio;
             } else {
                 return null;
             }
     
+    }
+    
+
+    function existeValor($valor,$objeto){
+
+        $this->db->where('nombre',$valor);
+        $query = $this->db->get($this->TABLAS["$objeto"]);
+
+        if ($query->num_rows() > 0){
+            return true;
         }
-
-
+        else{
+            return false;
+        }
     }
 
-
-
-
+}
 ?>

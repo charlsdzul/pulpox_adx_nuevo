@@ -1,87 +1,117 @@
 
 <script>
 
-var anuncio_id = <?php echo $anuncio_id?>; //Variable pasada a al view
+    const BASE_URL = "<?php echo base_url();?>" + "index.php/"
+    var anuncio_id = "<?php echo $anuncio_id?>"; //Variable pasada a al view
 
-    $(document).ready(function() {            
-     let = <?php echo $anuncio_id?>; //Variable pasada a al view
-        asignaListasInputs()
-        asignaValidacionesInputs()
-        asignaValoresPrevios(anuncio_id);
-        $('#boton_previzualizar').click(function(){
-            validaFormulario(anuncio_id)
-                   
-        }) 
-    });
-</script>
+    asignaListasSelects();     
+    asignaValoresPrevios(anuncio_id)      
 
-<script src="<?php echo base_url();?>assets/util/estados.js"></script>
-<script src="<?php echo base_url();?>assets/util/ciudades.js"></script>
-<script src="<?php echo base_url();?>assets/util/secciones.js"></script>
-<script src="<?php echo base_url();?>assets/util/apartados.js"></script>
+    $('#boton_previzualizar').click(function(){
+        validaFormulario(anuncio_id)          
+    }) 
 
-<script>  
-
-    function asignaListasInputs(){
+     function asignaListasSelects(){
         /**Define lista de datos a los inputs ESTADO, CIUDAD, SECCION, APARTADO    
         * Asigna lista de Estados a 'Estado'. Inicia en 'Chihuahua'
         * Asigna lista de ciudades correspondientes a 'Chihuahua'. Inicia en 'Juárez'
         * Al cambiar el Estado, se asignan sus ciudades correspondientes
-        */
+        */             
 
-        var lista_estados='';
-            $.each(estados, function(key, value){
-            lista_estados += '<option value=' + key + '>' + value + '</option>';
-            });
-                $('#estado').append(lista_estados)
 
-        var lista_ciudades='';
-            $.each(ciudades_CHH, function(key, value){
-                lista_ciudades += '<option value=' + key + '>' + value + '</option>';
-            });
-                $('#ciudad').append(lista_ciudades)
+        $.get( BASE_URL+"General/obtenerEstados", function( response ) {       
+            response = JSON.parse(response);
+            let lista_estados='';
 
-        var lista_secciones='';
-            $.each(secciones, function(key, value){
-                lista_secciones += '<option value=' + key + '>' + value + '</option>';
+            $.each(response, function(key, value){
+                lista_estados += `<option value="${value.nombre}">${value.nombre}</option>`;
             });
-                $('#seccion').append(lista_secciones)
+                $('#estado').children().remove();
+                $('#estado').append(lista_estados)  
 
-        var lista_apartados='';
-            $.each(apartados_BIR, function(key, value){
-                lista_apartados += '<option value=' + key + '>' + value + '</option>';
+                if(sessionStorage.getItem(`estado_${anuncio_id}`)!=null && sessionStorage.getItem(`estado_${anuncio_id}`)!=''){
+                    $('#estado').val(sessionStorage.getItem(`estado_${anuncio_id}`)) 
+                    $('#estado').change() 
+                }else{
+                    $('#estado').val('Chihuahua') 
+                    $('#estado').change() 
+                }                      
+        });        
+
+        $('#estado').change(function(){
+            let estado = $('#estado').val();
+            $('#ciudad').find('option').remove() //Remover options actuales
+            $.get( BASE_URL+"General/obtenerCiudades",{estado}, function( response ) {      
+                response = JSON.parse(response);
+                var lista_ciudades='';
+                    $.each(response, function(key, value){
+                        lista_ciudades += `<option value="${value.nombre}">${value.nombre}</option>`;
+                    }); 
+
+                    $('#ciudad').children().remove();
+                    $('#ciudad').append(lista_ciudades) //Asignar lista de apartado correspondiente según la sección elegida.
+
+                    if(sessionStorage.getItem(`ciudad_${anuncio_id}`)!=null && sessionStorage.getItem(`ciudad_${anuncio_id}`)!=''){
+                        $('#ciudad').val(sessionStorage.getItem(`ciudad_${anuncio_id}`)) 
+                    }else{
+                        $('#ciudad').val('Juárez');
+                    }
+            });                                   
+        })
+
+        $.get( BASE_URL+"General/obtenerModalidades", function( response ) {       
+            response = JSON.parse(response);
+            let lista_modalidades='<option value="" disabled selected>Selecciona</option>';
+
+            $.each(response, function(key, value){
+                lista_modalidades += `<option value="${value.nombre}">${value.nombre}</option>`;
             });
-            
-        $('#apartado').append(lista_apartados)
+
+                $('#modalidad').children().remove();
+                $('#modalidad').append(lista_modalidades)  
+
+                if(sessionStorage.getItem(`modalidad_${anuncio_id}`)!=null && sessionStorage.getItem(`modalidad_${anuncio_id}`)!=''){
+                    $('#modalidad').val(sessionStorage.getItem(`modalidad_${anuncio_id}`)) 
+                }                  
+        });  
+
+        $.get( BASE_URL+"General/obtenerSecciones", function( response ) {       
+            response = JSON.parse(response);
+            let lista_secciones='<option value="" disabled selected>Selecciona</option>';
+            $.each(response, function(key, value){
+                lista_secciones += `<option value="${value.nombre}">${value.nombre}</option>`;
+            });
+
+            $('#seccion').children().remove(); 
+            $('#seccion').append(lista_secciones) 
+
+            if(sessionStorage.getItem(`seccion_${anuncio_id}`)!=null && sessionStorage.getItem(`seccion_${anuncio_id}`)!=''){
+                    $('#seccion').val(sessionStorage.getItem(`seccion_${anuncio_id}`)) 
+                    $('#seccion').change() 
+            } 
+        });
 
         $('#seccion').change(function(){
-            let seleccionado = $(this).val();
-
+            let seccion = $(this).val();
             $('#apartado').find('option').remove() //Remover options actuales
-
-            //Asignar lista de apartado correspondiente según la sección elegida.
-            let lista_apartados='';
+            $.get( BASE_URL+"General/obtenerApartados",{seccion}, function( response ) {      
+                response = JSON.parse(response);
                 
-            if(seleccionado=='SER'){
-                $.each(apartados_SER, function(key, value){
-                    lista_apartados += '<option value=' + key + '>' + value + '</option>';
-                });                       
-            }
+                    let lista_apartados='<option value="" disabled selected>Selecciona</option>';
+                    $.each(response, function(key, value){
+                        lista_apartados += `<option value="${value.nombre}">${value.nombre}</option>`;
+                    }); 
 
-            if(seleccionado=='AUT'){
-                $.each(apartados_AUT, function(key, value){
-                    lista_apartados += '<option value=' + key + '>' + value + '</option>';
-                });
-            }
+                    $('#apartado').children().remove();
+                    $('#apartado').append(lista_apartados) //Asignar lista de apartado correspondiente según la sección elegida.
+                    $('#apartado').prop( "disabled", false );
+                    $('#apartado').val('');                 
 
-            if(seleccionado=='BIR'){
-                $.each(apartados_BIR, function(key, value){
-                    lista_apartados += '<option value=' + key + '>' + value + '</option>';
-                });
-            }
-
-            $('#apartado').append(lista_apartados)            
-        })
+                    if(sessionStorage.getItem(`apartado_${anuncio_id}`)!=null && sessionStorage.getItem(`apartado_${anuncio_id}`)!=''){
+                        $('#apartado').val(sessionStorage.getItem(`apartado_${anuncio_id}`)) 
+                    } 
+            });                     
+        })      
     }   
 
     function asignaValidacionesInputs(){
@@ -144,27 +174,17 @@ var anuncio_id = <?php echo $anuncio_id?>; //Variable pasada a al view
         /**
         * En caso de regresar al formulario para editarlo, se asignan los valores que
         anteriormente han sido guardados. Están en sessionStorages
-        */        
+        */           
 
         $('#titulo').val(sessionStorage.getItem(`titulo_${anuncio_id}`))    
         $('#anuncio').html(sessionStorage.getItem(`anuncio_${anuncio_id}`))
         $('#telefono').val(sessionStorage.getItem(`telefono_${anuncio_id}`))
         $('#celular').val(sessionStorage.getItem(`celular_${anuncio_id}`))
-        $('#correo').val(sessionStorage.getItem(`correo_${anuncio_id}`))  
-            if(sessionStorage.getItem(`estado_${anuncio_id}`)){
-                $('#estado').val(sessionStorage.getItem(`estado_${anuncio_id}`));
-            }
-            if(sessionStorage.getItem(`ciudad_${anuncio_id}`)){
-                $('#ciudad').val(sessionStorage.getItem(`ciudad_${anuncio_id}`));
-            }
-            if(sessionStorage.getItem(`seccion_${anuncio_id}`)){
-                $('#seccion').val(sessionStorage.getItem(`seccion_${anuncio_id}`));
-            }       
-            if(sessionStorage.getItem(`apartado_${anuncio_id}`)){
-                $('#apartado').val(sessionStorage.getItem(`apartado_${anuncio_id}`));
-            }    
+        $('#correo').val(sessionStorage.getItem(`correo_${anuncio_id}`)) 
 
-            for (let index = 1; index < 11; index++) {              
+        // Los datos de ESTADO-CIUDAD-SECICON-APARTADO, se asignan en la funcion asignaListasSelects
+          
+        for (let index = 1; index < 11; index++) {              
 
                 if((sessionStorage.getItem(`img_${index}_${anuncio_id}`))!=null && (sessionStorage.getItem(`img_${index}_${anuncio_id}`))!=''){
                     $(`#panel-image--div_icon-${index}`).hide() 
@@ -340,9 +360,21 @@ var anuncio_id = <?php echo $anuncio_id?>; //Variable pasada a al view
                 $(this).css('border-color','')
                 $(this).next().hide() 
                 elementos_validados++;
-            } 
-        });
+            }             
+        });    
 
+        $('.pulpox-validar-select').each(function(i){
+            //Se validan 6 elementos, los que tienen clase .pulpox-validar
+            //f($(this).val()==''){
+            if($(this).find('option:selected').val()==''){
+                $(this).css('border-color','red')
+                $(this).next().show()  //Muestra el div con mensaje de error                   
+            }else{
+                $(this).css('border-color','')
+                $(this).next().hide() 
+                elementos_validados++;
+            }             
+        });  
 
         /**VALIDA LONGITUD DE TELEFONO */
         var telefono = $('#telefono')
@@ -359,7 +391,6 @@ var anuncio_id = <?php echo $anuncio_id?>; //Variable pasada a al view
             elementos_validados++;                   
         }
 
-
         /**VALIDA LONGITUD DE CELULAR */ 
         var celular = $('#celular')
         if(celular.val().length>0 && celular.val().length<10){
@@ -374,7 +405,6 @@ var anuncio_id = <?php echo $anuncio_id?>; //Variable pasada a al view
         if(celular.val()==''){
             elementos_validados++;                   
         }
-
 
         /**VALIDA EMAIL*/ 
         var email_regex= new RegExp(/^\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b$/i);
@@ -397,7 +427,7 @@ var anuncio_id = <?php echo $anuncio_id?>; //Variable pasada a al view
 
         var validation = 1;
 
-        if (elementos_validados == 9){
+        if (elementos_validados == 10){
 
             if($('#telefono').val()=='' && $('#celular').val()=='' && $('#correo').val()==''){
                 $.confirm({
@@ -442,13 +472,10 @@ var anuncio_id = <?php echo $anuncio_id?>; //Variable pasada a al view
         sessionStorage.setItem(`titulo_${anuncio_id}`, $('#titulo').val())
         sessionStorage.setItem(`anuncio_${anuncio_id}`, anuncio_preformat)
         sessionStorage.setItem(`estado_${anuncio_id}`, $('#estado').val())
-        sessionStorage.setItem(`estado_text_${anuncio_id}`, $('#estado option:selected').text())
         sessionStorage.setItem(`ciudad_${anuncio_id}`, $('#ciudad').val())
-        sessionStorage.setItem(`ciudad_text_${anuncio_id}`, $('#ciudad option:selected').text())
+        sessionStorage.setItem(`modalidad_${anuncio_id}`, $('#modalidad').val())
         sessionStorage.setItem(`seccion_${anuncio_id}`, $('#seccion').val())
-        sessionStorage.setItem(`seccion_text_${anuncio_id}`, $('#seccion option:selected').text())
-        sessionStorage.setItem(`apartado_${anuncio_id}`, $('#apartado').val())
-        sessionStorage.setItem(`apartado_text_${anuncio_id}`, $('#apartado option:selected').text())
+        sessionStorage.setItem(`apartado_${anuncio_id}`, $('#apartado').val())      
         sessionStorage.setItem(`telefono_${anuncio_id}`, $('#telefono').val())
         sessionStorage.setItem(`celular_${anuncio_id}`, $('#celular').val())
         sessionStorage.setItem(`correo_${anuncio_id}`, $('#correo').val())   
@@ -459,5 +486,8 @@ var anuncio_id = <?php echo $anuncio_id?>; //Variable pasada a al view
      
         location.href = "<?php echo base_url() . 'index.php/' .'anuncio/preview/' . $anuncio_id; ?>" 
     }
+
+ 
+
 
 </script>

@@ -17,7 +17,7 @@ class Anuncio extends CI_Controller {
 
       }else{
         $data = array('anuncio_id' => $anuncio_id);
-        $this->load->view('modules/headers');
+        $this->load->view('modules/headers-anuncio-nuevo');
         //$this->load->view('modules/topbar');
         $this->load->view('modules/menu');
         $this->load->view('anuncio-nuevo',$data);
@@ -43,7 +43,9 @@ class Anuncio extends CI_Controller {
       if($this->input->post()!=null){
         $nuevo_anuncio = json_encode($this->input->post());
         $nuevo_anuncio=json_decode($nuevo_anuncio);
-        $public_id = $this->anuncio_model->generarPublicId();        
+        $public_id = $this->anuncio_model->generarPublicId(); 
+        $response['codigo'] = 0;
+        $response['mensaje']= '';        
 
           //VALIDACIÓN TÍTULO
           if(strlen($nuevo_anuncio->titulo)=='' ){  
@@ -53,6 +55,7 @@ class Anuncio extends CI_Controller {
             die();
           }else{
             if(strlen($nuevo_anuncio->titulo)<=50 ){ 
+              $nuevo_anuncio->titulo = $this->sanitize($nuevo_anuncio->titulo);
             }else{
               $response['codigo']  = 1;
               $response['mensaje'] = 'Título demasiado largo. Edite.';  
@@ -68,33 +71,122 @@ class Anuncio extends CI_Controller {
             echo json_encode($response); 
             die();
           }else{
-            if(strlen($nuevo_anuncio->anuncio)<=1000 ){ 
+            if(strlen($nuevo_anuncio->anuncio)<=50 ){ 
+              $nuevo_anuncio->anuncio = $this->sanitize($nuevo_anuncio->anuncio);
             }else{
               $response['codigo']  = 1;
-              $response['mensaje'] = 'Título demasiado largo. Edite.';  
+              $response['mensaje'] = 'Anuncio demasiado largo. Edite.';  
               echo json_encode($response);    
               die();   
             } 
-          }     
+          }   
 
+          //VALIDACIÓN ESTADO
+          if($this->anuncio_model->existeValor($nuevo_anuncio->estado, 'estado')){
+          }else{
+             $response['codigo']  = 1;
+             $response['mensaje'] = 'Ingresa un estado válido. Edite.';  
+             echo json_encode($response);    
+            die();   
+          }          
         
+          //VALIDACION CIUDAD
+         if($this->anuncio_model->existeValor($nuevo_anuncio->ciudad, 'ciudad')){
+         }else{
+            $response['codigo']  = 1;
+            $response['mensaje'] = 'Ingresa una ciudad válida. Edite.';  
+            echo json_encode($response);    
+            die();   
+         }
 
+          //VALIDACION MODALIDAD
+          if($this->anuncio_model->existeValor($nuevo_anuncio->modalidad, 'modalidad')){
+          }else{
+             $response['codigo']  = 1;
+             $response['mensaje'] = 'Ingresa una modalidad válida. Edite.';  
+          }
+
+          //VALIDACION SECCION
+          if($this->anuncio_model->existeValor($nuevo_anuncio->seccion, 'seccion')){
+          }else{
+            $response['codigo']  = 1;
+            $response['mensaje'] = 'Ingresa una sección válida. Edite.';  
+            echo json_encode($response);    
+            die();  
+          }
+
+          //VALIDACION APARTADO
+          if($this->anuncio_model->existeValor($nuevo_anuncio->apartado, 'apartado')){
+          }else{
+             $response['codigo']  = 1;
+             $response['mensaje'] = 'Ingresa un apartado válido. Edite.';
+             echo json_encode($response);    
+            die();   
+          }
+
+          //VALIDACION TELEFONO
+          if(strlen($nuevo_anuncio->telefono)!=0){ 
+            if(strlen($nuevo_anuncio->telefono)==10){
+              if(is_numeric($nuevo_anuncio->telefono)){
+              }else{
+                $response['codigo']  = 1;
+                $response['mensaje'] = 'Ingresa un teléfono fijo válido. Edite.';  
+                echo json_encode($response);    
+                die(); 
+              }
+            }else{
+              $response['codigo']  = 1;
+              $response['mensaje'] = 'Ingresa un teléfono fijo válido a 10 dígitos. Edite.';  
+              echo json_encode($response);    
+              die(); 
+            }
+          }
+          
+          //VALIDACION CELULAR
+          if(strlen($nuevo_anuncio->celular)!=0){ 
+            if(strlen($nuevo_anuncio->celular)==10){
+              if(is_numeric($nuevo_anuncio->celular)){
+              }else{
+                $response['codigo']  = 1;
+                $response['mensaje'] = 'Ingresa un teléfono celular válido. Edite.';  
+                echo json_encode($response);    
+                die(); 
+              }
+            }else{
+              $response['codigo']  = 1;
+              $response['mensaje'] = 'Ingresa un teléfono celular válido a 10 dígitos. Edite.';  
+              echo json_encode($response);    
+              die(); 
+            }
+          }     
+          
+          //VALIDACION CORREO
+          if(strlen($nuevo_anuncio->correo)!=0){            
+            if(filter_var($nuevo_anuncio->correo, FILTER_VALIDATE_EMAIL)){
+            }else{
+              $response['codigo']  = 1;
+              $response['mensaje'] = 'Ingresa un correo válido. Edite.';  
+              echo json_encode($response);    
+              die(); 
+            }
+          }
+
+
+        //GUARDA ANUNCIO
         if($this->anuncio_model->publicar($nuevo_anuncio, $public_id)){
           $response['codigo'] = 0;
           $response['mensaje']= 'Anuncio publicado exitosamente.'; 
+          echo json_encode($response);
 
         }else{
           $response['codigo']  = 2;
           $response['mensaje'] = 'Ha ocurrido un error. Intenta más tarde.';  
+          echo json_encode($response);
         }
-
-        echo json_encode($response); 
        
       }else{
         redirect("index.php/anuncio/nuevo/");
-      }
-    
-
+      }   
          
     } 
 
@@ -190,6 +282,14 @@ class Anuncio extends CI_Controller {
         }
         echo json_encode($response);  
       }
+    }  
+
+    function sanitize($string){
+      //$black_list  = array("<script>");  
+      $string = strip_tags($string);
+      //$string = str_ireplace($black_list,'',$string);     
+      $string = htmlentities($string);  
+      return $string;      
     }
       
 }

@@ -7,12 +7,16 @@
       
         <div class="row justify-content-center">
             <div class="col-10 col-sm-10 col-md-12 col-lg-12 col-xl-12">
-                <h2 id='titulo_preview'><?php echo $datos_anuncio['titulo'];?></h2>      
+                <h2 id='titulo_preview'></h2>      
             </div>
         </div>
 
         <div class="row justify-content-left">
             <div class="col-10 col-sm-10 col-md-12 col-lg-12 col-xl-12">
+                <div class="icon-label mr-3" title='Modalidad'>                             
+                    <img src="<?php echo base_url()?>assets/icons/handshake.png" class='anuncio-nuevo-preview_icon'/>  
+                    <label id='modalidad_preview'></label>
+                </div>
                 <div class="icon-label mr-3">                             
                     <img src="<?php echo base_url()?>assets/icons/place-24px.svg" class='anuncio-nuevo-preview_icon'/>  
                     <label id='estado_ciudad'></label>
@@ -30,9 +34,14 @@
         <div class="row justify-content-left mt-3 mb-3">
             <div class="col-10 col-sm-10 col-md-12 col-lg-12 col-xl-12">
                 <div id="anuncio_preview">  
-                <?php echo $datos_anuncio['anuncio'];?>
                 </div>
             </div>
+        </div>
+
+        <div class="row justify-content-center mb-3">
+            <div class="col-10 col-sm-10 col-md-12 col-lg-12 col-xl-12">
+                <span id='modalidad_mensaje'></span>
+            </div>        
         </div>
 
         <div class="row justify-content-left ">
