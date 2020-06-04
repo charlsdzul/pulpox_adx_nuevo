@@ -106,26 +106,6 @@ body[class*="jconfirm-no-scroll-"] {
 	margin-right: auto;
 }
 
-@-webkit-keyframes type-pulpox {
-	1%,
-	100% {
-		border-color: hsl(340, 100, 32%);
-	}
-	50% {
-		border-color: hsl(340, 100, 32%);
-	}
-}
-
-@keyframes type-pulpox {
-	1%,
-	100% {
-		border-color: hsl(340, 100, 32%);
-	}
-	50% {
-		border-color: hsl(340, 100, 32%);
-	}
-}
-
 @-webkit-keyframes type-blue {
 	1%,
 	100% {
@@ -251,12 +231,6 @@ body[class*="jconfirm-no-scroll-"] {
 	animation-duration: 2s;
 	-webkit-animation-iteration-count: infinite;
 	animation-iteration-count: infinite;
-}
-
-.jconfirm .jconfirm-box.jconfirm-type-pulpox {
-	border-top: solid 7px hsl(340, 100, 32%);
-	-webkit-animation-name: type-pulpox;
-	animation-name: type-pulpox;
 }
 
 .jconfirm .jconfirm-box.jconfirm-type-blue {
@@ -954,9 +928,6 @@ body[class*="jconfirm-no-scroll-"] {
 
 .jconfirm.jconfirm-supervan .jconfirm-box {
 	background-color: transparent;
-}
-.jconfirm.jconfirm-supervan .jconfirm-box.jconfirm-type-pulpox {
-	border: none;
 }
 
 .jconfirm.jconfirm-supervan .jconfirm-box.jconfirm-type-blue {

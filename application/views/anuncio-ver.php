@@ -1,8 +1,4 @@
-
-
-
 <body  class=' row justify-content-center'>
-
     <div id='nuevo_anuncio_previo' class='col-10 col-sm-10 col-md-8 col-lg-8 col-xl-5 mt-3'>
       
         <div class="row justify-content-center">
@@ -62,15 +58,5 @@
                 </div>
             </div>
         </div>
-
-
-
     </div>   
-
-
- 
-
-
-
-
 </body>

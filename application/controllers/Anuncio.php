@@ -71,7 +71,7 @@ class Anuncio extends CI_Controller {
             echo json_encode($response); 
             die();
           }else{
-            if(strlen($nuevo_anuncio->anuncio)<=50 ){ 
+            if(strlen($nuevo_anuncio->anuncio)<=1200){ 
               $nuevo_anuncio->anuncio = $this->sanitize($nuevo_anuncio->anuncio);
             }else{
               $response['codigo']  = 1;

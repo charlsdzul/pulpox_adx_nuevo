@@ -22,7 +22,6 @@ class MisAnuncios extends CI_Controller {
     }
 
     function ver($anuncio_id = null){
-
         if($anuncio_id==null){
             redirect("index.php/anuncio/nuevo/");
           }else{
@@ -32,18 +31,49 @@ class MisAnuncios extends CI_Controller {
             //$this->load->view('modules/topbar');
             $this->load->view('modules/menu');
             $this->load->view('anuncio-ver', $datos_anuncio);
-            $this->load->view('modules/scripts-anuncio-ver.php');
-            
-          }  
-
-      
+            $this->load->view('modules/scripts-anuncio-ver.php');            
+          }       
     }
 
-    function obtenerDatosParaEdicionMovil(){
-      $publid_id = $_POST['id']; 
-      $datosEdicion = $this->misanuncios_model->obtenerDatosParaEdicionMovil($publid_id);
-      echo json_encode($datosEdicion);
+    function obtenerDatosAnuncioMovil(){
+      if(isset($_POST['id'])){
+          $public_id = $_POST['id'];        
+          $data = $this->misanuncios_model->obtenerDatosAnuncioMovil($public_id);
+          echo json_encode($data);          
+        }       
+  }
 
+
+
+    function obtenerDatosParaEdicionMovil(){
+      $public_id = $_POST['id']; 
+      $datosEdicion = $this->misanuncios_model->obtenerDatosParaEdicionMovil($public_id);
+      echo json_encode($datosEdicion);
+    }
+
+    function cambiarEstatus(){
+      if(isset($_POST['id']) && isset($_POST['estatus_actual'])){
+        $anuncio_id = $_POST['id']; 
+        $anuncio_estatus_actual = $_POST['estatus_actual']; 
+        $response = $this->misanuncios_model->cambiarEstatus($anuncio_id,$anuncio_estatus_actual);
+        echo json_encode($response);
+      }else{
+        $response['codigo']=1;
+        $response['mensaje']='Lo sentimos, el estatus no se pudo cambiar.';
+        echo json_encode($response);
+      }
+    }
+
+    function eliminarAnuncio(){
+      if(isset($_POST['id']) ){
+        $anuncio_id = $_POST['id'];         
+        $response = $this->misanuncios_model->eliminarAnuncio($anuncio_id);
+        echo json_encode($response);
+      }else{
+        $response['codigo']=1;
+        $response['mensaje']='Lo sentimos, el anuncio no se pudo eliminar.';
+        echo json_encode($response);
+      }
     }
 
     function eliminarImagenActual(){  
@@ -79,13 +109,10 @@ class MisAnuncios extends CI_Controller {
            
         }    
       
-    }else{
-       
-    }
-
-    echo json_encode($response);
-
-
+      }else{
+        
+      }
+      echo json_encode($response);
   }
 
 }

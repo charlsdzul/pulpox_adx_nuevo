@@ -5,7 +5,9 @@
     var anuncio_id = "<?php echo $anuncio_id?>"; //Variable pasada a al view
 
     asignaListasSelects();     
-    asignaValoresPrevios(anuncio_id)      
+    asignaValidacionesInputs();
+    asignaValoresPrevios(anuncio_id);  
+  
 
     $('#boton_previzualizar').click(function(){
         validaFormulario(anuncio_id)          
@@ -120,20 +122,21 @@
         */
             var patt = /<script>/gi; 
             $('#titulo').maxlength({
-            alwaysShow: true,
-            // threshold: 10,
-            warningClass: "label label-success",
-            limitReachedClass: "label label-danger",
-            separator: ' de',
-            preText: ' ',
-            postText: ' caracteres restantes',
-            validate: true,
+                alwaysShow: true,
+                threshold: 50,
+                warningClass: "label label-success",
+                limitReachedClass: "label label-danger",
+                separator: ' de ',
+                preText: ' ',
+                postText: '',
+                validate: true,
             });
 
             $("#titulo").keyup(function() {
             let titulo_ingresado = $(this).val();            
             var titulo_limpio = titulo_ingresado.replace(patt,'');
-            $(this).val(titulo_limpio)       
+            $(this).val(titulo_limpio)    
+             validarBoton()
             });
 
             $('#anuncio').maxlength({
@@ -141,9 +144,9 @@
             //threshold: 10,
             warningClass: "label label-success",
             limitReachedClass: "label label-danger",
-            separator: ' de',
+            separator: ' de ',
             preText: ' ',
-            postText: ' caracteres restantes',
+            postText: '',
             validate: true
             });
 
@@ -151,6 +154,7 @@
             let titulo_ingresado = $(this).val();            
             var titulo_limpio = titulo_ingresado.replace(patt,'');
             $(this).val(titulo_limpio)       
+            validarBoton()
             });
             
             $("#telefono").keyup(function() {
@@ -347,15 +351,18 @@
     function validaFormulario(anuncio_id){
         /* Valida campos obligatorios: Titulo, Anuncio, Estado, Ciudad,Seccion, Apartado 
          * Muestra aviso en caso de no escribir Telefono, Celular o Correo.
-        */   
+        */          
 
         let elementos_validados = 0; 
-
+        let num_error = 0 ;
         $('.pulpox-validar').each(function(i){
             //Se validan 6 elementos, los que tienen clase .pulpox-validar
+            
             if($(this).val()==''){
                 $(this).css('border-color','red')
-                $(this).next().show()  //Muestra el div con mensaje de error                   
+                $(this).next().show()  //Muestra el div con mensaje de error  
+                $(this).focus();
+
             }else{
                 $(this).css('border-color','')
                 $(this).next().hide() 
@@ -368,7 +375,8 @@
             //f($(this).val()==''){
             if($(this).find('option:selected').val()==''){
                 $(this).css('border-color','red')
-                $(this).next().show()  //Muestra el div con mensaje de error                   
+                $(this).next().show()  //Muestra el div con mensaje de error   
+                $(this).focus();                
             }else{
                 $(this).css('border-color','')
                 $(this).next().hide() 
@@ -459,6 +467,23 @@
             }
         }
 
+    }
+
+    function validarBoton(){
+        /*
+        let elementos_validados = 0;
+        if($('#titulo').val()!=''){
+            elementos_validados++
+        }       
+        if($('#anuncio').val()!=''){
+            elementos_validados++
+        } 
+        if(elementos_validados===2){
+            $('#boton_previzualizar').prop('disabled',false)
+        }else{
+            $('#boton_previzualizar').prop('disabled',true)
+        }
+        */
     }
 
     function almacenaDatosEnSessionStorage(anuncio_id){

@@ -190,8 +190,7 @@ class Anuncio_model extends CI_Model {
                 return null;
             }
     
-    }
-    
+    }    
 
     function existeValor($valor,$objeto){
 
@@ -205,6 +204,9 @@ class Anuncio_model extends CI_Model {
             return false;
         }
     }
+
+
+
 
 }
 ?>

@@ -27,3 +27,19 @@
 .pulpox-table--titulo {
 	color: black;
 }
+
+#mis-anuncios-table_length select {
+	display: inline-block;
+	width: 5em;
+}
+
+#mis-anuncios-table_filter input {
+	display: inline-block;
+	width: 15em;
+}
+
+#pulpox-icon--ver {
+	&:hover {
+		cursor: pointer;
+	}
+}

@@ -21,14 +21,45 @@ li {
   list-style: none;
 }
 
+h1 {
+  font-size: xx-large;
+  font-weight: 700;
+  color: #444446;
+}
+
 .btn-pulpox-primary {
   background-color: #a30036;
   color: white;
+  box-shadow: 0px 10px 7px -7px rgba(0, 0, 0, 0.62);
+}
+.btn-pulpox-primary:hover {
+  color: white;
+  background-color: #cc0044;
+}
+.btn-pulpox-primary:active {
+  color: white;
+  background-color: #700025;
+}
+
+.btn-pulpox-primary--line {
+  border-color: #a30036;
+  color: #a30036;
+  box-shadow: 0px 10px 7px -7px rgba(0, 0, 0, 0.62);
+}
+.btn-pulpox-primary--line:hover {
+  background-color: red;
+  color: white;
+  background-color: #cc0044;
+}
+.btn-pulpox-primary--line:active {
+  color: white;
+  background-color: #700025;
 }
 
 .btn-pulpox-secondary {
   background-color: #a35200;
   color: white;
+  box-shadow: 0px 10px 7px -7px rgba(0, 0, 0, 0.62);
 }
 
 .btn-pulpox-primary-disabled {
@@ -65,4 +96,18 @@ li {
 
 .pulpox-table--titulo {
   color: black;
+}
+
+#mis-anuncios-table_length select {
+  display: inline-block;
+  width: 5em;
+}
+
+#mis-anuncios-table_filter input {
+  display: inline-block;
+  width: 15em;
+}
+
+#pulpox-icon--ver:hover {
+  cursor: pointer;
 }

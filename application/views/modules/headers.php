@@ -28,8 +28,7 @@
  <!-- jQueryConfirm -->
     <link rel="stylesheet" href="<?php echo base_url();?>assets/libs/jquery-confirm-v3.3.4/css/jquery-confirm.css">
    <script src="<?php echo base_url();?>assets/libs/jquery-confirm-v3.3.4/dist/jquery-confirm.min.js"></script>
-  <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
-   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script> -->
+
 
 
  <!-- Jquery UI  -->

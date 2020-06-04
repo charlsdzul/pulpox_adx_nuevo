@@ -1,12 +1,16 @@
 $color_cherry: hsl(340, 100, 32%);
 $color_cherry-disabled: hsl(340, 32%, 32%);
+$color_cherry-active: hsl(340, 100%, 40%);
 $color_cherry--dark: hsl(340, 100, 22%);
 $color_complete: hsl(122, 100%, 32%);
 $color_progress: hsl(202, 100%, 32%);
+$color_dark: hsl(240, 1%, 27%);
 
 $color_red: hsl(0, 100, 32%);
+$color_red--inactive: rgb(245, 132, 132);
 $color_orange: hsl(30, 100, 32%);
 $color_orange-dark: hsl(30, 100, 22%);
+$color_orange-active: hsl(30, 100, 40%);
 $color_yellow: hsl(60, 100, 32%);
 $color_green: hsl(120, 100, 32%);
 $color_blue: hsl(240, 100, 32%);
