@@ -2,16 +2,25 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Validaciones {
+    protected $CI;
 
-    public function validaTitulo($titulo){
+    public function __construct(){
+        $this->CI =& get_instance();
+        /**
+         * LIBRARIES:
+         * $this->CI->sanitize->sanitizeString($titulo);
+         */
+    }
+
+    public function validaTitulo($titulo){   
         if(strlen($titulo)=='' ){  
             $response['codigo'] = 1;
             $response['mensaje']= 'Necesita ingresar un título para su anuncio.';           
             echo json_encode($response); 
             die();
           }else{
-            if(strlen($titulo)<=50 ){ 
-              $titulo = $this->sanitize($titulo);
+            if(strlen($titulo)<=5 ){ 
+              $titulo = $this->CI->sanitize->sanitizeString($titulo);
               return $titulo;
             }else{
               $response['codigo']  = 1;
@@ -20,16 +29,7 @@ class Validaciones {
               die();     
             } 
           }
-    }
-
-    function sanitize($string){
-        //$black_list  = array("<script>");  
-        $string = strip_tags($string);
-        //$string = str_ireplace($black_list,'',$string);     
-        $string = htmlentities($string);  
-        return $string;      
-      }
-    
+    }    
     
 
         
