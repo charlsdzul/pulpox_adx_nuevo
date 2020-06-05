@@ -53,7 +53,7 @@
           icon: 'fa fa-spinner fa-spin',
           title: 'Publicando...',
           type: 'green',
-          content: 'Estamos publicando tu anuncio!',
+          content: 'Estamos publicando tu anuncio...',
           closeIcon:false,
       });       
 
@@ -77,7 +77,9 @@
       nuevo_anuncio[`img_${index}`] = sessionStorage.getItem(`img_${index}_${anuncio_id}`);      
     }
 
-      $.post("<?php echo base_url().'index.php/anuncio/publicar/'?>",  nuevo_anuncio)   
+      $.post("<?php echo base_url().'index.php/anuncio/publicar/'?>",  nuevo_anuncio, function(){
+        
+      })   
         .done(function(response) { 
             dialog_publicando.close();        
             response = JSON.parse(response);
@@ -121,6 +123,7 @@
               }        
         })
         .fail(function() {
+          dialog_publicando.close();   
           $.confirm({
             title: 'Detectamos un problema.',
             content: 'Nuestro servidor tiene problemas actualmente. Intente más tarde.',

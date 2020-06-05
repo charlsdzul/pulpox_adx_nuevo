@@ -9,7 +9,7 @@
 	<!-- CSS -->
     <link rel="stylesheet" href="<?php echo base_url();?>assets/libs/bootstrap-4.4.1-dist/css/bootstrap.min.css">   
     <link rel="stylesheet" href="<?php echo base_url();?>assets/css/main-menu.css">
-   <link rel="stylesheet" href="<?php echo base_url();?>assets/css/anuncio-nuevo.css"> 
+   <link rel="stylesheet" href="<?php echo base_url();?>assets/css/anuncio-nuevo.css">
     <link rel="stylesheet" href="<?php echo base_url();?>assets/css/mis-anuncios.css">
    
     

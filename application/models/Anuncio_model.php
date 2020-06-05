@@ -17,7 +17,7 @@ class Anuncio_model extends CI_Model {
     }
                      
     function publicar($nuevo_anuncio, $public_id){    
-        
+        sleep(3);
         //Obtener sigla Estado
         $nuevo_anuncio->estado = $this->db->get_where('cat_estados', array('nombre' =>  $nuevo_anuncio->estado))->row()->sigla;        
         //Obtener sigla  Ciudad

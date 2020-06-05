@@ -1,9 +1,9 @@
 <body class='container-fluid p-0'>
     <div class='row justify-content-center m-0'>    
         <div class="mt-2 col-10 col-sm-10 col-md-8 col-lg-8 col-xl-5 mt-3"> 
-        <H1>Nuevo Anuncio</H1>
+            <H1>Nuevo Anuncio</H1>
         </div> 
-  </div>
+    </div>
     <div class='row justify-content-center m-0'>
      <div  id='nuevo_anuncio_form' class='col-10 col-sm-10 col-md-8 col-lg-8 col-xl-5 mt-3' >   
         
@@ -20,10 +20,8 @@
             <div class="form-row justify-content-center">
                 <div class="form-group col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
                     <label for="anuncio">Anuncio</label>
-                <textarea id='anuncio' class="form-control pulpox-validar" aria-label="With textarea" rows="10" maxlength="1000"> </textarea>
-                    <div class="pulpox-invalid-feedback">
-                            Escribe tu anuncio
-                    </div>
+                    <textarea id='anuncio' class="form-control pulpox-validar" aria-label="With textarea" rows="10" maxlength="1000"></textarea>
+                    <div class="pulpox-invalid-feedback">Escribe tu anuncio</div>
                 </div>
             </div>
 
@@ -264,7 +262,7 @@
         </div>    
 
         <div class="row justify-content-center mb-3 col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
-            <button id='boton_previzualizar' class="btn btn-pulpox-primary">Previsualizar</button>            
+            <button id='boton_previzualizar' class="btn btn-pulpox-secondary">Previsualizar</button>            
         </div>
     </div>
 </body>

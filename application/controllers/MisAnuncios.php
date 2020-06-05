@@ -10,7 +10,7 @@ class MisAnuncios extends CI_Controller {
         $this->load->model('anuncio_model');
         $this->carpeta_final_anuncio = "imagenes_anuncios/"; 
         $this->carpeta_temporal_anuncio = "imagenes_temporales/anuncios/"; 
-
+        $this->load->library('validaciones');
     }
 
     function index(){
@@ -18,7 +18,8 @@ class MisAnuncios extends CI_Controller {
         $data = array('misanuncios' => $misanuncios);
         $this->load->view('modules/headers');
         $this->load->view('modules/menu');
-        $this->load->view('mis-anuncios', $data);      
+        $this->load->view('mis-anuncios', $data);  
+        $this->load->view('modules/scripts-mis-anuncios.php');    
     }
 
     function ver($anuncio_id = null){
@@ -27,8 +28,7 @@ class MisAnuncios extends CI_Controller {
           }else{
             $data = $this->anuncio_model->obtenerDatosAnuncioPublico($anuncio_id);
             $datos_anuncio = array('datos_anuncio' => $data);
-            $this->load->view('modules/headers');
-            //$this->load->view('modules/topbar');
+            $this->load->view('modules/headers-mis-anuncios');
             $this->load->view('modules/menu');
             $this->load->view('anuncio-ver', $datos_anuncio);
             $this->load->view('modules/scripts-anuncio-ver.php');            
@@ -41,9 +41,7 @@ class MisAnuncios extends CI_Controller {
           $data = $this->misanuncios_model->obtenerDatosAnuncioMovil($public_id);
           echo json_encode($data);          
         }       
-  }
-
-
+    }
 
     function obtenerDatosParaEdicionMovil(){
       $public_id = $_POST['id']; 
@@ -60,6 +58,20 @@ class MisAnuncios extends CI_Controller {
       }else{
         $response['codigo']=1;
         $response['mensaje']='Lo sentimos, el estatus no se pudo cambiar.';
+        echo json_encode($response);
+      }
+    }
+
+    function editarAnuncio(){
+      if(isset($_POST['anuncio_editado'])){
+       $anuncio_datos = $_POST['anuncio_editado']; 
+       $anuncio_datos['titulo'] = $this->validaciones->validaTitulo($anuncio_datos['titulo']);  
+     
+
+       // $response = $this->misanuncios_model->editarAnuncio($anuncio_id,$anuncio_estatus_actual);
+      }else{
+        $response['codigo']=1;
+        $response['mensaje']='Lo sentimos, el anuncio no se pudo editar.';
         echo json_encode($response);
       }
     }

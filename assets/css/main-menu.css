@@ -1,3 +1,7 @@
+/*  #A30036 */
+/* #E67300 */
+/*$color_orange: hsl(39, 100, 32%); */
+/* #a35200 */
 .main-menu {
   background-color: #a30036;
   box-shadow: 0px 3px 7px 0px rgba(0, 0, 0, 0.62);
@@ -16,18 +20,18 @@
 }
 
 .nav-item:hover {
-  background-color: #cc0044;
+  background-color: #8f0030;
 }
 .nav-item:hover .nav-link {
   color: white;
 }
 .nav-item:active {
-  background-color: #700025;
+  background-color: #750027;
   margin: 0;
 }
 
 #boton-cuenta {
-  background-color: #a35200;
+  background-color: #e67300;
   border: 0;
 }
 
@@ -35,7 +39,7 @@
   float: right;
 }
 #dropdown_menu .dropdown-menu {
-  background-color: #703800;
+  background-color: #b35900;
   padding: 0;
   left: -4.5em;
   margin-top: 0.25em;

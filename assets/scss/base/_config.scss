@@ -50,14 +50,13 @@ $border_radius: 4px;
 }
 
 .btn-pulpox-primary--line {
-	border-color: $color_cherry;
-	color: $color_cherry;
-	-webkit-box-shadow: 0px 10px 7px -7px rgba(0, 0, 0, 0.62);
-	-moz-box-shadow: 0px 10px 7px -7px rgba(0, 0, 0, 0.62);
-	box-shadow: 0px 10px 7px -7px rgba(0, 0, 0, 0.62);
+	border-color: $color_orange !important;
+	color: $color_orange !important;
+	-webkit-box-shadow: 0px 10px 7px -7px rgba(0, 0, 0, 0.62) !important;
+	-moz-box-shadow: 0px 10px 7px -7px rgba(0, 0, 0, 0.62) !important;
+	box-shadow: 0px 10px 7px -7px rgba(0, 0, 0, 0.62) !important;
 
 	&:hover {
-		background-color: red;
 		color: white;
 		background-color: $color_cherry-active;
 	}
@@ -69,11 +68,39 @@ $border_radius: 4px;
 }
 
 .btn-pulpox-secondary {
-	background-color: $color_orange;
-	color: white;
+	background-color: $color_orange !important;
+	color: white !important;
 	-webkit-box-shadow: 0px 10px 7px -7px rgba(0, 0, 0, 0.62);
 	-moz-box-shadow: 0px 10px 7px -7px rgba(0, 0, 0, 0.62);
 	box-shadow: 0px 10px 7px -7px rgba(0, 0, 0, 0.62);
+
+	&:hover {
+		color: white !important;
+		background-color: $color_orange-active !important;
+	}
+
+	&:active {
+		color: white !important;
+		background-color: $color_orange-dark !important;
+	}
+}
+
+.btn-pulpox-secondary--line {
+	border-color: $color_orange !important;
+	color: $color_orange !important;
+	-webkit-box-shadow: 0px 10px 7px -7px rgba(0, 0, 0, 0.62) !important;
+	-moz-box-shadow: 0px 10px 7px -7px rgba(0, 0, 0, 0.62) !important;
+	box-shadow: 0px 10px 7px -7px rgba(0, 0, 0, 0.62) !important;
+
+	&:hover {
+		color: white !important;
+		background-color: $color_orange-active !important;
+	}
+
+	&:active {
+		color: white !important;
+		background-color: $color_orange-dark !important;
+	}
 }
 
 .btn-pulpox-primary-disabled {

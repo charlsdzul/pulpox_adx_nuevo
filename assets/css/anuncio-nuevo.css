@@ -1,4 +1,8 @@
 @charset "UTF-8";
+/*  #A30036 */
+/* #E67300 */
+/*$color_orange: hsl(39, 100, 32%); */
+/* #a35200 */
 *,
 *::before,
 *::after {
@@ -25,7 +29,7 @@ li {
 h1 {
   font-size: xx-large;
   font-weight: 700;
-  color: #444446;
+  color: #58585a;
 }
 
 .btn-pulpox-primary {
@@ -35,36 +39,57 @@ h1 {
 }
 .btn-pulpox-primary:hover {
   color: white;
-  background-color: #cc0044;
+  background-color: #8f0030;
 }
 .btn-pulpox-primary:active {
   color: white;
-  background-color: #700025;
+  background-color: #750027;
 }
 
 .btn-pulpox-primary--line {
-  border-color: #a30036;
-  color: #a30036;
-  box-shadow: 0px 10px 7px -7px rgba(0, 0, 0, 0.62);
+  border-color: #e67300 !important;
+  color: #e67300 !important;
+  box-shadow: 0px 10px 7px -7px rgba(0, 0, 0, 0.62) !important;
 }
 .btn-pulpox-primary--line:hover {
-  background-color: red;
   color: white;
-  background-color: #cc0044;
+  background-color: #8f0030;
 }
 .btn-pulpox-primary--line:active {
   color: white;
-  background-color: #700025;
+  background-color: #750027;
 }
 
 .btn-pulpox-secondary {
-  background-color: #a35200;
-  color: white;
+  background-color: #e67300 !important;
+  color: white !important;
   box-shadow: 0px 10px 7px -7px rgba(0, 0, 0, 0.62);
+}
+.btn-pulpox-secondary:hover {
+  color: white !important;
+  background-color: #cc6600 !important;
+}
+.btn-pulpox-secondary:active {
+  color: white !important;
+  background-color: #b35900 !important;
+}
+
+.btn-pulpox-secondary--line {
+  border-color: #e67300 !important;
+  color: #e67300 !important;
+  box-shadow: 0px 10px 7px -7px rgba(0, 0, 0, 0.62) !important;
+}
+.btn-pulpox-secondary--line:hover {
+  color: white !important;
+  background-color: #cc6600 !important;
+}
+.btn-pulpox-secondary--line:active {
+  color: white !important;
+  background-color: #b35900 !important;
 }
 
 .btn-pulpox-primary-disabled {
-  background-color: #6c3749;
+  background-color: #562938;
   color: white;
 }
 
@@ -82,7 +107,7 @@ h1 {
 }
 
 .bootstrap-maxlength {
-  color: #a35200;
+  color: #e67300;
 }
 
 .panel-image-progress {
@@ -184,7 +209,7 @@ h1 {
 }
 
 .carousel {
-  width: 20em;
+  width: 18em;
   height: 18em;
 }
 
