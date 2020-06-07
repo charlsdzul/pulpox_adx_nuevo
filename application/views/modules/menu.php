@@ -12,7 +12,7 @@
         <a class="nav-link" href="<?php echo base_url() . 'index.php/' .'misanuncios'?>" >Mis Anuncios</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="<?php echo base_url() . 'index.php/' .'anuncio/nuevo/'?>">Nuevo Anuncio</a>
+        <a class="nav-link" href="<?php echo base_url() . 'index.php/' .'mianuncio/nuevo/'?>">Nuevo Anuncio</a>
       </li>
     </ul>
 

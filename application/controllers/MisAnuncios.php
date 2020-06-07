@@ -5,12 +5,16 @@ class MisAnuncios extends CI_Controller {
 
      function __construct() {
         parent::__construct();
+        
+        $this->load->library('sesiones');
+        $this->sesiones->usuarioEnSesion(); 
+
         $this->load->helper('url'); 
         $this->load->model('misanuncios_model');
-        $this->load->model('anuncio_model');
+        $this->load->model('mianuncio_model');
         $this->carpeta_final_anuncio = "imagenes_anuncios/"; 
         $this->carpeta_temporal_anuncio = "imagenes_temporales/anuncios/"; 
-        $this->load->library('validaciones');
+        $this->load->library('validaciones');        
     }
 
     function index(){
@@ -26,7 +30,7 @@ class MisAnuncios extends CI_Controller {
         if($anuncio_id==null){
             redirect("index.php/anuncio/nuevo/");
           }else{
-            $data = $this->anuncio_model->obtenerDatosAnuncioPublico($anuncio_id);
+            $data = $this->mianuncio_model->obtenerDatosAnuncioPublico($anuncio_id);
             $datos_anuncio = array('datos_anuncio' => $data);
             $this->load->view('modules/headers-mis-anuncios');
             $this->load->view('modules/menu');
@@ -58,20 +62,6 @@ class MisAnuncios extends CI_Controller {
       }else{
         $response['codigo']=1;
         $response['mensaje']='Lo sentimos, el estatus no se pudo cambiar.';
-        echo json_encode($response);
-      }
-    }
-
-    function editarAnuncio(){
-      if(isset($_POST['anuncio_editado'])){
-       $anuncio_datos = $_POST['anuncio_editado']; 
-       $anuncio_datos['titulo'] = $this->validaciones->validaTitulo($anuncio_datos['titulo']);  
-     
-
-       // $response = $this->misanuncios_model->editarAnuncio($anuncio_id,$anuncio_estatus_actual);
-      }else{
-        $response['codigo']=1;
-        $response['mensaje']='Lo sentimos, el anuncio no se pudo editar.';
         echo json_encode($response);
       }
     }

@@ -1,14 +1,13 @@
 <script>
 
+  const BASE_URL = "<?php echo base_url();?>" + "index.php/";
   var anuncio_id = <?php echo $anuncio_id?>; //Variable pasada a al view
 
-  $(document).ready(function() {   
-
+  $(document).ready(function() {  
       if(sessionStorage.getItem(`titulo_${anuncio_id}`)==null){
-        location.href = "<?php echo base_url() . 'index.php/anuncio/nuevo'; ?>" 
+        location.href = BASE_URL+'mianuncio/nuevo';
       }else{
-        asignaValoresPreview(anuncio_id)
-        
+        asignaValoresPreview(anuncio_id)        
           //Detecta si existe por lo menos 1 imágen almacenada en el sessionStorage
           for (let index = 1; index < 11; index++) {
             if(sessionStorage.getItem(`img_${index}_${anuncio_id}`)!=null && sessionStorage.getItem(`img_${index}_${anuncio_id}`)!=''){  
@@ -33,16 +32,11 @@
               break;
             }    
           }
-
           $('#boton_publicar').click(function(){
             guardaAnuncio(anuncio_id)
           })
       }     
   });
-
-</script>
-
-<script>
 
   function guardaAnuncio(anuncio_id){
     /**
@@ -52,23 +46,24 @@
       let dialog_publicando = $.dialog({
           icon: 'fa fa-spinner fa-spin',
           title: 'Publicando...',
-          type: 'green',
+          type: 'blue',
           content: 'Estamos publicando tu anuncio...',
           closeIcon:false,
       });       
 
-      var nuevo_anuncio={}
-      nuevo_anuncio['titulo'] = sessionStorage.getItem(`titulo_${anuncio_id}`)
-      nuevo_anuncio['anuncio']  = sessionStorage.getItem(`anuncio_${anuncio_id}`)
-      nuevo_anuncio['estado'] = sessionStorage.getItem(`estado_${anuncio_id}`)
-      nuevo_anuncio['ciudad'] = sessionStorage.getItem(`ciudad_${anuncio_id}`)
-      nuevo_anuncio['modalidad']  = sessionStorage.getItem(`modalidad_${anuncio_id}`)
-      nuevo_anuncio['seccion']  = sessionStorage.getItem(`seccion_${anuncio_id}`)
-      nuevo_anuncio['apartado']  = sessionStorage.getItem(`apartado_${anuncio_id}`)
-      nuevo_anuncio['telefono']  = sessionStorage.getItem(`telefono_${anuncio_id}`)
-      nuevo_anuncio['celular']  = sessionStorage.getItem(`celular_${anuncio_id}`)
-      nuevo_anuncio['correo'] = sessionStorage.getItem(`correo_${anuncio_id}`)
-      nuevo_anuncio['id_temporal'] = anuncio_id
+      var nuevo_anuncio={
+      'titulo':sessionStorage.getItem(`titulo_${anuncio_id}`),
+      'mensaje':sessionStorage.getItem(`mensaje_${anuncio_id}`),
+      'estado':sessionStorage.getItem(`estado_${anuncio_id}`),
+      'ciudad':sessionStorage.getItem(`ciudad_${anuncio_id}`),
+      'modalidad':sessionStorage.getItem(`modalidad_${anuncio_id}`),
+      'seccion':sessionStorage.getItem(`seccion_${anuncio_id}`),
+      'apartado':sessionStorage.getItem(`apartado_${anuncio_id}`),
+      'telefono':sessionStorage.getItem(`telefono_${anuncio_id}`),
+      'celular':sessionStorage.getItem(`celular_${anuncio_id}`),
+      'correo':sessionStorage.getItem(`correo_${anuncio_id}`),
+      'id_temporal':anuncio_id,
+      } 
 
     for (let index = 1; index < 11; index++) {
       if(sessionStorage.getItem(`img_${index}_${anuncio_id}`)==null){
@@ -77,45 +72,47 @@
       nuevo_anuncio[`img_${index}`] = sessionStorage.getItem(`img_${index}_${anuncio_id}`);      
     }
 
-      $.post("<?php echo base_url().'index.php/anuncio/publicar/'?>",  nuevo_anuncio, function(){
-        
-      })   
+      $.post(BASE_URL+'/mianuncio/publicar/',  {nuevo_anuncio})   
         .done(function(response) { 
             dialog_publicando.close();        
             response = JSON.parse(response);
               if(response.codigo!=0){
                 $.confirm({
-                title: 'Detectamos un problema.',
-                content: response.mensaje,
-                type: 'orange',
-                typeAnimated: true,
-                buttons: {               
-                    close: function () {
-                    }                }
+                  icon: 'fas fa-sad-tear',
+                  title: 'Detectamos un problema.',
+                  content: response.mensaje,
+                  type: 'blue',
+                  typeAnimated: true,
+                  buttons: {               
+                    ok: {
+                      text: 'Ok',
+                      btnClass: 'btn-pulpox-secondary',
+                      keys: ['enter']                     
+                    },  
+                  }
                 });
               }else{
                 sessionStorage.clear();
                 $.confirm({
-                icon: 'fas fa-check-circle',
+                icon: 'fas fa-smile-wink',
                 title: 'Publicado',
-                type: 'green',
-                content: 'Tú anuncio ya se publicó. ¿A dónde quieres ir?',
+                type: 'blue',
+                content: response.mensaje,
                 closeIcon:false,
                 buttons: {
                   nuevoAnuncio: {
                       text: 'Nuevo Anuncio',
-                      btnClass: 'btn-pulpox-primary',
-                      keys: ['enter', 'shift'],
+                      btnClass: 'btn-pulpox-secondary--line',
+                      keys: ['enter'],
                       action: function(){
-                        location.href = "<?php echo base_url() . 'index.php/anuncio/nuevo'; ?>" 
+                        location.href = BASE_URL+'mianuncio/nuevo'; 
                       }
                   },
                   misAnuncios: {
-                      text: 'mis Anuncios',
-                      btnClass: 'btn-pulpox-primary',
-                      keys: ['enter', 'shift'],
+                      text: 'Mis Anuncios',
+                      btnClass: 'btn-pulpox-secondary',                    
                       action: function(){
-                        location.href = "<?php echo base_url() . 'index.php/misanuncios'; ?>" 
+                        location.href = BASE_URL+'misanuncios/'; 
                       }
                   }
                 }
@@ -125,18 +122,20 @@
         .fail(function() {
           dialog_publicando.close();   
           $.confirm({
+            icon: 'fas fa-sad-tear',
             title: 'Detectamos un problema.',
             content: 'Nuestro servidor tiene problemas actualmente. Intente más tarde.',
             type: 'red',
             typeAnimated: true,
             buttons: {               
-                close: function () {
-                }
+              ok: {
+                text: 'Ok',
+                btnClass: 'btn-pulpox-secondary',
+                keys: ['enter']                     
+              },
             }
-          });
-
-        })    
-     
+          })
+        }) 
   }
 
   function generaCarousel(anuncio_id){
@@ -174,14 +173,14 @@
     /** Recibe valoresque han sido almacenados en sessionStorage en el Anuncio Nuevo.*/
 
     $('#titulo_preview').text(sessionStorage.getItem(`titulo_${anuncio_id}`))
-    $('#titulo_preview').text(sessionStorage.getItem(`titulo_${anuncio_id}`))
+    $('#mensaje_preview').text(sessionStorage.getItem(`mensaje_${anuncio_id}`))
     $('#modalidad_preview').html(sessionStorage.getItem(`modalidad_${anuncio_id}`))
     let estado_ciudad = sessionStorage.getItem(`estado_${anuncio_id}`) + ' / ' + sessionStorage.getItem(`ciudad_${anuncio_id}`)
     let seccion_apartado =  sessionStorage.getItem(`seccion_${anuncio_id}`) + ' / ' + sessionStorage.getItem(`apartado_${anuncio_id}`)
     $('#estado_ciudad').text(estado_ciudad)
     $('#seccion_apartado').text(seccion_apartado)
 
-    $('#anuncio_preview').html(sessionStorage.getItem(`anuncio_${anuncio_id}`))
+    $('#anuncio_preview').html(sessionStorage.getItem(`mensaje_${anuncio_id}`))
 
     if(sessionStorage.getItem(`telefono_${anuncio_id}`)!=''){
       $('#telefono_preview').text(sessionStorage.getItem(`telefono_${anuncio_id}`))

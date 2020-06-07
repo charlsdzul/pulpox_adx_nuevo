@@ -2,8 +2,6 @@
 <script> 
   var anuncio_datos = <?php echo json_encode($datos_anuncio,true)?>;
 
-  console.log(anuncio_datos)
-
   $(document).ready(function() { 
 
       asignaValores(anuncio_datos) ;
@@ -33,10 +31,6 @@
             }    
           }  
   });
-
-</script>
-
-<script> 
 
   function generaCarousel(anuncio_datos){
     /**Genera el carousel de imagenes según los datos almacenados en el sessionStorage */

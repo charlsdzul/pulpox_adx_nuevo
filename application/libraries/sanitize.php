@@ -9,9 +9,6 @@ class Sanitize {
         //$string = str_ireplace($black_list,'',$string);     
         $string = htmlentities($string);  
         return $string;      
-      }
-    
-    
-
+      } 
         
 }

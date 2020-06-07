@@ -1,19 +1,20 @@
 
 <script>
 
-    const BASE_URL = "<?php echo base_url();?>" + "index.php/"
+    const BASE_URL = "<?php echo base_url();?>" + "index.php/";
     var anuncio_id = "<?php echo $anuncio_id?>"; //Variable pasada a al view
 
-    asignaListasSelects();     
-    asignaValidacionesInputs();
-    asignaValoresPrevios(anuncio_id);  
-  
+    $(document).ready(function() {   
+        asignaListasSelects();     
+        asignaValidacionesInputs();
+        asignaValoresPrevios(anuncio_id);    
 
-    $('#boton_previzualizar').click(function(){
-        validaFormulario(anuncio_id)          
-    }) 
+        $('#boton_previzualizar').click(function(){
+            validaFormulario(anuncio_id)          
+        }) 
+    });
 
-     function asignaListasSelects(){
+    function asignaListasSelects(){
         /**Define lista de datos a los inputs ESTADO, CIUDAD, SECCION, APARTADO    
         * Asigna lista de Estados a 'Estado'. Inicia en 'Chihuahua'
         * Asigna lista de ciudades correspondientes a 'Chihuahua'. Inicia en 'Juárez'
@@ -181,7 +182,7 @@
         */           
 
         $('#titulo').val(sessionStorage.getItem(`titulo_${anuncio_id}`))    
-        $('#anuncio').html(sessionStorage.getItem(`anuncio_${anuncio_id}`))
+        $('#mensaje').html(sessionStorage.getItem(`mensaje_${anuncio_id}`))
         $('#telefono').val(sessionStorage.getItem(`telefono_${anuncio_id}`))
         $('#celular').val(sessionStorage.getItem(`celular_${anuncio_id}`))
         $('#correo').val(sessionStorage.getItem(`correo_${anuncio_id}`)) 
@@ -214,7 +215,7 @@
             fd.append('path_imagen', path_imagen); 
        
                 $.ajax({ 
-                    url: "<?php echo base_url() . 'index.php/' .'anuncio/eliminarImagenTemporal/' . $anuncio_id; ?>" , 
+                    url: BASE_URL+'mianuncio/eliminarImagenTemporal/'+anuncio_id , 
                     type: 'post', 
                     data: fd, 
                     contentType: false, 
@@ -256,7 +257,7 @@
            if(validarTamanoImagen(imagen.files[0].size)){
                 $(`#pulpox-invalid-feedback-${numero_imagen}`).html('')
                 $(`#pulpox-invalid-feedback-${numero_imagen}`).hide()
-                uploadImageAjax(imagen,numero_imagen)
+                uploadImageAjax(imagen,numero_imagen,anuncio_id)
             }else{
                 $(`#pulpox-invalid-feedback-${numero_imagen}`).show();    
                 $(`#pulpox-invalid-feedback-${numero_imagen}`).html('La imágen es demasiado grande. Máximo 5 MB')       
@@ -267,7 +268,7 @@
         }    
     }
 
-    function uploadImageAjax(imagen,numero_imagen){
+    function uploadImageAjax(imagen,numero_imagen,anuncio_id){
         /** Sube imágen a servidor. */
 
         $(`#panel-image-${numero_imagen}`).after(`
@@ -283,9 +284,10 @@
             var image = imagen.files[0]; 
             fd.append('imagen', image); 
             fd.append('numero', numero_imagen); 
+            fd.append('anuncio_id', anuncio_id); 
 
             $.ajax({ 
-                url: "<?php echo base_url() . 'index.php/' .'anuncio/subirImagenTemporal/' . $anuncio_id; ?>" , 
+                url: BASE_URL+'mianuncio/subirImagenTemporal/' , 
                 type: 'post', 
                 data: fd, 
                 contentType: false, 
@@ -295,7 +297,6 @@
                     var xhr = new window.XMLHttpRequest();
                     xhr.upload.addEventListener("progress", function(evt) {
                         if (evt.lengthComputable) {
-                            console.log(evt.loaded / evt.total)
                             var percentComplete = ((evt.loaded / evt.total) * 100);
                             $(`#panel-image--bar_progreso-${numero_imagen}`).css('width',percentComplete+'%');
                             $(`#panel-image--bar_progreso-${numero_imagen}`).html(percentComplete+'%');                               
@@ -309,8 +310,8 @@
                     $(`#icon-${numero_imagen}`).removeClass( "fa fa-camera fa-3x" ).addClass("fas fa-spinner fa-3x fa-spin");
                 },
                 success: function(response){ 
-                    var data = $.parseJSON(response)
-                    var url = "<?php echo base_url();?>";                     
+                    let data = JSON.parse(response)
+                    let url = "<?php echo base_url();?>";                     
 
                     if(data.codigo == 0){
                         $(`#panel-image--div_icon-${numero_imagen}`).hide() 
@@ -436,7 +437,6 @@
         var validation = 1;
 
         if (elementos_validados == 10){
-
             if($('#telefono').val()=='' && $('#celular').val()=='' && $('#correo').val()==''){
                 $.confirm({
                     icon: 'fas fa-exclamation-circle',
@@ -445,28 +445,27 @@
                     content: 'No pusiste ningún medio de contacto ¿Así lo quieres publicar?',
                     closeIcon:false,
                     buttons: {
-                        nuevoAnuncio: {
-                            text: 'No, editar.',
-                            btnClass: 'btn-pulpox-primary',
-                            keys: ['enter', 'shift'],
-                            action: function(){                              
-                            }
-                        },
                         misAnuncios: {
                             text: 'Sí',
-                            btnClass: 'btn-pulpox-primary',
+                            btnClass: 'btn-pulpox-secondary--line',
                             keys: ['enter', 'shift'],
                             action: function(){
                                 almacenaDatosEnSessionStorage(anuncio_id)
                             }
-                        }
+                        },
+                        nuevoAnuncio: {
+                            text: 'No, editar.',
+                            btnClass: 'btn-pulpox-secondary',
+                            keys: ['enter', 'shift'],
+                            action: function(){                              
+                            }
+                        },                      
                     }
                 });
             }else{
                 almacenaDatosEnSessionStorage(anuncio_id)
             }
         }
-
     }
 
     function validarBoton(){
@@ -493,9 +492,9 @@
         */ 
         
        // let anuncio_preformat = '<pre>'+$('#anuncio').val()+'</pre>'
-        let anuncio_preformat = $('#anuncio').val()
+        let anuncio_preformat = $('#mensaje').val()
         sessionStorage.setItem(`titulo_${anuncio_id}`, $('#titulo').val())
-        sessionStorage.setItem(`anuncio_${anuncio_id}`, anuncio_preformat)
+        sessionStorage.setItem(`mensaje_${anuncio_id}`, anuncio_preformat)
         sessionStorage.setItem(`estado_${anuncio_id}`, $('#estado').val())
         sessionStorage.setItem(`ciudad_${anuncio_id}`, $('#ciudad').val())
         sessionStorage.setItem(`modalidad_${anuncio_id}`, $('#modalidad').val())
@@ -509,10 +508,7 @@
                 sessionStorage.setItem(`img_${index}_${anuncio_id}`, $(`#img-${index}`).attr('src'))
             }
      
-        location.href = "<?php echo base_url() . 'index.php/' .'anuncio/preview/' . $anuncio_id; ?>" 
+        location.href = BASE_URL + 'mianuncio/preview/'+anuncio_id;
     }
-
- 
-
 
 </script>

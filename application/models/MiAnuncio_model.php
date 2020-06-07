@@ -1,10 +1,14 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Anuncio_model extends CI_Model {
+class MiAnuncio_model extends CI_Model {
 
     function __construct(){
         parent::__construct();
+
+        $this->load->library('sesiones');
+        $this->sesiones->usuarioEnSesion(); 
+
         $this->load->database(); //cargar base de datos
         $this->carpeta_final_anuncio = "imagenes_anuncios/"; 
         $this->carpeta_temporal_anuncio = "imagenes_temporales/anuncios/"; 
@@ -14,63 +18,96 @@ class Anuncio_model extends CI_Model {
         'modalidad' => 'cat_modalidades',
         'seccion' => 'cat_secciones',
         'apartado' => 'cat_apartados'];
+
+        $this->USUARIO_EN_SESSION_ID = 111;
+
     }
                      
-    function publicar($nuevo_anuncio, $public_id){    
-        sleep(3);
-        //Obtener sigla Estado
-        $nuevo_anuncio->estado = $this->db->get_where('cat_estados', array('nombre' =>  $nuevo_anuncio->estado))->row()->sigla;        
-        //Obtener sigla  Ciudad
-        $nuevo_anuncio->ciudad = $this->db->get_where('cat_municipios', array('nombre' => $nuevo_anuncio->ciudad))->row()->sigla;  
-        //Obtener sigla  Seccion
-        $nuevo_anuncio->seccion = $this->db->get_where('cat_secciones', array('nombre' => $nuevo_anuncio->seccion))->row()->sigla;  
-        //Obtener sigla  Apartado
-        $nuevo_anuncio->apartado = $this->db->get_where('cat_apartados', array('nombre' => $nuevo_anuncio->apartado))->row()->sigla;
-
+    function publicar($anuncio_datos){
         $data = array(  
-            'public_id'=>$public_id,
-            'titulo'=> $nuevo_anuncio->titulo,
-            'anuncio'=> $nuevo_anuncio->anuncio, 
-            'modalidad'=> $nuevo_anuncio->modalidad, 
-            'estado'=> $nuevo_anuncio->estado,
-            'ciudad'=> $nuevo_anuncio->ciudad,
-            'seccion'=> $nuevo_anuncio->seccion,
-            'apartado'=> $nuevo_anuncio->apartado, 
-            'telefono'=> $nuevo_anuncio->telefono, 
-            'celular'=> $nuevo_anuncio->celular,
-            'correo'=> $nuevo_anuncio->correo,            
+            'public_id'=>$anuncio_datos['public_id'],
+            'titulo'=> $anuncio_datos['titulo'],
+            'mensaje'=> $anuncio_datos['mensaje'], 
+            'modalidad'=> $anuncio_datos['modalidad'], 
+            'estado'=> $anuncio_datos['estado'],
+            'ciudad'=> $anuncio_datos['ciudad'],
+            'seccion'=> $anuncio_datos['seccion'],
+            'apartado'=> $anuncio_datos['apartado'], 
+            'telefono'=> $anuncio_datos['telefono'], 
+            'celular'=> $anuncio_datos['celular'],
+            'correo'=> $anuncio_datos['correo'],            
             'creado'=> date("Y-m-d H:i:s"), 
-            'usuario_id'=> 111,               
+            'usuario_id'=> $anuncio_datos['usuario'] ,               
             );
 
         $data_imagenes = array(                
-                'img_1'=> $nuevo_anuncio->img_1,
-                'img_2'=> $nuevo_anuncio->img_2,
-                'img_3'=> $nuevo_anuncio->img_3,
-                'img_4'=> $nuevo_anuncio->img_4,
-                'img_5'=> $nuevo_anuncio->img_5,
-                'img_6'=> $nuevo_anuncio->img_6,
-                'img_7'=> $nuevo_anuncio->img_7,
-                'img_8'=> $nuevo_anuncio->img_8,
-                'img_9'=> $nuevo_anuncio->img_9,
-                'img_10'=> $nuevo_anuncio->img_10,      
-                );
-
+            'img_1'=> $anuncio_datos['img_1'],
+            'img_2'=> $anuncio_datos['img_2'],
+            'img_3'=> $anuncio_datos['img_3'],
+            'img_4'=> $anuncio_datos['img_4'],
+            'img_5'=> $anuncio_datos['img_5'],
+            'img_6'=> $anuncio_datos['img_6'],
+            'img_7'=> $anuncio_datos['img_7'],
+            'img_8'=> $anuncio_datos['img_8'],
+            'img_9'=> $anuncio_datos['img_9'],
+            'img_10'=> $anuncio_datos['img_10'],      
+        );
 
         if($this->db->insert('anuncios',$data)){
             $id_bdd= $this->db->insert_id(); 
-
-             $estaVacio = count(array_unique($data_imagenes))===1;
+            $estaVacio = count(array_unique($data_imagenes))===1;
 
             if($estaVacio==FALSE){ //Si el array NO ESTA VACIO, procede a almacenar las imagenes que tiene
-                $response = $this->moverImagenes($data_imagenes,$id_bdd,$public_id);
+                $this->moverImagenes($data_imagenes,$id_bdd,$anuncio_datos['public_id']);
+                $response['codigo']=0;
+                $response['mensaje']='Tu anuncio ya se publicó. ¿A dónde quieres ir?';
+                echo json_encode($response);
+                die();
+            }else{
+                $response['codigo']=0;
+                $response['mensaje']='Tu anuncio ya se publicó. ¿A dónde quieres ir?';
+                echo json_encode($response);
+                die();
             }
-
-            return  'publicado_OK';
-
         }else{
-            return 'publicado_ERROR';
+            $response['codigo']=1;
+            $response['mensaje']='Lo sentimos, hubo un problema al intentar publicar tu anuncio. Intenta más tarde.';
+            echo json_encode($response);
+            die();
         }         
+    }
+
+    function editar($anuncio_datos){
+        $datos = array(  
+            'titulo'=> $anuncio_datos['titulo'],
+            'mensaje'=> $anuncio_datos['mensaje'], 
+            'modalidad'=> $anuncio_datos['modalidad'], 
+            'estado'=> $anuncio_datos['estado'],
+            'ciudad'=> $anuncio_datos['ciudad'],
+            'seccion'=> $anuncio_datos['seccion'],
+            'apartado'=> $anuncio_datos['apartado'], 
+            'telefono'=> $anuncio_datos['telefono'], 
+            'celular'=> $anuncio_datos['celular'],
+            'correo'=> $anuncio_datos['correo'],         
+            'actualizado'=> date("Y-m-d H:i:s"), 
+            );
+
+        $this->db->where('public_id',$anuncio_datos['anuncio_public_id']);
+        $this->db->where('usuario_id',$this->USUARIO_EN_SESSION_ID);
+        $this->db->where('sta',0);
+        $this->db->or_where('sta',1);
+        
+            if($this->db->update('anuncios', $datos)){
+                $response['codigo']  = 0;
+                $response['mensaje'] = 'Su anuncio se actualizó correctamente.';  
+                echo json_encode($response);    
+                die(); 
+            }else{
+                $response['codigo']  = 1;
+                $response['mensaje'] = 'Lo sentimos, hubo un problema al intentar actualizar su anuncio. Intente más tarde o repórtelo por favor.';  
+                echo json_encode($response);    
+                die(); 
+            }
     }
 
     function moverImagenes($data_imagenes,$id_bdd,$public_id){     
@@ -147,18 +184,11 @@ class Anuncio_model extends CI_Model {
             if(file_exists($path_folder_temporal)){
                 //Remover folder temporal
                 rmdir($path_folder_temporal); 
-            }
-            
-
-    }    
-   
-    function generarPublicId(){            
-        $str_result = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';             
-        return substr(str_shuffle($str_result), 0, 30); 
-    }
+            }   
+    }  
 
     function obtenerDatosAnuncioPublico($anuncio_id){
-            $this->db->select('public_id, titulo, anuncio, estado,ciudad,modalidad,seccion,apartado,telefono,celular,correo,img_1,img_2,img_3,img_4,img_5,img_6,img_7,img_8,img_9,img_10');
+            $this->db->select('public_id, titulo, mensaje, estado,ciudad,modalidad,seccion,apartado,telefono,celular,correo,img_1,img_2,img_3,img_4,img_5,img_6,img_7,img_8,img_9,img_10');
             $query = $this->db->get_where('anuncios', array('public_id' => $anuncio_id));
                         
             if($query->num_rows() > 0){
@@ -190,23 +220,6 @@ class Anuncio_model extends CI_Model {
                 return null;
             }
     
-    }    
-
-    function existeValor($valor,$objeto){
-
-        $this->db->where('nombre',$valor);
-        $query = $this->db->get($this->TABLAS["$objeto"]);
-
-        if ($query->num_rows() > 0){
-            return true;
-        }
-        else{
-            return false;
-        }
-    }
-
-
-
-
+    }   
 }
 ?>

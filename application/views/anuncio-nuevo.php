@@ -19,8 +19,8 @@
 
             <div class="form-row justify-content-center">
                 <div class="form-group col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                    <label for="anuncio">Anuncio</label>
-                    <textarea id='anuncio' class="form-control pulpox-validar" aria-label="With textarea" rows="10" maxlength="1000"></textarea>
+                    <label for="mensaje">Anuncio</label>
+                    <textarea id='mensaje' class="form-control pulpox-validar" aria-label="With textarea" rows="10" maxlength="1000"></textarea>
                     <div class="pulpox-invalid-feedback">Escribe tu anuncio</div>
                 </div>
             </div>

@@ -5,6 +5,10 @@ class MisAnuncios_model extends CI_Model {
 
     function __construct(){
         parent::__construct();
+
+        $this->load->library('sesiones');
+        $this->sesiones->usuarioEnSesion(); 
+        
         $this->load->database(); //cargar base de datos
     }  
 
@@ -97,7 +101,7 @@ class MisAnuncios_model extends CI_Model {
         $this->db->where("public_id",$publid_id);
         $res = $this->db->get('anuncios');
         foreach ($res->result() as $row){
-            $misanuncio['anuncio'] = $row->anuncio;
+            $misanuncio['mensaje'] = $row->mensaje;
             $misanuncio['telefono'] = $row->telefono;
             $misanuncio['celular'] = $row->celular;
             $misanuncio['correo'] = $row->correo;
@@ -142,7 +146,7 @@ class MisAnuncios_model extends CI_Model {
     } 
 
     function obtenerDatosAnuncioMovil($public_id){
-        $this->db->select('public_id, titulo, anuncio, estado,ciudad,modalidad,seccion,apartado,telefono,celular,correo,img_1,img_2,img_3,img_4,img_5,img_6,img_7,img_8,img_9,img_10');
+        $this->db->select('public_id, titulo, mensaje, estado,ciudad,modalidad,seccion,apartado,telefono,celular,correo,img_1,img_2,img_3,img_4,img_5,img_6,img_7,img_8,img_9,img_10');
         $query = $this->db->get_where('anuncios', array('public_id' => $public_id));
                     
         if($query->num_rows() > 0){

@@ -36,7 +36,7 @@
            
                 <div class="row justify-content-center mt-2"> 
                     <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12" title='Mensaje'>
-                        <div id="anuncio_preview">  
+                        <div id="mensaje_preview">  
                         </div>
                     </div>
                    </div>   
