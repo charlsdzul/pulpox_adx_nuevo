@@ -8,7 +8,7 @@ class Validaciones_model extends CI_Model {
 
         $this->load->library('sesiones');
         $this->sesiones->usuarioEnSesion(); 
-        
+
         $this->load->database(); 
         $this->TABLAS = [
             'ciudad' => 'cat_municipios',
@@ -55,7 +55,15 @@ class Validaciones_model extends CI_Model {
         }
     }
 
-
-
+    function obtenerNombre($valor,$objeto){
+        if($nombre = $this->db->get_where($this->TABLAS["$objeto"], array('sigla' =>  $valor))->row()->nombre){ 
+            return $nombre;     
+        }else{
+            $response['codigo']  = 1;
+            $response['mensaje'] = 'No se pudo obtener el nombre de la sigla.';  
+            echo json_encode($response);    
+            die(); 
+        }
+    }
 }
 ?>

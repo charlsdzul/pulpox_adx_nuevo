@@ -114,6 +114,27 @@ class Validaciones {
       }
     }
 
+    function obtenerNombre($valor,$objeto){
+      /**
+       * Obtiene la sigla de una CIUDAD, ESTADO, SECCION, APARTADO
+       * Requiere el nombre. 
+       * P.eje.: 'Chihuahua'. Devuelve 'CHH'
+       */   
+
+      if($sigla = $this->CI->validaciones_model->obtenerNombre($valor,$objeto)){
+        if($sigla!=''){
+          return $sigla;
+        }else{
+          return 'INDEF';
+        }    
+      }else{
+        $response['codigo']  = 1;
+        $response['mensaje'] = 'No se pudo obtener el nombre de la sigla.';
+        echo json_encode($response);    
+        die(); 
+      }
+    }
+
     function validaTelefono($telefono,$objeto){
       /**
        * Valida un número de teléfono a 10 dígitos.

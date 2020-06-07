@@ -8,9 +8,32 @@ class MisAnuncios_model extends CI_Model {
 
         $this->load->library('sesiones');
         $this->sesiones->usuarioEnSesion(); 
-        
+        $this->load->library('validaciones');
         $this->load->database(); //cargar base de datos
     }  
+
+    function obtenerMisAnuncios(){        
+        $this->db->select("*");
+        $this->db->order_by('creado', 'DESC');
+        $this->db->where("usuario_id",111);
+        $res = $this->db->get('anuncios');
+        $j=0;
+        foreach ($res->result() as $row){
+            $misanuncios[$j]['public_id'] = $row->public_id;
+            $misanuncios[$j]['titulo'] = $row->titulo;
+            $misanuncios[$j]['modalidad'] = $row->modalidad;
+            $misanuncios[$j]['estado'] = $this->validaciones->obtenerNombre($row->estado, 'estado');
+            $misanuncios[$j]['ciudad'] = $this->validaciones->obtenerNombre($row->ciudad, 'ciudad');
+            $misanuncios[$j]['seccion'] = $this->validaciones->obtenerNombre($row->seccion, 'seccion');
+            $misanuncios[$j]['apartado'] = $this->validaciones->obtenerNombre($row->apartado, 'apartado');
+            $misanuncios[$j]['creado'] = $row->creado;
+            $row->sta==0 ? $misanuncios[$j]['estatus'] = 'ACTIVO' : '';
+            $row->sta==1 ? $misanuncios[$j]['estatus'] = 'SUSPENDIDO' : '';
+            $row->sta==2 ? $misanuncios[$j]['estatus'] = 'ELIMINADO' : '';
+            $j++;
+        }          
+        return $misanuncios;    
+    } 
 
     function cambiarEstatus($anuncio_id,$anuncio_estatus_actual){  
         $response['codigo']=1;
@@ -67,34 +90,7 @@ class MisAnuncios_model extends CI_Model {
             } 
 
         return $response;       
-    }
-                
-    function obtenerMisAnuncios(){        
-        $this->db->select("*");
-        $this->db->order_by('creado', 'DESC');
-        $this->db->where("usuario_id",111);
-        $res = $this->db->get('anuncios');
-        $j=0;
-        foreach ($res->result() as $row){
-            $misanuncios[$j]['public_id'] = $row->public_id;
-            $misanuncios[$j]['titulo'] = $row->titulo;
-            $misanuncios[$j]['modalidad'] = $row->modalidad;
-            //Definir Estado
-            $misanuncios[$j]['estado'] = $this->db->get_where('cat_estados', array('sigla' => $row->estado))->row()->nombre;        
-            //Definir Ciudad
-            $misanuncios[$j]['ciudad'] = $this->db->get_where('cat_municipios', array('sigla' => $row->ciudad))->row()->nombre;  
-            //Definir Seccion
-            $misanuncios[$j]['seccion'] = $this->db->get_where('cat_secciones', array('sigla' => $row->seccion))->row()->nombre;  
-              //Definir Apartado
-            $misanuncios[$j]['apartado'] = $this->db->get_where('cat_apartados', array('sigla' => $row->apartado))->row()->nombre;
-            $misanuncios[$j]['creado'] = $row->creado;
-            $row->sta==0 ? $misanuncios[$j]['estatus'] = 'ACTIVO' : '';
-            $row->sta==1 ? $misanuncios[$j]['estatus'] = 'SUSPENDIDO' : '';
-            $row->sta==2 ? $misanuncios[$j]['estatus'] = 'ELIMINADO' : '';
-            $j++;
-        }          
-        return $misanuncios;    
-    } 
+    }                
 
     function obtenerDatosParaEdicionMovil($publid_id){        
         $this->db->select("*");

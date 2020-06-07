@@ -18,12 +18,17 @@ class MisAnuncios extends CI_Controller {
     }
 
     function index(){
-        $misanuncios = $this->misanuncios_model->obtenerMisAnuncios();
+      if($misanuncios = $this->misanuncios_model->obtenerMisAnuncios()){
         $data = array('misanuncios' => $misanuncios);
         $this->load->view('modules/headers');
         $this->load->view('modules/menu');
         $this->load->view('mis-anuncios', $data);  
         $this->load->view('modules/scripts-mis-anuncios.php');    
+      }else{
+        $response['codigo']=1;
+        $response['mensaje']='Lo sentimos, no pudimos obtener tus anuncios. Intenta más tarde.';
+        echo json_encode($response);
+      }     
     }
 
     function ver($anuncio_id = null){
