@@ -1,7 +1,7 @@
 <script>
 
   const BASE_URL = "<?php echo base_url();?>" + "index.php/";
-  var anuncio_id = <?php echo $anuncio_id?>; //Variable pasada a al view
+  var anuncio_id = "<?php echo $anuncio_id?>"; //Variable pasada a al view
 
   $(document).ready(function() {  
       if(sessionStorage.getItem(`titulo_${anuncio_id}`)==null){
@@ -173,14 +173,13 @@
     /** Recibe valoresque han sido almacenados en sessionStorage en el Anuncio Nuevo.*/
 
     $('#titulo_preview').text(sessionStorage.getItem(`titulo_${anuncio_id}`))
-    $('#mensaje_preview').text(sessionStorage.getItem(`mensaje_${anuncio_id}`))
     $('#modalidad_preview').html(sessionStorage.getItem(`modalidad_${anuncio_id}`))
     let estado_ciudad = sessionStorage.getItem(`estado_${anuncio_id}`) + ' / ' + sessionStorage.getItem(`ciudad_${anuncio_id}`)
     let seccion_apartado =  sessionStorage.getItem(`seccion_${anuncio_id}`) + ' / ' + sessionStorage.getItem(`apartado_${anuncio_id}`)
     $('#estado_ciudad').text(estado_ciudad)
     $('#seccion_apartado').text(seccion_apartado)
 
-    $('#anuncio_preview').html(sessionStorage.getItem(`mensaje_${anuncio_id}`))
+    $('#mensaje_preview').html(sessionStorage.getItem(`mensaje_${anuncio_id}`))
 
     if(sessionStorage.getItem(`telefono_${anuncio_id}`)!=''){
       $('#telefono_preview').text(sessionStorage.getItem(`telefono_${anuncio_id}`))

@@ -20,10 +20,12 @@ class MisAnuncios extends CI_Controller {
     function index(){
       if($misanuncios = $this->misanuncios_model->obtenerMisAnuncios()){
         $data = array('misanuncios' => $misanuncios);
-        $this->load->view('modules/headers');
+        $this->load->view('modules/headers-mis-anuncios');
         $this->load->view('modules/menu');
         $this->load->view('mis-anuncios', $data);  
-        $this->load->view('modules/scripts-mis-anuncios.php');    
+        $this->load->view('modules/scripts-mis-anuncios.php');  
+        $this->load->view('modules/scripts-carrousel.php');     
+        $this->load->view('modules/scripts-asignar-valores.php');  
       }else{
         $response['codigo']=1;
         $response['mensaje']='Lo sentimos, no pudimos obtener tus anuncios. Intenta más tarde.';
@@ -31,18 +33,6 @@ class MisAnuncios extends CI_Controller {
       }     
     }
 
-    function ver($anuncio_id = null){
-        if($anuncio_id==null){
-            redirect("index.php/anuncio/nuevo/");
-          }else{
-            $data = $this->mianuncio_model->obtenerDatosAnuncioPublico($anuncio_id);
-            $datos_anuncio = array('datos_anuncio' => $data);
-            $this->load->view('modules/headers-mis-anuncios');
-            $this->load->view('modules/menu');
-            $this->load->view('anuncio-ver', $datos_anuncio);
-            $this->load->view('modules/scripts-anuncio-ver.php');            
-          }       
-    }
 
     function obtenerDatosAnuncioMovil(){
       if(isset($_POST['id'])){

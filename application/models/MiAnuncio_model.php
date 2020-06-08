@@ -187,7 +187,7 @@ class MiAnuncio_model extends CI_Model {
             }   
     }  
 
-    function obtenerDatosAnuncioPublico($anuncio_id){
+    function ver($anuncio_id){
             $this->db->select('public_id, titulo, mensaje, estado,ciudad,modalidad,seccion,apartado,telefono,celular,correo,img_1,img_2,img_3,img_4,img_5,img_6,img_7,img_8,img_9,img_10');
             $query = $this->db->get_where('anuncios', array('public_id' => $anuncio_id));
                         

@@ -16,32 +16,27 @@ class MiAnuncio extends CI_Controller {
     }
 
     function nuevo($anuncio_id = null){
-
       if($anuncio_id==null){
         $id_aleatorio = rand(1000000000, 2000000000);
         redirect("index.php/mianuncio/nuevo/$id_aleatorio");
-
       }else{
         $data = array('anuncio_id' => $anuncio_id);
-        $this->load->view('modules/headers-anuncio-nuevo');
-        //$this->load->view('modules/topbar');
+        $this->load->view('modules/headers-mianuncio-nuevo.php');
         $this->load->view('modules/menu');
         $this->load->view('anuncio-nuevo',$data);
-        $this->load->view('modules/scripts-anuncio-nuevo.php',$data);
+        $this->load->view('modules/scripts-mianuncio-nuevo.php',$data);
       }           
     }
 
     function preview($anuncio_id=null){
-
       if($anuncio_id==null){
         redirect("index.php/mianuncio/nuevo/");
       }else{
         $data = array('anuncio_id' => $anuncio_id);
-        $this->load->view('modules/headers');
-        //$this->load->view('modules/topbar');
+        $this->load->view('modules/headers-mianuncio-nuevo-preview');
         $this->load->view('modules/menu');
         $this->load->view('anuncio-nuevo-preview', $data);
-        $this->load->view('modules/scripts-anuncio-nuevo-preview.php');
+        $this->load->view('modules/scripts-mianuncio-nuevo-preview.php');
       }     
     }
     
@@ -125,7 +120,22 @@ class MiAnuncio extends CI_Controller {
         echo json_encode($response);
         die();
       }   
-    }   
+    }
+    
+    function ver($anuncio_id = null){
+      if($anuncio_id==null){
+          redirect("index.php/misanuncios/");
+        }else{
+          $data = $this->mianuncio_model->ver($anuncio_id);
+          $datos_anuncio = array('datos_anuncio' => $data);
+          $this->load->view('modules/headers-mianuncio-ver.php');
+          $this->load->view('modules/menu');
+          $this->load->view('anuncio-ver', $datos_anuncio);
+          $this->load->view('modules/scripts-mianuncio-ver.php');    
+          $this->load->view('modules/scripts-carrousel.php');  
+          $this->load->view('modules/scripts-asignar-valores.php');   
+        }       
+  }
 
     function subirImagenTemporal(){
 

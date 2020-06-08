@@ -1,0 +1,88 @@
+@import "../../../pulpox_ads_nuevo/assets/scss/base/config.scss";
+
+.icon-label {
+	display: inline-block;
+	vertical-align: text-top;
+}
+
+#titulo_preview {
+	word-break: break-all;
+	word-wrap: break-word;
+}
+
+.icon-label {
+	vertical-align: baseline;
+}
+
+.anuncio-nuevo-preview_icon {
+	height: 1.5em;
+	display: inline-block;
+}
+
+#anuncio_preview {
+	border-style: solid;
+	border-width: 1px;
+	border-color: lightgray;
+	border-radius: $border_radius;
+	word-break: break-all;
+	word-wrap: break-word;
+	padding: 0.5em;
+}
+
+/* CAROUSEL DE IMÁGENES*/
+
+.carousel-control-prev,
+.carousel-control-next {
+	width: 50%;
+}
+
+.carousel {
+	width: 18em;
+	height: 18em;
+}
+
+.carousel .carousel-item {
+	background-color: lightgray;
+}
+
+.carousel-inner {
+	width: 100%;
+	height: 100%;
+	margin: auto;
+	text-align: center;
+}
+
+.carousel-item {
+	height: 100%;
+	width: 100%;
+}
+
+.carousel-inner--img {
+	max-width: 100%;
+	max-height: 100%;
+}
+.carousel-control-prev {
+	color: orange;
+}
+
+#nuevo_anuncio_previo {
+	box-shadow: 0px 3px 7px 0px rgba(0, 0, 0, 0.62);
+	padding: 2em;
+}
+
+#modalidad_preview,
+#estado_ciudad,
+#seccion_apartado {
+	font-size: medium;
+	font-weight: 700;
+}
+
+.div-contacto {
+	display: none;
+}
+
+#modalidad_mensaje--div {
+	font-size: medium;
+	color: gray;
+	text-align: center;
+}

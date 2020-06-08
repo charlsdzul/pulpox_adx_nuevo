@@ -30,6 +30,9 @@ h1 {
 }
 
 $border_radius: 4px;
+$border_width: 0.5px;
+$border_color: lightgrey;
+$border_style: solid;
 
 .btn-pulpox-primary {
 	background-color: $color_cherry;
@@ -112,4 +115,21 @@ $border_radius: 4px;
 	color: red;
 	font-size: 0.75em;
 	display: none;
+}
+
+.div-mensaje {
+	border-radius: $border_radius;
+	border-color: $border_color;
+	border-style: $border_style;
+	border-width: $border_width;
+	padding: 0.5em;
+}
+
+.div-mensaje,
+.div-titulo,
+.div-modSecApa,
+.div-forma-contacto,
+.div-modalidad-mensaje,
+.div-carousel {
+	margin-top: 0.75em;
 }

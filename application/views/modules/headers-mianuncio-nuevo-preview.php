@@ -3,14 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nuevo Anuncio</title>
+    <title>Anuncio Previo</title>
 
 <!--  GENERAL -->
 	<!-- CSS -->
     <link rel="stylesheet" href="<?php echo base_url();?>assets/libs/bootstrap-4.4.1-dist/css/bootstrap.min.css">   
     <link rel="stylesheet" href="<?php echo base_url();?>assets/css/main-menu.css">
-   <link rel="stylesheet" href="<?php echo base_url();?>assets/css/anuncio-nuevo.css"> 
-    <link rel="stylesheet" href="<?php echo base_url();?>assets/css/mis-anuncios.css">
+   <link rel="stylesheet" href="<?php echo base_url();?>assets/css/mianuncio-nuevo-preview.css"> 
    
     
 <!--  <script src="<?php echo base_url();?>assets/libs/jquery-3.5.1/jquery-3.5.1.min.js"></script>  -->
