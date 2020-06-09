@@ -1,3 +1,5 @@
+
+
 <body class='justify-content-center'>
 
     <div class='row justify-content-center m-0'>
@@ -55,7 +57,8 @@
                 </div>
             </div>
 <!--
-            <div class="row justify-content-center div-modalidad-mensaje" id='modalidad_mensaje--div'>
+            <div class="row justify-content-center div-modalidad-mensa
+            je" id='modalidad_mensaje--div'>
                 <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
                     <span id='modalidad_mensaje'></span>
                 </div>        
@@ -64,18 +67,36 @@
         </div>   
     </div>     
 
-    <div class="row justify-content-center mb-1" >
+    <div class="row justify-content-center " >
         
             <div class="row justify-content-center div-informacion-anuncio mt-3">
                 <div>
                     <label><b>Información de mi anuncio</b></label><br>
                     <label id='anuncio_id'></label><br>
                     <label id='creado'></label><br>
-                    <label id='estatus_actual'></label><br>
-                    <button id='boton_editar' class="btn btn-pulpox-secondary--line m-1">Editar</button>  
-                    <button id='boton_suspender' class="btn btn-pulpox-warning--line m-1">Suspender</button>  
-                    <button id='boton_activar' class="btn btn-pulpox-success--line m-1">Activar</button>  
-                    <button id='boton_eliminar' class="btn btn-pulpox-danger--line m-1" onclick='eliminarAnuncio()'>Eliminar</button>   
+                    <div class='div_estatus_actual'>
+                        <span id='estatus_actual'></span>
+                    </div>
+                    <div class='div_opciones'>                          
+                        <?php 
+
+                            $public_id_act = "`".$datos_anuncio["public_id"]."`";
+                            $estatus_act = "`".$datos_anuncio["estatus"]."`";
+                            
+                            if($datos_anuncio['estatus']=='ELIMINADO'){
+                            }                        
+                            if($datos_anuncio['estatus']=='ACTIVO'){
+                                echo "<button id='boton_eliminar' class='btn btn-pulpox-danger--line m-1' onclick='eliminarAnuncio()'>Eliminar</button>";
+                                echo "<button id='boton_editar' class='btn btn-pulpox-secondary--line m-1'>Editar</button>";
+                                echo "<button id='boton_suspender' class='btn btn-pulpox-warning--line m-1' onclick='cambiarEstatusDeAnuncio($public_id_act,$estatus_act)'>Suspender</button>";             
+                            }   
+                            if($datos_anuncio['estatus']=='SUSPENDIDO'){
+                                echo "<button id='boton_eliminar' class='btn btn-pulpox-danger--line m-1' onclick='eliminarAnuncio()'>Eliminar</button>";
+                                echo "<button id='boton_editar' class='btn btn-pulpox-secondary--line m-1'>Editar</button>";
+                                echo "<button id='boton_activar' class='btn btn-pulpox-success--line m-1' onclick='cambiarEstatusDeAnuncio($public_id_act,$estatus_act)'>Activar</button>";                             
+                            }
+                        ?>   
+                    </div> 
                 </div>
             </div>
         

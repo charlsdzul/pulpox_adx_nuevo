@@ -8,7 +8,6 @@
 
 body {
 	margin: 0;
-	font-family: lato;
 }
 
 a {
@@ -25,7 +24,7 @@ li {
 
 h1 {
 	font-size: xx-large;
-	font-weight: 700;
+	font-weight: 500;
 	color: $color_dark;
 }
 
@@ -35,9 +34,9 @@ $border_color: lightgrey;
 $border_style: solid;
 
 @mixin shadow_div {
-	-webkit-box-shadow: 0px 10px 7px -7px rgba(0, 0, 0, 0.62);
-	-moz-box-shadow: 0px 10px 7px -7px rgba(0, 0, 0, 0.62);
-	box-shadow: 0px 10px 7px -7px rgba(0, 0, 0, 0.62);
+	-webkit-box-shadow: 0px 10px 10px -5px rgba(0, 0, 0, 0.62);
+	-moz-box-shadow: 0px 10px 10px -5px rgba(0, 0, 0, 0.62);
+	box-shadow: 0px 10px 10px -5px rgba(0, 0, 0, 0.62);
 }
 
 @mixin border_div {
@@ -45,6 +44,11 @@ $border_style: solid;
 	border-width: 1px;
 	border-color: lightgray;
 	border-radius: $border_radius;
+}
+
+.div_opciones {
+	margin-top: 1em;
+	text-align: center;
 }
 
 .btn-pulpox-primary {
@@ -313,6 +317,10 @@ $border_style: solid;
 #seccion_apartado {
 	font-size: medium;
 	font-weight: 700;
+}
+
+.div-contacto {
+	display: none;
 }
 
 /* CAROUSEL DE IMÁGENES*/

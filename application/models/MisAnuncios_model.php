@@ -9,6 +9,7 @@ class MisAnuncios_model extends CI_Model {
         $this->sesiones->usuarioEnSesion(); 
         $this->load->library('validaciones');
         $this->load->database(); //cargar base de datos
+        $this->load->helper('url'); 
     }  
 
     function obtenerMisAnuncios(){        
@@ -27,48 +28,14 @@ class MisAnuncios_model extends CI_Model {
             $misanuncios[$j]['ciudad'] = $this->validaciones->obtenerNombre($row->ciudad, 'ciudad');
             $misanuncios[$j]['seccion'] = $this->validaciones->obtenerNombre($row->seccion, 'seccion');
             $misanuncios[$j]['apartado'] = $this->validaciones->obtenerNombre($row->apartado, 'apartado');
-            $misanuncios[$j]['creado'] = $row->creado;
+            $misanuncios[$j]['creado'] = $this->validaciones->creaFechaConFormato($row->creado);
             $misanuncios[$j]['estatus'] = $this->validaciones->estatusTexto($row->sta);
             $j++;
         }          
 
         return $misanuncios;          
     } 
-
-    function cambiarEstatus($anuncio_id,$anuncio_estatus_actual){  
-        $response['codigo']=1;
-        $response['mensaje']='Lo sentimos, el estatus no pudo cambiarse.';
-
-        if($anuncio_estatus_actual=='ACTIVO'){
-            $nuevo_estatus = 1; //1 es SUSPENDIDO
-            $data = array(
-                'sta' => $nuevo_estatus,
-                'suspendido_fecha' =>  date("Y-m-d H:i:s"), 
-                'suspendido_motivo' =>  'El usuario suspendió su anuncio el día '.date("Y-m-d H:i:s").".", 
-                'suspendido_por' =>  1, //1 es USUARIO 
-            );
-        }
-
-        if($anuncio_estatus_actual=='SUSPENDIDO'){
-            $nuevo_estatus = 0; //0 es ACTIVO     
-            $data = array(
-                'sta' => $nuevo_estatus,
-                'activado_fecha' =>  date("Y-m-d H:i:s"), 
-                'activado_motivo' =>  'El usuario activó su anuncio el día '.date("Y-m-d H:i:s").".", 
-                'activado_por' =>  1, //1 es USUARIO 
-            ); 
-        }             
-
-            $this->db->where('usuario_id', 111);
-            $this->db->where('public_id', $anuncio_id);
-        
-            if($this->db->update('anuncios', $data)){
-                $response['codigo']=0;
-                $response['mensaje']='Cambio de estatus exitoso.';
-            } 
-
-        return $response;       
-    }      
+      
 
     function obtenerDatosParaEdicionMovil($publid_id){        
         $this->db->select("*");
@@ -135,6 +102,8 @@ class MisAnuncios_model extends CI_Model {
 
             //Definir Apartado
             $datos_anuncio['apartado'] = $this->db->get_where('cat_apartados', array('sigla' => $datos_anuncio['apartado']))->row()->nombre;
+
+            $datos_anuncio['apartado'] = $this->validaciones->creaFechaConFormato($row->creado);
 
 
 

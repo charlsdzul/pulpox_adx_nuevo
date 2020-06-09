@@ -5,14 +5,12 @@ class MiAnuncio extends CI_Controller {
 
      function __construct() {
         parent::__construct();
-
         $this->load->library('sesiones');
         $this->sesiones->usuarioEnSesion(); 
-
-        $this->load->helper('url'); 
         $this->load->model('mianuncio_model');
         $this->ruta_imagenes_temporales = "imagenes_temporales/anuncios/";   
         $this->load->library('validaciones');
+        $this->load->helper('url'); 
     }
 
     function nuevo($anuncio_id = null){
@@ -64,7 +62,6 @@ class MiAnuncio extends CI_Controller {
           $this->validaciones->validaTelefono($anuncio_datos['telefono'],'telefono');
           $this->validaciones->validaTelefono($anuncio_datos['celular'],'celular');
           $this->validaciones->validaCorreo($anuncio_datos['correo'],'correo');  
-          $anuncio_datos['usuario'] = 111;
           $this->mianuncio_model->publicar($anuncio_datos);
           /**
            * NOTA:
@@ -128,28 +125,42 @@ class MiAnuncio extends CI_Controller {
         }else{
           if(strlen($anuncio_id)==30){
             $data = $this->mianuncio_model->ver($anuncio_id);
-            $datos_anuncio = array('datos_anuncio' => $data);
-            $this->load->view('modules/headers-mianuncio-ver.php');
-            $this->load->view('modules/menu');
-            $this->load->view('anuncio-ver', $datos_anuncio);
-            $this->load->view('modules/scripts-mianuncio-ver.php');    
-            $this->load->view('modules/scripts-carrousel.php');  
-            $this->load->view('modules/scripts-asignar-valores.php');   
+
+            if(isset($data['codigo'])){
+              $respuesta['respuesta'] = $data['mensaje'];
+              $this->load->view('modules/headers-mianuncio-ver.php');
+              $this->load->view('modules/menu');
+              $this->load->view('pagina-no-existe', $respuesta);
+            }else{              
+              $datos_anuncio = array('datos_anuncio' => $data);
+              $this->load->view('modules/headers-mianuncio-ver.php');
+              $this->load->view('modules/menu');
+              $this->load->view('anuncio-ver', $datos_anuncio);
+              $this->load->view('modules/scripts-mianuncio-ver.php');    
+              $this->load->view('modules/scripts-carrousel.php');  
+              $this->load->view('modules/scripts-asignar-valores.php'); 
+            }  
           }else{
             $respuesta['respuesta'] = 'El ID ingresado en la URL debe ser de 30 caracteres alfanumúmericos.';
             $this->load->view('modules/headers-mianuncio-ver.php');
             $this->load->view('modules/menu');
             $this->load->view('pagina-no-existe', $respuesta);
-
           }      
+        }       
+    }
+
+    function verMovil(){
+      if(isset($_GET['id'])){
+          $public_id = $_GET['id'];        
+          $data = $this->mianuncio_model->verMovil($public_id);
+          echo json_encode($data);          
         }       
     }
 
     function eliminar(){
       if(isset($_POST['id']) ){
         $anuncio_id = $_POST['id'];     
-        $usuario_id = 111;  
-        $this->mianuncio_model->eliminar($anuncio_id,$usuario_id);
+        $this->mianuncio_model->eliminar($anuncio_id);
       }else{
         $response['codigo']=1;
         $response['mensaje']='Lo sentimos, el anuncio no se pudo eliminar.';
@@ -158,6 +169,18 @@ class MiAnuncio extends CI_Controller {
       }
     }
 
+    function cambiarEstatus(){
+      if(isset($_POST['id']) && isset($_POST['estatus_actual'])){
+        $anuncio_id = $_POST['id']; 
+        $anuncio_estatus_actual = $_POST['estatus_actual']; 
+        $this->mianuncio_model->cambiarEstatus($anuncio_id,$anuncio_estatus_actual);
+      }else{
+        $response['codigo']=1;
+        $response['mensaje']='Lo sentimos, el estatus no se pudo cambiar.';
+        echo json_encode($response);
+        die();
+      }
+    }
 
     function subirImagenTemporal(){
 

@@ -15,14 +15,15 @@
     <script src="<?php echo base_url();?>assets/libs/jquery-3.5.1/jquery-3.5.1.min.js"></script> 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="<?php echo base_url();?>assets/libs/bootstrap-4.4.1-dist/js/bootstrap.min.js"></script>
-    <script src="<?php echo base_url();?>assets/libs/mimo84-bootstrap-maxlength-765c012/dist/bootstrap-maxlength.min.js"></script>
+    
+    <!-- jQueryConfirm -->
+    <link rel="stylesheet" href="<?php echo base_url();?>assets/libs/jquery-confirm-v3.3.4/css/jquery-confirm.css">
+    <script src="<?php echo base_url();?>assets/libs/jquery-confirm-v3.3.4/dist/jquery-confirm.min.js"></script>
+
 
     <!-- MDBootstrap Datatables  -->
     <script type="text/javascript" src="<?php echo base_url();?>assets/libs/MDB-Free_4.18.0/js/addons/datatables.min.js"></script>
 
-    <!-- jQueryConfirm -->
-    <link rel="stylesheet" href="<?php echo base_url();?>assets/libs/jquery-confirm-v3.3.4/css/jquery-confirm.css">
-    <script src="<?php echo base_url();?>assets/libs/jquery-confirm-v3.3.4/dist/jquery-confirm.min.js"></script>
 
     <!-- Material Icons  -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">

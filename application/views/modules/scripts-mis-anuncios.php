@@ -10,18 +10,21 @@
       for (let index = 0; index < mis_anuncios.length; index++) { 
 
           if(mis_anuncios[index].estatus=='ACTIVO'){
-            back_color ='';
+            back_color ='#52a35c';
+            color = 'white';
           }
           if(mis_anuncios[index].estatus=='SUSPENDIDO'){
-            back_color = '#ffbb33';
+            back_color = '#a39c52';
+            color = 'white';
           }
           if(mis_anuncios[index].estatus=='ELIMINADO'){
-            back_color = 'rgb(245, 132, 132)';
+            back_color = '#a3525a';
+            color = 'white';
           }       
 
         data += `
-          <tr style='background-color:${back_color}' id=${mis_anuncios[index].public_id}> 
-            <td class='d-none d-lg-table-cell' >${index+1}</td>                      
+          <tr  id=${mis_anuncios[index].public_id}> 
+            <th class='d-none d-lg-table-cell' scope="row">${index+1}</th>                      
             <td>${mis_anuncios[index].titulo}</td>
             <td class='text-center' title='Ver anuncio' id='pulpox-icon--ver' onclick='verAnuncio("${mis_anuncios[index].titulo}","${mis_anuncios[index].public_id}","${mis_anuncios[index].modalidad}","${mis_anuncios[index].estado}" ,"${mis_anuncios[index].ciudad}","${mis_anuncios[index].seccion}","${mis_anuncios[index].apartado}","${mis_anuncios[index].creado}","${mis_anuncios[index].estatus}")'><i class="fas fa-eye"></i></td>                 
             <td class='d-none d-lg-table-cell'>${mis_anuncios[index].modalidad} </td>
@@ -29,28 +32,23 @@
             <td class='d-none d-lg-table-cell'>${mis_anuncios[index].seccion} / ${mis_anuncios[index].apartado}</td>
             <td class='d-none d-lg-table-cell'>${mis_anuncios[index].public_id}</td>
             <td class='d-none d-lg-table-cell'>${mis_anuncios[index].creado}</td>
-            <td class=''>${mis_anuncios[index].estatus}</td>     
+            <td style='background-color:${back_color};color:${color};'>${mis_anuncios[index].estatus}</td>     
           </tr>`;    
       }  
 
     $('.pulpox-table-tbody').append(data); 
     $('#mis-anuncios-table').DataTable();
     $('.dataTables_length').addClass('bs-select');
-
-
-
   });
 
   var usuario_elimino_imagen = false;
 
   function verAnuncio(titulo,id,modalidad,estado,ciudad,seccion,apartado,creado,estatus){
-
     if(window.innerWidth< 960){
       mostrarDatosMovil(titulo,id,modalidad,estado,ciudad,seccion,apartado,creado,estatus)
     }else{
       window.open(BASE_URL+'mianuncio/ver/'+id, '_blank');
     }
-
   }
 
   function mostrarDatosMovil(titulo,id,modalidad,estado,ciudad,seccion,apartado,creado,estatus){
@@ -68,32 +66,42 @@
           <b>Sección:</b>  ${seccion} / ${apartado}<br>
           <b>ID:</b> ${id}<br>
           <b>Creado:</b> ${creado}<br>
-          <b>Estatus:</b> ${estatus}
+          <div class='div_estatus_actual'>
+            <b>Estatus:</b> ${estatus}
+          </div>
         `,
         closeIcon:true,
         onContentReady:function(){
-            this.buttons.suspenderEstatus.addClass("btn-pulpox-warning--line")
-            this.buttons.activarEstatus.addClass('btn-pulpox-success--line')
-            this.buttons.eliminarAnuncio.addClass('btn-pulpox-danger--line')
-            this.buttons.editarAnuncio.addClass('btn-pulpox-secondary--line')
-            this.buttons.verAnuncioMobil.addClass('btn-pulpox-info--line') 
+          this.buttons.suspenderEstatus.addClass("btn-pulpox-warning--line")
+          this.buttons.activarEstatus.addClass('btn-pulpox-success--line')
+          this.buttons.eliminarAnuncio.addClass('btn-pulpox-danger--line')
+          this.buttons.editarAnuncio.addClass('btn-pulpox-secondary--line')
+          this.buttons.verAnuncioMobil.addClass('btn-pulpox-info--line') 
+          $('.div_estatus_actual').css('text-align','center')
+
           if(estatus=='ACTIVO'){
+            $('.div_estatus_actual').css('background-color','#52a35c')
+            $('.div_estatus_actual').css('color','white')
             this.buttons.suspenderEstatus.show()
             this.buttons.activarEstatus.hide()
             this.buttons.eliminarAnuncio.show()
-            this.buttons.editarAnuncio.show()
+            this.buttons.editarAnuncio.show()            
           }
           if(estatus=='SUSPENDIDO'){
+            $('.div_estatus_actual').css('background-color','#a39c52')
+            $('.div_estatus_actual').css('color','white')
             this.buttons.activarEstatus.show()
             this.buttons.suspenderEstatus.hide()
             this.buttons.eliminarAnuncio.show()
-            this.buttons.editarAnuncio.show()
+            this.buttons.editarAnuncio.show()            
           }
           if(estatus=='ELIMINADO'){
+            $('.div_estatus_actual').css('background-color','#a3525a')
+            $('.div_estatus_actual').css('color','white')
             this.buttons.activarEstatus.hide()
             this.buttons.suspenderEstatus.hide()
             this.buttons.eliminarAnuncio.hide()
-            this.buttons.editarAnuncio.hide()
+            this.buttons.editarAnuncio.hide()            
           }
         },
         buttons: {     
@@ -138,16 +146,22 @@
   function cambiarEstatusDeAnuncio(id,estatus){
     let estatus_actual = estatus
     let estatus_boton = ''
+    let clase_boton =''
+    let type_confirm = ''
     if(estatus== 'ACTIVO' ){
       estatus_boton = 'Sí, quiero suspenderlo.'
+      clase_boton = 'btn-pulpox-warning'
+      type_confirm = 'orange'
     }
     if(estatus== 'SUSPENDIDO' ){
       estatus_boton =  'Sí, quiero activarlo.'
+      clase_boton = 'btn-pulpox-success'
+      type_confirm = 'green'
     }           
       $.confirm({
         icon: 'fas fa-info-circle',
-        title: 'Cambiar Estatus del Anuncio',
-        type: 'blue',
+        title: 'Estatus',
+        type: type_confirm,
         columnClass: 'large',
         backgroundDismiss: true,
         content: `
@@ -164,7 +178,7 @@
           },
           cambiarEstatus:{
             text: estatus_boton,
-            btnClass: 'btn-pulpox-secondary',
+            btnClass: clase_boton,
             keys: ['enter'],
             action:function(){    
               let dialog_cambiando_estatus = $.dialog({
@@ -174,14 +188,14 @@
                     content: 'Estamos cambiando el estatus de tu anuncio...',
                     closeIcon:false,
               });   
-              $.post(BASE_URL+'misanuncios/cambiarEstatus/', {id,estatus_actual})
+              $.post(BASE_URL+'mianuncio/cambiarEstatus/', {id,estatus_actual})
                 .done(function(response){
                   dialog_cambiando_estatus.close(); 
                   var data = JSON.parse(response)  
                   if(data.codigo == 0){
                     $.confirm({
                       icon: 'fas fa-check-circle',
-                      title: 'Cambiar Estatus del Anuncio',
+                      title: 'Estatus',
                       type: 'green',
                       columnClass: 'large',
                       content: data.mensaje,
@@ -189,7 +203,7 @@
                       buttons: {
                         ok: {
                           text: 'Ok',
-                            btnClass: 'btn-pulpox-secondary--line',
+                            btnClass: 'btn-pulpox-success',
                             keys: ['enter'],
                             action: function(){
                               window.location.replace(BASE_URL+'misanuncios/');
@@ -201,7 +215,7 @@
                   }else{
                     $.confirm({
                       icon: 'fas fa-exclamation-circle',
-                      title: 'Cambiar Estatus del Anuncio',
+                      title: 'Estatus',
                       type: 'red',
                       columnClass: 'large',
                       content: data.mensaje,
@@ -209,7 +223,7 @@
                       buttons: {
                         ok: {
                           text: 'Ok',
-                            btnClass: 'btn-pulpox-secondary--line',
+                            btnClass: 'btn-pulpox-danger',
                             keys: ['enter'],              
                         },                  
                       }
@@ -282,7 +296,7 @@
                     content: data.mensaje,
                     closeIcon:true,
                     buttons: {
-                      ok: {
+                      ok_eliminado: {
                         text: 'Ok',
                           btnClass: 'btn-pulpox-success',                           
                           action: function(){
@@ -675,7 +689,7 @@
       backgroundDismiss: true,                                    
       content: function(){   
         var self = this;
-        $.post(BASE_URL+'misanuncios/obtenerDatosAnuncioMovil/', {id})
+        $.get(BASE_URL+'mianuncio/verMovil/', {id})
           .done(function(response){
             var data = JSON.parse(response)
             self.setContent(`  

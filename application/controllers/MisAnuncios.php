@@ -4,11 +4,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class MisAnuncios extends CI_Controller {    
 
      function __construct() {
-        parent::__construct();
-        
+        parent::__construct();        
         $this->load->library('sesiones');
         $this->sesiones->usuarioEnSesion(); 
-
         $this->load->helper('url'); 
         $this->load->model('misanuncios_model');
         $this->load->model('mianuncio_model');
@@ -19,13 +17,13 @@ class MisAnuncios extends CI_Controller {
 
     function index(){
       if($misanuncios = $this->misanuncios_model->obtenerMisAnuncios()){       
-            $data = array('misanuncios' => $misanuncios);
-            $this->load->view('modules/headers-mis-anuncios');
-            $this->load->view('modules/menu');
-            $this->load->view('mis-anuncios', $data);  
-            $this->load->view('modules/scripts-mis-anuncios.php');  
-            $this->load->view('modules/scripts-carrousel.php');     
-            $this->load->view('modules/scripts-asignar-valores.php');          
+        $data = array('misanuncios' => $misanuncios);
+        $this->load->view('modules/headers-mis-anuncios');
+        $this->load->view('modules/menu');
+        $this->load->view('mis-anuncios', $data);  
+        $this->load->view('modules/scripts-mis-anuncios.php');  
+        $this->load->view('modules/scripts-carrousel.php');     
+        $this->load->view('modules/scripts-asignar-valores.php');          
       }else{
         $this->load->view('modules/headers-mis-anuncios');
         $this->load->view('modules/menu');
@@ -33,34 +31,11 @@ class MisAnuncios extends CI_Controller {
       }     
     }
 
-
-    function obtenerDatosAnuncioMovil(){
-      if(isset($_POST['id'])){
-          $public_id = $_POST['id'];        
-          $data = $this->misanuncios_model->obtenerDatosAnuncioMovil($public_id);
-          echo json_encode($data);          
-        }       
-    }
-
     function obtenerDatosParaEdicionMovil(){
       $public_id = $_POST['id']; 
       $datosEdicion = $this->misanuncios_model->obtenerDatosParaEdicionMovil($public_id);
       echo json_encode($datosEdicion);
     }
-
-    function cambiarEstatus(){
-      if(isset($_POST['id']) && isset($_POST['estatus_actual'])){
-        $anuncio_id = $_POST['id']; 
-        $anuncio_estatus_actual = $_POST['estatus_actual']; 
-        $response = $this->misanuncios_model->cambiarEstatus($anuncio_id,$anuncio_estatus_actual);
-        echo json_encode($response);
-      }else{
-        $response['codigo']=1;
-        $response['mensaje']='Lo sentimos, el estatus no se pudo cambiar.';
-        echo json_encode($response);
-      }
-    }
-
 
     function eliminarImagenActual(){  
       
@@ -99,7 +74,7 @@ class MisAnuncios extends CI_Controller {
         
       }
       echo json_encode($response);
-  }
+    }
 
 }
 

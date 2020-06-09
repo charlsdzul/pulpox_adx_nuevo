@@ -5,10 +5,11 @@ class MiAnuncio_model extends CI_Model {
 
     function __construct(){
         parent::__construct();
-
         $this->load->library('sesiones');
+        $this->load->library('validaciones');
         $this->sesiones->usuarioEnSesion(); 
-
+        $this->load->helper('url'); 
+        $this->BASE_URL = base_url()."index.php/";
         $this->load->database(); //cargar base de datos
         $this->carpeta_final_anuncio = "imagenes_anuncios/"; 
         $this->carpeta_temporal_anuncio = "imagenes_temporales/anuncios/"; 
@@ -18,9 +19,7 @@ class MiAnuncio_model extends CI_Model {
         'modalidad' => 'cat_modalidades',
         'seccion' => 'cat_secciones',
         'apartado' => 'cat_apartados'];
-
         $this->USUARIO_EN_SESSION_ID = 111;
-
     }
                      
     function publicar($anuncio_datos){
@@ -36,8 +35,8 @@ class MiAnuncio_model extends CI_Model {
             'telefono'=> $anuncio_datos['telefono'], 
             'celular'=> $anuncio_datos['celular'],
             'correo'=> $anuncio_datos['correo'],            
-            'creado'=> date("Y-m-d H:i:s"), 
-            'usuario_id'=> $anuncio_datos['usuario'] ,               
+            'creado'=> date("d/m/Y H:i:s"), 
+            'usuario_id'=> $this->USUARIO_EN_SESSION_ID,               
             );
 
         $data_imagenes = array(                
@@ -188,12 +187,14 @@ class MiAnuncio_model extends CI_Model {
     }  
 
     function ver($anuncio_id){
-            $this->db->select('public_id, titulo, mensaje, estado,ciudad,modalidad,seccion,apartado,telefono,celular,correo,img_1,img_2,img_3,img_4,img_5,img_6,img_7,img_8,img_9,img_10,sta,creado');
-            $query = $this->db->get_where('anuncios', array('public_id' => $anuncio_id));
+            $this->db->select('public_id, titulo, mensaje, estado,ciudad,modalidad,seccion,apartado,telefono,celular,correo,img_1,img_2,img_3,img_4,img_5,img_6,img_7,img_8,img_9,img_10,sta,creado')
+                        ->where('usuario_id', $this->USUARIO_EN_SESSION_ID)
+                        ->where('public_id', $anuncio_id);
+            $query = $this->db->get('anuncios');
                         
             if($query->num_rows() > 0){
-                $datos_anuncio = $query->row_array();
-
+                $datos_anuncio = $query->row_array();                       
+                $datos_anuncio['creado'] = $this->validaciones->creaFechaConFormato($datos_anuncio['creado']);
                 $datos_anuncio['estado'] = $this->validaciones->obtenerNombre($datos_anuncio['estado'], 'estado');
                 $datos_anuncio['ciudad'] = $this->validaciones->obtenerNombre($datos_anuncio['ciudad'], 'ciudad');
                 $datos_anuncio['seccion'] = $this->validaciones->obtenerNombre($datos_anuncio['seccion'], 'seccion');
@@ -205,40 +206,116 @@ class MiAnuncio_model extends CI_Model {
                     if($datos_anuncio["img_$i"]!=''){
                         $datos_anuncio["img_$i"] = $this->carpeta_final_anuncio.$datos_anuncio['public_id'].'/'.$datos_anuncio["img_$i"];
                     }
-                }
-
+                }          
                 return $datos_anuncio;
             } else {
-                return null;
-            }
-    
+                $response['codigo']=1;
+                $public_link = $this->BASE_URL.'anuncio/'.$anuncio_id;
+                $response['mensaje']="Lo sentimos, este anuncio no te pertenece o no existe.";
+                return $response;
+            }    
     }   
 
-    function eliminar($anuncio_id,$usuario_id){ 
+    function verMovil($public_id){
+        $this->db->select('public_id, titulo, mensaje, estado,ciudad,modalidad,seccion,apartado,telefono,celular,correo,img_1,img_2,img_3,img_4,img_5,img_6,img_7,img_8,img_9,img_10')
+                ->where('usuario_id', $this->USUARIO_EN_SESSION_ID)
+                ->where('public_id', $public_id);
+        $query = $this->db->get('anuncios');                         
+        if($query->num_rows() > 0){
+            $datos_anuncio = $query->row_array();
+            $datos_anuncio['estado'] = $this->validaciones->obtenerNombre($datos_anuncio['estado'], 'estado');
+            $datos_anuncio['ciudad'] = $this->validaciones->obtenerNombre($datos_anuncio['ciudad'], 'ciudad');
+            $datos_anuncio['seccion'] = $this->validaciones->obtenerNombre($datos_anuncio['seccion'], 'seccion');
+            $datos_anuncio['apartado'] = $this->validaciones->obtenerNombre($datos_anuncio['apartado'], 'apartado');
+            //Definir nombre de imagen
+            for ($i=1; $i < 11; $i++) { 
+                if($datos_anuncio["img_$i"]!=''){
+                    $datos_anuncio["img_$i"] = $this->carpeta_final_anuncio.$datos_anuncio['public_id'].'/'.$datos_anuncio["img_$i"];
+                }
+            }
+            return $datos_anuncio;
+        } else {
+            $response['codigo']=1;
+            $response['mensaje']="Lo sentimos, este anuncio no te pertenece o no existe.";
+            echo json_encode($response);
+        }
+    }
 
-        // VERIFICAR QUE EL ANUNCIO NO ESTÉ ELIMINADO AUN!!!!
+    function eliminar($anuncio_id){ 
         
-        $data = array(
-            'sta' => 2, //2 es ELIMINADO en bdd
-            'eliminado_fecha' =>  date("Y-m-d H:i:s"), 
-            'eliminado_motivo' =>  'El usuario eliminó su anuncio el día ' .date("Y-m-d H:i:s").".", 
-            'eliminado_por' =>  1, //1 es USUARIO 
-        );
+        $estatus = $this->db->get_where('anuncios', array('public_id' =>  $anuncio_id))->row()->sta;
+        $estatus = $this->validaciones->estatusTexto($estatus);        
 
-        $this->db->where('usuario_id', $usuario_id);
+        if($estatus=='ACTIVO' || $estatus=='SUSPENDIDO'){ 
+            
+            $data = array(
+                'sta' => 2, //2 es ELIMINADO en bdd
+                'eliminado_fecha' =>  date("Y-m-d H:i:s"), 
+                'eliminado_motivo' =>  'El usuario eliminó su anuncio el día ' .date("Y-m-d H:i:s").".", 
+                'eliminado_por' =>  1, //1 es USUARIO 
+            );
+    
+            $this->db->where('usuario_id', $this->USUARIO_EN_SESSION_ID);
+            $this->db->where('public_id', $anuncio_id);
+            
+            if($this->db->update('anuncios', $data)){
+                $response['codigo']=0;
+                $response['mensaje']='El anuncio ya se eliminó.';
+                echo json_encode($response);
+                die();
+            }else{
+                $response['codigo']=1;
+                $response['mensaje']='Lo sentimos, el anuncio no se pudo eliminar.2';
+                echo json_encode($response);
+                die();
+            }   
+        }           
+
+        if($estatus=='ELIMINADO'){
+            $response['codigo']  = 1;
+            $response['mensaje'] = 'Este anuncio ya está eliminado.';  
+            echo json_encode($response);    
+            die(); 
+        }                  
+    } 
+    
+    function cambiarEstatus($anuncio_id,$anuncio_estatus_actual){    
+
+        if($anuncio_estatus_actual=='ACTIVO'){
+            $nuevo_estatus = 1; //1 es SUSPENDIDO
+            $data = array(
+                'sta' => $nuevo_estatus,
+                'suspendido_fecha' =>  date("Y-m-d H:i:s"), 
+                'suspendido_motivo' =>  'El usuario suspendió su anuncio el día '.date("Y-m-d H:i:s").".", 
+                'suspendido_por' =>  1, //1 es USUARIO 
+            );
+        }
+
+        if($anuncio_estatus_actual=='SUSPENDIDO'){
+            $nuevo_estatus = 0; //0 es ACTIVO     
+            $data = array(
+                'sta' => $nuevo_estatus,
+                'activado_fecha' =>  date("Y-m-d H:i:s"), 
+                'activado_motivo' =>  'El usuario activó su anuncio el día '.date("Y-m-d H:i:s").".", 
+                'activado_por' =>  1, //1 es USUARIO 
+            ); 
+        }             
+
+        $this->db->where('usuario_id', $this->USUARIO_EN_SESSION_ID);
         $this->db->where('public_id', $anuncio_id);
-        
+    
         if($this->db->update('anuncios', $data)){
             $response['codigo']=0;
-            $response['mensaje']='El anuncio ya se eliminó.';
+            $response['mensaje']='Cambio de estatus exitoso.';
             echo json_encode($response);
             die();
         }else{
             $response['codigo']=1;
-            $response['mensaje']='Lo sentimos, el anuncio no se pudo eliminar.';
+            $response['mensaje']='Lo sentimos, el estatus no pudo cambiarse.';
             echo json_encode($response);
             die();
-        }       
-    } 
+        }
+    }
+
 }
 ?>

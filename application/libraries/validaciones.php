@@ -7,7 +7,6 @@ class Validaciones {
 
     public function __construct(){
         $this->CI =& get_instance();
-
         $this->CI->load->library('sesiones');
         $this->CI->sesiones->usuarioEnSesion(); 
 
@@ -200,6 +199,27 @@ class Validaciones {
       return $estatus_texto;
 
     }
+
+    function creaFechaConFormato($fech_sin_formato){
+      //Crea una fecha con hora, con formato.
+      //Recibe '2020-06-07 03:29:44'
+      
+      $fecha = substr($fech_sin_formato, 0, 10);
+      $hora = explode(" ", $fech_sin_formato);      
+      $numeroDia = date('d', strtotime($fecha));
+      $dia = date('l', strtotime($fecha));
+      $mes = date('F', strtotime($fecha));
+      $anio = date('Y', strtotime($fecha));
+      $dias_ES = array("Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo");
+      $dias_EN = array("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday");
+      $nombredia = str_replace($dias_EN, $dias_ES, $dia);
+      $meses_ES = array("ENE", "FEB", "MAR", "ABR", "MAY", "JUN", "JUL", "AGO", "SEP", "OCT", "NOV", "DIC");
+      $meses_EN = array("January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December");
+      $nombreMes = str_replace($meses_EN, $meses_ES, $mes);
+      //return $nombredia." ".$numeroDia." de ".$nombreMes." de ".$anio;
+      return $numeroDia."/".$nombreMes."/".$anio.' '.$hora[1];
+
+  }
 }
 
 ?>

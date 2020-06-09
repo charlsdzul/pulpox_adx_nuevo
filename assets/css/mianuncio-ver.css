@@ -7,7 +7,6 @@
 
 body {
   margin: 0;
-  font-family: lato;
 }
 
 a {
@@ -24,14 +23,19 @@ li {
 
 h1 {
   font-size: xx-large;
-  font-weight: 700;
+  font-weight: 500;
   color: #3d3c3c;
+}
+
+.div_opciones {
+  margin-top: 1em;
+  text-align: center;
 }
 
 .btn-pulpox-primary {
   background-color: #a30036;
   color: white;
-  box-shadow: 0px 10px 7px -7px rgba(0, 0, 0, 0.62);
+  box-shadow: 0px 10px 10px -5px rgba(0, 0, 0, 0.62);
 }
 .btn-pulpox-primary:hover {
   color: white;
@@ -45,7 +49,7 @@ h1 {
 .btn-pulpox-primary--line {
   border-color: #a30036 !important;
   color: #a30036 !important;
-  box-shadow: 0px 10px 7px -7px rgba(0, 0, 0, 0.62);
+  box-shadow: 0px 10px 10px -5px rgba(0, 0, 0, 0.62);
 }
 .btn-pulpox-primary--line:hover {
   color: white;
@@ -64,7 +68,7 @@ h1 {
 .btn-pulpox-secondary {
   background-color: #f03a0c !important;
   color: white !important;
-  box-shadow: 0px 10px 7px -7px rgba(0, 0, 0, 0.62);
+  box-shadow: 0px 10px 10px -5px rgba(0, 0, 0, 0.62);
 }
 .btn-pulpox-secondary:hover {
   color: white !important;
@@ -78,7 +82,7 @@ h1 {
 .btn-pulpox-secondary--line {
   border-color: #b02a09 !important;
   color: #b02a09 !important;
-  box-shadow: 0px 10px 7px -7px rgba(0, 0, 0, 0.62);
+  box-shadow: 0px 10px 10px -5px rgba(0, 0, 0, 0.62);
 }
 .btn-pulpox-secondary--line:hover {
   color: white !important;
@@ -92,7 +96,7 @@ h1 {
 .btn-pulpox-danger {
   background-color: #a30010 !important;
   color: white !important;
-  box-shadow: 0px 10px 7px -7px rgba(0, 0, 0, 0.62);
+  box-shadow: 0px 10px 10px -5px rgba(0, 0, 0, 0.62);
 }
 .btn-pulpox-danger:hover {
   color: white !important;
@@ -106,7 +110,7 @@ h1 {
 .btn-pulpox-danger--line {
   border-color: #a30010 !important;
   color: #a30010 !important;
-  box-shadow: 0px 10px 7px -7px rgba(0, 0, 0, 0.62);
+  box-shadow: 0px 10px 10px -5px rgba(0, 0, 0, 0.62);
 }
 .btn-pulpox-danger--line:hover {
   color: white !important;
@@ -120,7 +124,7 @@ h1 {
 .btn-pulpox-success {
   background-color: #00a316 !important;
   color: white !important;
-  box-shadow: 0px 10px 7px -7px rgba(0, 0, 0, 0.62);
+  box-shadow: 0px 10px 10px -5px rgba(0, 0, 0, 0.62);
 }
 .btn-pulpox-success:hover {
   color: white !important;
@@ -134,7 +138,7 @@ h1 {
 .btn-pulpox-success--line {
   border-color: #00a316 !important;
   color: #00a316 !important;
-  box-shadow: 0px 10px 7px -7px rgba(0, 0, 0, 0.62);
+  box-shadow: 0px 10px 10px -5px rgba(0, 0, 0, 0.62);
 }
 .btn-pulpox-success--line:hover {
   color: white !important;
@@ -148,7 +152,7 @@ h1 {
 .btn-pulpox-warning {
   background-color: #a39600 !important;
   color: white !important;
-  box-shadow: 0px 10px 7px -7px rgba(0, 0, 0, 0.62);
+  box-shadow: 0px 10px 10px -5px rgba(0, 0, 0, 0.62);
 }
 .btn-pulpox-warning:hover {
   color: white !important;
@@ -162,7 +166,7 @@ h1 {
 .btn-pulpox-warning--line {
   border-color: #a39600 !important;
   color: #a39600 !important;
-  box-shadow: 0px 10px 7px -7px rgba(0, 0, 0, 0.62);
+  box-shadow: 0px 10px 10px -5px rgba(0, 0, 0, 0.62);
 }
 .btn-pulpox-warning--line:hover {
   color: #635b00 !important;
@@ -176,7 +180,7 @@ h1 {
 .btn-pulpox-info {
   background-color: #005fa3 !important;
   color: white !important;
-  box-shadow: 0px 10px 7px -7px rgba(0, 0, 0, 0.62);
+  box-shadow: 0px 10px 10px -5px rgba(0, 0, 0, 0.62);
 }
 .btn-pulpox-info:hover {
   color: white !important;
@@ -190,7 +194,7 @@ h1 {
 .btn-pulpox-info--line {
   border-color: #005fa3 !important;
   color: #005fa3 !important;
-  box-shadow: 0px 10px 7px -7px rgba(0, 0, 0, 0.62);
+  box-shadow: 0px 10px 10px -5px rgba(0, 0, 0, 0.62);
 }
 .btn-pulpox-info--line:hover {
   color: white !important;
@@ -261,7 +265,7 @@ h1 {
 }
 
 #nuevo_anuncio_previo {
-  box-shadow: 0px 10px 7px -7px rgba(0, 0, 0, 0.62);
+  box-shadow: 0px 10px 10px -5px rgba(0, 0, 0, 0.62);
   padding: 2em;
 }
 
@@ -270,6 +274,10 @@ h1 {
 #seccion_apartado {
   font-size: medium;
   font-weight: 700;
+}
+
+.div-contacto {
+  display: none;
 }
 
 /* CAROUSEL DE IMÁGENES*/

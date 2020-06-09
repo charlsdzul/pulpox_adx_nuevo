@@ -7,6 +7,7 @@
 
 body {
   margin: 0;
+  font-family: lato;
 }
 
 a {
@@ -23,13 +24,8 @@ li {
 
 h1 {
   font-size: xx-large;
-  font-weight: 500;
+  font-weight: 700;
   color: #3d3c3c;
-}
-
-.div_opciones {
-  margin-top: 1em;
-  text-align: center;
 }
 
 .btn-pulpox-primary {
@@ -316,43 +312,11 @@ h1 {
   color: orange;
 }
 
-.pulpox-table--thead {
-  background-color: #a30036;
-  color: white;
+.div-informacion-anuncio {
+  padding: 1em;
+  color: #3d3c3c;
+  border-style: solid;
+  border-width: 1px;
+  border-color: lightgray;
   border-radius: 4px;
-}
-
-.page-link {
-  background-color: #a32708;
-  color: WHITE;
-}
-.page-link:hover {
-  background-color: #f03a0c;
-  color: WHITE;
-}
-.page-link:active {
-  background-color: #631805;
-  color: WHITE;
-}
-
-.pulpox-table--titulo {
-  color: black;
-}
-
-#mis-anuncios-table_length select {
-  display: inline-block;
-  width: 5em;
-}
-
-#mis-anuncios-table_filter input {
-  display: inline-block;
-  width: 15em;
-}
-
-#pulpox-icon--ver:hover {
-  cursor: pointer;
-}
-
-.div-contacto {
-  display: none;
 }

@@ -6,7 +6,7 @@
   </div>
   <div class='row justify-content-center m-0'>
     <div class="mt-2 col-10 col-sm-10 col-md-10 col-lg-10 col-xl-10">  
-      <table id="mis-anuncios-table" class="table table-striped table-bordered table-sm table-hover" cellspacing="0" width="100%">
+      <table id="mis-anuncios-table" class="table table-striped  table-sm table-hover" cellspacing="0" width="100%">
         <thead class='pulpox-table--thead'>
           <tr>        
             <th class="th-sm d-none d-lg-table-cell">#</th>        

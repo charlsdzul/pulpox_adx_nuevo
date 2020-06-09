@@ -16,8 +16,7 @@ class Validaciones_model extends CI_Model {
             'modalidad' => 'cat_modalidades',
             'seccion' => 'cat_secciones',
             'apartado' => 'cat_apartados'];
-    }  
-
+    }
    
     function existeValorModel($valor,$objeto){   
        /**
@@ -42,17 +41,6 @@ class Validaciones_model extends CI_Model {
         return false;
       }
      
-    }
-
-    function obtenerSigla($valor,$objeto){
-        if($sigla = $this->db->get_where($this->TABLAS["$objeto"], array('nombre' =>  $valor))->row()->sigla){          
-            return $sigla;     
-        }else{
-            $response['codigo']  = 1;
-            $response['mensaje'] = 'No se pudo obtener una sigla.';  
-            echo json_encode($response);    
-            die(); 
-        }
     }
 
     function obtenerNombre($valor,$objeto){

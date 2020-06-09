@@ -28,6 +28,23 @@ console.log(anuncio_datos)
       $('#estatus_actual').html('<b>Estatus actual:</b> '+anuncio_datos['estatus'])
       $('#creado').html('<b>Creado:</b> '+anuncio_datos['creado'])
 
+      if(anuncio_datos['estatus']=='ACTIVO'){
+        $('.div_estatus_actual').css('background-color','#52a35c')
+        $('.div_estatus_actual').css('color','white')
+      }
+
+      if(anuncio_datos['estatus']=='SUSPENDIDO'){
+        $('.div_estatus_actual').css('background-color','#a39c52')
+        $('.div_estatus_actual').css('color','white')
+      }
+
+      if(anuncio_datos['estatus']=='ELIMINADO'){
+        $('.div_estatus_actual').css('background-color','#a3525a')
+        $('.div_estatus_actual').css('color','white')
+      }
+      $('.div_estatus_actual').css('text-align','center')
+
+
 
 
       switch (anuncio_datos['modalidad']) {

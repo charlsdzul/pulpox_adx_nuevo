@@ -1,7 +1,7 @@
 <script>
 
     const BASE_URL = "<?php echo base_url();?>" + "index.php/";
-    var anuncio_id = "<?php echo $anuncio_id?>"; //Variable pasada a al view
+    var anuncio_id = "<?php echo $anuncio_id?>"; 
 
     $(document).ready(function() {   
         asignaListasSelects();     
