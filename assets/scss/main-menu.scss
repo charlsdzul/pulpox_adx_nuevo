@@ -1,7 +1,7 @@
 @import "../../../pulpox_ads_nuevo/assets/scss/base/colors.scss";
 
 .main-menu {
-	background-color: $color_cherry;
+	background-color: $color_primary;
 	box-shadow: 0px 3px 7px 0px rgba(0, 0, 0, 0.62);
 }
 
@@ -19,20 +19,20 @@
 
 .nav-item {
 	&:hover {
-		background-color: $color_cherry-active;
+		background-color: $color_primary_medium_light;
 		.nav-link {
 			color: white;
 		}
 	}
 
 	&:active {
-		background-color: $color_cherry--dark;
+		background-color: $color_primary;
 		margin: 0;
 	}
 }
 
 #boton-cuenta {
-	background-color: $color_orange;
+	background-color: $color_secondary_light;
 	border: 0;
 }
 
@@ -40,7 +40,7 @@
 	float: right;
 
 	.dropdown-menu {
-		background-color: $color_orange-dark;
+		background-color: $color_secondary_medium_dark;
 		padding: 0;
 		left: -4.5em;
 		margin-top: 0.25em;
@@ -48,7 +48,7 @@
 
 	.dropdown-item {
 		&:hover {
-			background-color: $color_orange-active;
+			background-color: $color_secondary_light;
 			color: white;
 		}
 	}

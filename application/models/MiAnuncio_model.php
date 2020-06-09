@@ -188,25 +188,17 @@ class MiAnuncio_model extends CI_Model {
     }  
 
     function ver($anuncio_id){
-            $this->db->select('public_id, titulo, mensaje, estado,ciudad,modalidad,seccion,apartado,telefono,celular,correo,img_1,img_2,img_3,img_4,img_5,img_6,img_7,img_8,img_9,img_10');
+            $this->db->select('public_id, titulo, mensaje, estado,ciudad,modalidad,seccion,apartado,telefono,celular,correo,img_1,img_2,img_3,img_4,img_5,img_6,img_7,img_8,img_9,img_10,sta,creado');
             $query = $this->db->get_where('anuncios', array('public_id' => $anuncio_id));
                         
             if($query->num_rows() > 0){
                 $datos_anuncio = $query->row_array();
 
-                //Definir Estado
-                $datos_anuncio['estado'] = $this->db->get_where('cat_estados', array('sigla' => $datos_anuncio['estado']))->row()->nombre;
-               
-                //Definir Ciudad
-                $datos_anuncio['ciudad'] = $this->db->get_where('cat_municipios', array('sigla' => $datos_anuncio['ciudad']))->row()->nombre;
-
-                //Definir Seccion
-                $datos_anuncio['seccion'] = $this->db->get_where('cat_secciones', array('sigla' => $datos_anuncio['seccion']))->row()->nombre;
-
-                //Definir Apartado
-                $datos_anuncio['apartado'] = $this->db->get_where('cat_apartados', array('sigla' => $datos_anuncio['apartado']))->row()->nombre;
-
-
+                $datos_anuncio['estado'] = $this->validaciones->obtenerNombre($datos_anuncio['estado'], 'estado');
+                $datos_anuncio['ciudad'] = $this->validaciones->obtenerNombre($datos_anuncio['ciudad'], 'ciudad');
+                $datos_anuncio['seccion'] = $this->validaciones->obtenerNombre($datos_anuncio['seccion'], 'seccion');
+                $datos_anuncio['apartado'] = $this->validaciones->obtenerNombre($datos_anuncio['apartado'], 'apartado');
+                $datos_anuncio['estatus'] = $this->validaciones->estatusTexto($datos_anuncio['sta']);
 
                 //Definir nombre de imagen
                 for ($i=1; $i < 11; $i++) { 
@@ -221,5 +213,32 @@ class MiAnuncio_model extends CI_Model {
             }
     
     }   
+
+    function eliminar($anuncio_id,$usuario_id){ 
+
+        // VERIFICAR QUE EL ANUNCIO NO ESTÉ ELIMINADO AUN!!!!
+        
+        $data = array(
+            'sta' => 2, //2 es ELIMINADO en bdd
+            'eliminado_fecha' =>  date("Y-m-d H:i:s"), 
+            'eliminado_motivo' =>  'El usuario eliminó su anuncio el día ' .date("Y-m-d H:i:s").".", 
+            'eliminado_por' =>  1, //1 es USUARIO 
+        );
+
+        $this->db->where('usuario_id', $usuario_id);
+        $this->db->where('public_id', $anuncio_id);
+        
+        if($this->db->update('anuncios', $data)){
+            $response['codigo']=0;
+            $response['mensaje']='El anuncio ya se eliminó.';
+            echo json_encode($response);
+            die();
+        }else{
+            $response['codigo']=1;
+            $response['mensaje']='Lo sentimos, el anuncio no se pudo eliminar.';
+            echo json_encode($response);
+            die();
+        }       
+    } 
 }
 ?>

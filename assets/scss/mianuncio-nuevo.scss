@@ -9,7 +9,7 @@
 }
 
 .bootstrap-maxlength {
-	color: $color_orange;
+	color: $color_secondary_medium_light;
 }
 
 .panel-image-progress {
@@ -50,7 +50,7 @@
 
 .panel-image--bar_progreso {
 	border-radius: $border_radius;
-	background-color: $color_progress;
+	background-color: $color_success;
 	width: 0;
 	height: 100%;
 	font-size: 0.6em;
@@ -74,14 +74,13 @@
 .pulpox-message--principal {
 	text-align: center;
 	width: 100%;
-	color: $color_cherry;
+	color: $color_primary;
 }
 
 /* ANUNCIO PREVIEW*/
 
 .icon-label {
 	display: inline-block;
-	//background-color: gray;
 	vertical-align: text-top;
 }
 
@@ -146,7 +145,7 @@
 }
 
 #nuevo_anuncio_previo {
-	box-shadow: 0px 3px 7px 0px rgba(0, 0, 0, 0.62);
+	@include shadow_div;
 	padding: 2em;
 }
 
@@ -159,6 +158,6 @@
 
 #modalidad_mensaje--div {
 	font-size: medium;
-	color: gray;
+	color: #636161;
 	text-align: center;
 }

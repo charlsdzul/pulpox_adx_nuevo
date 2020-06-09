@@ -1,14 +1,10 @@
 <body class='justify-content-center'>
-<div class='row justify-content-center m-0'>    
-        <div class="col-10 col-sm-10 col-md-8 col-lg-8 col-xl-5 mt-3"> 
-        <H1>Ver Anuncio</H1>
-        </div> 
-    </div>
+
     <div class='row justify-content-center m-0'>
         <div id='nuevo_anuncio_previo' class='col-10 col-sm-10 col-md-8 col-lg-8 col-xl-5 mt-3'>
-        
+
             <div class="row justify-content-center" id='nuevo_anuncio_previo--titulo' title='Título del anuncio'>
-                <div class="div-titulo col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
                     <h1 id='titulo_preview'></h1>      
                 </div>
             </div>
@@ -58,12 +54,30 @@
                     </div>
                 </div>
             </div>
-
+<!--
             <div class="row justify-content-center div-modalidad-mensaje" id='modalidad_mensaje--div'>
                 <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
                     <span id='modalidad_mensaje'></span>
                 </div>        
             </div>
+-->
         </div>   
     </div>     
+
+    <div class="row justify-content-center mb-1" >
+        
+            <div class="row justify-content-center div-informacion-anuncio mt-3">
+                <div>
+                    <label><b>Información de mi anuncio</b></label><br>
+                    <label id='anuncio_id'></label><br>
+                    <label id='creado'></label><br>
+                    <label id='estatus_actual'></label><br>
+                    <button id='boton_editar' class="btn btn-pulpox-secondary--line m-1">Editar</button>  
+                    <button id='boton_suspender' class="btn btn-pulpox-warning--line m-1">Suspender</button>  
+                    <button id='boton_activar' class="btn btn-pulpox-success--line m-1">Activar</button>  
+                    <button id='boton_eliminar' class="btn btn-pulpox-danger--line m-1" onclick='eliminarAnuncio()'>Eliminar</button>   
+                </div>
+            </div>
+        
+    </div>
 </body>

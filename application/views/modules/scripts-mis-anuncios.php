@@ -72,11 +72,11 @@
         `,
         closeIcon:true,
         onContentReady:function(){
-            this.buttons.suspenderEstatus.addClass("btn-pulpox-secondary--line")
-            this.buttons.activarEstatus.addClass('btn-pulpox-secondary--line')
-            this.buttons.eliminarAnuncio.addClass('btn-pulpox-secondary--line')
+            this.buttons.suspenderEstatus.addClass("btn-pulpox-warning--line")
+            this.buttons.activarEstatus.addClass('btn-pulpox-success--line')
+            this.buttons.eliminarAnuncio.addClass('btn-pulpox-danger--line')
             this.buttons.editarAnuncio.addClass('btn-pulpox-secondary--line')
-            this.buttons.verAnuncioMobil.addClass('btn-pulpox-secondary--line') 
+            this.buttons.verAnuncioMobil.addClass('btn-pulpox-info--line') 
           if(estatus=='ACTIVO'){
             this.buttons.suspenderEstatus.show()
             this.buttons.activarEstatus.hide()
@@ -180,7 +180,7 @@
                   var data = JSON.parse(response)  
                   if(data.codigo == 0){
                     $.confirm({
-                      icon: 'fas fa-smile-wink',
+                      icon: 'fas fa-check-circle',
                       title: 'Cambiar Estatus del Anuncio',
                       type: 'green',
                       columnClass: 'large',
@@ -200,7 +200,7 @@
 
                   }else{
                     $.confirm({
-                      icon: 'fas fa-sad-tear',
+                      icon: 'fas fa-exclamation-circle',
                       title: 'Cambiar Estatus del Anuncio',
                       type: 'red',
                       columnClass: 'large',
@@ -243,8 +243,8 @@
       $.confirm({
         icon: 'fas fa-info-circle',
         title: 'Eliminar Anuncio',
-        type: 'blue',
-        columnClass: 'large',
+        type: 'red',
+        columnClass: 'medium',
         backgroundDismiss: true,
         content: `
           <b>¿Realmente desea eliminarlo?</b><br><br>Recuerde: 
@@ -254,13 +254,13 @@
         buttons: {
           cerrar: {
             text: 'Cancelar',
-              btnClass: 'btn-pulpox-secondary--line',                 
+              btnClass: 'btn-pulpox-danger--line',                 
               action: function(){
               }
           },
           eliminarAnuncio:{
             text: `Sí, eliminar este anuncio`,
-            btnClass: 'btn-pulpox-secondary',
+            btnClass: 'btn-pulpox-danger',
             action:function(){
               let dialog_eliminando = $.dialog({
                   icon: 'fa fa-spinner fa-spin',
@@ -269,22 +269,22 @@
                   content: 'Estamos eliminando tu anuncio...',
                   closeIcon:false,
               }); 
-              $.post(BASE_URL+'misanuncios/eliminarAnuncio/', {id})
+              $.post(BASE_URL+'mianuncio/eliminar/', {id})
               .done(function(response){
                 var data = JSON.parse(response) 
                 dialog_eliminando.close();               
                 if(data.codigo == 0){
                   $.confirm({
-                    icon: 'fas fa-smile-wink',
+                    icon: 'fas fa-check-circle',
                     title: 'Eliminar Anuncio',
                     type: 'green',
-                    columnClass: 'large',
+                    columnClass: 'medium',
                     content: data.mensaje,
                     closeIcon:true,
                     buttons: {
                       ok: {
                         text: 'Ok',
-                          btnClass: 'btn-pulpox-secondary--line',                           
+                          btnClass: 'btn-pulpox-success',                           
                           action: function(){
                             window.location.replace(BASE_URL+'misanuncios/');
                           }
@@ -293,17 +293,17 @@
                 });  
                 }else{
                   $.confirm({
-                    icon: 'fas fa-sad-tear',
+                    icon: 'fas fa-exclamation-circle',
                     title: 'Eliminar Anuncio',
                     type: 'red',
-                    columnClass: 'large',
+                    columnClass: 'medium',
                     content: data.mensaje,
                     closeIcon:true,
                     buttons: {
                       ok: {
                         text: 'Ok',
                           btnClass: 'btn-pulpox-secondary--line',
-                          keys: ['escape', 'shift'],
+                          keys: ['escape'],
                           action: function(){
                           }
                       },                  
@@ -597,7 +597,7 @@
                 var response = JSON.parse(response)
                 if(response.codigo==0){               
                   $.confirm({
-                  icon: 'fas fa-smile-wink',
+                  icon: 'fas fa-check-circle',
                   title: 'Confirmación',
                   type: 'green',
                   content: response.mensaje,
@@ -615,7 +615,7 @@
                 });
                 }else{
                   $.confirm({
-                    icon: 'fas fa-sad-tear',
+                    icon: 'fas fa-exclamation-circle',
                     title: 'Confirmación',
                     type: 'red',
                     content: response.mensaje,
@@ -636,7 +636,7 @@
               })
               .fail(function(){
                 $.confirm({
-                    icon: 'fas fa-sad-tear',
+                    icon: 'fas fa-exclamation-circle',
                     title: 'Confirmación',
                     type: 'red',
                     content: response.mensaje,
@@ -727,11 +727,11 @@
                         </div>
                       </div>
                     </div>
-                    <div class="row justify-content-center div-modalidad-mensaje" id='modalidad_mensaje--div'>
+              <!--      <div class="row justify-content-center div-modalidad-mensaje" id='modalidad_mensaje--div'>
                         <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
                             <span id='modalidad_mensaje'></span>
                         </div>        
-                    </div>
+                    </div> -->
                   </div>  
                 </div>
               </div>  
@@ -812,7 +812,7 @@
                                   $(`#panel-image--div-delete-${numero_imagen}`).remove()
                                   $(`#icon-${numero_imagen}`).removeClass( "fas fa-spinner fa-3x fa-spin" ).addClass("fa fa-camera fa-3x");
                                   $.confirm({
-                                      icon: 'fas fa-smile-wink',
+                                      icon: 'fas fa-check-circle',
                                       title: 'Confirmación',
                                       type: 'green',
                                       content: `La imágen se elimino exitosamente.`,
@@ -838,7 +838,7 @@
                                 $(`#img-${numero_imagen}`).attr('src', path_imagen)
                                 $(`#panel-image--div_icon-${numero_imagen}`).hide() 
                                 $.confirm({
-                                      icon: 'fas fa-sad-tear',
+                                      icon: 'fas fa-exclamation-circle',
                                       title: 'Confirmación',
                                       type: 'red',
                                       content: `Ocurrió un problema al eliminar la imágen. Disculpa. Intenta más tarde.`,
@@ -860,7 +860,7 @@
                             $(`#img-${numero_imagen}`).attr('src', path_imagen)
                             $(`#panel-image--div_icon-${numero_imagen}`).hide() 
                             $.confirm({
-                                      icon: 'fas fa-sad-tear',
+                                      icon: 'fas fa-exclamation-circle',
                                       title: 'Confirmación',
                                       type: 'red',
                                       content: `Ocurrió un problema al eliminar la imágen. Disculpa. Intenta más tarde.`,

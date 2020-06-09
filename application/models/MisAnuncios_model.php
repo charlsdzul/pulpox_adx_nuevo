@@ -5,7 +5,6 @@ class MisAnuncios_model extends CI_Model {
 
     function __construct(){
         parent::__construct();
-
         $this->load->library('sesiones');
         $this->sesiones->usuarioEnSesion(); 
         $this->load->library('validaciones');
@@ -17,7 +16,9 @@ class MisAnuncios_model extends CI_Model {
         $this->db->order_by('creado', 'DESC');
         $this->db->where("usuario_id",111);
         $res = $this->db->get('anuncios');
+        $misanuncios=[]; 
         $j=0;
+       
         foreach ($res->result() as $row){
             $misanuncios[$j]['public_id'] = $row->public_id;
             $misanuncios[$j]['titulo'] = $row->titulo;
@@ -27,12 +28,11 @@ class MisAnuncios_model extends CI_Model {
             $misanuncios[$j]['seccion'] = $this->validaciones->obtenerNombre($row->seccion, 'seccion');
             $misanuncios[$j]['apartado'] = $this->validaciones->obtenerNombre($row->apartado, 'apartado');
             $misanuncios[$j]['creado'] = $row->creado;
-            $row->sta==0 ? $misanuncios[$j]['estatus'] = 'ACTIVO' : '';
-            $row->sta==1 ? $misanuncios[$j]['estatus'] = 'SUSPENDIDO' : '';
-            $row->sta==2 ? $misanuncios[$j]['estatus'] = 'ELIMINADO' : '';
+            $misanuncios[$j]['estatus'] = $this->validaciones->estatusTexto($row->sta);
             $j++;
         }          
-        return $misanuncios;    
+
+        return $misanuncios;          
     } 
 
     function cambiarEstatus($anuncio_id,$anuncio_estatus_actual){  
@@ -68,29 +68,7 @@ class MisAnuncios_model extends CI_Model {
             } 
 
         return $response;       
-    }   
-    
-    function eliminarAnuncio($anuncio_id){  
-        $response['codigo']=1;
-        $response['mensaje']='Lo sentimos, el anuncio no se pudo eliminar.';
-    
-            $data = array(
-                'sta' => 2, //2 es ELIMINADO en bdd
-                'eliminado_fecha' =>  date("Y-m-d H:i:s"), 
-                'eliminado_motivo' =>  'El usuario eliminó su anuncio el día ' .date("Y-m-d H:i:s").".", 
-                'eliminado_por' =>  1, //1 es USUARIO 
-            );
-
-            $this->db->where('usuario_id', 111);
-            $this->db->where('public_id', $anuncio_id);
-        
-            if($this->db->update('anuncios', $data)){
-                $response['codigo']=0;
-                $response['mensaje']='El anuncio ya se eliminó.';
-            } 
-
-        return $response;       
-    }                
+    }      
 
     function obtenerDatosParaEdicionMovil($publid_id){        
         $this->db->select("*");
@@ -112,12 +90,10 @@ class MisAnuncios_model extends CI_Model {
             $misanuncio['img_8'] = $row->img_8;
             $misanuncio['img_9'] = $row->img_9;
             $misanuncio['img_10'] = $row->img_10;
-     
-            $row->sta==0 ? $misanuncio['estatus'] = 'ACTIVO' : '';
-            $row->sta==1 ? $misanuncio['estatus'] = 'SUSPENDIDO' : '';
-            $row->sta==2 ? $misanuncio['estatus'] = 'ELIMINADO' : '';
-            
+
+            $misanuncio['estatus'] = $this->validaciones->estatusTexto($row->sta);
         }          
+
         return $misanuncio;    
     } 
 

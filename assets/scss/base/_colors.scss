@@ -1,21 +1,31 @@
-$color_cherry: hsl(340, 100, 32%); /*  #A30036 */
-$color_cherry-active: hsl(340, 100, 28%);
-$color_cherry--dark: hsl(340, 100, 23%);
-$color_cherry-disabled: hsl(340, 35%, 25%);
+$color_primary_light: #f00050;
+$color_primary_medium_light: #b0003b;
+$color_primary: #a30036;
+$color_primary_medium_dark: #8a002e;
+$color_primary_dark: #630021;
 
-$color_orange: hsl(30, 100, 45%); /* #E67300 */
-$color_orange-active: hsl(30, 100, 40%);
-$color_orange-dark: hsl(30, 100, 35%);
-$color_orange-disabled: hsl(30, 35, 25%);
+$color_secondary_light: #f03a0c;
+$color_secondary_medium_light: #b02a09;
+$color_secondary: #a32708;
+$color_secondary_medium_dark: #8a2107;
+$color_secondary_dark: #631805;
 
-$color_yellow: hsl(60, 100, 32%);
-$color_green: hsl(120, 100, 32%);
-$color_blue: hsl(240, 100, 32%);
-$color_purple: hsl(260, 100, 32%);
+$color_danger_light: #f00018;
+$color_danger: #a30010;
+$color_danger_dark: #63000a;
 
-$color_red: hsl(0, 100, 32%);
-$color_red--inactive: rgb(245, 132, 132);
-$color_complete: hsl(122, 100%, 32%);
-$color_progress: hsl(202, 100%, 32%);
-$color_dark: hsl(240, 1%, 35%);
-/*$color_orange: hsl(39, 100, 32%); */ /* #a35200 */
+$color_success_light: #00f01f;
+$color_success: #00a316;
+$color_success_dark: #00630d;
+
+$color_warning_light: #f0dc00;
+$color_warning: #a39600;
+$color_warning_dark: #635b00;
+
+$color_info_light: #008cf0;
+$color_info: #005fa3;
+$color_info_dark: #00508a;
+
+$color_light_dark: #636161;
+$color_medium_dark: #575555;
+$color_dark: #3d3c3c;

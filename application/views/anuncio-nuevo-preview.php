@@ -5,7 +5,7 @@
         </div> 
     </div>
     <div class='row justify-content-center m-0'>
-        <div id='nuevo_anuncio_previo' class='col-10 col-sm-10 col-md-8 col-lg-8 col-xl-5 mt-3'>
+        <div id='nuevo_anuncio_previo' class='col-10 col-sm-10 col-md-8 col-lg-8 col-xl-5'>
         
             <div class="row justify-content-center" id='nuevo_anuncio_previo--titulo' title='Título del anuncio'>
                 <div class="div-titulo col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
@@ -30,9 +30,8 @@
                 </div>
             </div>
 
-            <div class="row justify-content-center pulpox-carousel div-carousel" title='Galería de imágenes'>               
+            <div class="row justify-content-center div-carousel pulpox-carousel" title='Galería de imágenes'>               
             </div>
-
            
                 <div class="row justify-content-center"> 
                     <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12" title='Mensaje'>
@@ -61,11 +60,12 @@
                 </div>
             </div>
 
-            <div class="row justify-content-center div-modalidad-mensaje" id='modalidad_mensaje--div'>
+      <!--      <div class="row justify-content-center div-modalidad-mensaje" id='modalidad_mensaje--div'>
                 <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
                     <span id='modalidad_mensaje'></span>
                 </div>        
             </div>
+-->
 
         </div>  
 

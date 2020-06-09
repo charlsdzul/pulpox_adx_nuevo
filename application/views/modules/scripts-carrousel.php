@@ -32,28 +32,21 @@
       let carousel_indicators_counter = 0
       let carousel_images =$('.carousel-images');
       let base_url = "<?php echo base_url()?>";
+      let active = 'active';
+
       for (let index = 1; index < 11; index++) {
         let url_image = base_url+anuncio_datos[`img_${index}`];    
 
-        if(anuncio_datos[`img_${index}`]!=null && anuncio_datos[`img_${index}`]!=''){     
-          if(index==1){
+        if(anuncio_datos[`img_${index}`]!=null && anuncio_datos[`img_${index}`]!=''){              
             carousel_images.append(`
-            <div class="carousel-item active">
+            <div class="carousel-item ${active}">
               <img id='img-${index}-preview' class='carousel-inner--img' src="${url_image}">
             </div>`)
             carousel_indicators.append(`
-            <li data-target="#carouselExampleIndicators" data-slide-to="${carousel_indicators_counter}" class="active"></li>
-            `)
-          }else{
-            carousel_images.append(`
-            <div class="carousel-item ">
-              <img id='img-${index}-preview' class='carousel-inner--img' src="${url_image}">
-            </div>`)
-            carousel_indicators.append(`
-            <li data-target="#carouselExampleIndicators" data-slide-to="${carousel_indicators_counter}"</li>
-            `)
-          }
+            <li data-target="#carouselExampleIndicators" data-slide-to="${carousel_indicators_counter}" class="${active}"></li>
+            `)          
           carousel_indicators_counter++;
+          active='';
         }  
       }
   } 

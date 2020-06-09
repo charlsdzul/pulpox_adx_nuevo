@@ -1,40 +1,17 @@
 <script>
 
   const BASE_URL = "<?php echo base_url();?>" + "index.php/";
-  var anuncio_id = "<?php echo $anuncio_id?>"; //Variable pasada a al view
+  var anuncio_id = "<?php echo $anuncio_id?>"; 
 
   $(document).ready(function() {  
       if(sessionStorage.getItem(`titulo_${anuncio_id}`)==null){
         location.href = BASE_URL+'mianuncio/nuevo';
       }else{
-        asignaValoresPreview(anuncio_id)        
-          //Detecta si existe por lo menos 1 imágen almacenada en el sessionStorage
-          for (let index = 1; index < 11; index++) {
-            if(sessionStorage.getItem(`img_${index}_${anuncio_id}`)!=null && sessionStorage.getItem(`img_${index}_${anuncio_id}`)!=''){  
-              $('.pulpox-carousel').append(`
-                <div id="carouselIndicators" class="carousel slide col-10 col-sm-10 col-md-12 col-lg-12 col-xl-12" data-ride="carousel">
-                  <ol class="carousel-indicators">                
-                  </ol>                
-                  <div class="carousel-inner carousel-images">        
-                  </div>
-                  <a class="carousel-control-prev" href="#carouselIndicators" role="button" data-slide="prev">
-                          <span class="carousel-control-prev-icon " aria-hidden="true"></span>
-                          <span class="sr-only aaa">Previous</span>
-                  </a>
-                  <a class="carousel-control-next" href="#carouselIndicators" role="button" data-slide="next">
-                          <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                          <span class="sr-only">Next</span>
-                  </a>   
-                </div>            
-              `)
-
-              generaCarousel(anuncio_id)
-              break;
-            }    
-          }
-          $('#boton_publicar').click(function(){
-            guardaAnuncio(anuncio_id)
-          })
+        asignaValoresPreview(anuncio_id)    
+        creaCarousel(anuncio_id)          
+        $('#boton_publicar').click(function(){
+          guardaAnuncio(anuncio_id)
+        })
       }     
   });
 
@@ -78,7 +55,7 @@
             response = JSON.parse(response);
               if(response.codigo!=0){
                 $.confirm({
-                  icon: 'fas fa-sad-tear',
+                  icon: 'fas fa-exclamation-circle',
                   title: 'Detectamos un problema.',
                   content: response.mensaje,
                   type: 'blue',
@@ -94,7 +71,7 @@
               }else{
                 sessionStorage.clear();
                 $.confirm({
-                icon: 'fas fa-smile-wink',
+                icon: 'fas fa-check-circle',
                 title: 'Publicado',
                 type: 'blue',
                 content: response.mensaje,
@@ -122,7 +99,7 @@
         .fail(function() {
           dialog_publicando.close();   
           $.confirm({
-            icon: 'fas fa-sad-tear',
+            icon: 'fas fa-exclamation-circle',
             title: 'Detectamos un problema.',
             content: 'Nuestro servidor tiene problemas actualmente. Intente más tarde.',
             type: 'red',
@@ -143,30 +120,53 @@
     let carousel_indicators =$('.carousel-indicators');
     let carousel_indicators_counter = 0
     let carousel_images =$('.carousel-images');
+    let active = 'active';
 
     for (let index = 1; index < 11; index++) {
 
       if(sessionStorage.getItem(`img_${index}_${anuncio_id}`)!=null && sessionStorage.getItem(`img_${index}_${anuncio_id}`)!=''){   
-        if(index==1){
+       
           carousel_images.append(`
-          <div class="carousel-item active">
+          <div class="carousel-item ${active}">
             <img id='img-${index}-preview' class='carousel-inner--img' src="${sessionStorage.getItem(`img_${index}_${anuncio_id}`)}">
           </div>`)
           carousel_indicators.append(`
-          <li data-target="#carouselExampleIndicators" data-slide-to="${carousel_indicators_counter}" class="active"></li>
+          <li data-target="#carouselExampleIndicators" data-slide-to="${carousel_indicators_counter}" class="${active}"></li>
           `)
-        }else{
-          carousel_images.append(`
-          <div class="carousel-item ">
-            <img id='img-${index}-preview' class='carousel-inner--img' src="${sessionStorage.getItem(`img_${index}_${anuncio_id}`)}">
-          </div>`)
-          carousel_indicators.append(`
-          <li data-target="#carouselExampleIndicators" data-slide-to="${carousel_indicators_counter}"</li>
-          `)
-        }
+
         carousel_indicators_counter++;
+        active='';
       }  
+
+      
     }
+  }
+
+  function creaCarousel(anuncio_id){
+        //Detecta si existe por lo menos 1 imágen almacenada en el sessionStorage
+        for (let index = 1; index < 11; index++) {
+            if(sessionStorage.getItem(`img_${index}_${anuncio_id}`)!=null && sessionStorage.getItem(`img_${index}_${anuncio_id}`)!=''){  
+              $('.pulpox-carousel').append(`
+                <div id="carouselIndicators" class="carousel slide col-10 col-sm-10 col-md-12 col-lg-12 col-xl-12" data-ride="carousel">
+                  <ol class="carousel-indicators">                
+                  </ol>                
+                  <div class="carousel-inner carousel-images">        
+                  </div>
+                  <a class="carousel-control-prev" href="#carouselIndicators" role="button" data-slide="prev">
+                          <span class="carousel-control-prev-icon " aria-hidden="true"></span>
+                          <span class="sr-only aaa">Previous</span>
+                  </a>
+                  <a class="carousel-control-next" href="#carouselIndicators" role="button" data-slide="next">
+                          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                          <span class="sr-only">Next</span>
+                  </a>   
+                </div>            
+              `)
+
+              generaCarousel(anuncio_id)
+              break;
+            }    
+          }
   }
 
   function asignaValoresPreview(anuncio_id){

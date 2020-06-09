@@ -126,16 +126,38 @@ class MiAnuncio extends CI_Controller {
       if($anuncio_id==null){
           redirect("index.php/misanuncios/");
         }else{
-          $data = $this->mianuncio_model->ver($anuncio_id);
-          $datos_anuncio = array('datos_anuncio' => $data);
-          $this->load->view('modules/headers-mianuncio-ver.php');
-          $this->load->view('modules/menu');
-          $this->load->view('anuncio-ver', $datos_anuncio);
-          $this->load->view('modules/scripts-mianuncio-ver.php');    
-          $this->load->view('modules/scripts-carrousel.php');  
-          $this->load->view('modules/scripts-asignar-valores.php');   
+          if(strlen($anuncio_id)==30){
+            $data = $this->mianuncio_model->ver($anuncio_id);
+            $datos_anuncio = array('datos_anuncio' => $data);
+            $this->load->view('modules/headers-mianuncio-ver.php');
+            $this->load->view('modules/menu');
+            $this->load->view('anuncio-ver', $datos_anuncio);
+            $this->load->view('modules/scripts-mianuncio-ver.php');    
+            $this->load->view('modules/scripts-carrousel.php');  
+            $this->load->view('modules/scripts-asignar-valores.php');   
+          }else{
+            $respuesta['respuesta'] = 'El ID ingresado en la URL debe ser de 30 caracteres alfanumúmericos.';
+            $this->load->view('modules/headers-mianuncio-ver.php');
+            $this->load->view('modules/menu');
+            $this->load->view('pagina-no-existe', $respuesta);
+
+          }      
         }       
-  }
+    }
+
+    function eliminar(){
+      if(isset($_POST['id']) ){
+        $anuncio_id = $_POST['id'];     
+        $usuario_id = 111;  
+        $this->mianuncio_model->eliminar($anuncio_id,$usuario_id);
+      }else{
+        $response['codigo']=1;
+        $response['mensaje']='Lo sentimos, el anuncio no se pudo eliminar.';
+        echo json_encode($response);
+        die();
+      }
+    }
+
 
     function subirImagenTemporal(){
 

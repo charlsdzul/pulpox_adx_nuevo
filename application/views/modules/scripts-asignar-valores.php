@@ -2,7 +2,7 @@
 
   function asignaValores(anuncio_datos){
       /** Recibe valoresque han sido almacenados en sessionStorage en el Anuncio Nuevo.*/
-
+console.log(anuncio_datos)
       $('#titulo_preview').text(anuncio_datos['titulo'])
       $('#mensaje_preview').html(anuncio_datos['mensaje'])
       $('#modalidad_preview').html(anuncio_datos['modalidad'])
@@ -10,7 +10,7 @@
       let seccion_apartado =  anuncio_datos['seccion'] + ' / ' + anuncio_datos['apartado']
       $('#estado_ciudad').text(estado_ciudad)
       $('#seccion_apartado').text(seccion_apartado)
-      
+
       if(anuncio_datos['telefono']!=''){
         $('#telefono_preview').text(anuncio_datos['telefono'])
         $('#div_telefono_preview').css('display', 'inline-block')
@@ -23,6 +23,12 @@
         $('#correo_preview').text(anuncio_datos['correo'])
         $('#div_correo_preview').css('display', 'inline-block')
       }
+
+      $('#anuncio_id').html('<b>ID del anuncio:</b> '+anuncio_datos['public_id'])
+      $('#estatus_actual').html('<b>Estatus actual:</b> '+anuncio_datos['estatus'])
+      $('#creado').html('<b>Creado:</b> '+anuncio_datos['creado'])
+
+
 
       switch (anuncio_datos['modalidad']) {
           case 'Compro':

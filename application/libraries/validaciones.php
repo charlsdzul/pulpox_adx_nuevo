@@ -191,6 +191,15 @@ class Validaciones {
           die();    
       }           
     }        
+
+    function estatusTexto($estatus_numero){
+
+      $estatus_numero==0 ? $estatus_texto = 'ACTIVO' : '';
+      $estatus_numero==1 ? $estatus_texto = 'SUSPENDIDO' : '';
+      $estatus_numero==2 ? $estatus_texto = 'ELIMINADO' : '';
+      return $estatus_texto;
+
+    }
 }
 
 ?>

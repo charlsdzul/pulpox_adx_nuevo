@@ -18,18 +18,18 @@ class MisAnuncios extends CI_Controller {
     }
 
     function index(){
-      if($misanuncios = $this->misanuncios_model->obtenerMisAnuncios()){
-        $data = array('misanuncios' => $misanuncios);
+      if($misanuncios = $this->misanuncios_model->obtenerMisAnuncios()){       
+            $data = array('misanuncios' => $misanuncios);
+            $this->load->view('modules/headers-mis-anuncios');
+            $this->load->view('modules/menu');
+            $this->load->view('mis-anuncios', $data);  
+            $this->load->view('modules/scripts-mis-anuncios.php');  
+            $this->load->view('modules/scripts-carrousel.php');     
+            $this->load->view('modules/scripts-asignar-valores.php');          
+      }else{
         $this->load->view('modules/headers-mis-anuncios');
         $this->load->view('modules/menu');
-        $this->load->view('mis-anuncios', $data);  
-        $this->load->view('modules/scripts-mis-anuncios.php');  
-        $this->load->view('modules/scripts-carrousel.php');     
-        $this->load->view('modules/scripts-asignar-valores.php');  
-      }else{
-        $response['codigo']=1;
-        $response['mensaje']='Lo sentimos, no pudimos obtener tus anuncios. Intenta más tarde.';
-        echo json_encode($response);
+        $this->load->view('mis-anuncios');  
       }     
     }
 
@@ -61,17 +61,6 @@ class MisAnuncios extends CI_Controller {
       }
     }
 
-    function eliminarAnuncio(){
-      if(isset($_POST['id']) ){
-        $anuncio_id = $_POST['id'];         
-        $response = $this->misanuncios_model->eliminarAnuncio($anuncio_id);
-        echo json_encode($response);
-      }else{
-        $response['codigo']=1;
-        $response['mensaje']='Lo sentimos, el anuncio no se pudo eliminar.';
-        echo json_encode($response);
-      }
-    }
 
     function eliminarImagenActual(){  
       
