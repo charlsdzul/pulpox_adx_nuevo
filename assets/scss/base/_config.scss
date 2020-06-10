@@ -185,9 +185,9 @@ $border_style: solid;
 }
 
 .btn-pulpox-warning {
+	@include shadow_div;
 	background-color: $color_warning !important;
 	color: white !important;
-	@include shadow_div;
 
 	&:hover {
 		color: white !important;
@@ -321,6 +321,17 @@ $border_style: solid;
 
 .div-contacto {
 	display: none;
+}
+
+/* CONFIRM JqueryCOnfirm.js */
+
+.contenido-confirm {
+	color: $color_medium_dark;
+}
+
+.titulo-confirm {
+	color: $color_dark;
+	font-weight: bold;
 }
 
 /* CAROUSEL DE IMÁGENES*/

@@ -53,5 +53,16 @@ class Validaciones_model extends CI_Model {
             die(); 
         }
     }
+
+    function obtenerSigla($valor,$objeto){
+        if($nombre = $this->db->get_where($this->TABLAS["$objeto"], array('nombre' =>  $valor))->row()->sigla){ 
+            return $nombre;     
+        }else{
+            $response['codigo']  = 1;
+            $response['mensaje'] = 'No se pudo obtener la sigla.';  
+            echo json_encode($response);    
+            die(); 
+        }
+    }
 }
 ?>

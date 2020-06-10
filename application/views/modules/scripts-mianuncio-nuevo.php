@@ -116,64 +116,6 @@
         })      
     }   
 
-    function asignaValidacionesInputs(){
-        /**
-        * Define validaciones generales para selects e inputs
-        */
-            var patt = /<script>/gi; 
-            $('#titulo').maxlength({
-                alwaysShow: true,
-                threshold: 50,
-                warningClass: "label label-success",
-                limitReachedClass: "label label-danger",
-                separator: ' de ',
-                preText: ' ',
-                postText: '',
-                validate: true,
-            });
-
-            $("#titulo").keyup(function() {
-            let titulo_ingresado = $(this).val();            
-            var titulo_limpio = titulo_ingresado.replace(patt,'');
-            $(this).val(titulo_limpio)    
-             validarBoton()
-            });
-
-            $('#anuncio').maxlength({
-            alwaysShow: true,
-            //threshold: 10,
-            warningClass: "label label-success",
-            limitReachedClass: "label label-danger",
-            separator: ' de ',
-            preText: ' ',
-            postText: '',
-            validate: true
-            });
-
-            $("#anuncio").keyup(function() {
-            let titulo_ingresado = $(this).val();            
-            var titulo_limpio = titulo_ingresado.replace(patt,'');
-            $(this).val(titulo_limpio)       
-            validarBoton()
-            });
-            
-            $("#telefono").keyup(function() {
-            let telefono_ingresado = $(this).val();
-            var patt = /[^1-9]/g;        
-            var telefono_limpio = telefono_ingresado.replace(patt,'');
-            $(this).val(telefono_limpio)       
-            });
-
-            $("#celular").keyup(function() {
-            let telefono_ingresado = $(this).val();
-            var patt = /[^1-9]/g;        
-            var telefono_limpio = telefono_ingresado.replace(patt,'');
-            $(this).val(telefono_limpio)       
-            });
-            
-
-    }
-
     function asignaValoresPrevios(anuncio_id) {
         /**
         * En caso de regresar al formulario para editarlo, se asignan los valores que
@@ -372,7 +314,6 @@
 
         $('.pulpox-validar-select').each(function(i){
             //Se validan 6 elementos, los que tienen clase .pulpox-validar
-            //f($(this).val()==''){
             if($(this).find('option:selected').val()==''){
                 $(this).css('border-color','red')
                 $(this).next().show()  //Muestra el div con mensaje de error   
@@ -465,23 +406,6 @@
                 almacenaDatosEnSessionStorage(anuncio_id)
             }
         }
-    }
-
-    function validarBoton(){
-        /*
-        let elementos_validados = 0;
-        if($('#titulo').val()!=''){
-            elementos_validados++
-        }       
-        if($('#anuncio').val()!=''){
-            elementos_validados++
-        } 
-        if(elementos_validados===2){
-            $('#boton_previzualizar').prop('disabled',false)
-        }else{
-            $('#boton_previzualizar').prop('disabled',true)
-        }
-        */
     }
 
     function almacenaDatosEnSessionStorage(anuncio_id){

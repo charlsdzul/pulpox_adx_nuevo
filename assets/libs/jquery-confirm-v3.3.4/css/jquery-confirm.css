@@ -650,9 +650,9 @@ body[class*="jconfirm-no-scroll-"] {
 
 .jconfirm.jconfirm-white .jconfirm-box .jconfirm-buttons button.btn-default,
 .jconfirm.jconfirm-light .jconfirm-box .jconfirm-buttons button.btn-default {
-	-webkit-box-shadow: none;
+	/*-webkit-box-shadow: none;
 	box-shadow: none;
-	color: #333;
+	color: #333;*/ /*pulpox*/
 }
 
 .jconfirm.jconfirm-white
@@ -713,10 +713,10 @@ body[class*="jconfirm-no-scroll-"] {
 
 .jconfirm.jconfirm-black .jconfirm-box .jconfirm-buttons button.btn-default,
 .jconfirm.jconfirm-dark .jconfirm-box .jconfirm-buttons button.btn-default {
-	-webkit-box-shadow: none;
+	/*-webkit-box-shadow: none;
 	box-shadow: none;
 	color: #fff;
-	background: none;
+	background: none; */ /*pulpox*/
 }
 
 .jconfirm.jconfirm-black

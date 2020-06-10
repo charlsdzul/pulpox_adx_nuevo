@@ -2,7 +2,6 @@
 
   function asignaValores(anuncio_datos){
       /** Recibe valoresque han sido almacenados en sessionStorage en el Anuncio Nuevo.*/
-console.log(anuncio_datos)
       $('#titulo_preview').text(anuncio_datos['titulo'])
       $('#mensaje_preview').html(anuncio_datos['mensaje'])
       $('#modalidad_preview').html(anuncio_datos['modalidad'])
@@ -42,9 +41,8 @@ console.log(anuncio_datos)
         $('.div_estatus_actual').css('background-color','#a3525a')
         $('.div_estatus_actual').css('color','white')
       }
+
       $('.div_estatus_actual').css('text-align','center')
-
-
 
 
       switch (anuncio_datos['modalidad']) {

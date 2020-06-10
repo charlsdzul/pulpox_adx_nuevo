@@ -150,9 +150,9 @@ h1 {
 }
 
 .btn-pulpox-warning {
+  box-shadow: 0px 10px 10px -5px rgba(0, 0, 0, 0.62);
   background-color: #a39600 !important;
   color: white !important;
-  box-shadow: 0px 10px 10px -5px rgba(0, 0, 0, 0.62);
 }
 .btn-pulpox-warning:hover {
   color: white !important;
@@ -278,6 +278,16 @@ h1 {
 
 .div-contacto {
   display: none;
+}
+
+/* CONFIRM JqueryCOnfirm.js */
+.contenido-confirm {
+  color: #575555;
+}
+
+.titulo-confirm {
+  color: #3d3c3c;
+  font-weight: bold;
 }
 
 /* CAROUSEL DE IMÁGENES*/

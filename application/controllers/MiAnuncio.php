@@ -18,11 +18,17 @@ class MiAnuncio extends CI_Controller {
         $id_aleatorio = rand(1000000000, 2000000000);
         redirect("index.php/mianuncio/nuevo/$id_aleatorio");
       }else{
-        $data = array('anuncio_id' => $anuncio_id);
-        $this->load->view('modules/headers-mianuncio-nuevo.php');
-        $this->load->view('modules/menu');
-        $this->load->view('anuncio-nuevo',$data);
-        $this->load->view('modules/scripts-mianuncio-nuevo.php',$data);
+        if(strlen($anuncio_id)==10){
+          $data = array('anuncio_id' => $anuncio_id);
+          $this->load->view('modules/headers-mianuncio-nuevo.php');
+          $this->load->view('modules/menu');
+          $this->load->view('anuncio-nuevo',$data);
+          $this->load->view('modules/scripts-mianuncio-nuevo.php',$data);
+          $this->load->view('modules/scripts-asignar-validaciones.php');
+        }else{
+          $id_aleatorio = rand(1000000000, 2000000000);
+          redirect("index.php/mianuncio/nuevo/$id_aleatorio");
+        }        
       }           
     }
 
@@ -30,11 +36,16 @@ class MiAnuncio extends CI_Controller {
       if($anuncio_id==null){
         redirect("index.php/mianuncio/nuevo/");
       }else{
-        $data = array('anuncio_id' => $anuncio_id);
-        $this->load->view('modules/headers-mianuncio-nuevo-preview');
-        $this->load->view('modules/menu');
-        $this->load->view('anuncio-nuevo-preview', $data);
-        $this->load->view('modules/scripts-mianuncio-nuevo-preview.php');
+        if(strlen($anuncio_id)==10){
+          $data = array('anuncio_id' => $anuncio_id);
+          $this->load->view('modules/headers-mianuncio-nuevo-preview');
+          $this->load->view('modules/menu');
+          $this->load->view('anuncio-nuevo-preview', $data);
+          $this->load->view('modules/scripts-mianuncio-nuevo-preview.php');
+        }else{
+          $id_aleatorio = rand(1000000000, 2000000000);
+          redirect("index.php/mianuncio/nuevo/$id_aleatorio");
+        }      
       }     
     }
     
@@ -42,37 +53,34 @@ class MiAnuncio extends CI_Controller {
       /**
        * Recibe datos de un anuncio para guardarlo.
        */
-
       if(isset($_POST['nuevo_anuncio'])){  
-
         $anuncio_datos = $_POST['nuevo_anuncio'];
-
-        if($anuncio_datos['public_id'] = $this->validaciones->generarPublicId()){   
-          $anuncio_datos['titulo'] = $this->validaciones->validaTitulo($anuncio_datos['titulo'],'titulo');  
-          $anuncio_datos['mensaje'] = $this->validaciones->validaTitulo($anuncio_datos['mensaje'],'mensaje'); 
-          $this->validaciones->existeValor($anuncio_datos['modalidad'], 'modalidad'); 
-          $this->validaciones->existeValor($anuncio_datos['estado'], 'estado');
-            $anuncio_datos['estado'] = $this->validaciones->obtenerSigla($anuncio_datos['estado'], 'estado');
-          $this->validaciones->existeValor($anuncio_datos['ciudad'], 'ciudad');
-            $anuncio_datos['ciudad'] =$this->validaciones->obtenerSigla($anuncio_datos['ciudad'], 'ciudad');          
-          $this->validaciones->existeValor($anuncio_datos['seccion'], 'seccion');
-            $anuncio_datos['seccion'] =$this->validaciones->obtenerSigla($anuncio_datos['seccion'], 'seccion');
-          $this->validaciones->existeValor($anuncio_datos['apartado'], 'apartado');
-            $anuncio_datos['apartado'] =$this->validaciones->obtenerSigla($anuncio_datos['apartado'], 'apartado');
-          $this->validaciones->validaTelefono($anuncio_datos['telefono'],'telefono');
-          $this->validaciones->validaTelefono($anuncio_datos['celular'],'celular');
-          $this->validaciones->validaCorreo($anuncio_datos['correo'],'correo');  
-          $this->mianuncio_model->publicar($anuncio_datos);
-          /**
-           * NOTA:
-           * En cada validación: en caso de no pasar la validación, enviará su propio $response y finaliza todo el script
-           * En la actualización: envía su propio $response.
-           */ 
-        }else{
-          $response['codigo']=1;
-          $response['mensaje']='Lo sentimos, hubo un problema al intentar publicar tu anuncio. Intenta más tarde.';
-          echo json_encode($response);
-          die();
+          if($anuncio_datos['public_id'] = $this->validaciones->generarPublicId()){   
+            $anuncio_datos['titulo'] = $this->validaciones->validaTitulo($anuncio_datos['titulo'],'titulo');  
+            $anuncio_datos['mensaje'] = $this->validaciones->validaTitulo($anuncio_datos['mensaje'],'mensaje'); 
+            $this->validaciones->existeValor($anuncio_datos['modalidad'], 'modalidad'); 
+            $this->validaciones->existeValor($anuncio_datos['estado'], 'estado');
+              $anuncio_datos['estado'] = $this->validaciones->obtenerSigla($anuncio_datos['estado'], 'estado');
+            $this->validaciones->existeValor($anuncio_datos['ciudad'], 'ciudad');
+              $anuncio_datos['ciudad'] =$this->validaciones->obtenerSigla($anuncio_datos['ciudad'], 'ciudad');          
+            $this->validaciones->existeValor($anuncio_datos['seccion'], 'seccion');
+              $anuncio_datos['seccion'] =$this->validaciones->obtenerSigla($anuncio_datos['seccion'], 'seccion');
+            $this->validaciones->existeValor($anuncio_datos['apartado'], 'apartado');
+              $anuncio_datos['apartado'] =$this->validaciones->obtenerSigla($anuncio_datos['apartado'], 'apartado');
+            $this->validaciones->validaTelefono($anuncio_datos['telefono'],'telefono');
+            $this->validaciones->validaTelefono($anuncio_datos['celular'],'celular');
+            $this->validaciones->validaCorreo($anuncio_datos['correo'],'correo');  
+            $this->mianuncio_model->publicar($anuncio_datos);
+            /**
+             * NOTA:
+             * En cada validación: en caso de no pasar la validación, enviará su propio $response y finaliza todo el script
+             * En la actualización: envía su propio $response.
+             */ 
+          }else{
+            $response['codigo']=1;
+            $response['mensaje']='Lo sentimos, hubo un problema al intentar publicar tu anuncio. Intenta más tarde.';
+            echo json_encode($response);
+            die();
         }   
       }else{
         $response['codigo']=1;
@@ -86,7 +94,6 @@ class MiAnuncio extends CI_Controller {
       /**
        * Recibe datos de un anuncio para editarlo.
        */
-
       if(isset($_POST['anuncio_editado'])){
         $anuncio_datos = $_POST['anuncio_editado'];  
         $anuncio_datos['titulo'] = $this->validaciones->validaTitulo($anuncio_datos['titulo'],'titulo');  
@@ -104,12 +111,11 @@ class MiAnuncio extends CI_Controller {
         $this->validaciones->validaTelefono($anuncio_datos['celular'],'celular');
         $this->validaciones->validaCorreo($anuncio_datos['correo'],'correo');  
         $this->mianuncio_model->editar($anuncio_datos);
-
         /**
          * NOTA:
          * En cada validación: en caso de no pasar la validación, enviará su propio $response y finaliza todo el script
          * En la actualización: envía su propio $response.
-         */    
+         */   
 
       }else{
         $response['codigo']=1;
@@ -118,6 +124,17 @@ class MiAnuncio extends CI_Controller {
         die();
       }   
     }
+
+    function obtenerDatosComplementariosEdicionMovil(){
+      if(isset($_GET['id']) && strlen($_GET['id'])==30){
+        $this->mianuncio_model->obtenerDatosComplementariosEdicionMovil($_GET['id']);  
+      }else{
+        $response['codigo']  = 1;
+        $response['mensaje'] = 'Hubo un problema. Intente más tarde';  
+        echo json_encode($response);    
+        die();        
+      }       
+    }
     
     function ver($anuncio_id = null){
       if($anuncio_id==null){
@@ -125,21 +142,20 @@ class MiAnuncio extends CI_Controller {
         }else{
           if(strlen($anuncio_id)==30){
             $data = $this->mianuncio_model->ver($anuncio_id);
-
-            if(isset($data['codigo'])){
-              $respuesta['respuesta'] = $data['mensaje'];
-              $this->load->view('modules/headers-mianuncio-ver.php');
-              $this->load->view('modules/menu');
-              $this->load->view('pagina-no-existe', $respuesta);
-            }else{              
-              $datos_anuncio = array('datos_anuncio' => $data);
-              $this->load->view('modules/headers-mianuncio-ver.php');
-              $this->load->view('modules/menu');
-              $this->load->view('anuncio-ver', $datos_anuncio);
-              $this->load->view('modules/scripts-mianuncio-ver.php');    
-              $this->load->view('modules/scripts-carrousel.php');  
-              $this->load->view('modules/scripts-asignar-valores.php'); 
-            }  
+              if(isset($data['codigo'])){
+                $respuesta['respuesta'] = $data['mensaje'];
+                $this->load->view('modules/headers-mianuncio-ver.php');
+                $this->load->view('modules/menu');
+                $this->load->view('pagina-no-existe', $respuesta);
+              }else{              
+                $datos_anuncio = array('datos_anuncio' => $data);
+                $this->load->view('modules/headers-mianuncio-ver.php');
+                $this->load->view('modules/menu');
+                $this->load->view('anuncio-ver', $datos_anuncio);
+                $this->load->view('modules/scripts-mianuncio-ver.php');    
+                $this->load->view('modules/scripts-carrousel.php');  
+                $this->load->view('modules/scripts-asignar-valores.php'); 
+              }  
           }else{
             $respuesta['respuesta'] = 'El ID ingresado en la URL debe ser de 30 caracteres alfanumúmericos.';
             $this->load->view('modules/headers-mianuncio-ver.php');
@@ -150,17 +166,15 @@ class MiAnuncio extends CI_Controller {
     }
 
     function verMovil(){
-      if(isset($_GET['id'])){
-          $public_id = $_GET['id'];        
-          $data = $this->mianuncio_model->verMovil($public_id);
+      if(isset($_GET['id']) && strlen($_GET['id'])==30){
+          $data = $this->mianuncio_model->verMovil($_GET['id']);
           echo json_encode($data);          
         }       
     }
 
     function eliminar(){
-      if(isset($_POST['id']) ){
-        $anuncio_id = $_POST['id'];     
-        $this->mianuncio_model->eliminar($anuncio_id);
+      if(isset($_POST['id']) && strlen($_POST['id'])==30){
+        $this->mianuncio_model->eliminar($_POST['id']);
       }else{
         $response['codigo']=1;
         $response['mensaje']='Lo sentimos, el anuncio no se pudo eliminar.';
@@ -170,10 +184,8 @@ class MiAnuncio extends CI_Controller {
     }
 
     function cambiarEstatus(){
-      if(isset($_POST['id']) && isset($_POST['estatus_actual'])){
-        $anuncio_id = $_POST['id']; 
-        $anuncio_estatus_actual = $_POST['estatus_actual']; 
-        $this->mianuncio_model->cambiarEstatus($anuncio_id,$anuncio_estatus_actual);
+      if(isset($_POST['id']) && strlen($_POST['id'])==30 && isset($_POST['estatus_actual'])){      
+        $this->mianuncio_model->cambiarEstatus($_POST['id'],$_POST['estatus_actual']);
       }else{
         $response['codigo']=1;
         $response['mensaje']='Lo sentimos, el estatus no se pudo cambiar.';

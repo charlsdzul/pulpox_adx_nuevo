@@ -77,6 +77,7 @@ class MiAnuncio_model extends CI_Model {
     }
 
     function editar($anuncio_datos){
+        
         $datos = array(  
             'titulo'=> $anuncio_datos['titulo'],
             'mensaje'=> $anuncio_datos['mensaje'], 
@@ -92,9 +93,7 @@ class MiAnuncio_model extends CI_Model {
             );
 
         $this->db->where('public_id',$anuncio_datos['anuncio_public_id']);
-        $this->db->where('usuario_id',$this->USUARIO_EN_SESSION_ID);
-        $this->db->where('sta',0);
-        $this->db->or_where('sta',1);
+        $this->db->where('usuario_id',$this->USUARIO_EN_SESSION_ID);       
         
             if($this->db->update('anuncios', $datos)){
                 $response['codigo']  = 0;
@@ -108,6 +107,46 @@ class MiAnuncio_model extends CI_Model {
                 die(); 
             }
     }
+
+    function obtenerDatosComplementariosEdicionMovil($public_id){   
+        /**
+         * Cuando se hace una edición en versión móvil,
+         * solo se piden (por esta función) los datos que faltan,
+         * ya que en el FRONT ya hay algunos datos del anuncio.
+         * Se hizo así para no pedir esos datos que ya están en FRONT:
+         *  */         
+
+        $query = $this->db->select("*")->where("public_id",$public_id)->get('anuncios');
+
+        if($query->num_rows() > 0){
+            foreach ($query->result() as $row){
+                $misanuncio['mensaje'] = $row->mensaje;
+                $misanuncio['telefono'] = $row->telefono;
+                $misanuncio['celular'] = $row->celular;
+                $misanuncio['correo'] = $row->correo;
+                $misanuncio['celular'] = $row->celular;
+                $misanuncio['img_1'] = $row->img_1;
+                $misanuncio['img_2'] = $row->img_2;
+                $misanuncio['img_3'] = $row->img_3;
+                $misanuncio['img_4'] = $row->img_4;
+                $misanuncio['img_5'] = $row->img_5;
+                $misanuncio['img_6'] = $row->img_6;
+                $misanuncio['img_7'] = $row->img_7;
+                $misanuncio['img_8'] = $row->img_8;
+                $misanuncio['img_9'] = $row->img_9;
+                $misanuncio['img_10'] = $row->img_10;    
+                $misanuncio['codigo']  = 0;
+            }
+            echo json_encode($misanuncio);
+            die();  
+        }else{
+            $response['codigo']  = 1;
+            $response['mensaje'] = 'Hubo un problema. Intente más tarde.';  
+            echo json_encode($response);    
+            die(); 
+        }
+   
+    } 
 
     function moverImagenes($data_imagenes,$id_bdd,$public_id){     
             /** Mueve imágenes de imagenes_temporales a imagenes_anuncios
@@ -255,8 +294,7 @@ class MiAnuncio_model extends CI_Model {
                 'eliminado_por' =>  1, //1 es USUARIO 
             );
     
-            $this->db->where('usuario_id', $this->USUARIO_EN_SESSION_ID);
-            $this->db->where('public_id', $anuncio_id);
+            $this->db->where('usuario_id', $this->USUARIO_EN_SESSION_ID)->where('public_id', $anuncio_id);
             
             if($this->db->update('anuncios', $data)){
                 $response['codigo']=0;
@@ -279,9 +317,9 @@ class MiAnuncio_model extends CI_Model {
         }                  
     } 
     
-    function cambiarEstatus($anuncio_id,$anuncio_estatus_actual){    
+    function cambiarEstatus($anuncio_id,$estatus_actual){    
 
-        if($anuncio_estatus_actual=='ACTIVO'){
+        if($estatus_actual=='ACTIVO'){
             $nuevo_estatus = 1; //1 es SUSPENDIDO
             $data = array(
                 'sta' => $nuevo_estatus,
@@ -291,7 +329,7 @@ class MiAnuncio_model extends CI_Model {
             );
         }
 
-        if($anuncio_estatus_actual=='SUSPENDIDO'){
+        if($estatus_actual=='SUSPENDIDO'){
             $nuevo_estatus = 0; //0 es ACTIVO     
             $data = array(
                 'sta' => $nuevo_estatus,
@@ -301,8 +339,7 @@ class MiAnuncio_model extends CI_Model {
             ); 
         }             
 
-        $this->db->where('usuario_id', $this->USUARIO_EN_SESSION_ID);
-        $this->db->where('public_id', $anuncio_id);
+        $this->db->where('usuario_id', $this->USUARIO_EN_SESSION_ID)->where('public_id', $anuncio_id);
     
         if($this->db->update('anuncios', $data)){
             $response['codigo']=0;

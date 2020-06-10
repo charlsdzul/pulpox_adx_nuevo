@@ -23,7 +23,9 @@ class MisAnuncios extends CI_Controller {
         $this->load->view('mis-anuncios', $data);  
         $this->load->view('modules/scripts-mis-anuncios.php');  
         $this->load->view('modules/scripts-carrousel.php');     
-        $this->load->view('modules/scripts-asignar-valores.php');          
+        $this->load->view('modules/scripts-asignar-valores.php');  
+        $this->load->view('modules/scripts-asignar-validaciones.php');
+        
       }else{
         $this->load->view('modules/headers-mis-anuncios');
         $this->load->view('modules/menu');
@@ -31,11 +33,7 @@ class MisAnuncios extends CI_Controller {
       }     
     }
 
-    function obtenerDatosParaEdicionMovil(){
-      $public_id = $_POST['id']; 
-      $datosEdicion = $this->misanuncios_model->obtenerDatosParaEdicionMovil($public_id);
-      echo json_encode($datosEdicion);
-    }
+
 
     function eliminarImagenActual(){  
       

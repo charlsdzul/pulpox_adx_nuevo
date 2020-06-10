@@ -13,29 +13,28 @@
       $.confirm({
         icon: 'fas fa-info-circle',
         title: 'Eliminar Anuncio',
-        type: 'red',
+        type: 'blue',
         columnClass: 'medium',
         backgroundDismiss: true,
         content: `
           <b>¿Realmente desea eliminarlo?</b><br><br>Recuerde: 
           <label>El anuncio se eliminará y nadie podrá verlo, aunque tú podrás verlo en 'Mis Anuncios'.</label>                        
         `,
-        closeIcon:true,
         buttons: {
           cerrar: {
             text: 'Cancelar',
-              btnClass: 'btn-pulpox-danger--line',                 
-              action: function(){
-              }
+              btnClass: 'btn-pulpox-danger--line', 
+              keys: ['escape'],  
           },
           eliminarAnuncio:{
             text: `Sí, eliminar este anuncio`,
-            btnClass: 'btn-pulpox-danger',
+            btnClass: 'btn-pulpox-info',
+            keys: ['enter'], 
             action:function(){
               let dialog_eliminando = $.dialog({
                   icon: 'fa fa-spinner fa-spin',
                   title: 'Eliminar Anuncio',
-                  type: 'green',
+                  type: 'blue',
                   content: 'Estamos eliminando tu anuncio...',
                   closeIcon:false,
               }); 
@@ -49,15 +48,16 @@
                     title: 'Eliminar Anuncio',
                     type: 'green',
                     columnClass: 'medium',
+                    backgroundDismiss: true,
                     content: data.mensaje,
-                    closeIcon:true,
                     buttons: {
                       ok: {
-                        text: 'Ok',
-                          btnClass: 'btn-pulpox-success',                           
-                          action: function(){
-                            window.location.replace(BASE_URL+'misanuncios/');
-                          }
+                      text: 'Ok',
+                        btnClass: 'btn-pulpox-success', 
+                        keys: ['enter'],                          
+                        action: function(){
+                          window.location.replace(BASE_URL+'misanuncios/');
+                         }
                       },                  
                     }
                 });  
@@ -68,14 +68,12 @@
                     type: 'red',
                     columnClass: 'medium',
                     content: data.mensaje,
-                    closeIcon:true,
+                    backgroundDismiss: true,
                     buttons: {
                       ok: {
                         text: 'Ok',
-                          btnClass: 'btn-pulpox-secondary--line',
-                          keys: ['escape'],
-                          action: function(){
-                          }
+                          btnClass: 'btn-pulpox-danger--line',
+                          keys: ['escape','enter'],
                       },                  
                     }
                   });  
@@ -85,13 +83,17 @@
                 dialog_eliminando.close();   
                   $.confirm({
                     icon: 'fas fa-exclamation-circle',
-                    title: 'Detectamos un problema.',
+                    title: 'Lo sentimos.',
                     content: 'Nuestro servidor tiene problemas actualmente. Intente más tarde.',
                     type: 'red',
+                    backgroundDismiss: true,
                     typeAnimated: true,
                     buttons: {               
-                        close: function () {
-                        }
+                      ok: {
+                        text: 'Ok',
+                          btnClass: 'btn-pulpox-danger--line',
+                          keys: ['escape','enter'],
+                      }, 
                     }
                   });
                 }) 
@@ -108,17 +110,17 @@
     let type_confirm = ''
     if(estatus== 'ACTIVO' ){
       estatus_boton = 'Sí, quiero suspenderlo.'
-      clase_boton = 'btn-pulpox-warning'
-      type_confirm = 'orange'
+      clase_boton = 'btn-pulpox-info'
+      type_confirm = 'blue'
     }
     if(estatus== 'SUSPENDIDO' ){
       estatus_boton =  'Sí, quiero activarlo.'
-      clase_boton = 'btn-pulpox-success'
-      type_confirm = 'green'
+      clase_boton = 'btn-pulpox-info'
+      type_confirm = 'blue'
     }           
       $.confirm({
         icon: 'fas fa-info-circle',
-        title: 'Cambiar Estatus del Anuncio',
+        title: 'Cambio de estatus',
         type: type_confirm,
         columnClass: 'medium',
         backgroundDismiss: true,
@@ -127,7 +129,6 @@
           <label><b>ACTIVO:</b> El anuncio es visible para todo el mundo. Puedes Suspenderlo después.</label>  
           <label><b>SUSPENDIDO:</b> El anuncio nadie lo verá. Puedes Activarlo después.</label>          
         `,
-        closeIcon:true,
         buttons: {
           cerrar: {
             text: 'Cancelar',
@@ -141,8 +142,8 @@
             action:function(){    
               let dialog_cambiando_estatus = $.dialog({
                     icon: 'fa fa-spinner fa-spin',
-                    title: 'Estatus',
-                    type: 'green',
+                    title: 'Cambio de estatus',
+                    type: 'blue',
                     content: 'Estamos cambiando el estatus de tu anuncio...',
                     closeIcon:false,
               });   
@@ -153,11 +154,10 @@
                   if(data.codigo == 0){
                     $.confirm({
                       icon: 'fas fa-check-circle',
-                      title:  'Estatus',
+                      title:  'Cambio de estatus',
                       type: 'green',
                       columnClass: 'small',
                       content: data.mensaje,
-                      closeIcon:true,
                       buttons: {
                         ok: {
                           text: 'Ok',
@@ -173,7 +173,7 @@
                   }else{
                     $.confirm({
                       icon: 'fas fa-exclamation-circle',
-                      title: 'Estatus',
+                      title: 'Cambio de estatus',
                       type: 'red',
                       columnClass: 'small',
                       content: data.mensaje,
@@ -182,7 +182,7 @@
                         ok: {
                           text: 'Ok',
                             btnClass: 'btn-pulpox-danger',
-                            keys: ['enter'],              
+                            keys: ['escape','enter'],              
                         },                  
                       }
                     }); 
@@ -199,8 +199,8 @@
                     buttons: {
                     cerrarVerAnuncio: {
                       text: 'Cerrar',
-                      btnClass: 'btn-pulpox-secondary',
-                      keys: ['escape'],        
+                      btnClass: 'btn-pulpox-danger',
+                      keys: ['escape','enter'],        
                     },                 
                   }
                   });

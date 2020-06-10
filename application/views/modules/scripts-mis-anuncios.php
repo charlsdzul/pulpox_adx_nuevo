@@ -39,6 +39,7 @@
     $('.pulpox-table-tbody').append(data); 
     $('#mis-anuncios-table').DataTable();
     $('.dataTables_length').addClass('bs-select');
+    
   });
 
   var usuario_elimino_imagen = false;
@@ -51,23 +52,143 @@
     }
   }
 
+  function validaFormulario(anuncio_id){
+        /* Valida campos obligatorios: Titulo, Anuncio, Estado, Ciudad,Seccion, Apartado 
+         * Muestra aviso en caso de no escribir Telefono, Celular o Correo.
+        */          
+
+        let elementos_validados = 0; 
+        let num_error = 0 ;
+        $('.pulpox-validar').each(function(i){
+            //Se validan 6 elementos, los que tienen clase .pulpox-validar
+            
+            if($(this).val()==''){
+                $(this).css('border-color','red')
+                $(this).next().show()  //Muestra el div con mensaje de error  
+                $(this).focus();
+
+            }else{
+                $(this).css('border-color','')
+                $(this).next().hide() 
+                elementos_validados++;
+            }             
+        });    
+
+        $('.pulpox-validar-select').each(function(i){
+            //Se validan 6 elementos, los que tienen clase .pulpox-validar
+            if($(this).find('option:selected').val()==''){
+                $(this).css('border-color','red')
+                $(this).next().show()  //Muestra el div con mensaje de error   
+                $(this).focus();                
+            }else{
+                $(this).css('border-color','')
+                $(this).next().hide() 
+                elementos_validados++;
+            }             
+        });  
+
+        /**VALIDA LONGITUD DE TELEFONO */
+        var telefono = $('#telefono')
+        if(telefono.val().length>0 && telefono.val().length<10){
+            telefono.css('border-color','red');
+            telefono.next().show() ; //Muestra el div con mensaje de error  
+        }
+        if(telefono.val().length==10){
+            telefono.css('border-color','');
+            telefono.next().hide() ;
+            elementos_validados++;
+        }
+        if(telefono.val()==''){
+            elementos_validados++;                   
+        }
+
+        /**VALIDA LONGITUD DE CELULAR */ 
+        var celular = $('#celular')
+        if(celular.val().length>0 && celular.val().length<10){
+            celular.css('border-color','red');
+            celular.next().show() ; //Muestra el div con mensaje de error  
+        }
+        if(celular.val().length==10){
+            celular.css('border-color','');
+            celular.next().hide() ;
+            elementos_validados++;  
+        }
+        if(celular.val()==''){
+            elementos_validados++;                   
+        }
+
+        /**VALIDA EMAIL*/ 
+        var email_regex= new RegExp(/^\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b$/i);
+        var correo = $('#correo')
+
+        if(correo.val()==''){
+            elementos_validados++; 
+            correo.css('border-color','');
+            correo.next().hide() ;
+        }else{
+            if(email_regex.test(correo.val())){
+                correo.css('border-color','');
+                correo.next().hide() ;
+                elementos_validados++; 
+            }else{
+                correo.css('border-color','red');
+                correo.next().show() ; //Muestra el div con mensaje de error  
+            }
+        }    
+
+        var validation = 1;
+
+        if (elementos_validados == 10){
+            if($('#telefono').val()=='' && $('#celular').val()=='' && $('#correo').val()==''){
+                $.confirm({
+                    icon: 'fas fa-exclamation-circle',
+                    title: 'Aviso',
+                    type: 'orange',
+                    content: 'No pusiste ningún medio de contacto ¿Así lo quieres publicar?',
+                    closeIcon:false,
+                    buttons: {
+                        misAnuncios: {
+                            text: 'Sí',
+                            btnClass: 'btn-pulpox-secondary--line',
+                            keys: ['enter', 'shift'],
+                            action: function(){
+                              guardarEdicion(anuncio_public_id)
+                            }
+                        },
+                        nuevoAnuncio: {
+                            text: 'No, editar.',
+                            btnClass: 'btn-pulpox-secondary',
+                            keys: ['enter', 'shift'],
+                            action: function(){                              
+                            }
+                        },                      
+                    }
+                });
+            }else{
+              guardarEdicion(anuncio_public_id)
+            }
+        }
+  }
+
   function mostrarDatosMovil(titulo,id,modalidad,estado,ciudad,seccion,apartado,creado,estatus){
     usuario_elimino_imagen = false;
     $.confirm({
         icon: 'fas fa-info-circle',
-        title: 'Información de mi anuncio',
+        title: '<spam class="titulo-confirm">Información de mi anuncio</spam>',
         type: 'blue',
         columnClass: 'large',
         backgroundDismiss: true,
         content: `
-          <b>Título:</b>  ${titulo} <br>
-          <b>Modalidad:</b>  ${modalidad}<br>
-          <b>Lugar:</b>  ${estado} / ${ciudad}<br>
-          <b>Sección:</b>  ${seccion} / ${apartado}<br>
-          <b>ID:</b> ${id}<br>
-          <b>Creado:</b> ${creado}<br>
-          <div class='div_estatus_actual'>
-            <b>Estatus:</b> ${estatus}
+          <div class='contenido-confirm'>
+            <b>Título:</b>  ${titulo} <br>
+            <b>Modalidad:</b>  ${modalidad}<br>
+            <b>Lugar:</b>  ${estado} / ${ciudad}<br>
+            <b>Sección:</b>  ${seccion} / ${apartado}<br>
+            <b>ID:</b> ${id}<br>
+            <b>Creado:</b> ${creado}<br>
+            <div class='div_estatus_actual'>
+              <b>Estatus:</b> ${estatus}
+            </div>
           </div>
         `,
         closeIcon:true,
@@ -130,7 +251,8 @@
             text: 'Editar',
             isHidden: true,
             action: function(){
-              editarAnuncioMovil(titulo,id,modalidad,estado,ciudad,seccion,apartado,creado,estatus);
+              editarAnuncioMovil(titulo,id,modalidad,estado,ciudad,seccion,apartado);
+              asignaValidacionesInputs();
             }
           },
           verAnuncioMobil: {
@@ -150,30 +272,29 @@
     let type_confirm = ''
     if(estatus== 'ACTIVO' ){
       estatus_boton = 'Sí, quiero suspenderlo.'
-      clase_boton = 'btn-pulpox-warning'
-      type_confirm = 'orange'
+      clase_boton = 'btn-pulpox-info'
+      type_confirm = 'blue'
     }
     if(estatus== 'SUSPENDIDO' ){
       estatus_boton =  'Sí, quiero activarlo.'
-      clase_boton = 'btn-pulpox-success'
-      type_confirm = 'green'
+      clase_boton = 'btn-pulpox-info'
+      type_confirm = 'blue'
     }           
       $.confirm({
         icon: 'fas fa-info-circle',
-        title: 'Estatus',
+        title: '<spam class="titulo-confirm">Cambio de estatus<spam>',
         type: type_confirm,
         columnClass: 'large',
         backgroundDismiss: true,
-        content: `
-          El <b>estatus actual del anuncio es ${estatus} ¿Realmente desea cambiarlo?</b><br><br>Recuerde: 
+        content: `<div class='contenido-confirm'>
+          El estatus actual del anuncio es <b>${estatus}</b> ¿Realmente desea cambiarlo?<br><br>Recuerde: 
           <label><b>ACTIVO:</b> El anuncio es visible para todo el mundo. Puedes Suspenderlo después.</label>  
           <label><b>SUSPENDIDO:</b> El anuncio nadie lo verá. Puedes Activarlo después.</label>          
-        `,
-        closeIcon:true,
+        </div>`,
         buttons: {
           cerrar: {
             text: 'Cancelar',
-              btnClass: 'btn-pulpox-secondary--line',
+              btnClass: 'btn-pulpox-danger--line',
               keys: ['escape'],           
           },
           cambiarEstatus:{
@@ -183,8 +304,8 @@
             action:function(){    
               let dialog_cambiando_estatus = $.dialog({
                     icon: 'fa fa-spinner fa-spin',
-                    title: 'Cambiar Estatus del Anuncio',
-                    type: 'green',
+                    title: 'Cambio de estatus',
+                    type: 'blue',
                     content: 'Estamos cambiando el estatus de tu anuncio...',
                     closeIcon:false,
               });   
@@ -195,11 +316,10 @@
                   if(data.codigo == 0){
                     $.confirm({
                       icon: 'fas fa-check-circle',
-                      title: 'Estatus',
+                      title: 'Cambio de estatus',
                       type: 'green',
                       columnClass: 'large',
                       content: data.mensaje,
-                      closeIcon:true,
                       buttons: {
                         ok: {
                           text: 'Ok',
@@ -215,7 +335,7 @@
                   }else{
                     $.confirm({
                       icon: 'fas fa-exclamation-circle',
-                      title: 'Estatus',
+                      title: 'Cambio de estatus',
                       type: 'red',
                       columnClass: 'large',
                       content: data.mensaje,
@@ -224,7 +344,7 @@
                         ok: {
                           text: 'Ok',
                             btnClass: 'btn-pulpox-danger',
-                            keys: ['enter'],              
+                            keys: ['escape','enter'],              
                         },                  
                       }
                     }); 
@@ -241,8 +361,8 @@
                     buttons: {
                     cerrarVerAnuncio: {
                       text: 'Cerrar',
-                      btnClass: 'btn-pulpox-secondary',
-                      keys: ['escape'],        
+                      btnClass: 'btn-pulpox-danger',
+                      keys: ['escape','enter'],        
                     },                 
                   }
                   });
@@ -257,29 +377,28 @@
       $.confirm({
         icon: 'fas fa-info-circle',
         title: 'Eliminar Anuncio',
-        type: 'red',
+        type: 'blue',
         columnClass: 'medium',
         backgroundDismiss: true,
         content: `
           <b>¿Realmente desea eliminarlo?</b><br><br>Recuerde: 
           <label>El anuncio se eliminará y nadie podrá verlo, aunque tú podrás verlo en 'Mis Anuncios'.</label>                        
         `,
-        closeIcon:true,
         buttons: {
           cerrar: {
             text: 'Cancelar',
-              btnClass: 'btn-pulpox-danger--line',                 
-              action: function(){
-              }
+              btnClass: 'btn-pulpox-danger--line',  
+              keys: ['escape'], 
           },
           eliminarAnuncio:{
             text: `Sí, eliminar este anuncio`,
-            btnClass: 'btn-pulpox-danger',
+            btnClass: 'btn-pulpox-info',
+            keys: ['enter'], 
             action:function(){
               let dialog_eliminando = $.dialog({
                   icon: 'fa fa-spinner fa-spin',
                   title: 'Eliminar Anuncio',
-                  type: 'green',
+                  type: 'blue',
                   content: 'Estamos eliminando tu anuncio...',
                   closeIcon:false,
               }); 
@@ -293,15 +412,16 @@
                     title: 'Eliminar Anuncio',
                     type: 'green',
                     columnClass: 'medium',
-                    content: data.mensaje,
-                    closeIcon:true,
+                    backgroundDismiss: true,
+                    content: data.mensaje,                   
                     buttons: {
                       ok_eliminado: {
                         text: 'Ok',
-                          btnClass: 'btn-pulpox-success',                           
-                          action: function(){
-                            window.location.replace(BASE_URL+'misanuncios/');
-                          }
+                        btnClass: 'btn-pulpox-success',    
+                        keys: ['enter'],                       
+                        action: function(){
+                          window.location.replace(BASE_URL+'misanuncios/');
+                        }
                       },                  
                     }
                 });  
@@ -312,14 +432,12 @@
                     type: 'red',
                     columnClass: 'medium',
                     content: data.mensaje,
-                    closeIcon:true,
+                    backgroundDismiss: true,
                     buttons: {
                       ok: {
                         text: 'Ok',
-                          btnClass: 'btn-pulpox-secondary--line',
-                          keys: ['escape'],
-                          action: function(){
-                          }
+                          btnClass: 'btn-pulpox-danger--line',
+                          keys: ['escape','enter'],                        
                       },                  
                     }
                   });  
@@ -328,13 +446,17 @@
               .fail(function() {
                 dialog_eliminando.close();   
                   $.confirm({
-                    title: 'Detectamos un problema.',
+                    title: 'Lo sentimos.',
                     content: 'Nuestro servidor tiene problemas actualmente. Intente más tarde.',
                     type: 'red',
+                    backgroundDismiss: true,
                     typeAnimated: true,
                     buttons: {               
-                        close: function () {
-                        }
+                      ok: {
+                        text: 'Ok',
+                          btnClass: 'btn-pulpox-danger--line',
+                          keys: ['escape','enter'],
+                      }, 
                     }
                   });
                 }) 
@@ -344,7 +466,7 @@
       });
   }
 
-  function editarAnuncioMovil(titulo,id,modalidad,estado,ciudad,seccion,apartado,creado,estatus){ 
+  function editarAnuncioMovil(titulo,id,modalidad,estado,ciudad,seccion,apartado){ 
     $.confirm({
       icon: 'fas fa-edit',
       title: 'Editar anuncio',
@@ -354,10 +476,11 @@
       closeIcon:false,                                
       content: function(){   
           var self = this;
-          $.post(BASE_URL+'misanuncios/obtenerDatosParaEdicionMovil/', {id})
+          $.get(BASE_URL+'mianuncio/obtenerDatosComplementariosEdicionMovil/', {id})
           .done(function(response){
             var data = JSON.parse(response)
-            self.setContent(`         
+            if(data.codigo==0){
+              self.setContent(`         
                     <div class="row justify-content-center">
                       <div class="form-group col-11 col-sm-11>
                         <label for="titulo">Título</label>
@@ -368,7 +491,7 @@
                     <div class="row justify-content-center">
                       <div class="form-group col-11 col-sm-11">
                         <label for="mensaje">Anuncio</label>
-                        <textarea id='mensaje' class="form-control pulpox-validar" aria-label="With textarea" rows="10" maxlength="1000">${data.anuncio}</textarea>
+                        <textarea id='mensaje' class="form-control pulpox-validar" aria-label="With textarea" rows="10" maxlength="1000">${data.mensaje}</textarea>
                         <div class="pulpox-invalid-feedback">Escribe tu mensaje</div>
                       </div>
                     </div>
@@ -566,22 +689,173 @@
                     </div>           
             `)
             asignaListasSelects(modalidad,estado,ciudad,seccion,apartado)
-            asignarImagenes(id,data)  
+            asignaValidacionesInputs();
+            asignarImagenes(id,data) 
+
+            }else{
+              $.confirm({
+                    icon: 'fas fa-check-circle',
+                    title: 'Lo sentimos.',
+                    type: 'red',
+                    columnClass: 'medium',
+                    content: data.mensaje,
+                    closeIcon:true,
+                    buttons: {
+                      ok_eliminado: {
+                        text: 'Ok',
+                          btnClass: 'btn-pulpox-danger',                           
+                          action: function(){
+                          }
+                      },                  
+                    }
+                }); 
+
+            }
+
+
+             
           })
       },                             
       buttons: {
         cancelarEdicion: {
           text: 'Cancelar',
-          btnClass: 'btn-pulpox-secondary--line',
+          btnClass: 'btn-pulpox-danger--line',
           keys: ['escape'],        
         },
         guardarEdicion: {
           text: 'Guardar',
           id:'editar_boton_guardar',
-          btnClass: 'btn-pulpox-secondary guardarEdicion',
+          btnClass: 'btn-pulpox-info guardarEdicion',
           keys: ['enter'],                                                
           action: function(){
-            let titulo_nuevo = $('#titulo').val()
+            validaFormulario(id)   
+            return false;
+          }
+        }
+      }
+    });                   
+  }
+
+  function validaFormulario(anuncio_public_id){
+        /* Valida campos obligatorios: Titulo, Anuncio, Estado, Ciudad,Seccion, Apartado 
+         * Muestra aviso en caso de no escribir Telefono, Celular o Correo.
+        */          
+
+        let elementos_validados = 0; 
+        let num_error = 0 ;
+        $('.pulpox-validar').each(function(i){
+            //Se validan 6 elementos, los que tienen clase .pulpox-validar
+            
+            if($(this).val()==''){
+                $(this).css('border-color','red')
+                $(this).next().show()  //Muestra el div con mensaje de error  
+                $(this).focus();
+
+            }else{
+                $(this).css('border-color','')
+                $(this).next().hide() 
+                elementos_validados++;
+            }             
+        });    
+
+        $('.pulpox-validar-select').each(function(i){
+            //Se validan 6 elementos, los que tienen clase .pulpox-validar
+            if($(this).find('option:selected').val()==''){
+                $(this).css('border-color','red')
+                $(this).next().show()  //Muestra el div con mensaje de error   
+                $(this).focus();                
+            }else{
+                $(this).css('border-color','')
+                $(this).next().hide() 
+                elementos_validados++;
+            }             
+        });  
+
+        /**VALIDA LONGITUD DE TELEFONO */
+        var telefono = $('#telefono')
+        if(telefono.val().length>0 && telefono.val().length<10){
+            telefono.css('border-color','red');
+            telefono.next().show() ; //Muestra el div con mensaje de error  
+        }
+        if(telefono.val().length==10){
+            telefono.css('border-color','');
+            telefono.next().hide() ;
+            elementos_validados++;
+        }
+        if(telefono.val()==''){
+            elementos_validados++;                   
+        }
+
+        /**VALIDA LONGITUD DE CELULAR */ 
+        var celular = $('#celular')
+        if(celular.val().length>0 && celular.val().length<10){
+            celular.css('border-color','red');
+            celular.next().show() ; //Muestra el div con mensaje de error  
+        }
+        if(celular.val().length==10){
+            celular.css('border-color','');
+            celular.next().hide() ;
+            elementos_validados++;  
+        }
+        if(celular.val()==''){
+            elementos_validados++;                   
+        }
+
+        /**VALIDA EMAIL*/ 
+        var email_regex= new RegExp(/^\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b$/i);
+        var correo = $('#correo')
+
+        if(correo.val()==''){
+            elementos_validados++; 
+            correo.css('border-color','');
+            correo.next().hide() ;
+        }else{
+            if(email_regex.test(correo.val())){
+                correo.css('border-color','');
+                correo.next().hide() ;
+                elementos_validados++; 
+            }else{
+                correo.css('border-color','red');
+                correo.next().show() ; //Muestra el div con mensaje de error  
+            }
+        }    
+
+        var validation = 1;
+
+        if (elementos_validados == 10){
+            if($('#telefono').val()=='' && $('#celular').val()=='' && $('#correo').val()==''){
+                $.confirm({
+                    icon: 'fas fa-exclamation-circle',
+                    title: 'Aviso',
+                    type: 'orange',
+                    content: 'No pusiste ningún medio de contacto ¿Así lo quieres publicar?',
+                    closeIcon:false,
+                    buttons: {
+                        misAnuncios: {
+                            text: 'Sí',
+                            btnClass: 'btn-pulpox-success--line',
+                            keys: ['enter', 'shift'],
+                            action: function(){
+                              guardarEdicion(anuncio_public_id)
+                            }
+                        },
+                        nuevoAnuncio: {
+                            text: 'No, editar.',
+                            btnClass: 'btn-pulpox-success',
+                            keys: ['enter', 'shift'],
+                            action: function(){                              
+                            }
+                        },                      
+                    }
+                });
+            }else{
+              guardarEdicion(anuncio_public_id)
+            }
+        }
+  }
+
+  function guardarEdicion(anuncio_public_id){
+    let titulo_nuevo = $('#titulo').val()
             let mensaje_nuevo = $('#mensaje').val()
             let estado_nuevo = $('#estado').val()
             let ciudad_nuevo = $('#ciudad').val()
@@ -593,19 +867,18 @@
             let correo_nuevo = $('#correo').val()
 
             let anuncio_editado = {
-            'anuncio_public_id':id,
-            'titulo': titulo_nuevo, 
-            'mensaje': mensaje_nuevo, 
-            'estado': estado_nuevo, 
-            'ciudad': ciudad_nuevo, 
-            'modalidad': modalidad_nuevo, 
-            'seccion': seccion_nuevo, 
-            'apartado': apartado_nuevo, 
-            'telefono': telefono_nuevo, 
-            'celular': celular_nuevo, 
-            'correo': correo_nuevo, 
+              'anuncio_public_id':anuncio_public_id,
+              'titulo': titulo_nuevo, 
+              'mensaje': mensaje_nuevo, 
+              'estado': estado_nuevo, 
+              'ciudad': ciudad_nuevo, 
+              'modalidad': modalidad_nuevo, 
+              'seccion': seccion_nuevo, 
+              'apartado': apartado_nuevo, 
+              'telefono': telefono_nuevo, 
+              'celular': celular_nuevo, 
+              'correo': correo_nuevo, 
             }
-            define
             $.post(BASE_URL+'mianuncio/editar/', {anuncio_editado})
               .done(function(response){
                 var response = JSON.parse(response)
@@ -619,7 +892,7 @@
                   buttons: {
                     OK: {
                         text: 'Ok',
-                        btnClass: 'btn-pulpox-secondary',
+                        btnClass: 'btn-pulpox-success',
                         keys: ['enter'],
                         action: function(){
                           window.location.replace(BASE_URL+'misanuncios/');                        
@@ -637,7 +910,7 @@
                     buttons: {
                       OK: {
                           text: 'Ok',
-                          btnClass: 'btn-pulpox-secondary',
+                          btnClass: 'btn-pulpox-danger',
                           keys: ['enter'],       
                           action: function(){
                           $(`#${response.objeto}`).focus();                   
@@ -658,25 +931,12 @@
                     buttons: {
                       OK: {
                           text: 'Ok',
-                          btnClass: 'btn-pulpox-secondary',
+                          btnClass: 'btn-pulpox-danger',
                           keys: ['enter'],                   
                       },                                      
                     }
                 });
               })
-
-            if (usuario_elimino_imagen == false){
-              console.log('No ha eliminado fotos')
-            }
-            if (usuario_elimino_imagen == true){
-              console.log('Ya eliminó fotos')           
-            }
-
-            return false;
-          }
-        }
-      }
-    });                   
   }
 
   function verAnuncioMovil(id){   
@@ -757,7 +1017,7 @@
       buttons: {
         cerrarVerAnuncio: {
           text: 'Cerrar',
-          btnClass: 'btn-pulpox-secondary',
+          btnClass: 'btn-pulpox-info',
           keys: ['escape'],        
         },                 
       }
@@ -793,15 +1053,15 @@
               buttons: {
                 nuevoAnuncio: {
                     text: 'Cancelar',
-                    btnClass: 'btn-pulpox-secondary',
-                    keys: ['escape', 'shift'],
+                    btnClass: 'btn-pulpox-danger',
+                    keys: ['escape'],
                     action: function(){
                     }
                 },
                 misAnuncios: {
                     text: 'Sí',
-                    btnClass: 'btn-pulpox-secondary',
-                    keys: ['enter', 'shift'],
+                    btnClass: 'btn-pulpox-info',
+                    keys: ['enter'],
                     action: function(){   
                       var fd = new FormData();        
                       fd.append('numero', numero_imagen); 
@@ -834,8 +1094,8 @@
                                       buttons: {
                                         OK: {
                                             text: 'Ok',
-                                            btnClass: 'btn-pulpox-secondary',
-                                            keys: ['escape', 'shift'],
+                                            btnClass: 'btn-pulpox-info',
+                                            keys: ['escape'],
                                             action: function(){
                                             }
                                         },                                      
@@ -860,7 +1120,7 @@
                                       buttons: {
                                         OK: {
                                             text: 'Ok',
-                                            btnClass: 'btn-pulpox-secondary',
+                                            btnClass: 'btn-pulpox-danger',
                                             keys: ['enter'],
                                             action: function(){
                                             }
@@ -875,15 +1135,15 @@
                             $(`#panel-image--div_icon-${numero_imagen}`).hide() 
                             $.confirm({
                                       icon: 'fas fa-exclamation-circle',
-                                      title: 'Confirmación',
+                                      title: 'Lo sentimos.',
                                       type: 'red',
-                                      content: `Ocurrió un problema al eliminar la imágen. Disculpa. Intenta más tarde.`,
+                                      content: `Ocurrió un problema al eliminar la imágen. Intenta más tarde.`,
                                       closeIcon:false,
                                       buttons: {
                                         OK: {
                                             text: 'Ok',
                                             btnClass: 'btn-pulpox-secondary',
-                                            keys: ['escape', 'shift'],
+                                            keys: ['escape'],
                                             action: function(){
                                             }
                                         },                                      
@@ -976,5 +1236,7 @@
           });                     
       })  
   }  
+
+ 
 
 </script>

@@ -34,35 +34,9 @@ class MisAnuncios_model extends CI_Model {
         }          
 
         return $misanuncios;          
-    } 
-      
+    }       
 
-    function obtenerDatosParaEdicionMovil($publid_id){        
-        $this->db->select("*");
-        $this->db->where("public_id",$publid_id);
-        $res = $this->db->get('anuncios');
-        foreach ($res->result() as $row){
-            $misanuncio['mensaje'] = $row->mensaje;
-            $misanuncio['telefono'] = $row->telefono;
-            $misanuncio['celular'] = $row->celular;
-            $misanuncio['correo'] = $row->correo;
-            $misanuncio['celular'] = $row->celular;
-            $misanuncio['img_1'] = $row->img_1;
-            $misanuncio['img_2'] = $row->img_2;
-            $misanuncio['img_3'] = $row->img_3;
-            $misanuncio['img_4'] = $row->img_4;
-            $misanuncio['img_5'] = $row->img_5;
-            $misanuncio['img_6'] = $row->img_6;
-            $misanuncio['img_7'] = $row->img_7;
-            $misanuncio['img_8'] = $row->img_8;
-            $misanuncio['img_9'] = $row->img_9;
-            $misanuncio['img_10'] = $row->img_10;
 
-            $misanuncio['estatus'] = $this->validaciones->estatusTexto($row->sta);
-        }          
-
-        return $misanuncio;    
-    } 
 
     function eliminarImagen($nombre_imagen,$numero_imagen,$public_id){  
 
