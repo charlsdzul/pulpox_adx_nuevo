@@ -326,6 +326,9 @@ h1 {
   color: orange;
 }
 
+/**
+	NOTA: ALGUNOS ESTULO ESTAN DEFINIDOS EN EL PROPIO TABLE	
+*/
 .pulpox-table--thead {
   background-color: #a30036;
   color: white;
@@ -345,10 +348,6 @@ h1 {
   color: WHITE;
 }
 
-.pulpox-table--titulo {
-  color: black;
-}
-
 #mis-anuncios-table_length select {
   display: inline-block;
   width: 5em;
@@ -365,4 +364,29 @@ h1 {
 
 .div-contacto {
   display: none;
+}
+
+.table-sm td,
+.table-sm th {
+  padding: 0.5em;
+  vertical-align: middle;
+}
+
+.table td,
+.table th {
+  padding: 0.5em;
+  vertical-align: middle;
+}
+
+.table td,
+.table-sm td {
+  color: #3d3c3c;
+}
+
+tr {
+  color: white;
+}
+
+#pulpox-td-table {
+  text-align: center;
 }

@@ -1,5 +1,9 @@
 @import "../../../pulpox_ads_nuevo/assets/scss/base/config.scss";
 
+/**
+	NOTA: ALGUNOS ESTULO ESTAN DEFINIDOS EN EL PROPIO TABLE	
+*/
+
 .pulpox-table--thead {
 	background-color: $color_primary;
 	color: white;
@@ -22,10 +26,6 @@
 	}
 }
 
-.pulpox-table--titulo {
-	color: black;
-}
-
 #mis-anuncios-table_length select {
 	display: inline-block;
 	width: 5em;
@@ -44,4 +44,29 @@
 
 .div-contacto {
 	display: none;
+}
+
+.table-sm td,
+.table-sm th {
+	padding: 0.5em;
+	vertical-align: middle;
+}
+
+.table td,
+.table th {
+	padding: 0.5em;
+	vertical-align: middle;
+}
+
+.table td,
+.table-sm td {
+	color: $color_dark;
+}
+
+tr {
+	color: white;
+}
+
+#pulpox-td-table {
+	text-align: center;
 }

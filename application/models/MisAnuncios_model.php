@@ -12,14 +12,10 @@ class MisAnuncios_model extends CI_Model {
         $this->load->helper('url'); 
     }  
 
-    function obtenerMisAnuncios(){        
-        $this->db->select("*");
-        $this->db->order_by('creado', 'DESC');
-        $this->db->where("usuario_id",111);
-        $res = $this->db->get('anuncios');
+    function obtenerMisAnuncios(){ 
+        $res =$this->db->select("*")->order_by('creado', 'DESC')->where("usuario_id",111)->get('anuncios');
         $misanuncios=[]; 
-        $j=0;
-       
+        $j=0;       
         foreach ($res->result() as $row){
             $misanuncios[$j]['public_id'] = $row->public_id;
             $misanuncios[$j]['titulo'] = $row->titulo;
@@ -31,12 +27,9 @@ class MisAnuncios_model extends CI_Model {
             $misanuncios[$j]['creado'] = $this->validaciones->creaFechaConFormato($row->creado);
             $misanuncios[$j]['estatus'] = $this->validaciones->estatusTexto($row->sta);
             $j++;
-        }          
-
+        }  
         return $misanuncios;          
-    }       
-
-
+    } 
 
     function eliminarImagen($nombre_imagen,$numero_imagen,$public_id){  
 

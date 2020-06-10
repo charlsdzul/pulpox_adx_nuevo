@@ -1,11 +1,21 @@
 <script> 
 
-  const BASE_URL = "<?php echo base_url();?>" + "index.php/";
+  const BASE_URL = "<?php echo base_url();?>index.php/";
 
   $(document).ready(function () {
 
-    let mis_anuncios = <?php echo json_encode($misanuncios); ?>;
-    let data;
+    let dialog_obtener_anuncios= $.dialog({
+      icon: 'fa fa-spinner fa-spin',
+      title: '<spam class="titulo-confirm">Mis Anuncios</spam>',
+      type: 'blue',
+      content: "<div class='contenido-confirm'>Estamos obteniedo tus anuncios...<div class='contenido-confirm'>",
+      closeIcon:false,
+    }); 
+
+    $.get(BASE_URL+"misanuncios/obtenerMisAnuncios/")
+    .done(function(response){
+      let mis_anuncios = JSON.parse(response);      
+      let data;
 
       for (let index = 0; index < mis_anuncios.length; index++) { 
 
@@ -21,24 +31,43 @@
             back_color = '#a3525a';
             color = 'white';
           }       
-
+       
         data += `
-          <tr  id=${mis_anuncios[index].public_id}> 
-            <th class='d-none d-lg-table-cell' scope="row">${index+1}</th>                      
-            <td>${mis_anuncios[index].titulo}</td>
+          <tr id=${mis_anuncios[index].public_id}'> 
+            <th class='d-none d-lg-table-cell'>${index+1}</th>                      
+            <td style='word-break: break-all;'>${mis_anuncios[index].titulo}</td>
             <td class='text-center' title='Ver anuncio' id='pulpox-icon--ver' onclick='verAnuncio("${mis_anuncios[index].titulo}","${mis_anuncios[index].public_id}","${mis_anuncios[index].modalidad}","${mis_anuncios[index].estado}" ,"${mis_anuncios[index].ciudad}","${mis_anuncios[index].seccion}","${mis_anuncios[index].apartado}","${mis_anuncios[index].creado}","${mis_anuncios[index].estatus}")'><i class="fas fa-eye"></i></td>                 
             <td class='d-none d-lg-table-cell'>${mis_anuncios[index].modalidad} </td>
             <td class='d-none d-lg-table-cell'>${mis_anuncios[index].estado} / ${mis_anuncios[index].ciudad}</td>
             <td class='d-none d-lg-table-cell'>${mis_anuncios[index].seccion} / ${mis_anuncios[index].apartado}</td>
-            <td class='d-none d-lg-table-cell'>${mis_anuncios[index].public_id}</td>
+            <td style='word-break: break-all;' class='d-none d-lg-table-cell'>${mis_anuncios[index].public_id}</td>
             <td class='d-none d-lg-table-cell'>${mis_anuncios[index].creado}</td>
-            <td style='background-color:${back_color};color:${color};'>${mis_anuncios[index].estatus}</td>     
+            <td id='pulpox-td-table' style='background-color:${back_color};color:${color};'>${mis_anuncios[index].estatus}</td>     
           </tr>`;    
       }  
 
-    $('.pulpox-table-tbody').append(data); 
-    $('#mis-anuncios-table').DataTable();
-    $('.dataTables_length').addClass('bs-select');
+      $('.pulpox-table-tbody').append(data); 
+      dialog_obtener_anuncios.close();
+      $('#mis-anuncios-table').DataTable();
+      $('.dataTables_length').addClass('bs-select');    
+    })
+    .fail(function() {
+      dialog_cambiando_estatus.close();   
+      $.confirm({
+        title: '<spam class="titulo-confirm">Lo sentimos.',
+        content: "<div class='contenido-confirm'>Nuestro servidor tiene problemas actualmente. Intente más tarde.</div>",
+        type: 'red',
+        typeAnimated: true,
+        backgroundDismiss: true, 
+        buttons: {
+        cerrarVerAnuncio: {
+          text: 'Cerrar',
+          btnClass: 'btn-pulpox-danger',
+          keys: ['escape','enter'],        
+        },                 
+      }
+      });
+    }) 
     
   });
 
@@ -142,7 +171,7 @@
             if($('#telefono').val()=='' && $('#celular').val()=='' && $('#correo').val()==''){
                 $.confirm({
                     icon: 'fas fa-exclamation-circle',
-                    title: 'Aviso',
+                    title: '<spam class="titulo-confirm">Aviso',
                     type: 'orange',
                     content: 'No pusiste ningún medio de contacto ¿Así lo quieres publicar?',
                     closeIcon:false,
@@ -271,12 +300,12 @@
     let clase_boton =''
     let type_confirm = ''
     if(estatus== 'ACTIVO' ){
-      estatus_boton = 'Sí, quiero suspenderlo.'
+      estatus_boton = 'Sí, quiero suspenderlo'
       clase_boton = 'btn-pulpox-info'
       type_confirm = 'blue'
     }
     if(estatus== 'SUSPENDIDO' ){
-      estatus_boton =  'Sí, quiero activarlo.'
+      estatus_boton =  'Sí, quiero activarlo'
       clase_boton = 'btn-pulpox-info'
       type_confirm = 'blue'
     }           
@@ -304,9 +333,9 @@
             action:function(){    
               let dialog_cambiando_estatus = $.dialog({
                     icon: 'fa fa-spinner fa-spin',
-                    title: 'Cambio de estatus',
+                    title: '<spam class="titulo-confirm">Cambio de estatus</spam>',
                     type: 'blue',
-                    content: 'Estamos cambiando el estatus de tu anuncio...',
+                    content: "<div class='contenido-confirm'>Estamos cambiando el estatus de tu anuncio...<div class='contenido-confirm'>",
                     closeIcon:false,
               });   
               $.post(BASE_URL+'mianuncio/cambiarEstatus/', {id,estatus_actual})
@@ -316,10 +345,10 @@
                   if(data.codigo == 0){
                     $.confirm({
                       icon: 'fas fa-check-circle',
-                      title: 'Cambio de estatus',
+                      title: '<spam class="titulo-confirm">Cambio de estatus</spam>',
                       type: 'green',
                       columnClass: 'large',
-                      content: data.mensaje,
+                      content: `<div class='contenido-confirm'>${data.mensaje}</div>`,
                       buttons: {
                         ok: {
                           text: 'Ok',
@@ -335,10 +364,10 @@
                   }else{
                     $.confirm({
                       icon: 'fas fa-exclamation-circle',
-                      title: 'Cambio de estatus',
+                      title: '<spam class="titulo-confirm">Cambio de estatus',
                       type: 'red',
                       columnClass: 'large',
-                      content: data.mensaje,
+                      content: `<div class='contenido-confirm'>${data.mensaje}</div>`,
                       closeIcon:true,
                       buttons: {
                         ok: {
@@ -353,8 +382,8 @@
                 .fail(function() {
                   dialog_cambiando_estatus.close();   
                   $.confirm({
-                    title: 'Detectamos un problema.',
-                    content: 'Nuestro servidor tiene problemas actualmente. Intente más tarde.',
+                    title: '<spam class="titulo-confirm">Lo sentimos.</spam>',
+                    content: "<div class='contenido-confirm'>Nuestro servidor tiene problemas actualmente. Intente más tarde.</div>",
                     type: 'red',
                     typeAnimated: true,
                     backgroundDismiss: true, 
@@ -376,13 +405,13 @@
   function eliminarAnuncio(id){    
       $.confirm({
         icon: 'fas fa-info-circle',
-        title: 'Eliminar Anuncio',
+        title: '<spam class="titulo-confirm">Eliminar Anuncio<spam>',
         type: 'blue',
         columnClass: 'medium',
         backgroundDismiss: true,
         content: `
-          <b>¿Realmente desea eliminarlo?</b><br><br>Recuerde: 
-          <label>El anuncio se eliminará y nadie podrá verlo, aunque tú podrás verlo en 'Mis Anuncios'.</label>                        
+        <div class='contenido-confirm'><b>¿Realmente desea eliminarlo?</b><br><br>Recuerde: 
+          <label>El anuncio se eliminará y nadie podrá verlo, aunque tú podrás verlo en 'Mis Anuncios'.</label></div>                      
         `,
         buttons: {
           cerrar: {
@@ -397,9 +426,9 @@
             action:function(){
               let dialog_eliminando = $.dialog({
                   icon: 'fa fa-spinner fa-spin',
-                  title: 'Eliminar Anuncio',
+                  title: '<spam class="titulo-confirm">Eliminar Anuncio<spam>',
                   type: 'blue',
-                  content: 'Estamos eliminando tu anuncio...',
+                  content: "<div class='contenido-confirm'>Estamos eliminando tu anuncio...</div>",
                   closeIcon:false,
               }); 
               $.post(BASE_URL+'mianuncio/eliminar/', {id})
@@ -409,11 +438,11 @@
                 if(data.codigo == 0){
                   $.confirm({
                     icon: 'fas fa-check-circle',
-                    title: 'Eliminar Anuncio',
+                    title: '<spam class="titulo-confirm">Eliminar Anuncio',
                     type: 'green',
                     columnClass: 'medium',
                     backgroundDismiss: true,
-                    content: data.mensaje,                   
+                    content: `<div class='contenido-confirm'>${data.mensaje}</div>`,                   
                     buttons: {
                       ok_eliminado: {
                         text: 'Ok',
@@ -428,16 +457,16 @@
                 }else{
                   $.confirm({
                     icon: 'fas fa-exclamation-circle',
-                    title: 'Eliminar Anuncio',
+                    title: '<spam class="titulo-confirm">Eliminar Anuncio<spam>',
                     type: 'red',
                     columnClass: 'medium',
-                    content: data.mensaje,
+                    content: `<div class='contenido-confirm'>${data.mensaje}</div>`,
                     backgroundDismiss: true,
                     buttons: {
                       ok: {
                         text: 'Ok',
                           btnClass: 'btn-pulpox-danger--line',
-                          keys: ['escape','enter'],                        
+                          keys: ['enter'],                        
                       },                  
                     }
                   });  
@@ -446,8 +475,8 @@
               .fail(function() {
                 dialog_eliminando.close();   
                   $.confirm({
-                    title: 'Lo sentimos.',
-                    content: 'Nuestro servidor tiene problemas actualmente. Intente más tarde.',
+                    title: '<spam class="titulo-confirm">Lo sentimos.<spam>',
+                    content: "<div class='contenido-confirm'>Nuestro servidor tiene problemas actualmente. Intente más tarde.</div>",
                     type: 'red',
                     backgroundDismiss: true,
                     typeAnimated: true,
@@ -469,7 +498,7 @@
   function editarAnuncioMovil(titulo,id,modalidad,estado,ciudad,seccion,apartado){ 
     $.confirm({
       icon: 'fas fa-edit',
-      title: 'Editar anuncio',
+      title: '<spam class="titulo-confirm">Editar anuncio<spam>',
       columnClass: 'large',
       type: 'blue', 
       modal: true,
@@ -691,11 +720,10 @@
             asignaListasSelects(modalidad,estado,ciudad,seccion,apartado)
             asignaValidacionesInputs();
             asignarImagenes(id,data) 
-
             }else{
               $.confirm({
                     icon: 'fas fa-check-circle',
-                    title: 'Lo sentimos.',
+                    title: '<spam class="titulo-confirm">Lo sentimos.<spam>',
                     type: 'red',
                     columnClass: 'medium',
                     content: data.mensaje,
@@ -709,11 +737,7 @@
                       },                  
                     }
                 }); 
-
-            }
-
-
-             
+            }             
           })
       },                             
       buttons: {
@@ -826,7 +850,7 @@
             if($('#telefono').val()=='' && $('#celular').val()=='' && $('#correo').val()==''){
                 $.confirm({
                     icon: 'fas fa-exclamation-circle',
-                    title: 'Aviso',
+                    title: '<spam class="titulo-confirm">Aviso',
                     type: 'orange',
                     content: 'No pusiste ningún medio de contacto ¿Así lo quieres publicar?',
                     closeIcon:false,
@@ -885,7 +909,7 @@
                 if(response.codigo==0){               
                   $.confirm({
                   icon: 'fas fa-check-circle',
-                  title: 'Confirmación',
+                  title: '<spam class="titulo-confirm">Confirmación',
                   type: 'green',
                   content: response.mensaje,
                   closeIcon:false,
@@ -903,7 +927,7 @@
                 }else{
                   $.confirm({
                     icon: 'fas fa-exclamation-circle',
-                    title: 'Confirmación',
+                    title: '<spam class="titulo-confirm">Confirmación',
                     type: 'red',
                     content: response.mensaje,
                     closeIcon:false,
@@ -924,7 +948,7 @@
               .fail(function(){
                 $.confirm({
                     icon: 'fas fa-exclamation-circle',
-                    title: 'Confirmación',
+                    title: '<spam class="titulo-confirm">Confirmación',
                     type: 'red',
                     content: response.mensaje,
                     closeIcon:false,
@@ -942,7 +966,7 @@
   function verAnuncioMovil(id){   
     $.confirm({
       icon: 'fas fa-eye',
-      title: 'Ver anuncio',
+      title: '<spam class="titulo-confirm">Ver anuncio<spam>',
       type: 'blue', 
       columnClass: 'large',
       closeIcon:false,    
@@ -963,7 +987,7 @@
                     </div>
                     <div class="row justify-content-center">
                       <div class="div-modSecApa col-11 col-sm-11">
-                          <div class="icon-label mr-3" title='Modalidad'>                             
+                          <div class="icon-label mr-3">                             
                               <img src="<?php echo base_url()?>assets/icons/handshake.png" class='anuncio-nuevo-preview_icon'/>  
                               <label id='modalidad_preview'></label>
                           </div>
@@ -972,7 +996,7 @@
                               <label id='estado_ciudad'></label>
                           </div>
                           <div class="icon-label">
-                              <img src="<?php echo base_url()?>assets/icons/list-24px.svg" class='anuncio-nuevo-preview_icon'  title="Bootstrap">
+                              <img src="<?php echo base_url()?>assets/icons/list-24px.svg" class='anuncio-nuevo-preview_icon' >
                               <label id='seccion_apartado'></label>           
                           </div>
                       </div>
@@ -988,15 +1012,15 @@
                     <div class="row justify-content-center div-forma-contacto">
                       <div class="col-11 col-sm-11">
                         <div class="mr-3 icon-label div-contacto" id='div_telefono_preview'>
-                          <img src="<?php echo base_url()?>assets/icons/phone-24px.svg" id='anuncio-nuevo-preview_icon--lugar' class='anuncio-nuevo-preview_icon' title="Bootstrap">
+                          <img src="<?php echo base_url()?>assets/icons/phone-24px.svg" id='anuncio-nuevo-preview_icon--lugar' class='anuncio-nuevo-preview_icon'>
                           <label id='telefono_preview'></label>   
                         </div>
                         <div class="mr-3 icon-label div-contacto" id='div_celular_preview'>
-                          <img src="<?php echo base_url()?>assets/icons/stay_current_portrait-24px.svg" id='anuncio-nuevo-preview_icon--lugar' class='anuncio-nuevo-preview_icon' title="Bootstrap">
+                          <img src="<?php echo base_url()?>assets/icons/stay_current_portrait-24px.svg" id='anuncio-nuevo-preview_icon--lugar' class='anuncio-nuevo-preview_icon'>
                           <label id='celular_preview'></label>  
                         </div>                        
                         <div class="mr-3 icon-label div-contacto" id='div_correo_preview'>
-                          <img src="<?php echo base_url()?>assets/icons/email-24px.svg" class='anuncio-nuevo-preview_icon'  title="Bootstrap">
+                          <img src="<?php echo base_url()?>assets/icons/email-24px.svg" class='anuncio-nuevo-preview_icon'>
                           <label id='correo_preview'></label>     
                         </div>
                       </div>
@@ -1018,7 +1042,7 @@
         cerrarVerAnuncio: {
           text: 'Cerrar',
           btnClass: 'btn-pulpox-info',
-          keys: ['escape'],        
+          keys: ['escape','enter'],        
         },                 
       }
     });               
@@ -1046,7 +1070,7 @@
 
       $.confirm({
               icon: 'fas fa-info-circle',
-              title: 'Eliminar Imágen',
+              title: '<spam class="titulo-confirm">Eliminar Imágen',
               type: 'orange',
               content: `<b>¿Estás seguro se eliminar esta imágen?</b> <br> <img src='${path_imagen}'>`,
               closeIcon:false,
@@ -1087,7 +1111,7 @@
                                   $(`#icon-${numero_imagen}`).removeClass( "fas fa-spinner fa-3x fa-spin" ).addClass("fa fa-camera fa-3x");
                                   $.confirm({
                                       icon: 'fas fa-check-circle',
-                                      title: 'Confirmación',
+                                      title: '<spam class="titulo-confirm">Confirmación',
                                       type: 'green',
                                       content: `La imágen se elimino exitosamente.`,
                                       closeIcon:false,
@@ -1113,7 +1137,7 @@
                                 $(`#panel-image--div_icon-${numero_imagen}`).hide() 
                                 $.confirm({
                                       icon: 'fas fa-exclamation-circle',
-                                      title: 'Confirmación',
+                                      title: '<spam class="titulo-confirm">Confirmación',
                                       type: 'red',
                                       content: `Ocurrió un problema al eliminar la imágen. Disculpa. Intenta más tarde.`,
                                       closeIcon:false,
@@ -1135,7 +1159,7 @@
                             $(`#panel-image--div_icon-${numero_imagen}`).hide() 
                             $.confirm({
                                       icon: 'fas fa-exclamation-circle',
-                                      title: 'Lo sentimos.',
+                                      title: '<spam class="titulo-confirm">Lo sentimos.',
                                       type: 'red',
                                       content: `Ocurrió un problema al eliminar la imágen. Intenta más tarde.`,
                                       closeIcon:false,

@@ -1,6 +1,6 @@
 <script>
 
-  const BASE_URL = "<?php echo base_url();?>" + "index.php/";
+  const BASE_URL = "<?php echo base_url();?>index.php/";
   var datos_anuncio = <?php echo json_encode($datos_anuncio); ?>;
 
   $(document).ready(function() {  
@@ -12,13 +12,13 @@
     id= datos_anuncio.public_id;
       $.confirm({
         icon: 'fas fa-info-circle',
-        title: 'Eliminar Anuncio',
+        title: '<spam class="titulo-confirm">Eliminar Anuncio<spam>',
         type: 'blue',
         columnClass: 'medium',
         backgroundDismiss: true,
-        content: `
+        content: `<div class='contenido-confirm'>
           <b>¿Realmente desea eliminarlo?</b><br><br>Recuerde: 
-          <label>El anuncio se eliminará y nadie podrá verlo, aunque tú podrás verlo en 'Mis Anuncios'.</label>                        
+          <label>El anuncio se eliminará y nadie podrá verlo, aunque tú podrás verlo en 'Mis Anuncios'.</label></div>                       
         `,
         buttons: {
           cerrar: {
@@ -33,9 +33,9 @@
             action:function(){
               let dialog_eliminando = $.dialog({
                   icon: 'fa fa-spinner fa-spin',
-                  title: 'Eliminar Anuncio',
+                  title: '<spam class="titulo-confirm">Eliminar Anuncio<spam>',
                   type: 'blue',
-                  content: 'Estamos eliminando tu anuncio...',
+                  content: "<div class='contenido-confirm'>Estamos eliminando tu anuncio...</div>",
                   closeIcon:false,
               }); 
               $.post(BASE_URL+'mianuncio/eliminar/', {id})
@@ -45,11 +45,11 @@
                 if(data.codigo == 0){
                   $.confirm({
                     icon: 'fas fa-check-circle',
-                    title: 'Eliminar Anuncio',
+                    title: '<spam class="titulo-confirm">Eliminar Anuncio<spam>',
                     type: 'green',
                     columnClass: 'medium',
                     backgroundDismiss: true,
-                    content: data.mensaje,
+                    content: `<div class='contenido-confirm'>${data.mensaje}</div>`,
                     buttons: {
                       ok: {
                       text: 'Ok',
@@ -64,16 +64,16 @@
                 }else{
                   $.confirm({
                     icon: 'fas fa-exclamation-circle',
-                    title: 'Eliminar Anuncio',
+                    title: '<spam class="titulo-confirm">Eliminar Anuncio<spam>',
                     type: 'red',
                     columnClass: 'medium',
-                    content: data.mensaje,
+                    content: `<div class='contenido-confirm'>${data.mensaje}</div>`,
                     backgroundDismiss: true,
                     buttons: {
                       ok: {
                         text: 'Ok',
                           btnClass: 'btn-pulpox-danger--line',
-                          keys: ['escape','enter'],
+                          keys: ['enter'],
                       },                  
                     }
                   });  
@@ -83,8 +83,8 @@
                 dialog_eliminando.close();   
                   $.confirm({
                     icon: 'fas fa-exclamation-circle',
-                    title: 'Lo sentimos.',
-                    content: 'Nuestro servidor tiene problemas actualmente. Intente más tarde.',
+                    title: '<spam class="titulo-confirm">Lo sentimos<spam>',
+                    content: "<div class='contenido-confirm'>Nuestro servidor tiene problemas actualmente. Intente más tarde.</div>",
                     type: 'red',
                     backgroundDismiss: true,
                     typeAnimated: true,
@@ -120,14 +120,15 @@
     }           
       $.confirm({
         icon: 'fas fa-info-circle',
-        title: 'Cambio de estatus',
+        title: '<spam class="titulo-confirm">Cambio de estatus<spam>',
         type: type_confirm,
         columnClass: 'medium',
         backgroundDismiss: true,
         content: `
-          El <b>estatus actual del anuncio es ${estatus} ¿Realmente desea cambiarlo?</b><br><br>Recuerde: 
+        <div class='contenido-confirm'>
+          El estatus actual del anuncio es <b>${estatus}</b> ¿Realmente desea cambiarlo?<br><br>Recuerde: 
           <label><b>ACTIVO:</b> El anuncio es visible para todo el mundo. Puedes Suspenderlo después.</label>  
-          <label><b>SUSPENDIDO:</b> El anuncio nadie lo verá. Puedes Activarlo después.</label>          
+          <label><b>SUSPENDIDO:</b> El anuncio nadie lo verá. Puedes Activarlo después.</label></div>          
         `,
         buttons: {
           cerrar: {
@@ -142,9 +143,9 @@
             action:function(){    
               let dialog_cambiando_estatus = $.dialog({
                     icon: 'fa fa-spinner fa-spin',
-                    title: 'Cambio de estatus',
+                    title: '<spam class="titulo-confirm">Cambio de estatus<spam>',
                     type: 'blue',
-                    content: 'Estamos cambiando el estatus de tu anuncio...',
+                    content: "<div class='contenido-confirm'>Estamos cambiando el estatus de tu anuncio...</div>",
                     closeIcon:false,
               });   
               $.post(BASE_URL+'mianuncio/cambiarEstatus/', {id,estatus_actual})
@@ -154,10 +155,10 @@
                   if(data.codigo == 0){
                     $.confirm({
                       icon: 'fas fa-check-circle',
-                      title:  'Cambio de estatus',
+                      title:  '<spam class="titulo-confirm">Cambio de estatus<spam>',
                       type: 'green',
                       columnClass: 'small',
-                      content: data.mensaje,
+                      content: `<div class='contenido-confirm'>${data.mensaje}</div>`,
                       buttons: {
                         ok: {
                           text: 'Ok',
@@ -173,10 +174,10 @@
                   }else{
                     $.confirm({
                       icon: 'fas fa-exclamation-circle',
-                      title: 'Cambio de estatus',
+                      title: '<spam class="titulo-confirm">Cambio de estatus<spam>',
                       type: 'red',
                       columnClass: 'small',
-                      content: data.mensaje,
+                      content: `<div class='contenido-confirm'>${data.mensaje}</div>`,
                       closeIcon:true,
                       buttons: {
                         ok: {
@@ -191,8 +192,8 @@
                 .fail(function() {
                   dialog_cambiando_estatus.close();   
                   $.confirm({
-                    title: 'Detectamos un problema.',
-                    content: 'Nuestro servidor tiene problemas actualmente. Intente más tarde.',
+                    title: '<spam class="titulo-confirm">Detectamos un problema.<spam>',
+                    content: "<div class='contenido-confirm'>Nuestro servidor tiene problemas actualmente. Intente más tarde.</div>",
                     type: 'red',
                     typeAnimated: true,
                     backgroundDismiss: true, 
@@ -210,6 +211,5 @@
         }
       });
   }
-
 
 </script>

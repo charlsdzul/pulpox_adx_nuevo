@@ -15,25 +15,27 @@ class MisAnuncios extends CI_Controller {
         $this->load->library('validaciones');        
     }
 
-    function index(){
-      if($misanuncios = $this->misanuncios_model->obtenerMisAnuncios()){       
-        $data = array('misanuncios' => $misanuncios);
+    function index(){      
         $this->load->view('modules/headers-mis-anuncios');
-        $this->load->view('modules/menu');
-        $this->load->view('mis-anuncios', $data);  
+        $this->load->view('modules/menu');       
+        $this->load->view('mis-anuncios');  
         $this->load->view('modules/scripts-mis-anuncios.php');  
         $this->load->view('modules/scripts-carrousel.php');     
         $this->load->view('modules/scripts-asignar-valores.php');  
-        $this->load->view('modules/scripts-asignar-validaciones.php');
-        
-      }else{
-        $this->load->view('modules/headers-mis-anuncios');
-        $this->load->view('modules/menu');
-        $this->load->view('mis-anuncios');  
-      }     
+        $this->load->view('modules/scripts-asignar-validaciones.php');    
     }
 
-
+    function obtenerMisAnuncios(){
+      if($response = $this->misanuncios_model->obtenerMisAnuncios()){
+        echo json_encode($response);
+        die(); 
+      }else{
+        $response['codigo']  = 1;
+        $response['mensaje'] = 'Hubo un problema al intentar obtener tus anuncios. Intente más tarde o repórtelo.';  
+        echo json_encode($response);    
+        die(); 
+      }
+    }
 
     function eliminarImagenActual(){  
       
