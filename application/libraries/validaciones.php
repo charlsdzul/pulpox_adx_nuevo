@@ -1,5 +1,4 @@
-<?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+<?php defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Validaciones {
 
@@ -8,9 +7,7 @@ class Validaciones {
     public function __construct(){
         $this->CI =& get_instance();
         $this->CI->load->library('sesiones');
-        $this->CI->sesiones->usuarioEnSesion(); 
-
-        
+        $this->CI->sesiones->usuarioEnSesion();         
         $this->CI->load->library('sanitize');
         $this->CI->load->database(); //cargar base de datos
         $this->CI->load->model('validaciones_model');
@@ -35,16 +32,16 @@ class Validaciones {
 
     public function validaTitulo($titulo,$objeto){   
       //Valida y sanitiza el título del anuncio
-      if(strlen($titulo)=='' ){  
+      if($titulo==''){  
         $response['codigo'] = 1;
         $response['mensaje']= $this->CI->MENSAJES['titulo_vacio'];    
         $response['objeto'] = $objeto;          
         echo json_encode($response); 
         die();
       }else{
-        if(strlen($titulo)<=100 ){ 
-          $titulo = $this->CI->sanitize->sanitizeString($titulo);
-          return $titulo;
+        if(true){ 
+          //if(strlen($titulo)<51){ 
+          return $this->CI->sanitize->sanitizeString($titulo);
         }else{
           $response['codigo']  = 1;
           $response['mensaje'] = $this->CI->MENSAJES['titulo_largo'];
@@ -55,9 +52,9 @@ class Validaciones {
       }
     }    
     
-    public function validaMensaje($mensaje,$objeto){   
+     function validaMensaje($mensaje,$objeto){   
       //Valida y sanitiza el mensaje del anuncio
-      if(strlen($mensaje)=='' ){  
+      if($mensaje=='' ){  
         $response['codigo'] = 1;
         $response['mensaje']= $this->CI->MENSAJES['mensaje_vacio']; 
         $response['objeto'] = $objeto;             
@@ -131,6 +128,19 @@ class Validaciones {
         $response['mensaje'] = 'No se pudo obtener el nombre de la sigla.';
         echo json_encode($response);    
         die(); 
+      }
+    }
+
+    function anuncioPerteneceAUsuario($anuncio_id){
+        /**
+       * Valida si un anuncio pertenece a un usuario
+       * Recibe ID de anuncio y ID de usuario
+       * Devuelve TRUE o FALSE
+       */   
+      if($pertenece = $this->CI->validaciones_model->anuncioPerteneceAUsuario($anuncio_id)){
+        return $pertenece;
+      }else{
+        return FALSE;
       }
     }
 

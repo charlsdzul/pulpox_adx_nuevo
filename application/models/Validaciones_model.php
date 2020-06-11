@@ -8,7 +8,7 @@ class Validaciones_model extends CI_Model {
 
         $this->load->library('sesiones');
         $this->sesiones->usuarioEnSesion(); 
-
+        $this->USUARIO_EN_SESSION_ID = 111;
         $this->load->database(); 
         $this->TABLAS = [
             'ciudad' => 'cat_municipios',
@@ -60,6 +60,21 @@ class Validaciones_model extends CI_Model {
         }else{
             $response['codigo']  = 1;
             $response['mensaje'] = 'No se pudo obtener la sigla.';  
+            echo json_encode($response);    
+            die(); 
+        }
+    }
+
+    function anuncioPerteneceAUsuario($anuncio_id){
+        if($query = $this->db->where('public_id',$anuncio_id)->where('usuario_id',$this->USUARIO_EN_SESSION_ID)->get('anuncios')){ 
+            if($query->num_rows() > 0){
+                return TRUE;
+            }else{
+                return FALSE;
+            }               
+        }else{
+            $response['codigo']  = 1;
+            $response['mensaje']  = 'No se pudo validar anuncio/usuario.';
             echo json_encode($response);    
             die(); 
         }

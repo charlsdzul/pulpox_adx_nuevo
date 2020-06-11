@@ -6,10 +6,10 @@
 
     let dialog_obtener_anuncios= $.dialog({
       icon: 'fa fa-spinner fa-spin',
-      title: '<spam class="titulo-confirm">Mis Anuncios</spam>',
+      title: '<span class="titulo-confirm">Mis Anuncios</span>',
       type: 'blue',
       content: "<div class='contenido-confirm'>Estamos obteniedo tus anuncios...<div class='contenido-confirm'>",
-      closeIcon:false,
+      
     }); 
 
     $.get(BASE_URL+"misanuncios/obtenerMisAnuncios/")
@@ -54,7 +54,7 @@
     .fail(function() {
       dialog_cambiando_estatus.close();   
       $.confirm({
-        title: '<spam class="titulo-confirm">Lo sentimos.',
+        title: '<span class="titulo-confirm">Lo sentimos.',
         content: "<div class='contenido-confirm'>Nuestro servidor tiene problemas actualmente. Intente más tarde.</div>",
         type: 'red',
         typeAnimated: true,
@@ -79,6 +79,90 @@
     }else{
       window.open(BASE_URL+'mianuncio/ver/'+id, '_blank');
     }
+  }
+
+  function uploadImage(imagen,anuncio_id){
+        /* Ejecutya funciones de validaciones */
+        
+        var numero_imagen = imagen.getAttribute("data-numero-imagen");  
+
+        if(validarExtensionImagen(imagen.files[0].name)){ 
+            $(`#pulpox-invalid-feedback-${numero_imagen}`).html('');
+            $(`#pulpox-invalid-feedback-${numero_imagen}`).hide();
+           if(validarTamanoImagen(imagen.files[0].size)){
+                $(`#pulpox-invalid-feedback-${numero_imagen}`).html('')
+                $(`#pulpox-invalid-feedback-${numero_imagen}`).hide()
+                uploadImageAjax(imagen,numero_imagen,anuncio_id)
+            }else{
+                $(`#pulpox-invalid-feedback-${numero_imagen}`).show();    
+                $(`#pulpox-invalid-feedback-${numero_imagen}`).html('La imágen es demasiado grande. Máximo 5 MB')       
+            }
+        }else{
+            $(`#pulpox-invalid-feedback-${numero_imagen}`).html('Elige una imágen con extensión JPG, JPEG, PNG, GIF.')
+            $(`#pulpox-invalid-feedback-${numero_imagen}`).show()
+        }    
+  }
+
+  function uploadImageAjax(imagen,numero_imagen,anuncio_id){
+        /** Sube imágen a servidor. */
+
+        $(`#panel-image-${numero_imagen}`).after(`
+        <div id='panel-image--div_progreso-${numero_imagen}' class='panel-image--div_progreso'> 
+            <div id='panel-image--bar_progreso-${numero_imagen}' class='panel-image--bar_progreso'> 
+                </div>
+        </div>  
+        <div id='panel-image--div-delete-${numero_imagen}' class='panel-image--div-delete'> 
+            <i id='icon-delete-${numero_imagen}' class="material-icons icon-delete" onclick='eliminarImagen(this,"${anuncio_id}")' data-numero-imagen='${numero_imagen}'>delete_forever</i>
+        </div>`)
+
+            var fd = new FormData(); 
+            var image = imagen.files[0]; 
+            fd.append('imagen', image); 
+            fd.append('numero', numero_imagen); 
+            fd.append('anuncio_id', anuncio_id); 
+
+            $.ajax({ 
+                url: BASE_URL+'mianuncio/guardarImagen/' , 
+                type: 'post', 
+                data: fd, 
+                contentType: false, 
+                processData: false, 
+                xhr: function() {
+                    //Esto pasa durante la subida de la imágen
+                    var xhr = new window.XMLHttpRequest();
+                    xhr.upload.addEventListener("progress", function(evt) {
+                        if (evt.lengthComputable) {
+                            var percentComplete = ((evt.loaded / evt.total) * 100);
+                            $(`#panel-image--bar_progreso-${numero_imagen}`).css('width',percentComplete+'%');
+                            $(`#panel-image--bar_progreso-${numero_imagen}`).html(percentComplete+'%');                               
+                        }else{
+                        }
+                    }, false);
+                    return xhr;
+                },
+                beforeSend: function() { 
+                    //Antes de iniciar la subida, se muestra el icono loading                      
+                    $(`#icon-${numero_imagen}`).removeClass("fa fa-camera fa-3x").addClass("fas fa-spinner fa-3x fa-spin");
+                },
+                success: function(response){ 
+                    let data = JSON.parse(response)
+                    let url = "<?php echo base_url();?>";                     
+
+                    if(data.codigo == 0){
+                        $(`#panel-image--div_icon-${numero_imagen}`).hide() 
+                        $(`#img-${numero_imagen}`).attr('src', url+data.mensaje+ "?timestamp=" + new Date().getTime());
+                        $(`#pulpox-invalid-feedback-${numero_imagen}`).html('')
+                        $(`#pulpox-invalid-feedback-${numero_imagen}`).hide()
+                    }else{
+                        $(`#icon-${numero_imagen}`).removeClass( "fas fa-spinner fa-3x fa-spin" ).addClass("fa fa-camera fa-3x");
+                        $(`#panel-image--div_progreso-${numero_imagen}`).remove()
+                        $(`#panel-image--div-delete-${numero_imagen}`).remove()
+
+                        $(`#pulpox-invalid-feedback-${numero_imagen}`).html(data.mensaje)
+                        $(`#pulpox-invalid-feedback-${numero_imagen}`).show()
+                    }                   
+                }, 
+            }); 
   }
 
   function validaFormulario(anuncio_id){
@@ -171,10 +255,9 @@
             if($('#telefono').val()=='' && $('#celular').val()=='' && $('#correo').val()==''){
                 $.confirm({
                     icon: 'fas fa-exclamation-circle',
-                    title: '<spam class="titulo-confirm">Aviso',
+                    title: '<span class="titulo-confirm">Aviso',
                     type: 'orange',
-                    content: 'No pusiste ningún medio de contacto ¿Así lo quieres publicar?',
-                    closeIcon:false,
+                    content: 'No pusiste ningún medio de contacto ¿Así lo quieres publicar?',                    
                     buttons: {
                         misAnuncios: {
                             text: 'Sí',
@@ -203,7 +286,7 @@
     usuario_elimino_imagen = false;
     $.confirm({
         icon: 'fas fa-info-circle',
-        title: '<spam class="titulo-confirm">Información de mi anuncio</spam>',
+        title: '<span class="titulo-confirm">Información de mi anuncio</span>',
         type: 'blue',
         columnClass: 'large',
         backgroundDismiss: true,
@@ -311,7 +394,7 @@
     }           
       $.confirm({
         icon: 'fas fa-info-circle',
-        title: '<spam class="titulo-confirm">Cambio de estatus<spam>',
+        title: '<span class="titulo-confirm">Cambio de estatus<span>',
         type: type_confirm,
         columnClass: 'large',
         backgroundDismiss: true,
@@ -333,10 +416,10 @@
             action:function(){    
               let dialog_cambiando_estatus = $.dialog({
                     icon: 'fa fa-spinner fa-spin',
-                    title: '<spam class="titulo-confirm">Cambio de estatus</spam>',
+                    title: '<span class="titulo-confirm">Cambio de estatus</span>',
                     type: 'blue',
                     content: "<div class='contenido-confirm'>Estamos cambiando el estatus de tu anuncio...<div class='contenido-confirm'>",
-                    closeIcon:false,
+                    
               });   
               $.post(BASE_URL+'mianuncio/cambiarEstatus/', {id,estatus_actual})
                 .done(function(response){
@@ -345,7 +428,7 @@
                   if(data.codigo == 0){
                     $.confirm({
                       icon: 'fas fa-check-circle',
-                      title: '<spam class="titulo-confirm">Cambio de estatus</spam>',
+                      title: '<span class="titulo-confirm">Cambio de estatus</span>',
                       type: 'green',
                       columnClass: 'large',
                       content: `<div class='contenido-confirm'>${data.mensaje}</div>`,
@@ -364,7 +447,7 @@
                   }else{
                     $.confirm({
                       icon: 'fas fa-exclamation-circle',
-                      title: '<spam class="titulo-confirm">Cambio de estatus',
+                      title: '<span class="titulo-confirm">Cambio de estatus',
                       type: 'red',
                       columnClass: 'large',
                       content: `<div class='contenido-confirm'>${data.mensaje}</div>`,
@@ -382,7 +465,7 @@
                 .fail(function() {
                   dialog_cambiando_estatus.close();   
                   $.confirm({
-                    title: '<spam class="titulo-confirm">Lo sentimos.</spam>',
+                    title: '<span class="titulo-confirm">Lo sentimos.</span>',
                     content: "<div class='contenido-confirm'>Nuestro servidor tiene problemas actualmente. Intente más tarde.</div>",
                     type: 'red',
                     typeAnimated: true,
@@ -405,7 +488,7 @@
   function eliminarAnuncio(id){    
       $.confirm({
         icon: 'fas fa-info-circle',
-        title: '<spam class="titulo-confirm">Eliminar Anuncio<spam>',
+        title: '<span class="titulo-confirm">Eliminar Anuncio<span>',
         type: 'blue',
         columnClass: 'medium',
         backgroundDismiss: true,
@@ -426,10 +509,10 @@
             action:function(){
               let dialog_eliminando = $.dialog({
                   icon: 'fa fa-spinner fa-spin',
-                  title: '<spam class="titulo-confirm">Eliminar Anuncio<spam>',
+                  title: '<span class="titulo-confirm">Eliminar Anuncio<span>',
                   type: 'blue',
                   content: "<div class='contenido-confirm'>Estamos eliminando tu anuncio...</div>",
-                  closeIcon:false,
+                  
               }); 
               $.post(BASE_URL+'mianuncio/eliminar/', {id})
               .done(function(response){
@@ -438,7 +521,7 @@
                 if(data.codigo == 0){
                   $.confirm({
                     icon: 'fas fa-check-circle',
-                    title: '<spam class="titulo-confirm">Eliminar Anuncio',
+                    title: '<span class="titulo-confirm">Eliminar Anuncio',
                     type: 'green',
                     columnClass: 'medium',
                     backgroundDismiss: true,
@@ -457,7 +540,7 @@
                 }else{
                   $.confirm({
                     icon: 'fas fa-exclamation-circle',
-                    title: '<spam class="titulo-confirm">Eliminar Anuncio<spam>',
+                    title: '<span class="titulo-confirm">Eliminar Anuncio<span>',
                     type: 'red',
                     columnClass: 'medium',
                     content: `<div class='contenido-confirm'>${data.mensaje}</div>`,
@@ -475,7 +558,7 @@
               .fail(function() {
                 dialog_eliminando.close();   
                   $.confirm({
-                    title: '<spam class="titulo-confirm">Lo sentimos.<spam>',
+                    title: '<span class="titulo-confirm">Lo sentimos.<span>',
                     content: "<div class='contenido-confirm'>Nuestro servidor tiene problemas actualmente. Intente más tarde.</div>",
                     type: 'red',
                     backgroundDismiss: true,
@@ -498,11 +581,11 @@
   function editarAnuncioMovil(titulo,id,modalidad,estado,ciudad,seccion,apartado){ 
     $.confirm({
       icon: 'fas fa-edit',
-      title: '<spam class="titulo-confirm">Editar anuncio<spam>',
+      title: '<span class="titulo-confirm">Editar anuncio<span>',
       columnClass: 'large',
       type: 'blue', 
       modal: true,
-      closeIcon:false,                                
+                                      
       content: function(){   
           var self = this;
           $.get(BASE_URL+'mianuncio/obtenerDatosComplementariosEdicionMovil/', {id})
@@ -582,7 +665,7 @@
                               </label>
                             </div>
                                                   
-                            <input id='input-image-1' type="file" style='display:none;' onchange='uploadImage(this)'data-numero-imagen='1'>
+                            <input id='input-image-1' type="file" style='display:none;' onchange='uploadImage(this,"${id}")' data-numero-imagen='1'>
                           </div>  
                           <div id='pulpox-message-principal-1' class="pulpox-message--principal">
                             <span>Principal</span>
@@ -598,7 +681,7 @@
                                   <i id='icon-2' class="fa fa-camera fa-3x panel-image--icon" aria-hidden="true"></i>  
                                 </label>
                             </div>                                            
-                            <input id='input-image-2' type="file" style='display:none;' onchange='uploadImage(this)'data-numero-imagen='2'>
+                            <input id='input-image-2' type="file" style='display:none;' onchange='uploadImage(this,"${id}")'data-numero-imagen='2'>
                           </div>  
                           <div id="pulpox-invalid-feedback-2" class="pulpox-invalid-feedback">
                           </div>  
@@ -612,7 +695,7 @@
                                     </label>
                                 </div>
                                                   
-                                <input id='input-image-3' type="file" style='display:none;' onchange='uploadImage(this)'data-numero-imagen='3'>
+                                <input id='input-image-3' type="file" style='display:none;' onchange='uploadImage(this,"${id}")'data-numero-imagen='3'>
                             </div>  
                             <div id="pulpox-invalid-feedback-3" class="pulpox-invalid-feedback">
                             </div>                        
@@ -626,7 +709,7 @@
                                     </label>
                                 </div>
                                                   
-                                <input id='input-image-4' type="file" style='display:none;' onchange='uploadImage(this)'data-numero-imagen='4'>
+                                <input id='input-image-4' type="file" style='display:none;' onchange='uploadImage(this,"${id}")'data-numero-imagen='4'>
                             </div>  
                             <div id="pulpox-invalid-feedback-4" class="pulpox-invalid-feedback">
                             </div>                        
@@ -640,7 +723,7 @@
                                     </label>
                                 </div>
                                                   
-                                <input id='input-image-5' type="file" style='display:none;' onchange='uploadImage(this)'data-numero-imagen='5'>
+                                <input id='input-image-5' type="file" style='display:none;' onchange='uploadImage(this,"${id}")'data-numero-imagen='5'>
                             </div>  
                             <div id="pulpox-invalid-feedback-5" class="pulpox-invalid-feedback">
                             </div>                        
@@ -654,7 +737,7 @@
                                     </label>
                                 </div>
                                                   
-                                <input id='input-image-6' type="file" style='display:none;' onchange='uploadImage(this)'data-numero-imagen='6'>
+                                <input id='input-image-6' type="file" style='display:none;' onchange='uploadImage(this,"${id}")'data-numero-imagen='6'>
                             </div>  
                             <div id="pulpox-invalid-feedback-6" class="pulpox-invalid-feedback">
                             </div>                        
@@ -668,7 +751,7 @@
                                     </label>
                                 </div>
                                                   
-                                <input id='input-image-7' type="file" style='display:none;' onchange='uploadImage(this)'data-numero-imagen='7'>
+                                <input id='input-image-7' type="file" style='display:none;' onchange='uploadImage(this,"${id}")'data-numero-imagen='7'>
                             </div>  
                             <div id="pulpox-invalid-feedback-7" class="pulpox-invalid-feedback">
                             </div>                        
@@ -682,7 +765,7 @@
                                     </label>
                                 </div>
                                                   
-                                <input id='input-image-8' type="file" style='display:none;' onchange='uploadImage(this)'data-numero-imagen='8'>
+                                <input id='input-image-8' type="file" style='display:none;' onchange='uploadImage(this,"${id}")'data-numero-imagen='8'>
                             </div>  
                             <div id="pulpox-invalid-feedback-8" class="pulpox-invalid-feedback">
                             </div>                        
@@ -696,7 +779,7 @@
                                     </label>
                                 </div>
                                                   
-                                <input id='input-image-9' type="file" style='display:none;' onchange='uploadImage(this)'data-numero-imagen='9'>
+                                <input id='input-image-9' type="file" style='display:none;' onchange='uploadImage(this,"${id}")'data-numero-imagen='9'>
                             </div>  
                             <div id="pulpox-invalid-feedback-9" class="pulpox-invalid-feedback">
                             </div>                        
@@ -710,7 +793,7 @@
                                     </label>
                                 </div>
                                                   
-                                <input id='input-image-10' type="file" style='display:none;' onchange='uploadImage(this)'data-numero-imagen='10'>
+                                <input id='input-image-10' type="file" style='display:none;' onchange='uploadImage(this,"${id}")'data-numero-imagen='10'>
                             </div>  
                             <div id="pulpox-invalid-feedback-10" class="pulpox-invalid-feedback">
                             </div>                        
@@ -723,7 +806,7 @@
             }else{
               $.confirm({
                     icon: 'fas fa-check-circle',
-                    title: '<spam class="titulo-confirm">Lo sentimos.<spam>',
+                    title: '<span class="titulo-confirm">Lo sentimos.<span>',
                     type: 'red',
                     columnClass: 'medium',
                     content: data.mensaje,
@@ -850,10 +933,10 @@
             if($('#telefono').val()=='' && $('#celular').val()=='' && $('#correo').val()==''){
                 $.confirm({
                     icon: 'fas fa-exclamation-circle',
-                    title: '<spam class="titulo-confirm">Aviso',
+                    title: '<span class="titulo-confirm">Aviso',
                     type: 'orange',
                     content: 'No pusiste ningún medio de contacto ¿Así lo quieres publicar?',
-                    closeIcon:false,
+                    
                     buttons: {
                         misAnuncios: {
                             text: 'Sí',
@@ -909,10 +992,10 @@
                 if(response.codigo==0){               
                   $.confirm({
                   icon: 'fas fa-check-circle',
-                  title: '<spam class="titulo-confirm">Confirmación',
+                  title: '<span class="titulo-confirm">Confirmación',
                   type: 'green',
                   content: response.mensaje,
-                  closeIcon:false,
+                  
                   buttons: {
                     OK: {
                         text: 'Ok',
@@ -927,10 +1010,10 @@
                 }else{
                   $.confirm({
                     icon: 'fas fa-exclamation-circle',
-                    title: '<spam class="titulo-confirm">Confirmación',
+                    title: '<span class="titulo-confirm">Confirmación',
                     type: 'red',
                     content: response.mensaje,
-                    closeIcon:false,
+                    
                     buttons: {
                       OK: {
                           text: 'Ok',
@@ -948,10 +1031,10 @@
               .fail(function(){
                 $.confirm({
                     icon: 'fas fa-exclamation-circle',
-                    title: '<spam class="titulo-confirm">Confirmación',
+                    title: '<span class="titulo-confirm">Confirmación',
                     type: 'red',
                     content: response.mensaje,
-                    closeIcon:false,
+                    
                     buttons: {
                       OK: {
                           text: 'Ok',
@@ -966,10 +1049,10 @@
   function verAnuncioMovil(id){   
     $.confirm({
       icon: 'fas fa-eye',
-      title: '<spam class="titulo-confirm">Ver anuncio<spam>',
+      title: '<span class="titulo-confirm">Ver anuncio<span>',
       type: 'blue', 
       columnClass: 'large',
-      closeIcon:false,    
+          
       backgroundDismiss: true,                                    
       content: function(){   
         var self = this;
@@ -1056,42 +1139,41 @@
         $(`#panel-image--div_icon-${index}`).hide()
         $(`#panel-image-${index}`).after(`    
           <div id='panel-image--div-delete-${index}' class='panel-image--div-delete'> 
-            <i id='icon-delete-${index}' class="material-icons icon-delete" onclick='eliminarImagenActual(this)' data-numero-imagen='${index}'>delete_forever</i>
+            <i id='icon-delete-${index}' class="material-icons icon-delete" onclick='eliminarImagen(this,"${id}")' data-numero-imagen='${index}'>delete_forever</i>
           </div>
         `)
       }    
     }
   }
 
-  function eliminarImagenActual(imagen){   
+  function eliminarImagen(imagen,anuncio_id){   
       /**Elimina imágen de servidor */    
       let numero_imagen = imagen.getAttribute("data-numero-imagen");
       let path_imagen = $(`#img-${numero_imagen}`).attr('src')
 
       $.confirm({
               icon: 'fas fa-info-circle',
-              title: '<spam class="titulo-confirm">Eliminar Imágen',
-              type: 'orange',
-              content: `<b>¿Estás seguro se eliminar esta imágen?</b> <br> <img src='${path_imagen}'>`,
-              closeIcon:false,
+              title: '<span class="titulo-confirm">Eliminar Imágen</span>',
+              type: 'blue',
+              content: `<div class='contenido-confirm'>¿Estás seguro de eliminar esta imágen? <br> <img src='${path_imagen}'></div>`,
+              backgroundDismiss: true,
               buttons: {
                 nuevoAnuncio: {
                     text: 'Cancelar',
-                    btnClass: 'btn-pulpox-danger',
-                    keys: ['escape'],
-                    action: function(){
-                    }
+                    btnClass: 'btn-pulpox-danger--line',
+                    keys: ['escape'],                   
                 },
                 misAnuncios: {
-                    text: 'Sí',
+                    text: 'Sí, eliminar',
                     btnClass: 'btn-pulpox-info',
                     keys: ['enter'],
                     action: function(){   
                       var fd = new FormData();        
                       fd.append('numero', numero_imagen); 
-                      fd.append('path_imagen', path_imagen);        
+                      fd.append('path_imagen', path_imagen);  
+                      fd.append('anuncio_id', anuncio_id);         
                       $.ajax({ 
-                          url: BASE_URL+'misanuncios/eliminarImagenActual/', 
+                          url: BASE_URL+'mianuncio/eliminarImagen/', 
                           type: 'post', 
                           data: fd, 
                           contentType: false, 
@@ -1111,47 +1193,38 @@
                                   $(`#icon-${numero_imagen}`).removeClass( "fas fa-spinner fa-3x fa-spin" ).addClass("fa fa-camera fa-3x");
                                   $.confirm({
                                       icon: 'fas fa-check-circle',
-                                      title: '<spam class="titulo-confirm">Confirmación',
+                                      title: '<span class="titulo-confirm">Eliminar Imágen</span>',
                                       type: 'green',
-                                      content: `La imágen se elimino exitosamente.`,
-                                      closeIcon:false,
+                                      content: `<div class='contenido-confirm'>La imágen se elimino exitosamente.</siv>`,
                                       buttons: {
                                         OK: {
                                             text: 'Ok',
-                                            btnClass: 'btn-pulpox-info',
-                                            keys: ['escape'],
-                                            action: function(){
-                                            }
+                                            btnClass: 'btn-pulpox-green',
+                                            keys: ['enter'],
                                         },                                      
                                       }
                                   });
 
-                                  usuario_elimino_imagen = true;
-                                                          
+                                  usuario_elimino_imagen = true;                                                          
                                   if(numero_imagen==1){
                                       $(`#pulpox-message-principal-1`).show() 
                                   }
-
                               }else{
                                 $(`#img-${numero_imagen}`).attr('src', path_imagen)
                                 $(`#panel-image--div_icon-${numero_imagen}`).hide() 
                                 $.confirm({
                                       icon: 'fas fa-exclamation-circle',
-                                      title: '<spam class="titulo-confirm">Confirmación',
+                                      title: '<span class="titulo-confirm">Lo sentimos.</span>',
                                       type: 'red',
-                                      content: `Ocurrió un problema al eliminar la imágen. Disculpa. Intenta más tarde.`,
-                                      closeIcon:false,
+                                      content: `<div class='contenido-confirm'>Ocurrió un problema al eliminar la imágen. Disculpa. Intenta más tarde.</div>`,
                                       buttons: {
                                         OK: {
                                             text: 'Ok',
                                             btnClass: 'btn-pulpox-danger',
-                                            keys: ['enter'],
-                                            action: function(){
-                                            }
+                                            keys: ['enter','enter'],
                                         },                                      
                                       }
-                                });                                
-
+                                });     
                               }
                           },   
                           error:function(){
@@ -1159,17 +1232,14 @@
                             $(`#panel-image--div_icon-${numero_imagen}`).hide() 
                             $.confirm({
                                       icon: 'fas fa-exclamation-circle',
-                                      title: '<spam class="titulo-confirm">Lo sentimos.',
+                                      title: '<span class="titulo-confirm">Lo sentimos.</span>',
                                       type: 'red',
                                       content: `Ocurrió un problema al eliminar la imágen. Intenta más tarde.`,
-                                      closeIcon:false,
                                       buttons: {
                                         OK: {
                                             text: 'Ok',
-                                            btnClass: 'btn-pulpox-secondary',
-                                            keys: ['escape'],
-                                            action: function(){
-                                            }
+                                            btnClass: 'btn-pulpox-danger',
+                                            keys: ['escape','enter'],                                           
                                         },                                      
                                       }
                             });

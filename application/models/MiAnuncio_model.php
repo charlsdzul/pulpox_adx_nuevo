@@ -354,5 +354,37 @@ class MiAnuncio_model extends CI_Model {
         }
     }
 
+    function eliminarImagen($nombre_imagen,$numero_imagen,$public_id){  
+        /** Eliminar la imágen de un anuncio */ 
+        $campo = "img_".$numero_imagen;
+        $data = array(
+            $campo => '',
+         );
+
+        $this->db->where('usuario_id', $this->USUARIO_EN_SESSION_ID)->where('public_id', $public_id);        
+            if($this->db->update('anuncios', $data)){
+                $response['codigo']=0;
+            }else{
+                $response['codigo']=1;
+            } 
+        return $response;    
+    } 
+
+     function guardarImagen($numero,$anuncio_id,$imagen_nombre,$imagen_path){     
+        /** Guarda imagen en base de datos del usuario.
+        * Actualiza registro.
+        * */   
+         if($this->db->set("img_$numero", $imagen_nombre)->where('public_id', $anuncio_id)->where('usuario_id', $this->USUARIO_EN_SESSION_ID)->update('anuncios')){
+            $response['codigo'] = 0;
+            $response['mensaje'] = $imagen_path;       
+            echo json_encode($response);
+            die();
+         }else{
+            $response['codigo'] = 1;            
+            $response['mensaje'] = 'hubo un problema al subir su imágen. Intente otra. CÓDIGO 933'; 
+            echo json_encode($response);
+         }                 
+    }  
+
 }
 ?>

@@ -1,5 +1,4 @@
-<?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+<?php defined('BASEPATH') OR exit('No direct script access allowed');
 
 class MiAnuncio extends CI_Controller {    
 
@@ -9,6 +8,8 @@ class MiAnuncio extends CI_Controller {
         $this->sesiones->usuarioEnSesion(); 
         $this->load->model('mianuncio_model');
         $this->ruta_imagenes_temporales = "imagenes_temporales/anuncios/";   
+        $this->carpeta_final_anuncio = "imagenes_anuncios/"; 
+        $this->carpeta_temporal_anuncio = "imagenes_temporales/anuncios/"; 
         $this->load->library('validaciones');
         $this->load->helper('url'); 
     }
@@ -25,6 +26,7 @@ class MiAnuncio extends CI_Controller {
           $this->load->view('anuncio-nuevo',$data);
           $this->load->view('modules/scripts-mianuncio-nuevo.php',$data);
           $this->load->view('modules/scripts-asignar-validaciones.php');
+          $this->load->view('modules/scripts-validaciones-imagenes.php'); 
         }else{
           $id_aleatorio = rand(1000000000, 2000000000);
           redirect("index.php/mianuncio/nuevo/$id_aleatorio");
@@ -96,6 +98,7 @@ class MiAnuncio extends CI_Controller {
        */
       if(isset($_POST['anuncio_editado'])){
         $anuncio_datos = $_POST['anuncio_editado'];  
+        if($this->validaciones->anuncioPerteneceAUsuario($anuncio_datos['anuncio_public_id'])){           
         $anuncio_datos['titulo'] = $this->validaciones->validaTitulo($anuncio_datos['titulo'],'titulo');  
         $anuncio_datos['mensaje'] = $this->validaciones->validaTitulo($anuncio_datos['mensaje'],'mensaje'); 
         $this->validaciones->existeValor($anuncio_datos['modalidad'], 'modalidad'); 
@@ -115,7 +118,15 @@ class MiAnuncio extends CI_Controller {
          * NOTA:
          * En cada validación: en caso de no pasar la validación, enviará su propio $response y finaliza todo el script
          * En la actualización: envía su propio $response.
-         */   
+         */  
+
+        }else{
+          $response['codigo']=1;
+          $response['mensaje']='Lo sentimos, no recibimos datos para la edición.';
+          echo json_encode($response);
+          die();
+        }
+ 
 
       }else{
         $response['codigo']=1;
@@ -127,7 +138,14 @@ class MiAnuncio extends CI_Controller {
 
     function obtenerDatosComplementariosEdicionMovil(){
       if(isset($_GET['id']) && strlen($_GET['id'])==30){
-        $this->mianuncio_model->obtenerDatosComplementariosEdicionMovil($_GET['id']);  
+        if($this->validaciones->anuncioPerteneceAUsuario($_GET['id'])){ 
+          $this->mianuncio_model->obtenerDatosComplementariosEdicionMovil($_GET['id']);  
+        }else{
+          $response['codigo']  = 1;
+          $response['mensaje'] = 'Hubo un problema. Intente más tarde';  
+          echo json_encode($response);    
+          die();
+        }   
       }else{
         $response['codigo']  = 1;
         $response['mensaje'] = 'Hubo un problema. Intente más tarde';  
@@ -174,7 +192,14 @@ class MiAnuncio extends CI_Controller {
 
     function eliminar(){
       if(isset($_POST['id']) && strlen($_POST['id'])==30){
-        $this->mianuncio_model->eliminar($_POST['id']);
+        if($this->validaciones->anuncioPerteneceAUsuario($_POST['id'])){
+          $this->mianuncio_model->eliminar($_POST['id']);
+         }else{
+          $response['codigo']=1;
+          $response['mensaje']='Lo sentimos, el anuncio no se pudo eliminar.';
+          echo json_encode($response);
+          die();
+         }        
       }else{
         $response['codigo']=1;
         $response['mensaje']='Lo sentimos, el anuncio no se pudo eliminar.';
@@ -184,8 +209,15 @@ class MiAnuncio extends CI_Controller {
     }
 
     function cambiarEstatus(){
-      if(isset($_POST['id']) && strlen($_POST['id'])==30 && isset($_POST['estatus_actual'])){      
-        $this->mianuncio_model->cambiarEstatus($_POST['id'],$_POST['estatus_actual']);
+      if(isset($_POST['id']) && strlen($_POST['id'])==30 && isset($_POST['estatus_actual'])){  
+        if($this->validaciones->anuncioPerteneceAUsuario($_POST['id'])){ 
+          $this->mianuncio_model->cambiarEstatus($_POST['id'],$_POST['estatus_actual']);
+        }else{
+          $response['codigo']=1;
+          $response['mensaje']='Lo sentimos, el estatus no se pudo cambiar.';
+          echo json_encode($response);
+          die();
+        }       
       }else{
         $response['codigo']=1;
         $response['mensaje']='Lo sentimos, el estatus no se pudo cambiar.';
@@ -195,7 +227,7 @@ class MiAnuncio extends CI_Controller {
     }
 
     function subirImagenTemporal(){
-
+      /**Guarda imágen subida temporalment, de un anuncio nuevo. */  
       if($this->input->post()){
         $datos_recibidos = $this->input->post();    
         $numero = $datos_recibidos['numero']; 
@@ -207,7 +239,7 @@ class MiAnuncio extends CI_Controller {
         
         $imagen_extension = pathinfo($imagen_nombre_temporal, PATHINFO_EXTENSION);
 
-        $imagen_nombre = 'img_'.$numero.'_'.$anuncio_id."_".date("Y-m-d").'.'.$imagen_extension;
+        $imagen_nombre = 'img_'.$numero.'_'.$anuncio_id."_".date("d-m-Y").'.'.$imagen_extension;
 
         $imagen_folder_path=$this->ruta_imagenes_temporales.$anuncio_id; 
         $imagen_path       =$this->ruta_imagenes_temporales.$anuncio_id.'/'.$imagen_nombre;         
@@ -266,7 +298,8 @@ class MiAnuncio extends CI_Controller {
       }         
     }
 
-    function eliminarImagenTemporal(){    
+    function eliminarImagenTemporal(){ 
+      /**Elimina imágen subida temporalment, de un anuncio nuevo. */  
 
       if($this->input->post()){
         $numero = $_POST['numero']; 
@@ -298,6 +331,130 @@ class MiAnuncio extends CI_Controller {
         die();
       }      
     }  
+
+    function eliminarImagen(){     
+      /** Eliminar la imágen de un anuncio que se está editando. */ 
+
+      if(isset($_POST['anuncio_id']) && isset($_POST['numero']) && isset($_POST['path_imagen'])){
+        if($this->validaciones->anuncioPerteneceAUsuario($_POST['anuncio_id'])){
+          $numero_imagen = $_POST['numero'];  
+          $path_imagen = $_POST['path_imagen'];   
+          $path_imagen_explode =  explode( '?', $path_imagen); //explode con '?'
+          $path_imagen = $path_imagen_explode[0];         
+          $path_imagen_explode =  explode( '/', $path_imagen); //explode con '/'
+          $nombre_imagen = $path_imagen_explode[6];
+          $public_id = $path_imagen_explode[5];
+          $path_imagen = $path_imagen_explode[4]."/".$path_imagen_explode[5]."/".$path_imagen_explode[6];
+         
+          if(file_exists($path_imagen)){          
+              $response = $this->mianuncio_model->eliminarImagen($nombre_imagen,$numero_imagen,$public_id);
+              if($response['codigo']==0){
+                if(unlink($path_imagen)){
+                  $response['codigo']=0;
+                  $response['mensaje']='Se ha eliminado la imágen.';
+                  echo json_encode($response);
+                  die();
+                }else{
+                  $response['codigo']=1;
+                  $response['mensaje']='La imágen no se pudo eliminar.';
+                  echo json_encode($response);
+                  die();              }              
+              }else{
+                $response['codigo']=1;
+                $response['mensaje']='La imágen no se pudo eliminar.';
+                echo json_encode($response);
+                die();     
+              }                                         
+          }else{
+            $response['codigo'] = 1;
+            $response['mensaje']='La imágen no se pudo eliminar.';
+            echo json_encode($response);
+            die();
+          }  
+
+        }else{
+            $response['codigo'] = 1;
+            $response['mensaje']='La imágen no se pudo eliminar.';
+            echo json_encode($response);
+            die();
+        }
+      }else{
+        $response['codigo'] = 1;
+        $response['mensaje']='La imágen no se pudo eliminar.';
+        echo json_encode($response);
+        die();        
+      }      
+    }
+
+    function guardarImagen(){
+      /**Guarda imágen subida, de un anuncio que se está editando. */
+
+      if($this->input->post()){
+        $datos_recibidos = $this->input->post();    
+        $numero = $datos_recibidos['numero']; 
+        $anuncio_id = $datos_recibidos['anuncio_id'];   
+        
+        if($this->validaciones->anuncioPerteneceAUsuario($anuncio_id)){
+          $imagen_tipo=$_FILES["imagen"]["type"];
+          $imagen_tamano = $_FILES['imagen']['size']; 
+          $imagen_nombre_temporal = $_FILES['imagen']['name'];  
+          $imagen_extension = pathinfo($imagen_nombre_temporal, PATHINFO_EXTENSION);  
+          $imagen_nombre = 'img_'.$numero.'_'.$anuncio_id."_".date("d-m-Y").'.'.$imagen_extension;  
+          $imagen_folder_path=$this->carpeta_final_anuncio.$anuncio_id; 
+          $imagen_path       =$this->carpeta_final_anuncio.$anuncio_id.'/'.$imagen_nombre;    
+          $extensiones_validas = array('gif', 'png', 'jpg', 'jpeg');
+
+          //Valida extensión del archivo
+          if (in_array($imagen_extension, $extensiones_validas)) {
+
+            if($imagen_tamano<=5000000){
+                
+              //Si no existe el folder, lo crea
+              if(!(file_exists($imagen_folder_path))){
+                mkdir($imagen_folder_path, 0700);
+              }
+      
+              //Si existe imagen previa, segun el numero de la imagen la elimina y almacena la nueva
+              if(file_exists($imagen_path)){
+                unlink($imagen_path);                 
+              }
+        
+              //Mueve la imagen temporal al servidor
+              if(move_uploaded_file($_FILES['imagen']['tmp_name'], $imagen_path)){
+                $this->mianuncio_model->guardarImagen($numero,$anuncio_id,$imagen_nombre,$imagen_path);
+              }else{
+                $response['codigo']= 3;
+                $response['mensaje']='hubo un problema al subir su imágen. Intente otra. CÓDIGO 975';
+                echo json_encode($response);
+                die();
+              }           
+            }else{
+              $response['codigo']= 2;
+              $response['mensaje']=  'La imágen es demasiado grande. Máximo 5 MB. CÓDIGO 933';
+              echo json_encode($response);
+              die();
+            }              
+          }else{
+
+            $response['codigo']= 1;
+            $response['mensaje']= 'Elige una imágen con extensión JPG, JPEG, PNG, GIF. CÓDIGO 998';
+            echo json_encode($response);
+            die();
+          } 
+
+        }else{
+          $response['codigo']= 1;
+          $response['mensaje']= 'No recibimos los datos de tu imágen. CÓDIGO 912';    
+          echo json_encode($response);
+          die();
+        } 
+      }else{
+        $response['codigo']= 1;
+        $response['mensaje']= 'No recibimos los datos de tu imágen. CÓDIGO 952';    
+        echo json_encode($response);
+        die();
+      }         
+    }
 
 }
 
