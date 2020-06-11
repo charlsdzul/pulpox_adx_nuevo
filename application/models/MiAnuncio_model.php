@@ -376,12 +376,13 @@ class MiAnuncio_model extends CI_Model {
         * */   
          if($this->db->set("img_$numero", $imagen_nombre)->where('public_id', $anuncio_id)->where('usuario_id', $this->USUARIO_EN_SESSION_ID)->update('anuncios')){
             $response['codigo'] = 0;
-            $response['mensaje'] = $imagen_path;       
+            $response['mensaje'] = 'La imágen se guardó exitosamente.';    
+            $response['path'] = $imagen_path;     
             echo json_encode($response);
             die();
          }else{
             $response['codigo'] = 1;            
-            $response['mensaje'] = 'hubo un problema al subir su imágen. Intente otra. CÓDIGO 933'; 
+            $response['mensaje'] = 'Hubo un problema al subir su imágen. Intente otra. CÓDIGO 933'; 
             echo json_encode($response);
          }                 
     }  

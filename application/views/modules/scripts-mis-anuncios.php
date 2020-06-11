@@ -67,11 +67,9 @@
         },                 
       }
       });
-    }) 
+    })     
     
   });
-
-  var usuario_elimino_imagen = false;
 
   function verAnuncio(titulo,id,modalidad,estado,ciudad,seccion,apartado,creado,estatus){
     if(window.innerWidth< 960){
@@ -150,18 +148,46 @@
 
                     if(data.codigo == 0){
                         $(`#panel-image--div_icon-${numero_imagen}`).hide() 
-                        $(`#img-${numero_imagen}`).attr('src', url+data.mensaje+ "?timestamp=" + new Date().getTime());
+                        $(`#img-${numero_imagen}`).attr('src', url+data.path+ "?timestamp=" + new Date().getTime());
                         $(`#pulpox-invalid-feedback-${numero_imagen}`).html('')
-                        $(`#pulpox-invalid-feedback-${numero_imagen}`).hide()
+                        $(`#pulpox-invalid-feedback-${numero_imagen}`).hide()      
+                        $.confirm({
+                          icon: 'fas fa-check-circle',
+                          title: '<span class="titulo-confirm">Actualizar Imágen</span>',
+                          type: 'green',
+                          content: `<div class='contenido-confirm'>${data.mensaje}</div>`,
+                          buttons: {
+                            OK: {
+                                text: 'Ok',
+                                btnClass: 'btn-pulpox-success',
+                                keys: ['enter'],
+                            },                                      
+                          }
+                      })                        
                     }else{
                         $(`#icon-${numero_imagen}`).removeClass( "fas fa-spinner fa-3x fa-spin" ).addClass("fa fa-camera fa-3x");
                         $(`#panel-image--div_progreso-${numero_imagen}`).remove()
                         $(`#panel-image--div-delete-${numero_imagen}`).remove()
-
                         $(`#pulpox-invalid-feedback-${numero_imagen}`).html(data.mensaje)
                         $(`#pulpox-invalid-feedback-${numero_imagen}`).show()
                     }                   
                 }, 
+                fail:function(){
+                  $.confirm({
+                          icon: 'fas fa-check-circle',
+                          title: '<span class="titulo-confirm">Lo sentimos</span>',
+                          type: 'red',
+                          content: `<div class='contenido-confirm'>Hubo un problema a intenar actualizar tu imágen. Intenta más tarde.</div>`,
+                          buttons: {
+                            OK: {
+                                text: 'Ok',
+                                btnClass: 'btn-pulpox-danger',
+                                keys: ['enter'],
+                            },                                      
+                          }
+                      })  
+
+                },
             }); 
   }
 
@@ -283,7 +309,6 @@
   }
 
   function mostrarDatosMovil(titulo,id,modalidad,estado,ciudad,seccion,apartado,creado,estatus){
-    usuario_elimino_imagen = false;
     $.confirm({
         icon: 'fas fa-info-circle',
         title: '<span class="titulo-confirm">Información de mi anuncio</span>',
@@ -583,9 +608,9 @@
       icon: 'fas fa-edit',
       title: '<span class="titulo-confirm">Editar anuncio<span>',
       columnClass: 'large',
+      backgroundDismiss: true,
       type: 'blue', 
-      modal: true,
-                                      
+      modal: true,                                      
       content: function(){   
           var self = this;
           $.get(BASE_URL+'mianuncio/obtenerDatosComplementariosEdicionMovil/', {id})
@@ -803,6 +828,7 @@
             asignaListasSelects(modalidad,estado,ciudad,seccion,apartado)
             asignaValidacionesInputs();
             asignarImagenes(id,data) 
+            
             }else{
               $.confirm({
                     icon: 'fas fa-check-circle',
@@ -822,23 +848,34 @@
                 }); 
             }             
           })
-      },                             
+      },   
+      onContentReady: function () {
+        $('#titulo, #mensaje,#telefono,#celular,#correo').keyup(function(){
+              $('.editar_boton_guardar').show()
+            })
+            $('#estado, #ciudad,#modalidad,#seccion,#apartado').change(function(){
+              console.log('saasaa')
+              $('.editar_boton_guardar').show()
+            })
+      },                          
       buttons: {
-        cancelarEdicion: {
-          text: 'Cancelar',
-          btnClass: 'btn-pulpox-danger--line',
-          keys: ['escape'],        
+        cerrarEdicion: {
+          text: 'Cerrar',
+          id:'editar_boton_cerrar',
+          btnClass: 'btn-pulpox-info editar_boton_cerrar',
+          keys: ['escape'],  
         },
         guardarEdicion: {
-          text: 'Guardar',
+          text: 'Guardar Edición',
           id:'editar_boton_guardar',
-          btnClass: 'btn-pulpox-info guardarEdicion',
-          keys: ['enter'],                                                
-          action: function(){
+          btnClass: 'btn-pulpox-info guardarEdicion editar_boton_guardar',
+          keys: ['enter'],   
+          isHidden: true,  
+          action: function(){ 
             validaFormulario(id)   
             return false;
           }
-        }
+        },
       }
     });                   
   }
@@ -1195,17 +1232,15 @@
                                       icon: 'fas fa-check-circle',
                                       title: '<span class="titulo-confirm">Eliminar Imágen</span>',
                                       type: 'green',
-                                      content: `<div class='contenido-confirm'>La imágen se elimino exitosamente.</siv>`,
+                                      content: `<div class='contenido-confirm'>${data.mensaje}</div>`,
                                       buttons: {
                                         OK: {
                                             text: 'Ok',
-                                            btnClass: 'btn-pulpox-green',
+                                            btnClass: 'btn-pulpox-success',
                                             keys: ['enter'],
                                         },                                      
                                       }
-                                  });
-
-                                  usuario_elimino_imagen = true;                                                          
+                                  });                     
                                   if(numero_imagen==1){
                                       $(`#pulpox-message-principal-1`).show() 
                                   }
@@ -1227,7 +1262,7 @@
                                 });     
                               }
                           },   
-                          error:function(){
+                          fail:function(){
                             $(`#img-${numero_imagen}`).attr('src', path_imagen)
                             $(`#panel-image--div_icon-${numero_imagen}`).hide() 
                             $.confirm({
@@ -1329,8 +1364,8 @@
                   }    
           });                     
       })  
-  }  
 
- 
+   
+  }  
 
 </script>

@@ -351,7 +351,7 @@ class MiAnuncio extends CI_Controller {
               if($response['codigo']==0){
                 if(unlink($path_imagen)){
                   $response['codigo']=0;
-                  $response['mensaje']='Se ha eliminado la imágen.';
+                  $response['mensaje']='La imágen se eliminó exitosamente.';
                   echo json_encode($response);
                   die();
                 }else{
