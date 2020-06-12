@@ -27,20 +27,25 @@
             back_color = '#a39c52';
             color = 'white';
           }
-          if(mis_anuncios[index].estatus=='ELIMINADO'){
-            back_color = '#a3525a';
-            color = 'white';
-          }       
+          if(mis_anuncios[index].renovar==0){
+            boton_renovar=`<td id='pulpox-td-table'><button class='btn btn-pulpox-info' onclick=renovarAnuncio('${mis_anuncios[index].public_id}')>Renovar</button></td>`;         
+          }   
+          
+          if(mis_anuncios[index].renovar==1){
+            boton_renovar=`<td id='pulpox-td-table'>-</td>`; 
+          }      
        
         data += `
-          <tr id=${mis_anuncios[index].public_id}'> 
+          <tr id='${mis_anuncios[index].public_id}'> 
             <th class='d-none d-lg-table-cell'>${index+1}</th>                      
             <td style='word-break: break-all;'>${mis_anuncios[index].titulo}</td>
-            <td class='text-center' title='Ver anuncio' id='pulpox-icon--ver' onclick='verAnuncio("${mis_anuncios[index].titulo}","${mis_anuncios[index].public_id}","${mis_anuncios[index].modalidad}","${mis_anuncios[index].estado}" ,"${mis_anuncios[index].ciudad}","${mis_anuncios[index].seccion}","${mis_anuncios[index].apartado}","${mis_anuncios[index].creado}","${mis_anuncios[index].estatus}")'><i class="fas fa-eye"></i></td>                 
+            <td id='pulpox-td-table' title='Ver anuncio' id='pulpox-icon--ver' onclick='verAnuncio("${mis_anuncios[index].renovado}","${mis_anuncios[index].editado}","${mis_anuncios[index].titulo}","${mis_anuncios[index].public_id}","${mis_anuncios[index].modalidad}","${mis_anuncios[index].estado}" ,"${mis_anuncios[index].ciudad}","${mis_anuncios[index].seccion}","${mis_anuncios[index].apartado}","${mis_anuncios[index].creado}","${mis_anuncios[index].estatus}")'><i class="fas fa-eye"></i></td>                 
+            ${boton_renovar}
             <td class='d-none d-lg-table-cell'>${mis_anuncios[index].modalidad} </td>
             <td class='d-none d-lg-table-cell'>${mis_anuncios[index].estado} / ${mis_anuncios[index].ciudad}</td>
             <td class='d-none d-lg-table-cell'>${mis_anuncios[index].seccion} / ${mis_anuncios[index].apartado}</td>
             <td style='word-break: break-all;' class='d-none d-lg-table-cell'>${mis_anuncios[index].public_id}</td>
+            <td class='d-none d-lg-table-cell'>${mis_anuncios[index].renovado}</td>
             <td class='d-none d-lg-table-cell'>${mis_anuncios[index].creado}</td>
             <td id='pulpox-td-table' style='background-color:${back_color};color:${color};'>${mis_anuncios[index].estatus}</td>     
           </tr>`;    
@@ -71,9 +76,9 @@
     
   });
 
-  function verAnuncio(titulo,id,modalidad,estado,ciudad,seccion,apartado,creado,estatus){
+  function verAnuncio(renovado,editado,titulo,id,modalidad,estado,ciudad,seccion,apartado,creado,estatus){
     if(window.innerWidth< 960){
-      mostrarDatosMovil(titulo,id,modalidad,estado,ciudad,seccion,apartado,creado,estatus)
+      mostrarDatosMovil(renovado,editado,titulo,id,modalidad,estado,ciudad,seccion,apartado,creado,estatus)
     }else{
       window.open(BASE_URL+'mianuncio/ver/'+id, '_blank');
     }
@@ -308,7 +313,7 @@
         }
   }
 
-  function mostrarDatosMovil(titulo,id,modalidad,estado,ciudad,seccion,apartado,creado,estatus){
+  function mostrarDatosMovil(renovado,editado,titulo,id,modalidad,estado,ciudad,seccion,apartado,creado,estatus){
     $.confirm({
         icon: 'fas fa-info-circle',
         title: '<span class="titulo-confirm">Información de mi anuncio</span>',
@@ -323,6 +328,8 @@
             <b>Sección:</b>  ${seccion} / ${apartado}<br>
             <b>ID:</b> ${id}<br>
             <b>Creado:</b> ${creado}<br>
+            <b>Editado:</b> ${editado}<br>
+            <b>Renovado:</b> ${renovado}<br>
             <div class='div_estatus_actual'>
               <b>Estatus:</b> ${estatus}
             </div>
@@ -1023,7 +1030,7 @@
               'celular': celular_nuevo, 
               'correo': correo_nuevo, 
             }
-            $.post(BASE_URL+'mianuncio/editar/', {anuncio_editado})
+            $.post(BASE_URL+'mianuncio/editarMovil/', {anuncio_editado})
               .done(function(response){
                 var response = JSON.parse(response)
                 if(response.codigo==0){               

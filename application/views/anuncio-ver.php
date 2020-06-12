@@ -1,6 +1,6 @@
 
 
-<body class='justify-content-center'>
+<body class='container-fluid p-0'>
 
     <div class='row justify-content-center m-0'>
         <div id='nuevo_anuncio_previo' class='col-10 col-sm-10 col-md-8 col-lg-8 col-xl-5 mt-3'>
@@ -22,7 +22,7 @@
                         <label id='estado_ciudad'></label>
                     </div>
                     <div class="icon-label" title='Sección/Apartado'>
-                        <img src="<?php echo base_url()?>assets/icons/list-24px.svg" class='anuncio-nuevo-preview_icon'  title="Bootstrap">
+                        <img src="<?php echo base_url()?>assets/icons/list-24px.svg" class='anuncio-nuevo-preview_icon'>
                         <label id='seccion_apartado'></label>           
                     </div>
                 </div>
@@ -67,33 +67,41 @@
         </div>   
     </div>     
 
-    <div class="row justify-content-center " >
+    <div class="row justify-content-center m-0" >
         
             <div class="row justify-content-center div-informacion-anuncio mt-3">
                 <div>
                     <label><b>Información de mi anuncio</b></label><br>
                     <label id='anuncio_id'></label><br>
                     <label id='creado'></label><br>
+                    <label id='editado'></label><br>
+                    <label id='renovado'></label><br>
                     <div class='div_estatus_actual'>
                         <span id='estatus_actual'></span>
                     </div>
                     <div class='div_opciones'>                          
                         <?php 
-
+                       
                             $public_id_act = "`".$datos_anuncio["public_id"]."`";
                             $estatus_act = "`".$datos_anuncio["estatus"]."`";
+                            $url_editar = base_url()."index.php/mianuncio/editar/".$datos_anuncio["public_id"];
                             
                             if($datos_anuncio['estatus']=='ELIMINADO'){
                             }                        
                             if($datos_anuncio['estatus']=='ACTIVO'){
                                 echo "<button id='boton_eliminar' class='btn btn-pulpox-danger--line m-1' onclick='eliminarAnuncio()'>Eliminar</button>";
-                                echo "<button id='boton_editar' class='btn btn-pulpox-secondary--line m-1'>Editar</button>";
+                                echo "<a href='$url_editar' id='boton_editar' class='btn ml-1 mr-1 btn-pulpox-secondary--line'>Editar</a>";
                                 echo "<button id='boton_suspender' class='btn btn-pulpox-warning--line m-1' onclick='cambiarEstatusDeAnuncio($public_id_act,$estatus_act)'>Suspender</button>";             
                             }   
                             if($datos_anuncio['estatus']=='SUSPENDIDO'){
                                 echo "<button id='boton_eliminar' class='btn btn-pulpox-danger--line m-1' onclick='eliminarAnuncio()'>Eliminar</button>";
                                 echo "<button id='boton_editar' class='btn btn-pulpox-secondary--line m-1'>Editar</button>";
                                 echo "<button id='boton_activar' class='btn btn-pulpox-success--line m-1' onclick='cambiarEstatusDeAnuncio($public_id_act,$estatus_act)'>Activar</button>";                             
+                            }
+                            if($datos_anuncio['renovar']==0){
+                                echo "<button class='btn btn-pulpox-info' onclick=renovarAnuncio($public_id_act)>Renovar</button>";
+                            }else{
+                               
                             }
                         ?>   
                     </div> 

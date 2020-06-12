@@ -12,10 +12,12 @@
             <th class="th-sm d-none d-lg-table-cell">#</th>        
             <th class="th-sm">Título</th>
             <th class="th-sm text-center">Ver</th>
+            <th class="th-sm text-center">Renovar</th>
             <th class="th-sm d-none d-lg-table-cell">Modalidad</th> 
             <th class="th-sm d-none d-lg-table-cell">Lugar</th> 
             <th class="th-sm d-none d-lg-table-cell">Sección</th>
             <th class="th-sm d-none d-lg-table-cell">ID</th>
+            <th class="th-sm d-none d-lg-table-cell">Renovado</th>
             <th class="th-sm d-none d-lg-table-cell">Creado</th>
             <th class="th-sm">Estatus</th>
           </tr>
@@ -27,10 +29,12 @@
           <th class="th-sm d-none d-lg-table-cell">#</th>        
             <th class="th-sm">Título</th>
             <th class="th-sm text-center">Ver</th>
+            <th class="th-sm text-center">Renovar</th>
             <th class="th-sm d-none d-lg-table-cell">Modalidad</th> 
             <th class="th-sm d-none d-lg-table-cell">Lugar</th> 
             <th class="th-sm d-none d-lg-table-cell">Sección</th>
             <th class="th-sm d-none d-lg-table-cell">ID</th>
+            <th class="th-sm d-none d-lg-table-cell">Renovado</th>
             <th class="th-sm d-none d-lg-table-cell">Creado</th>
             <th class="th-sm ">Estatus</th>
           </tr>

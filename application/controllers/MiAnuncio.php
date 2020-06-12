@@ -92,7 +92,14 @@ class MiAnuncio extends CI_Controller {
       }   
     } 
 
-    function editar(){
+    function editar($anuncio_id){
+      /**
+       * Recibe datos de un anuncio para editarlo.
+       */
+  
+    }
+
+    function editarMovil(){
       /**
        * Recibe datos de un anuncio para editarlo.
        */
@@ -159,8 +166,9 @@ class MiAnuncio extends CI_Controller {
           redirect("index.php/misanuncios/");
         }else{
           if(strlen($anuncio_id)==30){
-            $data = $this->mianuncio_model->ver($anuncio_id);
-              if(isset($data['codigo'])){
+            if($this->validaciones->anuncioPerteneceAUsuario($anuncio_id)){
+                $data = $this->mianuncio_model->ver($anuncio_id);
+                if(isset($data['codigo'])){
                 $respuesta['respuesta'] = $data['mensaje'];
                 $this->load->view('modules/headers-mianuncio-ver.php');
                 $this->load->view('modules/menu');
@@ -173,7 +181,15 @@ class MiAnuncio extends CI_Controller {
                 $this->load->view('modules/scripts-mianuncio-ver.php');    
                 $this->load->view('modules/scripts-carrousel.php');  
                 $this->load->view('modules/scripts-asignar-valores.php'); 
+                $this->load->view('modules/scripts-renovar-anuncio.php'); 
+                
               }  
+             }else{              
+              $respuesta['respuesta'] = 'Este anuncio no te pertenece. Elije uno de la sección Mis Anuncios.';
+              $this->load->view('modules/headers-mianuncio-ver.php');
+              $this->load->view('modules/menu');
+              $this->load->view('pagina-no-existe', $respuesta);
+             }            
           }else{
             $respuesta['respuesta'] = 'El ID ingresado en la URL debe ser de 30 caracteres alfanumúmericos.';
             $this->load->view('modules/headers-mianuncio-ver.php');
@@ -203,6 +219,17 @@ class MiAnuncio extends CI_Controller {
       }else{
         $response['codigo']=1;
         $response['mensaje']='Lo sentimos, el anuncio no se pudo eliminar.';
+        echo json_encode($response);
+        die();
+      }
+    }
+
+    function renovar(){
+      if(isset($_POST['anuncio_id']) && strlen($_POST['anuncio_id'])==30){         
+        $this->mianuncio_model->renovar($_POST['anuncio_id']);          
+      }else{
+        $response['codigo']=1;
+        $response['mensaje']='Lo sentimos, no pudimos renovar tu anuncio. Intenta más tarde.';
         echo json_encode($response);
         die();
       }
@@ -239,7 +266,7 @@ class MiAnuncio extends CI_Controller {
         
         $imagen_extension = pathinfo($imagen_nombre_temporal, PATHINFO_EXTENSION);
 
-        $imagen_nombre = 'img_'.$numero.'_'.$anuncio_id."_".date("d-m-Y").'.'.$imagen_extension;
+        $imagen_nombre = 'img_'.$numero.'_'.$anuncio_id."_".date("Y-m-d").'.'.$imagen_extension;
 
         $imagen_folder_path=$this->ruta_imagenes_temporales.$anuncio_id; 
         $imagen_path       =$this->ruta_imagenes_temporales.$anuncio_id.'/'.$imagen_nombre;         
@@ -399,7 +426,7 @@ class MiAnuncio extends CI_Controller {
           $imagen_tamano = $_FILES['imagen']['size']; 
           $imagen_nombre_temporal = $_FILES['imagen']['name'];  
           $imagen_extension = pathinfo($imagen_nombre_temporal, PATHINFO_EXTENSION);  
-          $imagen_nombre = 'img_'.$numero.'_'.$anuncio_id."_".date("d-m-Y").'.'.$imagen_extension;  
+          $imagen_nombre = 'img_'.$numero.'_'.$anuncio_id."_".date("Y-m-d").'.'.$imagen_extension;  
           $imagen_folder_path=$this->carpeta_final_anuncio.$anuncio_id; 
           $imagen_path       =$this->carpeta_final_anuncio.$anuncio_id.'/'.$imagen_nombre;    
           $extensiones_validas = array('gif', 'png', 'jpg', 'jpeg');

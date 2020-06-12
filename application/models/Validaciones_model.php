@@ -32,8 +32,7 @@ class Validaciones_model extends CI_Model {
         'apartado' => 'cat_apartados'
       ];
 
-      $this->db->where('nombre',$valor);
-      $query = $this->db->get($TABLAS["$objeto"]);
+      $query = $this->db->where('nombre',$valor)->get($TABLAS["$objeto"]);
       if ($query->num_rows() > 0){
           return true;
       }

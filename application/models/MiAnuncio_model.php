@@ -23,6 +23,9 @@ class MiAnuncio_model extends CI_Model {
     }
                      
     function publicar($anuncio_datos){
+
+        $fecha_actual = date("Y-m-d H:i:s");
+
         $data = array(  
             'public_id'=>$anuncio_datos['public_id'],
             'titulo'=> $anuncio_datos['titulo'],
@@ -35,7 +38,9 @@ class MiAnuncio_model extends CI_Model {
             'telefono'=> $anuncio_datos['telefono'], 
             'celular'=> $anuncio_datos['celular'],
             'correo'=> $anuncio_datos['correo'],            
-            'creado'=> date("d/m/Y H:i:s"), 
+            'creado'=> $fecha_actual , 
+            'editado'=> $fecha_actual , 
+            'renovado'=> $fecha_actual , 
             'usuario_id'=> $this->USUARIO_EN_SESSION_ID,               
             );
 
@@ -89,11 +94,10 @@ class MiAnuncio_model extends CI_Model {
             'telefono'=> $anuncio_datos['telefono'], 
             'celular'=> $anuncio_datos['celular'],
             'correo'=> $anuncio_datos['correo'],         
-            'actualizado'=> date("Y-m-d H:i:s"), 
+            'editado'=> date("Y-m-d H:i:s"), 
             );
 
-        $this->db->where('public_id',$anuncio_datos['anuncio_public_id']);
-        $this->db->where('usuario_id',$this->USUARIO_EN_SESSION_ID);       
+        $this->db->where('public_id',$anuncio_datos['anuncio_public_id'])->where('usuario_id',$this->USUARIO_EN_SESSION_ID)->where("(sta=0 OR sta=1)");    
         
             if($this->db->update('anuncios', $datos)){
                 $response['codigo']  = 0;
@@ -116,7 +120,7 @@ class MiAnuncio_model extends CI_Model {
          * Se hizo así para no pedir esos datos que ya están en FRONT:
          *  */         
 
-        $query = $this->db->select("*")->where("public_id",$public_id)->get('anuncios');
+        $query = $this->db->select("*")->where("public_id",$public_id)->get('anuncios')->where("(sta=0 OR sta=1 OR sta=2)");
 
         if($query->num_rows() > 0){
             foreach ($query->result() as $row){
@@ -226,39 +230,62 @@ class MiAnuncio_model extends CI_Model {
     }  
 
     function ver($anuncio_id){
-            $this->db->select('public_id, titulo, mensaje, estado,ciudad,modalidad,seccion,apartado,telefono,celular,correo,img_1,img_2,img_3,img_4,img_5,img_6,img_7,img_8,img_9,img_10,sta,creado')
-                        ->where('usuario_id', $this->USUARIO_EN_SESSION_ID)
-                        ->where('public_id', $anuncio_id);
-            $query = $this->db->get('anuncios');
-                        
-            if($query->num_rows() > 0){
-                $datos_anuncio = $query->row_array();                       
-                $datos_anuncio['creado'] = $this->validaciones->creaFechaConFormato($datos_anuncio['creado']);
-                $datos_anuncio['estado'] = $this->validaciones->obtenerNombre($datos_anuncio['estado'], 'estado');
-                $datos_anuncio['ciudad'] = $this->validaciones->obtenerNombre($datos_anuncio['ciudad'], 'ciudad');
-                $datos_anuncio['seccion'] = $this->validaciones->obtenerNombre($datos_anuncio['seccion'], 'seccion');
-                $datos_anuncio['apartado'] = $this->validaciones->obtenerNombre($datos_anuncio['apartado'], 'apartado');
-                $datos_anuncio['estatus'] = $this->validaciones->estatusTexto($datos_anuncio['sta']);
-
-                //Definir nombre de imagen
-                for ($i=1; $i < 11; $i++) { 
-                    if($datos_anuncio["img_$i"]!=''){
-                        $datos_anuncio["img_$i"] = $this->carpeta_final_anuncio.$datos_anuncio['public_id'].'/'.$datos_anuncio["img_$i"];
-                    }
-                }          
-                return $datos_anuncio;
-            } else {
+            $this->db->select('sta, public_id, titulo, mensaje, estado,ciudad,modalidad,seccion,apartado,telefono,celular,correo,img_1,img_2,img_3,img_4,img_5,img_6,img_7,img_8,img_9,img_10,sta,creado,editado,renovado')
+            ->where('usuario_id', $this->USUARIO_EN_SESSION_ID)->where("(sta=0 OR sta=1 OR sta=2)")->where('public_id', $anuncio_id);
+            
+            if($query= $this->db->get('anuncios')){
+                if($query->num_rows() > 0){
+                    $datos_anuncio = $query->row_array();  
+                    $datos_anuncio['creado'] = $this->validaciones->creaFechaConFormato($datos_anuncio['creado']);
+                    $datos_anuncio['estado'] = $this->validaciones->obtenerNombre($datos_anuncio['estado'], 'estado');
+                    $datos_anuncio['ciudad'] = $this->validaciones->obtenerNombre($datos_anuncio['ciudad'], 'ciudad');
+                    $datos_anuncio['seccion'] = $this->validaciones->obtenerNombre($datos_anuncio['seccion'], 'seccion');
+                    $datos_anuncio['apartado'] = $this->validaciones->obtenerNombre($datos_anuncio['apartado'], 'apartado');
+                    $datos_anuncio['estatus'] = $this->validaciones->estatusTexto($datos_anuncio['sta']);    
+                    
+                    if($datos_anuncio['sta']==0){
+                        $datos_anuncio['renovar'] = $this->validaciones->disponibleParaRenovar($datos_anuncio['renovado']);
+                    }else{
+                        $datos_anuncio['renovar'] = 1;
+                    }                     
+    
+                    if($datos_anuncio['renovado'] == '0000-00-00 00:00:00'){
+                        $datos_anuncio['renovado']= 'NUNCA';
+                    }else{
+                        $datos_anuncio['renovado'] = $this->validaciones->creaFechaConFormato($datos_anuncio['renovado']);
+                    }  
+        
+                    if($datos_anuncio['editado']== '0000-00-00 00:00:00'){
+                        $datos_anuncio['editado']= 'NUNCA';
+                    }else{
+                        $datos_anuncio['editado'] = $this->validaciones->creaFechaConFormato($datos_anuncio['editado']);
+                    } 
+                 
+                    //Definir nombre de imagen
+                    for ($i=1; $i < 11; $i++) { 
+                        if($datos_anuncio["img_$i"]!=''){
+                            $datos_anuncio["img_$i"] = $this->carpeta_final_anuncio.$datos_anuncio['public_id'].'/'.$datos_anuncio["img_$i"];
+                        }
+                    }          
+                    return $datos_anuncio;
+                } else {
+                    $response['codigo']=1;
+                    $public_link = $this->BASE_URL.'anuncio/'.$anuncio_id;
+                    $response['mensaje']="Lo sentimos, este anuncio no te pertenece o no existe.";
+                    return $response;
+                }
+            }else{
                 $response['codigo']=1;
                 $public_link = $this->BASE_URL.'anuncio/'.$anuncio_id;
-                $response['mensaje']="Lo sentimos, este anuncio no te pertenece o no existe.";
+                $response['mensaje']="Lo sentimos, no pudimos mostrarte tu anuncio. Intenta más tarde.";
                 return $response;
-            }    
+            }                        
+                
     }   
 
     function verMovil($public_id){
         $this->db->select('public_id, titulo, mensaje, estado,ciudad,modalidad,seccion,apartado,telefono,celular,correo,img_1,img_2,img_3,img_4,img_5,img_6,img_7,img_8,img_9,img_10')
-                ->where('usuario_id', $this->USUARIO_EN_SESSION_ID)
-                ->where('public_id', $public_id);
+                ->where('usuario_id', $this->USUARIO_EN_SESSION_ID)->where("(sta=0 OR sta=1 OR sta=2)")->where('public_id', $public_id);
         $query = $this->db->get('anuncios');                         
         if($query->num_rows() > 0){
             $datos_anuncio = $query->row_array();
@@ -294,7 +321,7 @@ class MiAnuncio_model extends CI_Model {
                 'eliminado_por' =>  1, //1 es USUARIO 
             );
     
-            $this->db->where('usuario_id', $this->USUARIO_EN_SESSION_ID)->where('public_id', $anuncio_id);
+            $this->db->where('usuario_id', $this->USUARIO_EN_SESSION_ID)->where('public_id', $anuncio_id)->where("(sta=0 OR sta=1)");
             
             if($this->db->update('anuncios', $data)){
                 $response['codigo']=0;
@@ -339,7 +366,7 @@ class MiAnuncio_model extends CI_Model {
             ); 
         }             
 
-        $this->db->where('usuario_id', $this->USUARIO_EN_SESSION_ID)->where('public_id', $anuncio_id);
+        $this->db->where('usuario_id', $this->USUARIO_EN_SESSION_ID)->where('public_id', $anuncio_id)->where("(sta=0 OR sta=1)");
     
         if($this->db->update('anuncios', $data)){
             $response['codigo']=0;
@@ -354,6 +381,38 @@ class MiAnuncio_model extends CI_Model {
         }
     }
 
+    function renovar($anuncio_id){ 
+        if($fecha_renovado = $this->db->select('renovado')->where('public_id',$anuncio_id)->get('anuncios')->row()->renovado){
+            if($this->validaciones->disponibleParaRenovar($fecha_renovado)==0){ 
+                $data = array(
+                    'renovado' => date("Y-m-d H:i:s"),                 
+                ); 
+    
+                if($this->db->where('usuario_id', $this->USUARIO_EN_SESSION_ID)->where('public_id', $anuncio_id)->where("sta",0)->update('anuncios', $data)){
+                    $response['codigo']=0;
+                    $response['mensaje']='Su anuncio ya se renovó exitosamente';
+                    echo json_encode($response);
+                    die();
+                }else{
+                    $response['codigo']=1;
+                    $response['mensaje']='Lo sentimos, no pudimos renovar tu anuncio. Intenta más tarde.1';
+                    echo json_encode($response);
+                    die();
+                }
+            }else{
+            $response['codigo']  = 1;
+            $response['mensaje'] = 'Lo sentimos, no pudimos renovar tu anuncio. Intenta más tarde.2';  
+            echo json_encode($response);    
+            die(); 
+            }
+        }else{
+            $response['codigo']  = 1;
+            $response['mensaje'] = 'Lo sentimos, no pudimos renovar tu anuncio. Intenta más tarde.3';  
+            echo json_encode($response);    
+            die(); 
+        }
+    }
+
     function eliminarImagen($nombre_imagen,$numero_imagen,$public_id){  
         /** Eliminar la imágen de un anuncio */ 
         $campo = "img_".$numero_imagen;
@@ -361,7 +420,7 @@ class MiAnuncio_model extends CI_Model {
             $campo => '',
          );
 
-        $this->db->where('usuario_id', $this->USUARIO_EN_SESSION_ID)->where('public_id', $public_id);        
+        $this->db->where('usuario_id', $this->USUARIO_EN_SESSION_ID)->where('public_id', $public_id)->where("(sta=0 OR sta=1)");        
             if($this->db->update('anuncios', $data)){
                 $response['codigo']=0;
             }else{
@@ -374,7 +433,7 @@ class MiAnuncio_model extends CI_Model {
         /** Guarda imagen en base de datos del usuario.
         * Actualiza registro.
         * */   
-         if($this->db->set("img_$numero", $imagen_nombre)->where('public_id', $anuncio_id)->where('usuario_id', $this->USUARIO_EN_SESSION_ID)->update('anuncios')){
+         if($this->db->set("img_$numero", $imagen_nombre)->where('public_id', $anuncio_id)->where("(sta=0 OR sta=1)")->where('usuario_id', $this->USUARIO_EN_SESSION_ID)->update('anuncios')){
             $response['codigo'] = 0;
             $response['mensaje'] = 'La imágen se guardó exitosamente.';    
             $response['path'] = $imagen_path;     

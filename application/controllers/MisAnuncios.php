@@ -18,7 +18,8 @@ class MisAnuncios extends CI_Controller {
         $this->load->view('modules/scripts-carrousel.php');     
         $this->load->view('modules/scripts-asignar-valores.php');  
         $this->load->view('modules/scripts-asignar-validaciones.php');  
-        $this->load->view('modules/scripts-validaciones-imagenes.php');    
+        $this->load->view('modules/scripts-validaciones-imagenes.php');  
+        $this->load->view('modules/scripts-renovar-anuncio.php');   
     }
 
     function obtenerMisAnuncios(){

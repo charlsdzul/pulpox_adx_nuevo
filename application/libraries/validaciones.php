@@ -229,7 +229,25 @@ class Validaciones {
       //return $nombredia." ".$numeroDia." de ".$nombreMes." de ".$anio;
       return $numeroDia."/".$nombreMes."/".$anio.' '.$hora[1];
 
-  }
+    }
+
+    function disponibleParaRenovar($renovado){
+      /**
+       * Recibe datetime CREADO y RENOVADO
+       * Tiene que haber diferencia de 24 horas para poder renovar otra vez
+       */
+      
+      $segundos_renovado = StrToTime($renovado);
+      $segundos_actual = StrToTime(date("Y-m-d H:i:s"));   
+      
+      $diferencia = $segundos_actual - $segundos_renovado;
+      $horas = $diferencia / ( 60 * 60 );
+      if($horas>24){
+        return 0;
+      }else{
+        return 1;
+      } 
+    }
 }
 
 ?>

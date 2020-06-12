@@ -24,9 +24,13 @@
       }
 
       $('#anuncio_id').html('<b>ID del anuncio:</b> '+anuncio_datos['public_id'])
-      $('#estatus_actual').html('<b>Estatus actual:</b> '+anuncio_datos['estatus'])
       $('#creado').html('<b>Creado:</b> '+anuncio_datos['creado'])
+      $('#editado').html('<b>Editado:</b> '+anuncio_datos['editado'])
+      $('#renovado').html('<b>Renovado:</b> '+anuncio_datos['renovado'])
 
+
+      $('#estatus_actual').html('<b>Estatus actual:</b> '+anuncio_datos['estatus'])
+      
       if(anuncio_datos['estatus']=='ACTIVO'){
         $('.div_estatus_actual').css('background-color','#52a35c')
         $('.div_estatus_actual').css('color','white')

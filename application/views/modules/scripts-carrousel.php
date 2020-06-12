@@ -1,6 +1,6 @@
 <script>
 
-  function creaCarousel(anuncio_datos){    
+function creaCarousel(anuncio_datos){    
         //Detecta si existe por lo menos 1 imágen almacenada en el sessionStorage
         for (let index = 1; index < 11; index++) {
               if(anuncio_datos[`img_${index}`]!=null && anuncio_datos[`img_${index}`]!=''){  
@@ -50,6 +50,5 @@
         }  
       }
   } 
-
 </script>
 
