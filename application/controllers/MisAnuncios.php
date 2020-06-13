@@ -11,16 +11,21 @@ class MisAnuncios extends CI_Controller {
     }
 
     function index(){      
-        $this->load->view('modules/headers-mis-anuncios');
+        $this->load->view('headers/header-html-mis-anuncios');
         $this->load->view('modules/menu');       
-        $this->load->view('mis-anuncios');  
-        $this->load->view('modules/scripts-mis-anuncios.php');  
-        $this->load->view('modules/scripts-carrousel.php');     
-        $this->load->view('modules/scripts-asignar-valores.php');  
-        $this->load->view('modules/scripts-asignar-validaciones.php');  
-        $this->load->view('modules/scripts-validaciones-imagenes.php');  
-        $this->load->view('modules/scripts-renovar-anuncio.php');   
-    }
+        $this->load->view('pages/page-mis-anuncios');  
+        $this->load->view('scripts/script-js-mis-anuncios.php');  
+        $this->load->view('scripts/script-js-carrousel.php');     
+        $this->load->view('scripts/script-js-asignar-valores.php');  
+        $this->load->view('scripts/script-js-asignar-validaciones-inputs.php');
+        $this->load->view('scripts/script-js-renovar-anuncio.php'); 
+        $this->load->view('scripts/script-js-validar-imagen.php'); 
+        $this->load->view('scripts/script-js-eliminar-imagen.php');  
+        $this->load->view('scripts/script-js-guardar-imagen.php'); 
+        $this->load->view('scripts/script-js-definir-selects-valores.php'); 
+        $this->load->view('scripts/script-js-asignar-imagenes-editar.php'); 
+        $this->load->view('scripts/script-js-validar-formulario.php'); 
+      }
 
     function obtenerMisAnuncios(){
       if($response = $this->misanuncios_model->obtenerMisAnuncios()){

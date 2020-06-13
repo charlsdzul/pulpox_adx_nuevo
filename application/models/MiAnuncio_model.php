@@ -120,15 +120,17 @@ class MiAnuncio_model extends CI_Model {
          * Se hizo así para no pedir esos datos que ya están en FRONT:
          *  */         
 
-        $query = $this->db->select("*")->where("public_id",$public_id)->get('anuncios')->where("(sta=0 OR sta=1 OR sta=2)");
+        $query = $this->db->select("*")->where("public_id",$public_id)->where("(sta=0 OR sta=1 OR sta=2)")->get('anuncios');
 
         if($query->num_rows() > 0){
             foreach ($query->result() as $row){
+                $misanuncio['public_id'] = $public_id;
                 $misanuncio['mensaje'] = $row->mensaje;
                 $misanuncio['telefono'] = $row->telefono;
                 $misanuncio['celular'] = $row->celular;
                 $misanuncio['correo'] = $row->correo;
                 $misanuncio['celular'] = $row->celular;
+
                 $misanuncio['img_1'] = $row->img_1;
                 $misanuncio['img_2'] = $row->img_2;
                 $misanuncio['img_3'] = $row->img_3;
@@ -139,6 +141,14 @@ class MiAnuncio_model extends CI_Model {
                 $misanuncio['img_8'] = $row->img_8;
                 $misanuncio['img_9'] = $row->img_9;
                 $misanuncio['img_10'] = $row->img_10;    
+
+                //Definir path/nombre de imagen
+                for ($i=1; $i < 11; $i++) { 
+                    if($misanuncio["img_$i"]!=''){
+                        $misanuncio["img_$i"] = $this->carpeta_final_anuncio.$row->public_id.'/'.$misanuncio["img_$i"];
+                    }
+                } 
+
                 $misanuncio['codigo']  = 0;
             }
             echo json_encode($misanuncio);
@@ -261,7 +271,7 @@ class MiAnuncio_model extends CI_Model {
                         $datos_anuncio['editado'] = $this->validaciones->creaFechaConFormato($datos_anuncio['editado']);
                     } 
                  
-                    //Definir nombre de imagen
+                    //Definir path/nombre de imagen
                     for ($i=1; $i < 11; $i++) { 
                         if($datos_anuncio["img_$i"]!=''){
                             $datos_anuncio["img_$i"] = $this->carpeta_final_anuncio.$datos_anuncio['public_id'].'/'.$datos_anuncio["img_$i"];
@@ -299,6 +309,13 @@ class MiAnuncio_model extends CI_Model {
                     $datos_anuncio["img_$i"] = $this->carpeta_final_anuncio.$datos_anuncio['public_id'].'/'.$datos_anuncio["img_$i"];
                 }
             }
+
+            //Definir path/nombre de imagen
+            for ($i=1; $i < 11; $i++) { 
+                if($datos_anuncio["img_$i"]!=''){
+                    $datos_anuncio["img_$i"] = $this->carpeta_final_anuncio.$datos_anuncio['public_id'].'/'.$datos_anuncio["img_$i"];
+                }
+            } 
             return $datos_anuncio;
         } else {
             $response['codigo']=1;

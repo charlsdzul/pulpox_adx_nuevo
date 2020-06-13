@@ -155,7 +155,7 @@ h1 {
   color: white !important;
 }
 .btn-pulpox-warning:hover {
-  color: white !important;
+  color: #635b00 !important;
   background-color: #f0dc00 !important;
 }
 .btn-pulpox-warning:active {
@@ -264,6 +264,10 @@ h1 {
   display: inline-block;
 }
 
+.pulpux-icon-ver {
+  cursor: pointer;
+}
+
 #nuevo_anuncio_previo {
   box-shadow: 0px 10px 10px -5px rgba(0, 0, 0, 0.62);
   padding: 2em;
@@ -324,6 +328,10 @@ h1 {
 
 .carousel-control-prev {
   color: orange;
+}
+
+.pulpox-icon {
+  filter: invert(14%) sepia(79%) saturate(7289%) hue-rotate(334deg) brightness(63%) contrast(104%);
 }
 
 #modalidad_mensaje--div {

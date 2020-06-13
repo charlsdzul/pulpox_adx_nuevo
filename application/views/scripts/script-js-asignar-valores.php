@@ -1,7 +1,8 @@
 <script>
 
   function asignaValores(anuncio_datos){
-      /** Recibe valoresque han sido almacenados en sessionStorage en el Anuncio Nuevo.*/
+      /** Asigna valores a VER ANUNCIO */
+      
       $('#titulo_preview').text(anuncio_datos['titulo'])
       $('#mensaje_preview').html(anuncio_datos['mensaje'])
       $('#modalidad_preview').html(anuncio_datos['modalidad'])

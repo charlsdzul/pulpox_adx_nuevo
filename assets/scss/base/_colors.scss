@@ -4,6 +4,8 @@ $color_primary: #a30036;
 $color_primary_medium_dark: #8a002e;
 $color_primary_dark: #630021;
 $color_primary_opaque: #a3526d;
+$color_primary_filter: invert(14%) sepia(79%) saturate(7289%) hue-rotate(334deg)
+	brightness(63%) contrast(104%);
 
 $color_secondary_light: #f03a0c;
 $color_secondary_medium_light: #b02a09;

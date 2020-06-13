@@ -1,6 +1,13 @@
 <script>
 
 function renovarAnuncio(anuncio_id){
+  /* 
+  ARGS:
+      * anuncio_id : ID público del anunc
+  FUNCTION:
+      * Renueva el anuncio  
+  */    
+
     $.confirm({
         icon: 'fas fa-info-circle',
         title: '<span class="titulo-confirm">Renovar Anuncio<span>',

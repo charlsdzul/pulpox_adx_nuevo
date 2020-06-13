@@ -39,7 +39,7 @@
           <tr id='${mis_anuncios[index].public_id}'> 
             <th class='d-none d-lg-table-cell'>${index+1}</th>                      
             <td style='word-break: break-all;'>${mis_anuncios[index].titulo}</td>
-            <td id='pulpox-td-table' title='Ver anuncio' id='pulpox-icon--ver' onclick='verAnuncio("${mis_anuncios[index].renovado}","${mis_anuncios[index].editado}","${mis_anuncios[index].titulo}","${mis_anuncios[index].public_id}","${mis_anuncios[index].modalidad}","${mis_anuncios[index].estado}" ,"${mis_anuncios[index].ciudad}","${mis_anuncios[index].seccion}","${mis_anuncios[index].apartado}","${mis_anuncios[index].creado}","${mis_anuncios[index].estatus}")'><i class="fas fa-eye"></i></td>                 
+            <td id='pulpox-td-table' title='Ver anuncio' id='pulpox-icon--ver' onclick='verAnuncio("${mis_anuncios[index].renovado}","${mis_anuncios[index].editado}","${mis_anuncios[index].titulo}","${mis_anuncios[index].public_id}","${mis_anuncios[index].modalidad}","${mis_anuncios[index].estado}" ,"${mis_anuncios[index].ciudad}","${mis_anuncios[index].seccion}","${mis_anuncios[index].apartado}","${mis_anuncios[index].creado}","${mis_anuncios[index].estatus}")'>  <img src="<?php echo base_url()?>assets/icons/visibility-24px.svg" class='pulpux-icon-ver pulpox-icon'></td>                 
             ${boton_renovar}
             <td class='d-none d-lg-table-cell'>${mis_anuncios[index].modalidad} </td>
             <td class='d-none d-lg-table-cell'>${mis_anuncios[index].estado} / ${mis_anuncios[index].ciudad}</td>
@@ -82,118 +82,6 @@
     }else{
       window.open(BASE_URL+'mianuncio/ver/'+id, '_blank');
     }
-  }
-
-  function uploadImage(imagen,anuncio_id){
-        /* Ejecutya funciones de validaciones */
-        
-        var numero_imagen = imagen.getAttribute("data-numero-imagen");  
-
-        if(validarExtensionImagen(imagen.files[0].name)){ 
-            $(`#pulpox-invalid-feedback-${numero_imagen}`).html('');
-            $(`#pulpox-invalid-feedback-${numero_imagen}`).hide();
-           if(validarTamanoImagen(imagen.files[0].size)){
-                $(`#pulpox-invalid-feedback-${numero_imagen}`).html('')
-                $(`#pulpox-invalid-feedback-${numero_imagen}`).hide()
-                uploadImageAjax(imagen,numero_imagen,anuncio_id)
-            }else{
-                $(`#pulpox-invalid-feedback-${numero_imagen}`).show();    
-                $(`#pulpox-invalid-feedback-${numero_imagen}`).html('La imágen es demasiado grande. Máximo 5 MB')       
-            }
-        }else{
-            $(`#pulpox-invalid-feedback-${numero_imagen}`).html('Elige una imágen con extensión JPG, JPEG, PNG, GIF.')
-            $(`#pulpox-invalid-feedback-${numero_imagen}`).show()
-        }    
-  }
-
-  function uploadImageAjax(imagen,numero_imagen,anuncio_id){
-        /** Sube imágen a servidor. */
-
-        $(`#panel-image-${numero_imagen}`).after(`
-        <div id='panel-image--div_progreso-${numero_imagen}' class='panel-image--div_progreso'> 
-            <div id='panel-image--bar_progreso-${numero_imagen}' class='panel-image--bar_progreso'> 
-                </div>
-        </div>  
-        <div id='panel-image--div-delete-${numero_imagen}' class='panel-image--div-delete'> 
-            <i id='icon-delete-${numero_imagen}' class="material-icons icon-delete" onclick='eliminarImagen(this,"${anuncio_id}")' data-numero-imagen='${numero_imagen}'>delete_forever</i>
-        </div>`)
-
-            var fd = new FormData(); 
-            var image = imagen.files[0]; 
-            fd.append('imagen', image); 
-            fd.append('numero', numero_imagen); 
-            fd.append('anuncio_id', anuncio_id); 
-
-            $.ajax({ 
-                url: BASE_URL+'mianuncio/guardarImagen/' , 
-                type: 'post', 
-                data: fd, 
-                contentType: false, 
-                processData: false, 
-                xhr: function() {
-                    //Esto pasa durante la subida de la imágen
-                    var xhr = new window.XMLHttpRequest();
-                    xhr.upload.addEventListener("progress", function(evt) {
-                        if (evt.lengthComputable) {
-                            var percentComplete = ((evt.loaded / evt.total) * 100);
-                            $(`#panel-image--bar_progreso-${numero_imagen}`).css('width',percentComplete+'%');
-                            $(`#panel-image--bar_progreso-${numero_imagen}`).html(percentComplete+'%');                               
-                        }else{
-                        }
-                    }, false);
-                    return xhr;
-                },
-                beforeSend: function() { 
-                    //Antes de iniciar la subida, se muestra el icono loading                      
-                    $(`#icon-${numero_imagen}`).removeClass("fa fa-camera fa-3x").addClass("fas fa-spinner fa-3x fa-spin");
-                },
-                success: function(response){ 
-                    let data = JSON.parse(response)
-                    let url = "<?php echo base_url();?>";                     
-
-                    if(data.codigo == 0){
-                        $(`#panel-image--div_icon-${numero_imagen}`).hide() 
-                        $(`#img-${numero_imagen}`).attr('src', url+data.path+ "?timestamp=" + new Date().getTime());
-                        $(`#pulpox-invalid-feedback-${numero_imagen}`).html('')
-                        $(`#pulpox-invalid-feedback-${numero_imagen}`).hide()      
-                        $.confirm({
-                          icon: 'fas fa-check-circle',
-                          title: '<span class="titulo-confirm">Actualizar Imágen</span>',
-                          type: 'green',
-                          content: `<div class='contenido-confirm'>${data.mensaje}</div>`,
-                          buttons: {
-                            OK: {
-                                text: 'Ok',
-                                btnClass: 'btn-pulpox-success',
-                                keys: ['enter'],
-                            },                                      
-                          }
-                      })                        
-                    }else{
-                        $(`#icon-${numero_imagen}`).removeClass( "fas fa-spinner fa-3x fa-spin" ).addClass("fa fa-camera fa-3x");
-                        $(`#panel-image--div_progreso-${numero_imagen}`).remove()
-                        $(`#panel-image--div-delete-${numero_imagen}`).remove()
-                        $(`#pulpox-invalid-feedback-${numero_imagen}`).html(data.mensaje)
-                        $(`#pulpox-invalid-feedback-${numero_imagen}`).show()
-                    }                   
-                }, 
-                fail:function(){
-                  $.confirm({
-                          icon: 'fas fa-check-circle',
-                          title: '<span class="titulo-confirm">Lo sentimos</span>',
-                          type: 'red',
-                          content: `<div class='contenido-confirm'>Hubo un problema a intenar actualizar tu imágen. Intenta más tarde.</div>`,
-                          buttons: {
-                            OK: {
-                                text: 'Ok',
-                                btnClass: 'btn-pulpox-danger',
-                                keys: ['enter'],
-                            },                                      
-                          }
-                      })  
-
-                },
-            }); 
   }
 
   function validaFormulario(anuncio_id){
@@ -622,7 +510,7 @@
           var self = this;
           $.get(BASE_URL+'mianuncio/obtenerDatosComplementariosEdicionMovil/', {id})
           .done(function(response){
-            var data = JSON.parse(response)
+            let data = JSON.parse(response)
             if(data.codigo==0){
               self.setContent(`         
                     <div class="row justify-content-center">
@@ -697,7 +585,7 @@
                               </label>
                             </div>
                                                   
-                            <input id='input-image-1' type="file" style='display:none;' onchange='uploadImage(this,"${id}")' data-numero-imagen='1'>
+                            <input id='input-image-1' type="file" style='display:none;' onchange='validarImagen(this,"${id}","1")' data-numero-imagen='1'>
                           </div>  
                           <div id='pulpox-message-principal-1' class="pulpox-message--principal">
                             <span>Principal</span>
@@ -713,7 +601,7 @@
                                   <i id='icon-2' class="fa fa-camera fa-3x panel-image--icon" aria-hidden="true"></i>  
                                 </label>
                             </div>                                            
-                            <input id='input-image-2' type="file" style='display:none;' onchange='uploadImage(this,"${id}")'data-numero-imagen='2'>
+                            <input id='input-image-2' type="file" style='display:none;' onchange='validarImagen(this,"${id}","2")'data-numero-imagen='2'>
                           </div>  
                           <div id="pulpox-invalid-feedback-2" class="pulpox-invalid-feedback">
                           </div>  
@@ -727,7 +615,7 @@
                                     </label>
                                 </div>
                                                   
-                                <input id='input-image-3' type="file" style='display:none;' onchange='uploadImage(this,"${id}")'data-numero-imagen='3'>
+                                <input id='input-image-3' type="file" style='display:none;' onchange='validarImagen(this,"${id}","3")'data-numero-imagen='3'>
                             </div>  
                             <div id="pulpox-invalid-feedback-3" class="pulpox-invalid-feedback">
                             </div>                        
@@ -741,7 +629,7 @@
                                     </label>
                                 </div>
                                                   
-                                <input id='input-image-4' type="file" style='display:none;' onchange='uploadImage(this,"${id}")'data-numero-imagen='4'>
+                                <input id='input-image-4' type="file" style='display:none;' onchange='validarImagen(this,"${id}","4")'data-numero-imagen='4'>
                             </div>  
                             <div id="pulpox-invalid-feedback-4" class="pulpox-invalid-feedback">
                             </div>                        
@@ -755,7 +643,7 @@
                                     </label>
                                 </div>
                                                   
-                                <input id='input-image-5' type="file" style='display:none;' onchange='uploadImage(this,"${id}")'data-numero-imagen='5'>
+                                <input id='input-image-5' type="file" style='display:none;' onchange='validarImagen(this,"${id}","5")'data-numero-imagen='5'>
                             </div>  
                             <div id="pulpox-invalid-feedback-5" class="pulpox-invalid-feedback">
                             </div>                        
@@ -769,7 +657,7 @@
                                     </label>
                                 </div>
                                                   
-                                <input id='input-image-6' type="file" style='display:none;' onchange='uploadImage(this,"${id}")'data-numero-imagen='6'>
+                                <input id='input-image-6' type="file" style='display:none;' onchange='validarImagen(this,"${id}","6")'data-numero-imagen='6'>
                             </div>  
                             <div id="pulpox-invalid-feedback-6" class="pulpox-invalid-feedback">
                             </div>                        
@@ -783,7 +671,7 @@
                                     </label>
                                 </div>
                                                   
-                                <input id='input-image-7' type="file" style='display:none;' onchange='uploadImage(this,"${id}")'data-numero-imagen='7'>
+                                <input id='input-image-7' type="file" style='display:none;' onchange='validarImagen(this,"${id}","7")'data-numero-imagen='7'>
                             </div>  
                             <div id="pulpox-invalid-feedback-7" class="pulpox-invalid-feedback">
                             </div>                        
@@ -797,7 +685,7 @@
                                     </label>
                                 </div>
                                                   
-                                <input id='input-image-8' type="file" style='display:none;' onchange='uploadImage(this,"${id}")'data-numero-imagen='8'>
+                                <input id='input-image-8' type="file" style='display:none;' onchange='validarImagen(this,"${id}","8")'data-numero-imagen='8'>
                             </div>  
                             <div id="pulpox-invalid-feedback-8" class="pulpox-invalid-feedback">
                             </div>                        
@@ -811,7 +699,7 @@
                                     </label>
                                 </div>
                                                   
-                                <input id='input-image-9' type="file" style='display:none;' onchange='uploadImage(this,"${id}")'data-numero-imagen='9'>
+                                <input id='input-image-9' type="file" style='display:none;' onchange='validarImagen(this,"${id}","9")'data-numero-imagen='9'>
                             </div>  
                             <div id="pulpox-invalid-feedback-9" class="pulpox-invalid-feedback">
                             </div>                        
@@ -825,16 +713,16 @@
                                     </label>
                                 </div>
                                                   
-                                <input id='input-image-10' type="file" style='display:none;' onchange='uploadImage(this,"${id}")'data-numero-imagen='10'>
+                                <input id='input-image-10' type="file" style='display:none;' onchange='validarImagen(this,"${id}","10")'data-numero-imagen='10'>
                             </div>  
                             <div id="pulpox-invalid-feedback-10" class="pulpox-invalid-feedback">
                             </div>                        
                         </div> 
                     </div>           
             `)
-            asignaListasSelects(modalidad,estado,ciudad,seccion,apartado)
+            definirSelectsYValores(modalidad,estado,ciudad,seccion,apartado)
             asignaValidacionesInputs();
-            asignarImagenes(id,data) 
+            asignarImagenes(data) 
             
             }else{
               $.confirm({
@@ -885,124 +773,6 @@
         },
       }
     });                   
-  }
-
-  function validaFormulario(anuncio_public_id){
-        /* Valida campos obligatorios: Titulo, Anuncio, Estado, Ciudad,Seccion, Apartado 
-         * Muestra aviso en caso de no escribir Telefono, Celular o Correo.
-        */          
-
-        let elementos_validados = 0; 
-        let num_error = 0 ;
-        $('.pulpox-validar').each(function(i){
-            //Se validan 6 elementos, los que tienen clase .pulpox-validar
-            
-            if($(this).val()==''){
-                $(this).css('border-color','red')
-                $(this).next().show()  //Muestra el div con mensaje de error  
-                $(this).focus();
-
-            }else{
-                $(this).css('border-color','')
-                $(this).next().hide() 
-                elementos_validados++;
-            }             
-        });    
-
-        $('.pulpox-validar-select').each(function(i){
-            //Se validan 6 elementos, los que tienen clase .pulpox-validar
-            if($(this).find('option:selected').val()==''){
-                $(this).css('border-color','red')
-                $(this).next().show()  //Muestra el div con mensaje de error   
-                $(this).focus();                
-            }else{
-                $(this).css('border-color','')
-                $(this).next().hide() 
-                elementos_validados++;
-            }             
-        });  
-
-        /**VALIDA LONGITUD DE TELEFONO */
-        var telefono = $('#telefono')
-        if(telefono.val().length>0 && telefono.val().length<10){
-            telefono.css('border-color','red');
-            telefono.next().show() ; //Muestra el div con mensaje de error  
-        }
-        if(telefono.val().length==10){
-            telefono.css('border-color','');
-            telefono.next().hide() ;
-            elementos_validados++;
-        }
-        if(telefono.val()==''){
-            elementos_validados++;                   
-        }
-
-        /**VALIDA LONGITUD DE CELULAR */ 
-        var celular = $('#celular')
-        if(celular.val().length>0 && celular.val().length<10){
-            celular.css('border-color','red');
-            celular.next().show() ; //Muestra el div con mensaje de error  
-        }
-        if(celular.val().length==10){
-            celular.css('border-color','');
-            celular.next().hide() ;
-            elementos_validados++;  
-        }
-        if(celular.val()==''){
-            elementos_validados++;                   
-        }
-
-        /**VALIDA EMAIL*/ 
-        var email_regex= new RegExp(/^\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b$/i);
-        var correo = $('#correo')
-
-        if(correo.val()==''){
-            elementos_validados++; 
-            correo.css('border-color','');
-            correo.next().hide() ;
-        }else{
-            if(email_regex.test(correo.val())){
-                correo.css('border-color','');
-                correo.next().hide() ;
-                elementos_validados++; 
-            }else{
-                correo.css('border-color','red');
-                correo.next().show() ; //Muestra el div con mensaje de error  
-            }
-        }    
-
-        var validation = 1;
-
-        if (elementos_validados == 10){
-            if($('#telefono').val()=='' && $('#celular').val()=='' && $('#correo').val()==''){
-                $.confirm({
-                    icon: 'fas fa-exclamation-circle',
-                    title: '<span class="titulo-confirm">Aviso',
-                    type: 'orange',
-                    content: 'No pusiste ningún medio de contacto ¿Así lo quieres publicar?',
-                    
-                    buttons: {
-                        misAnuncios: {
-                            text: 'Sí',
-                            btnClass: 'btn-pulpox-success--line',
-                            keys: ['enter', 'shift'],
-                            action: function(){
-                              guardarEdicion(anuncio_public_id)
-                            }
-                        },
-                        nuevoAnuncio: {
-                            text: 'No, editar.',
-                            btnClass: 'btn-pulpox-success',
-                            keys: ['enter', 'shift'],
-                            action: function(){                              
-                            }
-                        },                      
-                    }
-                });
-            }else{
-              guardarEdicion(anuncio_public_id)
-            }
-        }
   }
 
   function guardarEdicion(anuncio_public_id){
@@ -1095,8 +865,7 @@
       icon: 'fas fa-eye',
       title: '<span class="titulo-confirm">Ver anuncio<span>',
       type: 'blue', 
-      columnClass: 'large',
-          
+      columnClass: 'large',          
       backgroundDismiss: true,                                    
       content: function(){   
         var self = this;
@@ -1175,204 +944,21 @@
     });               
   }
 
-  function asignarImagenes(id,data){
-    let image_url = "<?php echo base_url().'imagenes_anuncios/'?>";
+  function asignarImagenes(datos_anuncio){
+    let image_url = "<?php echo base_url()?>";
+  
+    console.log(datos_anuncio);
     for (let index = 1; index < 11; index++) {
-      if(data[`img_${index}`]!=''){
-        $(`#img-${index}`).attr('src', image_url+id+"/"+data[`img_${index}`]+ "?timestamp=" + new Date().getTime())
+      if(datos_anuncio[`img_${index}`]!=''){
+        $(`#img-${index}`).attr('src', image_url+datos_anuncio[`img_${index}`]+ "?timestamp=" + new Date().getTime())
         $(`#panel-image--div_icon-${index}`).hide()
         $(`#panel-image-${index}`).after(`    
           <div id='panel-image--div-delete-${index}' class='panel-image--div-delete'> 
-            <i id='icon-delete-${index}' class="material-icons icon-delete" onclick='eliminarImagen(this,"${id}")' data-numero-imagen='${index}'>delete_forever</i>
+            <i id='icon-delete-${index}' class="material-icons icon-delete" onclick='eliminarImagen(this,"${datos_anuncio.public_id}")' data-numero-imagen='${index}'>delete_forever</i>
           </div>
         `)
       }    
     }
   }
-
-  function eliminarImagen(imagen,anuncio_id){   
-      /**Elimina imágen de servidor */    
-      let numero_imagen = imagen.getAttribute("data-numero-imagen");
-      let path_imagen = $(`#img-${numero_imagen}`).attr('src')
-
-      $.confirm({
-              icon: 'fas fa-info-circle',
-              title: '<span class="titulo-confirm">Eliminar Imágen</span>',
-              type: 'blue',
-              content: `<div class='contenido-confirm'>¿Estás seguro de eliminar esta imágen? <br> <img src='${path_imagen}'></div>`,
-              backgroundDismiss: true,
-              buttons: {
-                nuevoAnuncio: {
-                    text: 'Cancelar',
-                    btnClass: 'btn-pulpox-danger--line',
-                    keys: ['escape'],                   
-                },
-                misAnuncios: {
-                    text: 'Sí, eliminar',
-                    btnClass: 'btn-pulpox-info',
-                    keys: ['enter'],
-                    action: function(){   
-                      var fd = new FormData();        
-                      fd.append('numero', numero_imagen); 
-                      fd.append('path_imagen', path_imagen);  
-                      fd.append('anuncio_id', anuncio_id);         
-                      $.ajax({ 
-                          url: BASE_URL+'mianuncio/eliminarImagen/', 
-                          type: 'post', 
-                          data: fd, 
-                          contentType: false, 
-                          processData: false,                 
-                          beforeSend: function() { 
-                              //Antes de iniciar el proceso de eliminación   
-                              $(`#img-${numero_imagen}`).attr('src', "")
-                              $(`#icon-${numero_imagen}`).removeClass( "fa fa-camera fa-3x" ).addClass("fas fa-spinner fa-3x fa-spin");
-                              $(`#panel-image--div_icon-${numero_imagen}`).show() 
-                          },
-                          success: function(response){ 
-                              var data = JSON.parse(response)  
-                              if(data.codigo == 0){
-                                  $(`#img-${numero_imagen}`).attr('src', '')
-                                  $(`#panel-image--div_progreso-${numero_imagen}`).remove()
-                                  $(`#panel-image--div-delete-${numero_imagen}`).remove()
-                                  $(`#icon-${numero_imagen}`).removeClass( "fas fa-spinner fa-3x fa-spin" ).addClass("fa fa-camera fa-3x");
-                                  $.confirm({
-                                      icon: 'fas fa-check-circle',
-                                      title: '<span class="titulo-confirm">Eliminar Imágen</span>',
-                                      type: 'green',
-                                      content: `<div class='contenido-confirm'>${data.mensaje}</div>`,
-                                      buttons: {
-                                        OK: {
-                                            text: 'Ok',
-                                            btnClass: 'btn-pulpox-success',
-                                            keys: ['enter'],
-                                        },                                      
-                                      }
-                                  });                     
-                                  if(numero_imagen==1){
-                                      $(`#pulpox-message-principal-1`).show() 
-                                  }
-                              }else{
-                                $(`#img-${numero_imagen}`).attr('src', path_imagen)
-                                $(`#panel-image--div_icon-${numero_imagen}`).hide() 
-                                $.confirm({
-                                      icon: 'fas fa-exclamation-circle',
-                                      title: '<span class="titulo-confirm">Lo sentimos.</span>',
-                                      type: 'red',
-                                      content: `<div class='contenido-confirm'>Ocurrió un problema al eliminar la imágen. Disculpa. Intenta más tarde.</div>`,
-                                      buttons: {
-                                        OK: {
-                                            text: 'Ok',
-                                            btnClass: 'btn-pulpox-danger',
-                                            keys: ['enter','enter'],
-                                        },                                      
-                                      }
-                                });     
-                              }
-                          },   
-                          fail:function(){
-                            $(`#img-${numero_imagen}`).attr('src', path_imagen)
-                            $(`#panel-image--div_icon-${numero_imagen}`).hide() 
-                            $.confirm({
-                                      icon: 'fas fa-exclamation-circle',
-                                      title: '<span class="titulo-confirm">Lo sentimos.</span>',
-                                      type: 'red',
-                                      content: `Ocurrió un problema al eliminar la imágen. Intenta más tarde.`,
-                                      buttons: {
-                                        OK: {
-                                            text: 'Ok',
-                                            btnClass: 'btn-pulpox-danger',
-                                            keys: ['escape','enter'],                                           
-                                        },                                      
-                                      }
-                            });
-                          }
-                      });                  
-                    }
-                }
-              }
-              });
-  }
-
-  function asignaListasSelects(modalidad,estado,ciudad,seccion,apartado){
-      /**Define lista de datos a los inputs ESTADO, CIUDAD, SECCION, APARTADO    
-      * Asigna lista de Estados a 'Estado'. 
-      * Asigna lista de ciudades correspondientes a 'Chihuahua'. Inicia en 'Juárez'
-      * Al cambiar el Estado, se asignan sus ciudades correspondientes
-      */             
-
-      $.get( BASE_URL+"General/obtenerEstados", function( response ) {       
-          response = JSON.parse(response);
-          let lista_estados='';
-          $.each(response, function(key, value){
-              lista_estados += `<option value="${value.nombre}">${value.nombre}</option>`;
-          });
-              $('#estado').children().remove();
-              $('#estado').append(lista_estados)                  
-              $('#estado').val(estado)      
-              $('#estado').change()                                        
-      })   
-
-      $('#estado').change(function(){
-        let estado = $('#estado').val()
-          $('#ciudad').find('option').remove() //Remover options actuales
-          $.get( BASE_URL+"General/obtenerCiudades",{estado}, function( response ) {      
-              response = JSON.parse(response);
-              var lista_ciudades='';
-                  $.each(response, function(key, value){
-                      lista_ciudades += `<option value="${value.nombre}">${value.nombre}</option>`;
-                  }); 
-                  $('#ciudad').children().remove();
-                  $('#ciudad').append(lista_ciudades) //Asignar lista de apartado correspondiente según la sección elegida.   
-                  if(ciudad!=''){
-                    $('#ciudad').val(ciudad)
-                    ciudad=''
-                  }                      
-          });                                   
-      })
-
-      $.get( BASE_URL+"General/obtenerModalidades", function( response ) {       
-          response = JSON.parse(response);
-          let lista_modalidades='';
-          $.each(response, function(key, value){
-              lista_modalidades += `<option value="${value.nombre}">${value.nombre}</option>`;
-          });
-              $('#modalidad').children().remove();
-              $('#modalidad').append(lista_modalidades) 
-              $('#modalidad').val(modalidad)                      
-      });  
-
-      $.get( BASE_URL+"General/obtenerSecciones", function( response ) {       
-          response = JSON.parse(response);
-          let lista_secciones='';
-          $.each(response, function(key, value){
-              lista_secciones += `<option value="${value.nombre}">${value.nombre}</option>`;
-          });
-          $('#seccion').children().remove(); 
-          $('#seccion').append(lista_secciones) 
-          $('#seccion').val(seccion) 
-          $('#seccion').change()            
-      });
-
-      $('#seccion').change(function(){
-          let seccion = $(this).val();
-          $('#apartado').find('option').remove() //Remover options actuales
-          $.get( BASE_URL+"General/obtenerApartados",{seccion}, function( response ) {      
-              response = JSON.parse(response);
-                  let lista_apartados='';
-                  $.each(response, function(key, value){
-                      lista_apartados += `<option value="${value.nombre}">${value.nombre}</option>`;
-                  }); 
-                  $('#apartado').children().remove();
-                  $('#apartado').append(lista_apartados) //Asignar lista de apartado correspondiente según la sección elegida.
-
-                  if(apartado!=''){
-                    $('#apartado').val(apartado)
-                    apartado=''
-                  }    
-          });                     
-      })  
-
-   
-  }  
 
 </script>

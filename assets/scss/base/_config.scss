@@ -190,7 +190,7 @@ $border_style: solid;
 	color: white !important;
 
 	&:hover {
-		color: white !important;
+		color: #635b00 !important;
 		background-color: $color_warning_light !important;
 	}
 
@@ -307,6 +307,10 @@ $border_style: solid;
 	display: inline-block;
 }
 
+.pulpux-icon-ver {
+	cursor: pointer;
+}
+
 #nuevo_anuncio_previo {
 	@include shadow_div;
 	padding: 2em;
@@ -368,4 +372,8 @@ $border_style: solid;
 }
 .carousel-control-prev {
 	color: orange;
+}
+
+.pulpox-icon {
+	filter: $color_primary_filter;
 }

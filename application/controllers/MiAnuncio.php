@@ -21,12 +21,12 @@ class MiAnuncio extends CI_Controller {
       }else{
         if(strlen($anuncio_id)==10){
           $data = array('anuncio_id' => $anuncio_id);
-          $this->load->view('modules/headers-mianuncio-nuevo.php');
+          $this->load->view('headers/header-html-mianuncio-nuevo.php');
           $this->load->view('modules/menu');
-          $this->load->view('anuncio-nuevo',$data);
-          $this->load->view('modules/scripts-mianuncio-nuevo.php',$data);
-          $this->load->view('modules/scripts-asignar-validaciones.php');
-          $this->load->view('modules/scripts-validaciones-imagenes.php'); 
+          $this->load->view('pages/page-anuncio-nuevo',$data);
+          $this->load->view('scripts/script-js-mianuncio-nuevo.php',$data);
+          $this->load->view('scripts/script-js-asignar-validaciones-inputs.php');
+          $this->load->view('scripts/script-js-validar-imagen.php'); 
         }else{
           $id_aleatorio = rand(1000000000, 2000000000);
           redirect("index.php/mianuncio/nuevo/$id_aleatorio");
@@ -40,15 +40,84 @@ class MiAnuncio extends CI_Controller {
       }else{
         if(strlen($anuncio_id)==10){
           $data = array('anuncio_id' => $anuncio_id);
-          $this->load->view('modules/headers-mianuncio-nuevo-preview');
+          $this->load->view('headers/header-html-mianuncio-nuevo-preview');
           $this->load->view('modules/menu');
-          $this->load->view('anuncio-nuevo-preview', $data);
-          $this->load->view('modules/scripts-mianuncio-nuevo-preview.php');
+          $this->load->view('pages/page-anuncio-nuevo-preview', $data);
+          $this->load->view('scripts/script-js-mianuncio-nuevo-preview.php');
         }else{
           $id_aleatorio = rand(1000000000, 2000000000);
           redirect("index.php/mianuncio/nuevo/$id_aleatorio");
         }      
       }     
+    }
+
+    function editar($anuncio_id=null){
+      /**
+       * Recibe datos de un anuncio para editarlo.
+       */      
+      if($anuncio_id==null){
+        redirect("index.php/misanuncios/");         
+      }else{
+        if(strlen($anuncio_id)==30){
+          $response = $this->mianuncio_model->ver($anuncio_id);
+          $data = array('datos_anuncio' => $response);
+          $this->load->view('headers/header-html-mianuncio-editar.php');
+          $this->load->view('modules/menu');
+          $this->load->view('pages/page-anuncio-editar',$data);
+          $this->load->view('scripts/script-js-mianuncio-editar.php');
+          $this->load->view('scripts/script-js-asignar-validaciones-inputs.php');         
+          $this->load->view('scripts/script-js-guardar-edicion.php'); 
+          $this->load->view('scripts/script-js-definir-selects-valores.php'); 
+          $this->load->view('scripts/script-js-asignar-imagenes-editar.php'); 
+          $this->load->view('scripts/script-js-validar-imagen.php'); 
+          $this->load->view('scripts/script-js-eliminar-imagen.php');  
+          $this->load->view('scripts/script-js-validar-formulario.php'); 
+          $this->load->view('scripts/script-js-guardar-imagen.php'); 
+        }else{
+          $respuesta['respuesta'] = 'El ID ingresado en la URL debe ser de 30 caracteres alfanumúmericos.';
+          $this->load->view('headers/header-html-mianuncio-ver.php');
+          $this->load->view('modules/menu');
+          $this->load->view('pages/page-pagina-no-existe', $respuesta);       
+        }        
+      }  
+  
+    }
+
+    function ver($anuncio_id = null){
+      if($anuncio_id==null){
+          redirect("index.php/misanuncios/");
+        }else{
+          if(strlen($anuncio_id)==30){
+            if($this->validaciones->anuncioPerteneceAUsuario($anuncio_id)){
+                $data = $this->mianuncio_model->ver($anuncio_id);
+                if(isset($data['codigo'])){
+                $respuesta['respuesta'] = $data['mensaje'];
+                $this->load->view('headers/header-html-mianuncio-ver.php');
+                $this->load->view('modules/menu');
+                $this->load->view('pages/page-pagina-no-existe', $respuesta);
+              }else{              
+                $datos_anuncio = array('datos_anuncio' => $data);
+                $this->load->view('headers/header-html-mianuncio-ver.php');
+                $this->load->view('modules/menu');
+                $this->load->view('pages/page-anuncio-ver', $datos_anuncio);
+                $this->load->view('scripts/script-js-mianuncio-ver.php');    
+                $this->load->view('scripts/script-js-carrousel.php');     
+                $this->load->view('scripts/script-js-asignar-valores.php'); 
+                $this->load->view('scripts/script-js-renovar-anuncio.php');                 
+              }  
+             }else{              
+              $respuesta['respuesta'] = 'Este anuncio no te pertenece. Elije uno de la sección Mis Anuncios.';
+              $this->load->view('headers/header-html-mianuncio-ver.php');
+              $this->load->view('modules/menu');
+              $this->load->view('pages/page-pagina-no-existe', $respuesta);
+             }            
+          }else{
+            $respuesta['respuesta'] = 'El ID ingresado en la URL debe ser de 30 caracteres alfanumúmericos.';
+            $this->load->view('headers/header-html-mianuncio-ver.php');
+            $this->load->view('modules/menu');
+            $this->load->view('pages/page-pagina-no-existe', $respuesta);
+          }      
+        }       
     }
     
     function publicar(){   
@@ -92,14 +161,7 @@ class MiAnuncio extends CI_Controller {
       }   
     } 
 
-    function editar($anuncio_id){
-      /**
-       * Recibe datos de un anuncio para editarlo.
-       */
-  
-    }
-
-    function editarMovil(){
+    function editarAnuncio(){
       /**
        * Recibe datos de un anuncio para editarlo.
        */
@@ -159,45 +221,7 @@ class MiAnuncio extends CI_Controller {
         echo json_encode($response);    
         die();        
       }       
-    }
-    
-    function ver($anuncio_id = null){
-      if($anuncio_id==null){
-          redirect("index.php/misanuncios/");
-        }else{
-          if(strlen($anuncio_id)==30){
-            if($this->validaciones->anuncioPerteneceAUsuario($anuncio_id)){
-                $data = $this->mianuncio_model->ver($anuncio_id);
-                if(isset($data['codigo'])){
-                $respuesta['respuesta'] = $data['mensaje'];
-                $this->load->view('modules/headers-mianuncio-ver.php');
-                $this->load->view('modules/menu');
-                $this->load->view('pagina-no-existe', $respuesta);
-              }else{              
-                $datos_anuncio = array('datos_anuncio' => $data);
-                $this->load->view('modules/headers-mianuncio-ver.php');
-                $this->load->view('modules/menu');
-                $this->load->view('anuncio-ver', $datos_anuncio);
-                $this->load->view('modules/scripts-mianuncio-ver.php');    
-                $this->load->view('modules/scripts-carrousel.php');  
-                $this->load->view('modules/scripts-asignar-valores.php'); 
-                $this->load->view('modules/scripts-renovar-anuncio.php'); 
-                
-              }  
-             }else{              
-              $respuesta['respuesta'] = 'Este anuncio no te pertenece. Elije uno de la sección Mis Anuncios.';
-              $this->load->view('modules/headers-mianuncio-ver.php');
-              $this->load->view('modules/menu');
-              $this->load->view('pagina-no-existe', $respuesta);
-             }            
-          }else{
-            $respuesta['respuesta'] = 'El ID ingresado en la URL debe ser de 30 caracteres alfanumúmericos.';
-            $this->load->view('modules/headers-mianuncio-ver.php');
-            $this->load->view('modules/menu');
-            $this->load->view('pagina-no-existe', $respuesta);
-          }      
-        }       
-    }
+    }  
 
     function verMovil(){
       if(isset($_GET['id']) && strlen($_GET['id'])==30){
@@ -378,36 +402,36 @@ class MiAnuncio extends CI_Controller {
               if($response['codigo']==0){
                 if(unlink($path_imagen)){
                   $response['codigo']=0;
-                  $response['mensaje']='La imágen se eliminó exitosamente.';
+                  $response['mensaje']='La imágen se eliminó exitosamente.CÓDIGO IM856';
                   echo json_encode($response);
                   die();
                 }else{
                   $response['codigo']=1;
-                  $response['mensaje']='La imágen no se pudo eliminar.';
+                  $response['mensaje']='La imágen no se pudo eliminar. CÓDIGO IM361';
                   echo json_encode($response);
                   die();              }              
               }else{
                 $response['codigo']=1;
-                $response['mensaje']='La imágen no se pudo eliminar.';
+                $response['mensaje']='La imágen no se pudo eliminar. CÓDIGO IM1553';
                 echo json_encode($response);
                 die();     
               }                                         
           }else{
             $response['codigo'] = 1;
-            $response['mensaje']='La imágen no se pudo eliminar.';
+            $response['mensaje']='La imágen no se pudo eliminar. CÓDIGO IM972';
             echo json_encode($response);
             die();
           }  
 
         }else{
             $response['codigo'] = 1;
-            $response['mensaje']='La imágen no se pudo eliminar.';
+            $response['mensaje']='La imágen no se pudo eliminar. CÓDIGO IM568';
             echo json_encode($response);
             die();
         }
       }else{
         $response['codigo'] = 1;
-        $response['mensaje']='La imágen no se pudo eliminar.';
+        $response['mensaje']='La imágen no se pudo eliminar. CÓDIGO IM135';
         echo json_encode($response);
         die();        
       }      
@@ -482,7 +506,5 @@ class MiAnuncio extends CI_Controller {
         die();
       }         
     }
-
 }
-
 ?>
