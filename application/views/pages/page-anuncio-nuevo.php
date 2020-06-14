@@ -116,9 +116,9 @@
                                         
                         <input id='input-image-1' type="file" style='display:none;' onchange='uploadImage(this)'data-numero-imagen='1'>
                     </div>  
-                    <div id='pulpox-message-principal-1' class="pulpox-message--principal">
+                  <!--  <div id='pulpox-message-principal-1' class="pulpox-message--principal">
                         <span>Principal</span>
-                    </div>  
+                    </div>   -->
                     <div id="pulpox-invalid-feedback-1" class="pulpox-invalid-feedback">
                     </div>                        
                 </div> 

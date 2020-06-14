@@ -3,5 +3,6 @@
 .div-informacion-anuncio {
 	padding: 1em;
 	color: $color_dark;
+	background-color: $color_gray_light;
 	@include border_div;
 }

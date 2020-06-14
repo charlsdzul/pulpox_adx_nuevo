@@ -1,5 +1,13 @@
 @import "../../../pulpox_ads_nuevo/assets/scss/base/colors.scss";
 
+@font-face {
+	font-family: "PulpoxFonts";
+	src: url("/pulpox_ads_nuevo/assets/fonts/GoogleSans-Regular.woff");
+}
+
+* {
+}
+
 *,
 *::before,
 *::after {
@@ -8,6 +16,7 @@
 
 body {
 	margin: 0;
+	font-family: "PulpoxFonts", "GoogleSans-Regular";
 }
 
 a {
@@ -42,7 +51,7 @@ $border_style: solid;
 @mixin border_div {
 	border-style: solid;
 	border-width: 1px;
-	border-color: lightgray;
+	border-color: $color_dark_opaque;
 	border-radius: $border_radius;
 }
 
@@ -276,7 +285,7 @@ $border_style: solid;
 .div-mensaje {
 	color: $color_medium_dark;
 	border-radius: $border_radius;
-	border-color: $border_color;
+	border-color: $color_primary;
 	border-style: $border_style;
 	border-width: $border_width;
 	padding: 0.5em;
@@ -284,13 +293,19 @@ $border_style: solid;
 
 #modalidad_mensaje--div {
 	font-size: medium;
-	color: gray;
+	color: $color_medium_dark;
 	text-align: center;
 }
 
 .div-contacto {
 	display: none;
 	color: $color_dark;
+}
+
+.div-titulo {
+	border-bottom: solid;
+	border-color: $color_primary;
+	border-width: $border_width;
 }
 
 .icon-label {
@@ -303,7 +318,7 @@ $border_style: solid;
 }
 
 .anuncio-nuevo-preview_icon {
-	height: 1.5em;
+	height: 2.5em;
 	display: inline-block;
 }
 
@@ -351,7 +366,7 @@ $border_style: solid;
 }
 
 .carousel .carousel-item {
-	background-color: lightgray;
+	background-color: $color_gray_light;
 }
 
 .carousel-inner {
@@ -376,4 +391,11 @@ $border_style: solid;
 
 .pulpox-icon {
 	filter: $color_primary_filter;
+	height: 1.5em;
+	width: 1.5em;
+	display: inline-block;
+}
+
+.icon-delete {
+	filter: $color_primary_filter_danger;
 }

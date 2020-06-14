@@ -1,4 +1,8 @@
 @charset "UTF-8";
+@font-face {
+  font-family: "PulpoxFonts";
+  src: url("/pulpox_ads_nuevo/assets/fonts/GoogleSans-Regular.woff");
+}
 *,
 *::before,
 *::after {
@@ -7,6 +11,7 @@
 
 body {
   margin: 0;
+  font-family: "PulpoxFonts", "GoogleSans-Regular";
 }
 
 a {
@@ -233,7 +238,7 @@ h1 {
 .div-mensaje {
   color: #575555;
   border-radius: 4px;
-  border-color: lightgrey;
+  border-color: #a30036;
   border-style: solid;
   border-width: 0.5px;
   padding: 0.5em;
@@ -241,13 +246,19 @@ h1 {
 
 #modalidad_mensaje--div {
   font-size: medium;
-  color: gray;
+  color: #575555;
   text-align: center;
 }
 
 .div-contacto {
   display: none;
   color: #3d3c3c;
+}
+
+.div-titulo {
+  border-bottom: solid;
+  border-color: #a30036;
+  border-width: 0.5px;
 }
 
 .icon-label {
@@ -260,7 +271,7 @@ h1 {
 }
 
 .anuncio-nuevo-preview_icon {
-  height: 1.5em;
+  height: 2.5em;
   display: inline-block;
 }
 
@@ -306,7 +317,7 @@ h1 {
 }
 
 .carousel .carousel-item {
-  background-color: lightgray;
+  background-color: #f1f1f1;
 }
 
 .carousel-inner {
@@ -332,10 +343,17 @@ h1 {
 
 .pulpox-icon {
   filter: invert(14%) sepia(79%) saturate(7289%) hue-rotate(334deg) brightness(63%) contrast(104%);
+  height: 1.5em;
+  width: 1.5em;
+  display: inline-block;
+}
+
+.icon-delete {
+  filter: invert(6%) sepia(83%) saturate(6889%) hue-rotate(350deg) brightness(116%) contrast(104%);
 }
 
 #modalidad_mensaje--div {
   font-size: medium;
-  color: gray;
+  color: #f1f1f1;
   text-align: center;
 }

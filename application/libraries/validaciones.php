@@ -39,10 +39,10 @@ class Validaciones {
         echo json_encode($response); 
         die();
       }else{
-        if(true){ 
-          //if(strlen($titulo)<51){ 
+        if(strlen($titulo)<100){          
           return $this->CI->sanitize->sanitizeString($titulo);
         }else{
+       
           $response['codigo']  = 1;
           $response['mensaje'] = $this->CI->MENSAJES['titulo_largo'];
           $response['objeto'] = $objeto;   

@@ -16,7 +16,7 @@ function renovarAnuncio(anuncio_id){
         backgroundDismiss: true,
         content: `
         <div class='contenido-confirm'>Tu anunció se renovará. Esto significa que tu anuncio...¡se verá en el top de las búsquedas!<br><br>Recuerda:<br>
-        <B>Cada 24 horas puedes renovar tu anuncio.</b>                       
+        <b>Cada 24 horas puedes renovar tu anuncio.</b></div>                   
         `,
         buttons: {
           cerrar: {
@@ -38,12 +38,12 @@ function renovarAnuncio(anuncio_id){
               }); 
               $.post(BASE_URL+'mianuncio/renovar/', {anuncio_id})
               .done(function(response){
-                var data = JSON.parse(response) 
+                let data = JSON.parse(response) 
                 dialog_renovando.close();               
                 if(data.codigo == 0){
                   $.confirm({
                     icon: 'fas fa-check-circle',
-                    title: '<span class="titulo-confirm">Renovar Anuncio',
+                    title: '<span class="titulo-confirm">Renovar Anuncio</span>',
                     type: 'green',
                     columnClass: 'medium',
                     backgroundDismiss: true,
@@ -63,7 +63,7 @@ function renovarAnuncio(anuncio_id){
                   dialog_renovando.close();   
                   $.confirm({
                     icon: 'fas fa-exclamation-circle',
-                    title: '<span class="titulo-confirm">Renovar Anuncio<span>',
+                    title: '<span class="titulo-confirm">Renovar Anuncio</span>',
                     type: 'red',
                     columnClass: 'medium',
                     content: `<div class='contenido-confirm'>${data.mensaje}</div>`,
@@ -81,7 +81,7 @@ function renovarAnuncio(anuncio_id){
               .fail(function() {
                 dialog_eliminando.close();   
                   $.confirm({
-                    title: '<span class="titulo-confirm">Lo sentimos.<span>',
+                    title: '<span class="titulo-confirm">Lo sentimos.</span>',
                     content: "<div class='contenido-confirm'>Nuestro servidor tiene problemas actualmente. Intente más tarde.</div>",
                     type: 'red',
                     backgroundDismiss: true,
@@ -90,7 +90,7 @@ function renovarAnuncio(anuncio_id){
                       ok: {
                         text: 'Ok',
                           btnClass: 'btn-pulpox-danger--line',
-                          keys: ['escape','enter'],
+                          keys: ['enter'],
                       }, 
                     }
                   });
@@ -103,4 +103,3 @@ function renovarAnuncio(anuncio_id){
   }
 
 </script>
-

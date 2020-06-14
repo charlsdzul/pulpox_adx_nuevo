@@ -296,31 +296,35 @@ class MiAnuncio_model extends CI_Model {
     function verMovil($public_id){
         $this->db->select('public_id, titulo, mensaje, estado,ciudad,modalidad,seccion,apartado,telefono,celular,correo,img_1,img_2,img_3,img_4,img_5,img_6,img_7,img_8,img_9,img_10')
                 ->where('usuario_id', $this->USUARIO_EN_SESSION_ID)->where("(sta=0 OR sta=1 OR sta=2)")->where('public_id', $public_id);
-        $query = $this->db->get('anuncios');                         
-        if($query->num_rows() > 0){
-            $datos_anuncio = $query->row_array();
-            $datos_anuncio['estado'] = $this->validaciones->obtenerNombre($datos_anuncio['estado'], 'estado');
-            $datos_anuncio['ciudad'] = $this->validaciones->obtenerNombre($datos_anuncio['ciudad'], 'ciudad');
-            $datos_anuncio['seccion'] = $this->validaciones->obtenerNombre($datos_anuncio['seccion'], 'seccion');
-            $datos_anuncio['apartado'] = $this->validaciones->obtenerNombre($datos_anuncio['apartado'], 'apartado');
-            //Definir nombre de imagen
-            for ($i=1; $i < 11; $i++) { 
-                if($datos_anuncio["img_$i"]!=''){
-                    $datos_anuncio["img_$i"] = $this->carpeta_final_anuncio.$datos_anuncio['public_id'].'/'.$datos_anuncio["img_$i"];
-                }
+        
+         if($query = $this->db->get('anuncios')){          
+            if($query->num_rows() > 0){
+                $datos_anuncio = $query->row_array();
+                $datos_anuncio['estado'] = $this->validaciones->obtenerNombre($datos_anuncio['estado'], 'estado');
+                $datos_anuncio['ciudad'] = $this->validaciones->obtenerNombre($datos_anuncio['ciudad'], 'ciudad');
+                $datos_anuncio['seccion'] = $this->validaciones->obtenerNombre($datos_anuncio['seccion'], 'seccion');
+                $datos_anuncio['apartado'] = $this->validaciones->obtenerNombre($datos_anuncio['apartado'], 'apartado');
+    
+                //Definir path/nombre de imagen
+                for ($i=1; $i < 11; $i++) { 
+                    if($datos_anuncio["img_$i"]!=''){
+                        $datos_anuncio["img_$i"] = $this->carpeta_final_anuncio.$datos_anuncio['public_id'].'/'.$datos_anuncio["img_$i"];
+                    }
+                } 
+                $datos_anuncio['codigo'] = 0;
+                echo json_encode($datos_anuncio);
+                die();
+            } else {
+                $response['codigo']=1;
+                $response['mensaje']="Lo sentimos, no puedes ver esta anuncio. VM654";
+                echo json_encode($response);
+                die();
             }
-
-            //Definir path/nombre de imagen
-            for ($i=1; $i < 11; $i++) { 
-                if($datos_anuncio["img_$i"]!=''){
-                    $datos_anuncio["img_$i"] = $this->carpeta_final_anuncio.$datos_anuncio['public_id'].'/'.$datos_anuncio["img_$i"];
-                }
-            } 
-            return $datos_anuncio;
-        } else {
+        }else{
             $response['codigo']=1;
-            $response['mensaje']="Lo sentimos, este anuncio no te pertenece o no existe.";
+            $response['mensaje']="Lo sentimos, no puedes ver esta anuncio. VM236";
             echo json_encode($response);
+            die();
         }
     }
 

@@ -42,7 +42,7 @@
         });  
 
         /**VALIDA LONGITUD DE TELEFONO */
-        var telefono = $('#telefono')
+        let telefono = $('#telefono')
         if(telefono.val().length>0 && telefono.val().length<10){
             telefono.css('border-color','red');
             telefono.next().show() ; //Muestra el div con mensaje de error  
@@ -53,11 +53,12 @@
             elementos_validados++;
         }
         if(telefono.val()==''){
+            telefono.next().hide() ;
             elementos_validados++;                   
         }
 
         /**VALIDA LONGITUD DE CELULAR */ 
-        var celular = $('#celular')
+        let celular = $('#celular')
         if(celular.val().length>0 && celular.val().length<10){
             celular.css('border-color','red');
             celular.next().show() ; //Muestra el div con mensaje de error  
@@ -68,12 +69,13 @@
             elementos_validados++;  
         }
         if(celular.val()==''){
+            celular.next().hide() ;
             elementos_validados++;                   
         }
 
         /**VALIDA EMAIL*/ 
-        var email_regex= new RegExp(/^\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b$/i);
-        var correo = $('#correo')
+        let email_regex= new RegExp(/^\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b$/i);
+        let correo = $('#correo')
 
         if(correo.val()==''){
             elementos_validados++; 
@@ -96,9 +98,9 @@
             if($('#telefono').val()=='' && $('#celular').val()=='' && $('#correo').val()==''){
                 $.confirm({
                     icon: 'fas fa-exclamation-circle',
-                    title: 'Aviso',
+                    title: '<span class="titulo-confirm">Aviso</span>',
                     type: 'orange',
-                    content: 'No pusiste ningún medio de contacto ¿Así lo quieres publicar?',
+                    content: "<div class='contenido-confirm'>No pusiste ningún medio de contacto ¿Así lo quieres publicar?</div>",
                     closeIcon:false,
                     backgroundDismiss: true,  
                     buttons: {

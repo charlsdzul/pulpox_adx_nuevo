@@ -20,11 +20,9 @@
             let titulo_ingresado = $(this).val();            
             var titulo_limpio = titulo_ingresado.replace(patt,'');
             $(this).val(titulo_limpio)    
-            console.log('ssss')
-
             });
 
-            $('#anuncio').maxlength({
+            $('#mensaje').maxlength({
             alwaysShow: true,
             warningClass: "label label-success",
             limitReachedClass: "label label-danger",
@@ -34,7 +32,7 @@
             validate: true
             });
 
-            $("#anuncio").keyup(function() {
+            $("#mensaje").keyup(function() {
             let titulo_ingresado = $(this).val();            
             var titulo_limpio = titulo_ingresado.replace(patt,'');
             $(this).val(titulo_limpio)       

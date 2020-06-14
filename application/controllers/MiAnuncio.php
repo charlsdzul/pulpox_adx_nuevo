@@ -22,6 +22,7 @@ class MiAnuncio extends CI_Controller {
         if(strlen($anuncio_id)==10){
           $data = array('anuncio_id' => $anuncio_id);
           $this->load->view('headers/header-html-mianuncio-nuevo.php');
+          $this->load->view('scripts/script-js-general.php');
           $this->load->view('modules/menu');
           $this->load->view('pages/page-anuncio-nuevo',$data);
           $this->load->view('scripts/script-js-mianuncio-nuevo.php',$data);
@@ -41,6 +42,7 @@ class MiAnuncio extends CI_Controller {
         if(strlen($anuncio_id)==10){
           $data = array('anuncio_id' => $anuncio_id);
           $this->load->view('headers/header-html-mianuncio-nuevo-preview');
+          $this->load->view('scripts/script-js-general.php');
           $this->load->view('modules/menu');
           $this->load->view('pages/page-anuncio-nuevo-preview', $data);
           $this->load->view('scripts/script-js-mianuncio-nuevo-preview.php');
@@ -62,6 +64,7 @@ class MiAnuncio extends CI_Controller {
           $response = $this->mianuncio_model->ver($anuncio_id);
           $data = array('datos_anuncio' => $response);
           $this->load->view('headers/header-html-mianuncio-editar.php');
+          $this->load->view('scripts/script-js-general.php');
           $this->load->view('modules/menu');
           $this->load->view('pages/page-anuncio-editar',$data);
           $this->load->view('scripts/script-js-mianuncio-editar.php');
@@ -93,6 +96,7 @@ class MiAnuncio extends CI_Controller {
                 if(isset($data['codigo'])){
                 $respuesta['respuesta'] = $data['mensaje'];
                 $this->load->view('headers/header-html-mianuncio-ver.php');
+                $this->load->view('scripts/script-js-general.php');
                 $this->load->view('modules/menu');
                 $this->load->view('pages/page-pagina-no-existe', $respuesta);
               }else{              
@@ -225,9 +229,13 @@ class MiAnuncio extends CI_Controller {
 
     function verMovil(){
       if(isset($_GET['id']) && strlen($_GET['id'])==30){
-          $data = $this->mianuncio_model->verMovil($_GET['id']);
-          echo json_encode($data);          
-        }       
+          $this->mianuncio_model->verMovil($_GET['id']);
+      }else{
+        $response['codigo']=1;
+        $response['mensaje']="Lo sentimos, no puedes ver esta anuncio. VM953";
+        echo json_encode($response);        
+        die();
+      }       
     }
 
     function eliminar(){

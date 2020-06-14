@@ -1,9 +1,6 @@
 <script>
-    const BASE_URL = "<?php echo base_url();?>index.php/";
     var datos_anuncio = <?php echo json_encode($datos_anuncio); ?>;
 </script>
-
-
 
 <body class='container-fluid p-0'>
     <div class='row justify-content-center m-0'>    
@@ -123,9 +120,9 @@
                                         
                         <input id='input-image-1' type="file" style='display:none;' onchange='validarImagen(this, "<?php echo $datos_anuncio["public_id"]; ?>","1")'>
                     </div>  
-                    <div id='pulpox-message-principal-1' class="pulpox-message--principal">
+                <!--    <div id='pulpox-message-principal-1' class="pulpox-message--principal">
                         <span>Principal</span>
-                    </div>  
+                    </div>    -->
                     <div id="pulpox-invalid-feedback-1" class="pulpox-invalid-feedback">
                     </div>                        
                 </div> 

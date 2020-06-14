@@ -12,6 +12,7 @@ class MisAnuncios extends CI_Controller {
 
     function index(){      
         $this->load->view('headers/header-html-mis-anuncios');
+        $this->load->view('scripts/script-js-general.php');  
         $this->load->view('modules/menu');       
         $this->load->view('pages/page-mis-anuncios');  
         $this->load->view('scripts/script-js-mis-anuncios.php');  
@@ -25,18 +26,11 @@ class MisAnuncios extends CI_Controller {
         $this->load->view('scripts/script-js-definir-selects-valores.php'); 
         $this->load->view('scripts/script-js-asignar-imagenes-editar.php'); 
         $this->load->view('scripts/script-js-validar-formulario.php'); 
+        $this->load->view('scripts/script-js-carrousel.php');     
       }
 
     function obtenerMisAnuncios(){
-      if($response = $this->misanuncios_model->obtenerMisAnuncios()){
-        echo json_encode($response);
-        die(); 
-      }else{
-        $response['codigo']  = 1;
-        $response['mensaje'] = 'Hubo un problema al intentar obtener tus anuncios. Intente más tarde o repórtelo.';  
-        echo json_encode($response);    
-        die(); 
-      }
+      $this->misanuncios_model->obtenerMisAnuncios();
     }
 
 }

@@ -6,6 +6,8 @@ $color_primary_dark: #630021;
 $color_primary_opaque: #a3526d;
 $color_primary_filter: invert(14%) sepia(79%) saturate(7289%) hue-rotate(334deg)
 	brightness(63%) contrast(104%);
+$color_primary_filter_danger: invert(6%) sepia(83%) saturate(6889%)
+	hue-rotate(350deg) brightness(116%) contrast(104%);
 
 $color_secondary_light: #f03a0c;
 $color_secondary_medium_light: #b02a09;
@@ -38,3 +40,5 @@ $color_light_dark: #636161;
 $color_medium_dark: #575555;
 $color_dark: #3d3c3c;
 $color_dark_opaque: #cfcaca;
+
+$color_gray_light: #f1f1f1;
