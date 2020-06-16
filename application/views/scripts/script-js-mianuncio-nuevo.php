@@ -144,18 +144,17 @@
     }
 
     function deleteImage(imagen){   
-        /**Elimina imágen de servidor */   
+        /**Elimina imágen  */   
         let anuncio_id = "<?php echo $anuncio_id?>";  
 
         let numero_imagen = imagen.getAttribute("data-numero-imagen");
         let path_imagen = $(`#img-${numero_imagen}`).attr('src')
        
             let fd = new FormData();        
-            fd.append('numero', numero_imagen); 
             fd.append('path_imagen', path_imagen); 
        
                 $.ajax({ 
-                    url: BASE_URL+'mianuncio/eliminarImagenTemporal/'+anuncio_id , 
+                    url: BASE_URL+'mianuncio/eliminarImagenTemporal/' , 
                     type: 'post', 
                     data: fd, 
                     contentType: false, 
@@ -221,10 +220,10 @@
             <i id='icon-delete-${numero_imagen}' class="material-icons icon-delete" onclick='deleteImage(this)' data-numero-imagen='${numero_imagen}'>delete_forever</i>
         </div>`)
 
-        let fd = new FormData(); 
-        let image = imagen.files[0]; 
+            let fd = new FormData(); 
+            let image = imagen.files[0]; 
             fd.append('imagen', image); 
-            fd.append('numero', numero_imagen); 
+            fd.append('numero_imagen', numero_imagen); 
             fd.append('anuncio_id', anuncio_id); 
 
             $.ajax({ 

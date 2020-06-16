@@ -62,7 +62,7 @@ class Validaciones {
     
      function validaMensaje($mensaje,$objeto){   
       //Valida y sanitiza el mensaje del anuncio
-      if($mensaje=='' ){  
+      if($mensaje==''){  
         $response['codigo'] = 1;
         $response['mensaje']= $this->CI->MENSAJES['mensaje_vacio']; 
         $response['objeto'] = $objeto;             
@@ -210,7 +210,6 @@ class Validaciones {
     }        
 
     function estatusTexto($estatus_numero){
-
       $estatus_numero==0 ? $estatus_texto = 'ACTIVO' : '';
       $estatus_numero==1 ? $estatus_texto = 'SUSPENDIDO' : '';
       $estatus_numero==2 ? $estatus_texto = 'ELIMINADO' : '';

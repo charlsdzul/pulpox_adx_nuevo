@@ -8,7 +8,7 @@ class Validaciones_model extends CI_Model {
 
         $this->load->library('sesiones');
         $this->sesiones->usuarioEstaEnSesion(); 
-        $this->USUARIO_EN_SESSION_ID = 111;
+        $this->USUARIO_EN_SESSION_ID = $this->sesiones->usuarioEnSesion();
         $this->load->database(); 
         $this->TABLAS = [
             'ciudad' => 'cat_municipios',
