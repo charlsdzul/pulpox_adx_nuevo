@@ -1,5 +1,3 @@
-
-
 <body class='container-fluid p-0'>
     <div class="row justify-content-center m-0" >        
             <div class="row justify-content-center div-informacion-anuncio mt-3">
@@ -7,8 +5,7 @@
                     <label><b>Información de mi anuncio</b></label><br>
                     <label id='anuncio_id'></label><br>                    
                     <div class='div_opciones'>                          
-                        <?php 
-                    
+                        <?php                     
                             $public_id_act = "`".$datos_anuncio["public_id"]."`";
                             $estatus_act = "`".$datos_anuncio["estatus"]."`";
                             $url_editar = base_url()."index.php/mianuncio/editar/".$datos_anuncio["public_id"];

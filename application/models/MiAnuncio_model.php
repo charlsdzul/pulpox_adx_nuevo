@@ -7,7 +7,7 @@ class MiAnuncio_model extends CI_Model {
         parent::__construct();
         $this->load->library('sesiones');
         $this->load->library('validaciones');
-        $this->sesiones->usuarioEnSesion(); 
+        $this->sesiones->usuarioEstaEnSesion(); 
         $this->load->helper('url'); 
         $this->BASE_URL = base_url()."index.php/";
         $this->load->database(); //cargar base de datos

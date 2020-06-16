@@ -72,7 +72,7 @@
             <tr id='${mis_anuncios[index].public_id}'> 
               <th class='d-none d-lg-table-cell'>${index+1}</th>                      
               <td style='word-break: break-all;'>${mis_anuncios[index].titulo}</td>
-              <td id='pulpox-td-table' title='Ver anuncio' id='pulpox-icon--ver' onclick='verAnuncio("${mis_anuncios[index].renovado}","${mis_anuncios[index].editado}","${mis_anuncios[index].titulo}","${mis_anuncios[index].public_id}","${mis_anuncios[index].modalidad}","${mis_anuncios[index].estado}" ,"${mis_anuncios[index].ciudad}","${mis_anuncios[index].seccion}","${mis_anuncios[index].apartado}","${mis_anuncios[index].creado}","${mis_anuncios[index].estatus}")'>  <img src="<?php echo base_url()?>assets/icons/visibility-24px.svg" class='pulpux-icon-ver pulpox-icon'></td>                 
+              <td id='pulpox-td-table' title='Ver anuncio' id='pulpox-icon--ver' onclick='verAnuncio("${mis_anuncios[index].renovar}","${mis_anuncios[index].renovado}","${mis_anuncios[index].editado}","${mis_anuncios[index].titulo}","${mis_anuncios[index].public_id}","${mis_anuncios[index].modalidad}","${mis_anuncios[index].estado}" ,"${mis_anuncios[index].ciudad}","${mis_anuncios[index].seccion}","${mis_anuncios[index].apartado}","${mis_anuncios[index].creado}","${mis_anuncios[index].estatus}")'>  <img src="<?php echo base_url()?>assets/icons/visibility-24px.svg" class='pulpux-icon-ver pulpox-icon'></td>                 
               ${boton_renovar}
               <td class='d-none d-lg-table-cell'>${mis_anuncios[index].modalidad} </td>
               <td class='d-none d-lg-table-cell'>${mis_anuncios[index].estado} / ${mis_anuncios[index].ciudad}</td>
@@ -108,15 +108,15 @@
     })  
   });
 
-  function verAnuncio(renovado,editado,titulo,id,modalidad,estado,ciudad,seccion,apartado,creado,estatus){
+  function verAnuncio(renovar,renovado,editado,titulo,id,modalidad,estado,ciudad,seccion,apartado,creado,estatus){
     if(window.innerWidth< 960){
-      mostrarDatosMovil(renovado,editado,titulo,id,modalidad,estado,ciudad,seccion,apartado,creado,estatus)
+      mostrarDatosMovil(renovar,renovado,editado,titulo,id,modalidad,estado,ciudad,seccion,apartado,creado,estatus)
     }else{
       window.open(BASE_URL+'mianuncio/ver/'+id, '_blank');
     }
   }
 
-  function mostrarDatosMovil(renovado,editado,titulo,id,modalidad,estado,ciudad,seccion,apartado,creado,estatus){
+  function mostrarDatosMovil(renovar,renovado,editado,titulo,id,modalidad,estado,ciudad,seccion,apartado,creado,estatus){
     $.confirm({
       icon: 'fas fa-info-circle',
       title: '<span class="titulo-confirm">Información de mi anuncio</span>',
@@ -145,6 +145,7 @@
         this.buttons.eliminarAnuncio.addClass('btn-pulpox-danger--line')
         this.buttons.editarAnuncio.addClass('btn-pulpox-secondary--line')
         this.buttons.verAnuncioMobil.addClass('btn-pulpox-info--line') 
+        this.buttons.renovarAnuncioMobil.addClass('btn-pulpox-info') 
         $('.div_estatus_actual').css('text-align','center')
         if(estatus=='ACTIVO'){
           $('.div_estatus_actual').css('background-color','#52a35c')
@@ -152,7 +153,10 @@
           this.buttons.suspenderEstatus.show()
           this.buttons.activarEstatus.hide()
           this.buttons.eliminarAnuncio.show()
-          this.buttons.editarAnuncio.show()            
+          this.buttons.editarAnuncio.show()     
+          if(renovar==0){       
+            this.buttons.renovarAnuncioMobil.show()            
+          }
         }
         if(estatus=='SUSPENDIDO'){
           $('.div_estatus_actual').css('background-color','#a39c52')
@@ -168,17 +172,26 @@
           this.buttons.activarEstatus.hide()
           this.buttons.suspenderEstatus.hide()
           this.buttons.eliminarAnuncio.hide()
-          this.buttons.editarAnuncio.hide()            
+          this.buttons.editarAnuncio.hide()      
+          this.buttons.renovarAnuncioMobil.hide()       
         }
+
+
       },
-      buttons: {     
-        eliminarAnuncio:{
-          text: 'Eliminar',
+      buttons: {    
+        renovarAnuncioMobil: {
+          text: 'Renovar',
           isHidden: true,
-          action:function(){
-            eliminarAnuncio(id);
-          },
-        },            
+          action: function(){
+           renovarAnuncio(id)
+          }
+        },
+        verAnuncioMobil: {
+          text: 'Ver',
+          action: function(){
+            verAnuncioMovil(id)
+          }
+        },                   
         activarEstatus:{
           text: 'Activar',
           isHidden: true,
@@ -201,12 +214,13 @@
             asignaValidacionesInputs();
           }
         },
-        verAnuncioMobil: {
-          text: 'Ver',
-          action: function(){
-            verAnuncioMovil(id)
-          }
-        },
+        eliminarAnuncio:{
+          text: 'Eliminar',
+          isHidden: true,
+          action:function(){
+            eliminarAnuncio(id);
+          },
+        },    
       }
     });    
   } 
@@ -471,13 +485,7 @@
         })
       },   
       onContentReady: function () {
-        $('#titulo, #mensaje,#telefono,#celular,#correo').keyup(function(){
-              $('.editar_boton_guardar').show()
-            })
-            $('#estado, #ciudad,#modalidad,#seccion,#apartado').change(function(){
-              console.log('saasaa')
-              $('.editar_boton_guardar').show()
-            })
+        botonGuardarEdicion()
       },                          
       buttons: {
         cerrarEdicion: {
@@ -504,7 +512,7 @@
   function verAnuncioMovil(id){   
     $.confirm({
       icon: 'fas fa-eye',
-      title: '<span class="titulo-confirm">Ver anuncio<span>',
+      title: '<span class="titulo-confirm">Ver anuncio</span>',
       type: 'blue', 
       columnClass: 'large',          
       backgroundDismiss: true,                                    

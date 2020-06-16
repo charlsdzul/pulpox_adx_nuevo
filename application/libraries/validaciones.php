@@ -7,7 +7,7 @@ class Validaciones {
     public function __construct(){
         $this->CI =& get_instance();
         $this->CI->load->library('sesiones');
-        $this->CI->sesiones->usuarioEnSesion();         
+        $this->CI->sesiones->usuarioEstaEnSesion();         
         $this->CI->load->library('sanitize');
         $this->CI->load->database(); //cargar base de datos
         $this->CI->load->model('validaciones_model');
@@ -28,6 +28,14 @@ class Validaciones {
           'correo' => 'Ingresa un correo/email válído. Edítalo.',
         ];
 
+    }
+
+    function validarIdAnuncio($id_anuncio){
+      if(strlen($id_anuncio)==30){
+        return true;
+      }else{
+        return false;
+      }      
     }
 
     public function validaTitulo($titulo,$objeto){   

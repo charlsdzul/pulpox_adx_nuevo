@@ -8,7 +8,7 @@ class Sesiones {
        
     }
 
-    function usuarioEnSesion(){
+    function usuarioEstaEnSesion(){
         $user = true;
         if($user){
         }else{

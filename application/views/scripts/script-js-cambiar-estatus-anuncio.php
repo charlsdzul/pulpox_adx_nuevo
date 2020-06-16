@@ -60,7 +60,7 @@
                             btnClass: 'btn-pulpox-success',
                             keys: ['enter'],
                             action: function(){
-                              window.location.replace(BASE_URL+'misanuncios/');
+                              window.location.replace(window.location.href);
                             }
                         },                  
                       }

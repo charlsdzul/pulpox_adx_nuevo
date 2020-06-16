@@ -5,7 +5,7 @@ class MiAnuncio extends CI_Controller {
      function __construct() {
         parent::__construct();
         $this->load->library('sesiones');
-        $this->sesiones->usuarioEnSesion(); 
+        $this->sesiones->usuarioEstaEnSesion(); 
         $this->load->model('mianuncio_model');
         $this->ruta_imagenes_temporales = "imagenes_temporales/anuncios/";   
         $this->carpeta_final_anuncio = "imagenes_anuncios/"; 
@@ -59,8 +59,8 @@ class MiAnuncio extends CI_Controller {
        */      
       if($anuncio_id==null){
         redirect("index.php/misanuncios/");         
-      }else{
-        if(strlen($anuncio_id)==30){
+      }else{    
+        if($this->validaciones->validarIdAnuncio($anuncio_id)){
           $response = $this->mianuncio_model->ver($anuncio_id);
           $data = array('datos_anuncio' => $response);
           $this->load->view('headers/header-html-mianuncio-editar.php');
@@ -75,26 +75,25 @@ class MiAnuncio extends CI_Controller {
           $this->load->view('scripts/script-js-eliminar-imagen.php');
           $this->load->view('scripts/script-js-guardar-edicion.php'); 
           $this->load->view('scripts/script-js-validar-formulario.php');           
-          $this->load->view('scripts/script-js-guardar-imagen.php'); 
-        
+          $this->load->view('scripts/script-js-guardar-imagen.php');    
         }else{
           $respuesta['respuesta'] = 'El ID ingresado en la URL debe ser de 30 caracteres alfanumúmericos.';
           $this->load->view('headers/header-html-mianuncio-ver.php');
           $this->load->view('modules/menu');
           $this->load->view('pages/page-pagina-no-existe', $respuesta);       
         }        
-      }  
-  
+      }    
     }
 
     function ver($anuncio_id = null){
       if($anuncio_id==null){
           redirect("index.php/misanuncios/");
-        }else{
-          if(strlen($anuncio_id)==30){
-            if($this->validaciones->anuncioPerteneceAUsuario($anuncio_id)){
-                $data = $this->mianuncio_model->ver($anuncio_id);
-                if(isset($data['codigo'])){
+          die();
+      }else{
+        if($this->validaciones->validarIdAnuncio($anuncio_id)){
+          if($this->validaciones->anuncioPerteneceAUsuario($anuncio_id)){
+            $data = $this->mianuncio_model->ver($anuncio_id);
+              if(isset($data['codigo'])){
                 $respuesta['respuesta'] = $data['mensaje'];
                 $this->load->view('headers/header-html-mianuncio-ver.php');
                 $this->load->view('scripts/script-js-general.php');
@@ -112,20 +111,20 @@ class MiAnuncio extends CI_Controller {
                 $this->load->view('scripts/script-js-renovar-anuncio.php');    
                 $this->load->view('scripts/script-js-eliminar-anuncio.php');  
                 $this->load->view('scripts/script-js-cambiar-estatus-anuncio.php');
-              }  
-             }else{              
-              $respuesta['respuesta'] = 'Este anuncio no te pertenece. Elije uno de la sección Mis Anuncios.';
-              $this->load->view('headers/header-html-mianuncio-ver.php');
-              $this->load->view('modules/menu');
-              $this->load->view('pages/page-pagina-no-existe', $respuesta);
-             }            
-          }else{
-            $respuesta['respuesta'] = 'El ID ingresado en la URL debe ser de 30 caracteres alfanumúmericos.';
-            $this->load->view('headers/header-html-mianuncio-ver.php');
-            $this->load->view('modules/menu');
-            $this->load->view('pages/page-pagina-no-existe', $respuesta);
-          }      
-        }       
+              }                
+          }else{              
+           $respuesta['respuesta'] = 'Este anuncio no te pertenece. Elije uno de la sección Mis Anuncios.';
+           $this->load->view('headers/header-html-mianuncio-ver.php');
+           $this->load->view('modules/menu');
+           $this->load->view('pages/page-pagina-no-existe', $respuesta);
+          }            
+        }else{
+          $respuesta['respuesta'] = 'El ID ingresado en la URL debe ser de 30 caracteres alfanumúmericos.';
+          $this->load->view('headers/header-html-mianuncio-ver.php');
+          $this->load->view('modules/menu');
+          $this->load->view('pages/page-pagina-no-existe', $respuesta);
+        }      
+      }       
     }
     
     function publicar(){   

@@ -5,7 +5,7 @@ class MisAnuncios_model extends CI_Model {
     function __construct(){
         parent::__construct();
         $this->load->library('sesiones');
-        $this->sesiones->usuarioEnSesion(); 
+        $this->sesiones->usuarioEstaEnSesion(); 
         $this->load->library('validaciones');
         $this->load->database(); //cargar base de datos
         $this->load->helper('url'); 
