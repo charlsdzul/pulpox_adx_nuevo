@@ -1,6 +1,5 @@
 <script>
     function asignarImagenes(datos_anuncio){
-        console.log(BASE_URL)
         for (let index = 1; index < 11; index++) {
             if(datos_anuncio[`img_${index}`]!=''){
                 $(`#img-${index}`).attr('src', BASE_URL_ROOT+datos_anuncio[`img_${index}`]+ "?timestamp=" + new Date().getTime())

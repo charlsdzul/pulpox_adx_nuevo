@@ -72,11 +72,11 @@
                 }, 
                 fail:function(){
                   $.confirm({
-                          icon: 'fas fa-check-circle',
-                          title: '<span class="titulo-confirm">Lo sentimos</span>',
-                          type: 'red',
-                          content: `<div class='contenido-confirm'>Hubo un problema a intenar actualizar tu imágen. Intenta más tarde.</div>`,
-                          buttons: {
+                    icon: 'fas fa-exclamation-circle',
+                    title: response_fail.titulo,
+                    content: response_fail.mensaje,
+                    type: 'red',
+                    buttons: {
                             OK: {
                                 text: 'Ok',
                                 btnClass: 'btn-pulpox-danger',

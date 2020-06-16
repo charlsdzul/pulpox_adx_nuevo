@@ -49,7 +49,6 @@
 
       $('.div_estatus_actual').css('text-align','center')
 
-
       switch (anuncio_datos['modalidad']) {
           case 'Compro':
           $('#modalidad_mensaje').html('El anunciante está comprando ¿Puedes ofrecerle algo? ¡Contáctalo!')     

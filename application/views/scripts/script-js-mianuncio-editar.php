@@ -5,18 +5,13 @@
         asignaValidacionesInputs();
         asignaValoresPrevios(datos_anuncio);   
         asignarImagenes(datos_anuncio) 
-
         $('#boton_guardar').click(function(){
             validaFormulario(datos_anuncio.public_id)          
         }) 
         
     });
 
-    function asignaValoresPrevios() {
-        /**
-        * En caso de regresar al formulario para editarlo, se asignan los valores que
-        anteriormente han sido guardados. Están en sessionStorages
-        */           
+    function asignaValoresPrevios() {     
 
         $('#titulo').val(datos_anuncio.titulo)    
         $('#mensaje').html(datos_anuncio.mensaje)

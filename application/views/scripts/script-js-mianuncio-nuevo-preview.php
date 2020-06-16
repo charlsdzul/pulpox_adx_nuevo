@@ -1,12 +1,9 @@
-<script>
-
-  const BASE_URL = "<?php echo base_url();?>index.php/";
-  var anuncio_id = "<?php echo $anuncio_id?>"; 
-
+<script>  
   $(document).ready(function() {  
+    let anuncio_id = "<?php echo $anuncio_id?>"; 
       if(sessionStorage.getItem(`titulo_${anuncio_id}`)==null){
         location.href = BASE_URL+'mianuncio/nuevo';
-      }else{
+      }else{    
         asignaValoresPreview(anuncio_id)    
         creaCarousel(anuncio_id)          
         $('#boton_publicar').click(function(){
@@ -22,9 +19,9 @@
 
       let dialog_publicando = $.dialog({
           icon: 'fa fa-spinner fa-spin',
-          title: 'Publicando...',
+          title: '<span class="titulo-confirm">Publicando...</span>',
           type: 'blue',
-          content: 'Estamos publicando tu anuncio...',
+          content: "<div class='contenido-confirm'>Estamos publicando tu anuncio...</div>",
           closeIcon:false,
       });       
 
@@ -56,8 +53,8 @@
               if(response.codigo!=0){
                 $.confirm({
                   icon: 'fas fa-exclamation-circle',
-                  title: 'Detectamos un problema.',
-                  content: response.mensaje,
+                  title: '<span class="titulo-confirm">Detectamos un problema.</span>',
+                  content: ` <div class='contenido-confirm'>${response.mensaje}<div>`,
                   type: 'blue',
                   typeAnimated: true,
                   buttons: {               
@@ -72,9 +69,9 @@
                 sessionStorage.clear();
                 $.confirm({
                 icon: 'fas fa-check-circle',
-                title: 'Publicado',
+                title: '<span class="titulo-confirm">Publicado</span>',
                 type: 'blue',
-                content: response.mensaje,
+                content: `<div class='contenido-confirm'>${response.mensaje}<div>`,
                 closeIcon:false,
                 buttons: {
                   nuevoAnuncio: {
@@ -100,8 +97,8 @@
           dialog_publicando.close();   
           $.confirm({
             icon: 'fas fa-exclamation-circle',
-            title: 'Detectamos un problema.',
-            content: 'Nuestro servidor tiene problemas actualmente. Intente más tarde.',
+            title: response_fail.titulo,
+            content: response_fail.mensaje,
             type: 'red',
             typeAnimated: true,
             buttons: {               
@@ -124,21 +121,17 @@
 
     for (let index = 1; index < 11; index++) {
 
-      if(sessionStorage.getItem(`img_${index}_${anuncio_id}`)!=null && sessionStorage.getItem(`img_${index}_${anuncio_id}`)!=''){   
-       
+      if(sessionStorage.getItem(`img_${index}_${anuncio_id}`)!=null && sessionStorage.getItem(`img_${index}_${anuncio_id}`)!=''){       
           carousel_images.append(`
           <div class="carousel-item ${active}">
             <img id='img-${index}-preview' class='carousel-inner--img' src="${sessionStorage.getItem(`img_${index}_${anuncio_id}`)}">
           </div>`)
           carousel_indicators.append(`
           <li data-target="#carouselExampleIndicators" data-slide-to="${carousel_indicators_counter}" class="${active}"></li>
-          `)
-
+          `);
         carousel_indicators_counter++;
         active='';
-      }  
-
-      
+      }        
     }
   }
 
@@ -161,8 +154,7 @@
                           <span class="sr-only">Next</span>
                   </a>   
                 </div>            
-              `)
-
+              `);
               generaCarousel(anuncio_id)
               break;
             }    

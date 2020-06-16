@@ -1,10 +1,11 @@
-<script>
-
-    const BASE_URL = "<?php echo base_url();?>index.php/";
-    var anuncio_id = "<?php echo $anuncio_id?>"; 
+<script> 
+    /**
+        Scripts para Nuevo Anuncio.
+    */
 
     $(document).ready(function() {   
-        asignaListasSelects();     
+        let anuncio_id = "<?php echo $anuncio_id?>"; 
+        asignaListasSelects(anuncio_id);     
         asignaValidacionesInputs();
         asignaValoresPrevios(anuncio_id);    
 
@@ -13,18 +14,16 @@
         }) 
     });
 
-    function asignaListasSelects(){
+    function asignaListasSelects(anuncio_id){
         /**Define lista de datos a los inputs ESTADO, CIUDAD, SECCION, APARTADO    
         * Asigna lista de Estados a 'Estado'. Inicia en 'Chihuahua'
         * Asigna lista de ciudades correspondientes a 'Chihuahua'. Inicia en 'Juárez'
         * Al cambiar el Estado, se asignan sus ciudades correspondientes
-        */             
-
+        */    
 
         $.get( BASE_URL+"General/obtenerEstados", function( response ) {       
             response = JSON.parse(response);
             let lista_estados='';
-
             $.each(response, function(key, value){
                 lista_estados += `<option value="${value.nombre}">${value.nombre}</option>`;
             });
@@ -45,11 +44,10 @@
             $('#ciudad').find('option').remove() //Remover options actuales
             $.get( BASE_URL+"General/obtenerCiudades",{estado}, function( response ) {      
                 response = JSON.parse(response);
-                var lista_ciudades='';
+                let lista_ciudades='';
                     $.each(response, function(key, value){
                         lista_ciudades += `<option value="${value.nombre}">${value.nombre}</option>`;
                     }); 
-
                     $('#ciudad').children().remove();
                     $('#ciudad').append(lista_ciudades) //Asignar lista de apartado correspondiente según la sección elegida.
 
@@ -77,7 +75,7 @@
                 }                  
         });  
 
-        $.get( BASE_URL+"General/obtenerSecciones", function( response ) {       
+        $.get(BASE_URL+"General/obtenerSecciones", function( response ) {       
             response = JSON.parse(response);
             let lista_secciones='<option value="" disabled selected>Selecciona</option>';
             $.each(response, function(key, value){
@@ -146,12 +144,13 @@
     }
 
     function deleteImage(imagen){   
-        /**Elimina imágen de servidor */    
+        /**Elimina imágen de servidor */   
+        let anuncio_id = "<?php echo $anuncio_id?>";  
 
         let numero_imagen = imagen.getAttribute("data-numero-imagen");
         let path_imagen = $(`#img-${numero_imagen}`).attr('src')
        
-            var fd = new FormData();        
+            let fd = new FormData();        
             fd.append('numero', numero_imagen); 
             fd.append('path_imagen', path_imagen); 
        
@@ -168,7 +167,7 @@
                         
                     },
                     success: function(response){ 
-                        var data = $.parseJSON(response)  
+                        let data = $.parseJSON(response)  
                         if(data.codigo == 0){
                             $(`#img-${numero_imagen}`).attr('src', '')
                             $(`#panel-image--div_progreso-${numero_imagen}`).remove()
@@ -190,7 +189,8 @@
     function uploadImage(imagen){
         /* Ejecutya funciones de validaciones */
         
-        var numero_imagen = imagen.getAttribute("data-numero-imagen");  
+        let numero_imagen = imagen.getAttribute("data-numero-imagen");
+        let anuncio_id = "<?php echo $anuncio_id?>";   
 
         if(validarExtensionImagen(imagen.files[0].name)){ 
             $(`#pulpox-invalid-feedback-${numero_imagen}`).html('');
@@ -210,7 +210,7 @@
     }
 
     function uploadImageAjax(imagen,numero_imagen,anuncio_id){
-        /** Sube imágen a servidor. */
+        /** Sube imágen temporal. */
 
         $(`#panel-image-${numero_imagen}`).after(`
         <div id='panel-image--div_progreso-${numero_imagen}' class='panel-image--div_progreso'> 
@@ -221,8 +221,8 @@
             <i id='icon-delete-${numero_imagen}' class="material-icons icon-delete" onclick='deleteImage(this)' data-numero-imagen='${numero_imagen}'>delete_forever</i>
         </div>`)
 
-            var fd = new FormData(); 
-            var image = imagen.files[0]; 
+        let fd = new FormData(); 
+        let image = imagen.files[0]; 
             fd.append('imagen', image); 
             fd.append('numero', numero_imagen); 
             fd.append('anuncio_id', anuncio_id); 
@@ -235,10 +235,10 @@
                 processData: false, 
                 xhr: function() {
                     //Esto pasa durante la subida de la imágen
-                    var xhr = new window.XMLHttpRequest();
+                    let xhr = new window.XMLHttpRequest();
                     xhr.upload.addEventListener("progress", function(evt) {
                         if (evt.lengthComputable) {
-                            var percentComplete = ((evt.loaded / evt.total) * 100);
+                            let percentComplete = ((evt.loaded / evt.total) * 100);
                             $(`#panel-image--bar_progreso-${numero_imagen}`).css('width',percentComplete+'%');
                             $(`#panel-image--bar_progreso-${numero_imagen}`).html(percentComplete+'%');                               
                         }else{
@@ -308,7 +308,7 @@
         });  
 
         /**VALIDA LONGITUD DE TELEFONO */
-        var telefono = $('#telefono')
+        let telefono = $('#telefono')
         if(telefono.val().length>0 && telefono.val().length<10){
             telefono.css('border-color','red');
             telefono.next().show() ; //Muestra el div con mensaje de error  
@@ -323,7 +323,7 @@
         }
 
         /**VALIDA LONGITUD DE CELULAR */ 
-        var celular = $('#celular')
+        let celular = $('#celular')
         if(celular.val().length>0 && celular.val().length<10){
             celular.css('border-color','red');
             celular.next().show() ; //Muestra el div con mensaje de error  
@@ -338,8 +338,8 @@
         }
 
         /**VALIDA EMAIL*/ 
-        var email_regex= new RegExp(/^\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b$/i);
-        var correo = $('#correo')
+        let email_regex= new RegExp(/^\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b$/i);
+        let correo = $('#correo')
 
         if(correo.val()==''){
             elementos_validados++; 
@@ -356,7 +356,7 @@
             }
         }    
 
-        var validation = 1;
+        let validation = 1;
 
         if (elementos_validados == 10){
             if($('#telefono').val()=='' && $('#celular').val()=='' && $('#correo').val()==''){

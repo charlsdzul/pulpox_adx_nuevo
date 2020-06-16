@@ -68,14 +68,15 @@ class MiAnuncio extends CI_Controller {
           $this->load->view('modules/menu');
           $this->load->view('pages/page-anuncio-editar',$data);
           $this->load->view('scripts/script-js-mianuncio-editar.php');
-          $this->load->view('scripts/script-js-asignar-validaciones-inputs.php');         
-          $this->load->view('scripts/script-js-guardar-edicion.php'); 
+          $this->load->view('scripts/script-js-asignar-validaciones-inputs.php');             
           $this->load->view('scripts/script-js-definir-selects-valores.php'); 
           $this->load->view('scripts/script-js-asignar-imagenes-editar.php'); 
           $this->load->view('scripts/script-js-validar-imagen.php'); 
-          $this->load->view('scripts/script-js-eliminar-imagen.php');  
-          $this->load->view('scripts/script-js-validar-formulario.php'); 
+          $this->load->view('scripts/script-js-eliminar-imagen.php');
+          $this->load->view('scripts/script-js-guardar-edicion.php'); 
+          $this->load->view('scripts/script-js-validar-formulario.php');           
           $this->load->view('scripts/script-js-guardar-imagen.php'); 
+        
         }else{
           $respuesta['respuesta'] = 'El ID ingresado en la URL debe ser de 30 caracteres alfanumúmericos.';
           $this->load->view('headers/header-html-mianuncio-ver.php');
@@ -102,12 +103,15 @@ class MiAnuncio extends CI_Controller {
               }else{              
                 $datos_anuncio = array('datos_anuncio' => $data);
                 $this->load->view('headers/header-html-mianuncio-ver.php');
+                $this->load->view('scripts/script-js-general.php');
                 $this->load->view('modules/menu');
                 $this->load->view('pages/page-anuncio-ver', $datos_anuncio);
                 $this->load->view('scripts/script-js-mianuncio-ver.php');    
                 $this->load->view('scripts/script-js-carrousel.php');     
                 $this->load->view('scripts/script-js-asignar-valores.php'); 
-                $this->load->view('scripts/script-js-renovar-anuncio.php');                 
+                $this->load->view('scripts/script-js-renovar-anuncio.php');    
+                $this->load->view('scripts/script-js-eliminar-anuncio.php');  
+                $this->load->view('scripts/script-js-cambiar-estatus-anuncio.php');
               }  
              }else{              
               $respuesta['respuesta'] = 'Este anuncio no te pertenece. Elije uno de la sección Mis Anuncios.';
