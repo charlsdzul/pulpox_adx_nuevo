@@ -72,7 +72,7 @@
             <tr id='${mis_anuncios[index].public_id}'> 
               <th class='d-none d-lg-table-cell'>${index+1}</th>                      
               <td style='word-break: break-all;'>${mis_anuncios[index].titulo}</td>
-              <td id='pulpox-td-table' title='Ver anuncio' id='pulpox-icon--ver' onclick='verAnuncio("${mis_anuncios[index].renovar}","${mis_anuncios[index].renovado}","${mis_anuncios[index].editado}","${mis_anuncios[index].titulo}","${mis_anuncios[index].public_id}","${mis_anuncios[index].modalidad}","${mis_anuncios[index].estado}" ,"${mis_anuncios[index].ciudad}","${mis_anuncios[index].seccion}","${mis_anuncios[index].apartado}","${mis_anuncios[index].creado}","${mis_anuncios[index].estatus}")'>  <img src="<?php echo base_url()?>assets/icons/visibility-24px.svg" class='pulpux-icon-ver pulpox-icon'></td>                 
+              <td id='pulpox-td-table' title='Ver anuncio' id='pulpox-icon--ver' onclick='verAnuncio("${mis_anuncios[index].renovar}","${mis_anuncios[index].renovado}","${mis_anuncios[index].editado}","${mis_anuncios[index].public_id}","${mis_anuncios[index].modalidad}","${mis_anuncios[index].estado}" ,"${mis_anuncios[index].ciudad}","${mis_anuncios[index].seccion}","${mis_anuncios[index].apartado}","${mis_anuncios[index].creado}","${mis_anuncios[index].estatus}")'>  <img src="<?php echo base_url()?>assets/icons/visibility-24px.svg" class='pulpux-icon-ver pulpox-icon'></td>                 
               ${boton_renovar}
               <td class='d-none d-lg-table-cell'>${mis_anuncios[index].modalidad} </td>
               <td class='d-none d-lg-table-cell'>${mis_anuncios[index].estado} / ${mis_anuncios[index].ciudad}</td>
@@ -108,15 +108,15 @@
     })  
   });
 
-  function verAnuncio(renovar,renovado,editado,titulo,id,modalidad,estado,ciudad,seccion,apartado,creado,estatus){
+  function verAnuncio(renovar,renovado,editado,id,modalidad,estado,ciudad,seccion,apartado,creado,estatus){
     if(window.innerWidth< 960){
-      mostrarDatosMovil(renovar,renovado,editado,titulo,id,modalidad,estado,ciudad,seccion,apartado,creado,estatus)
+      mostrarDatosMovil(renovar,renovado,editado,id,modalidad,estado,ciudad,seccion,apartado,creado,estatus)
     }else{
       window.open(BASE_URL+'mianuncio/ver/'+id, '_blank');
     }
   }
 
-  function mostrarDatosMovil(renovar,renovado,editado,titulo,id,modalidad,estado,ciudad,seccion,apartado,creado,estatus){
+  function mostrarDatosMovil(renovar,renovado,editado,id,modalidad,estado,ciudad,seccion,apartado,creado,estatus){
     $.confirm({
       icon: 'fas fa-info-circle',
       title: '<span class="titulo-confirm">Información de mi anuncio</span>',
@@ -124,12 +124,11 @@
       columnClass: 'large',
       backgroundDismiss: true,
       content: `
-        <div class='contenido-confirm'>
-          <b>Título:</b>  ${titulo} <br>
+        <div class='contenido-confirm'>   
+          <b>ID:</b> ${id}<br>
           <b>Modalidad:</b>  ${modalidad}<br>
           <b>Lugar:</b>  ${estado} / ${ciudad}<br>
-          <b>Sección:</b>  ${seccion} / ${apartado}<br>
-          <b>ID:</b> ${id}<br>
+          <b>Sección:</b>  ${seccion} / ${apartado}<br>          
           <b>Creado:</b> ${creado}<br>
           <b>Editado:</b> ${editado}<br>
           <b>Renovado:</b> ${renovado}<br>

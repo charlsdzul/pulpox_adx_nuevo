@@ -68,7 +68,7 @@
                 </div>
             </div>
 
-            <div class="row justify-content-center pulpox-carousel div-carousel" title='Galería de imágenes'>               
+            <div class="row justify-content-center pulpox-carousel div-carousel" title='Galería'>               
             </div>
 
             <div class="row justify-content-center"> 

@@ -234,7 +234,10 @@ class MiAnuncio_model extends CI_Model {
             
             if($query= $this->db->get('anuncios')){
                 if($query->num_rows() > 0){
-                    $datos_anuncio = $query->row_array();  
+                    $datos_anuncio = $query->row_array(); 
+                   // $datos_anuncio['titulo'] = htmlspecialchars($datos_anuncio['titulo']);
+                   // $datos_anuncio['mensaje'] = htmlspecialchars($datos_anuncio['mensaje']);
+                   //var_dump($datos_anuncio['mensaje']);
                     $datos_anuncio['creado'] = $this->validaciones->creaFechaConFormato($datos_anuncio['creado']);
                     $datos_anuncio['estado'] = $this->validaciones->obtenerNombre($datos_anuncio['estado'], 'estado');
                     $datos_anuncio['ciudad'] = $this->validaciones->obtenerNombre($datos_anuncio['ciudad'], 'ciudad');

@@ -7,7 +7,7 @@
         })    
         asignaValidacionesInputs()
         $('#titulo').val(datos_anuncio.titulo)    
-        $('#mensaje').html(datos_anuncio.mensaje)
+        $('#mensaje').val(datos_anuncio.mensaje)
         $('#telefono').val(datos_anuncio.telefono)
         $('#celular').val(datos_anuncio.celular)
         $('#correo').val(datos_anuncio.correo)   

@@ -7,7 +7,7 @@ class Sanitize {
         //$black_list  = array("<script>");  
         $string = strip_tags($string);
         //$string = str_ireplace($black_list,'',$string);     
-        $string = htmlentities($string);  
+        //$string = htmlentities($string);  
         return $string;      
       } 
         

@@ -5,7 +5,7 @@
       
       $('#titulo_preview').text(anuncio_datos['titulo'])
       $('#mensaje_preview').html(anuncio_datos['mensaje'])
-      $('#modalidad_preview').html(anuncio_datos['modalidad'])
+      $('#modalidad_preview').text(anuncio_datos['modalidad'])
       let estado_ciudad = anuncio_datos['estado'] + ' / ' + anuncio_datos['ciudad']
       let seccion_apartado =  anuncio_datos['seccion'] + ' / ' + anuncio_datos['apartado']
       $('#estado_ciudad').text(estado_ciudad)
