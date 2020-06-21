@@ -8,6 +8,7 @@ class MisAnuncios extends CI_Controller {
         $this->sesiones->usuarioEstaEnSesion(); 
         $this->load->helper('url'); 
         $this->load->model('misanuncios_model');
+        $this->load->library('session'); 
     }
 
     function index(){      
@@ -31,6 +32,7 @@ class MisAnuncios extends CI_Controller {
         $this->load->view('scripts/script-js-cambiar-estatus-anuncio.php');
         $this->load->view('scripts/script-js-guardar-edicion.php'); 
         $this->load->view('scripts/script-js-boton-guardar-edicion.php'); 
+        $this->load->view('scripts/script-js-iniciar-sesion.php'); 
 
       }
 

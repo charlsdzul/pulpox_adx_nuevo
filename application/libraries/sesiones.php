@@ -11,7 +11,7 @@ class Sesiones {
         $user = true;
         if($user){
         }else{
-          header("Location: ../pulpox_ads_nuevo/index.php/inicio");
+          header("Location: /pulpox_ads_nuevo/index.php/inicio");
           die();
         }
     }

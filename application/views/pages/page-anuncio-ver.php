@@ -19,7 +19,7 @@
                             }   
                             if($datos_anuncio['estatus']=='SUSPENDIDO'){
                                 echo "<button id='boton_eliminar' class='btn btn-pulpox-danger--line m-1' onclick='eliminarAnuncio($public_id_act)'>Eliminar</button>";
-                                echo "<button id='boton_editar' class='btn btn-pulpox-secondary--line m-1'>Editar</button>";
+                                echo "<a href='$url_editar' id='boton_editar' class='btn ml-1 mr-1 btn-pulpox-secondary--line'>Editar</a>";
                                 echo "<button id='boton_activar' class='btn btn-pulpox-success--line m-1' onclick='cambiarEstatusDeAnuncio($public_id_act,$estatus_act)'>Activar</button>";                             
                             }
                             if($datos_anuncio['renovar']==0){

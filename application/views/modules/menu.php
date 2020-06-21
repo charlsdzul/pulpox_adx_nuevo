@@ -5,14 +5,28 @@
   </button>
   <div class="collapse navbar-collapse" id="main-menu-toggler">
     <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-      <li class="nav-item active">
-        <a class="nav-link" href="#">Inicio <span class="sr-only">(current)</span></a>
+
+
+      <li class="nav-item ">
+        <a class="nav-link" href="<?php echo base_url() . 'index.php/inicio'?>">Inicio</a>
+      </li>
+
+
+      
+      <li class="nav-item ">
+        <a class="nav-link active" href="<?php echo base_url() . 'index.php/misanuncios'?>" >Mis Anuncios</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="<?php echo base_url() . 'index.php/' .'misanuncios'?>" >Mis Anuncios</a>
+        <a class="nav-link" href="<?php echo base_url() . 'index.php/mianuncio/nuevo/'?>">Nuevo Anuncio</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="<?php echo base_url() . 'index.php/' .'mianuncio/nuevo/'?>">Nuevo Anuncio</a>
+        <a class="nav-link" href="<?php echo base_url() . 'index.php/usuario/login/'?>">Sesion</a>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" onclick="iniciarSesion()">Ingresar</button>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="<?php echo base_url() . 'index.php/usuario/login/'?>">Crear Cuenta</a>
       </li>
     </ul>
 
@@ -26,10 +40,6 @@
         <a class="dropdown-item" href="#">Salir</a>   
       </div>
     </div>
-
-
-
-
 
   </div>
 </nav>
