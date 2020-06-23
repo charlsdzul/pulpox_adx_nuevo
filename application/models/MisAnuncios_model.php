@@ -4,16 +4,20 @@ class MisAnuncios_model extends CI_Model {
 
     function __construct(){
         parent::__construct();
+
         $this->load->library('sesiones');
         $this->sesiones->usuarioEstaEnSesion(); 
-        $this->USUARIO_EN_SESSION_ID = $this->sesiones->usuarioEnSesion();
+
+        $this->ID_USUARIO_EN_SESSION = $this->sesiones->usuarioEnSesion();
+        
         $this->load->library('validaciones');
         $this->load->database(); 
-        $this->load->helper('url');         
+        $this->load->helper('url');    
+             
     }  
 
     function obtenerMisAnuncios(){ 
-        $this->db->select("*")->order_by('creado', 'DESC')->where("usuario_id",$this->USUARIO_EN_SESSION_ID)->where("(sta=0 OR sta=1 OR sta=2)");
+        $this->db->select("*")->order_by('creado', 'DESC')->where("usuario_id",$this->ID_USUARIO_EN_SESSION)->where("(sta=0 OR sta=1 OR sta=2)");
         if($query = $this->db->get('anuncios')){  
             if($query->num_rows()>0){
                 $misanuncios=[]; 

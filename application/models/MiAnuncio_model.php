@@ -19,7 +19,7 @@ class MiAnuncio_model extends CI_Model {
         'modalidad' => 'cat_modalidades',
         'seccion' => 'cat_secciones',
         'apartado' => 'cat_apartados'];
-        $this->USUARIO_EN_SESSION_ID = 111;
+        $this->ID_USUARIO_EN_SESSION = $this->sesiones->usuarioEnSesion();
     }
                      
     function publicar($anuncio_datos){
@@ -39,7 +39,7 @@ class MiAnuncio_model extends CI_Model {
             'creado'=> $fecha_actual , 
             'editado'=> $fecha_actual , 
             'renovado'=> $fecha_actual , 
-            'usuario_id'=> $this->USUARIO_EN_SESSION_ID,               
+            'usuario_id'=> $this->ID_USUARIO_EN_SESSION,               
             );
         $data_imagenes = array(                
             'img_1'=> $anuncio_datos['img_1'],
@@ -91,7 +91,7 @@ class MiAnuncio_model extends CI_Model {
             'correo'=> $anuncio_datos['correo'],         
             'editado'=> date("Y-m-d H:i:s"), 
             );
-        $this->db->where('public_id',$anuncio_datos['anuncio_public_id'])->where('usuario_id',$this->USUARIO_EN_SESSION_ID)->where("(sta=0 OR sta=1)"); 
+        $this->db->where('public_id',$anuncio_datos['anuncio_public_id'])->where('usuario_id',$this->ID_USUARIO_EN_SESSION)->where("(sta=0 OR sta=1)"); 
         if($this->db->update('anuncios', $datos)){
             $response['codigo']  = 0;
             $response['mensaje'] = 'Su anuncio se actualizó correctamente.';  
@@ -230,7 +230,7 @@ class MiAnuncio_model extends CI_Model {
 
     function ver($anuncio_id){
             $this->db->select('sta, public_id, titulo, mensaje, estado,ciudad,modalidad,seccion,apartado,telefono,celular,correo,img_1,img_2,img_3,img_4,img_5,img_6,img_7,img_8,img_9,img_10,sta,creado,editado,renovado')
-            ->where('usuario_id', $this->USUARIO_EN_SESSION_ID)->where("(sta=0 OR sta=1 OR sta=2)")->where('public_id', $anuncio_id);
+            ->where('usuario_id', $this->ID_USUARIO_EN_SESSION)->where("(sta=0 OR sta=1 OR sta=2)")->where('public_id', $anuncio_id);
             
             if($query= $this->db->get('anuncios')){
                 if($query->num_rows() > 0){
@@ -272,7 +272,7 @@ class MiAnuncio_model extends CI_Model {
 
     function verMovil($public_id){
         $this->db->select('public_id, titulo, mensaje, estado,ciudad,modalidad,seccion,apartado,telefono,celular,correo,img_1,img_2,img_3,img_4,img_5,img_6,img_7,img_8,img_9,img_10')
-                ->where('usuario_id', $this->USUARIO_EN_SESSION_ID)->where("(sta=0 OR sta=1 OR sta=2)")->where('public_id', $public_id);
+                ->where('usuario_id', $this->ID_USUARIO_EN_SESSION)->where("(sta=0 OR sta=1 OR sta=2)")->where('public_id', $public_id);
         
          if($query = $this->db->get('anuncios')){          
             if($query->num_rows() > 0){
@@ -317,7 +317,7 @@ class MiAnuncio_model extends CI_Model {
                 'eliminado_por' =>  1, //1 es USUARIO 
             );
     
-            $this->db->where('usuario_id', $this->USUARIO_EN_SESSION_ID)->where('public_id', $anuncio_id)->where("(sta=0 OR sta=1)");
+            $this->db->where('usuario_id', $this->ID_USUARIO_EN_SESSION)->where('public_id', $anuncio_id)->where("(sta=0 OR sta=1)");
             
             if($this->db->update('anuncios', $data)){
                 $response['codigo']=0;
@@ -362,7 +362,7 @@ class MiAnuncio_model extends CI_Model {
                 ); 
             }             
     
-            $this->db->where('usuario_id', $this->USUARIO_EN_SESSION_ID)->where('public_id', $anuncio_id)->where("(sta=0 OR sta=1)");
+            $this->db->where('usuario_id', $this->ID_USUARIO_EN_SESSION)->where('public_id', $anuncio_id)->where("(sta=0 OR sta=1)");
         
             if($this->db->update('anuncios', $data)){
                 $response['codigo']=0;
@@ -384,7 +384,7 @@ class MiAnuncio_model extends CI_Model {
                 $data = array(
                     'renovado' => date("Y-m-d H:i:s"),                 
                 );     
-                if($this->db->where('usuario_id', $this->USUARIO_EN_SESSION_ID)->where('public_id', $anuncio_id)->where("sta",0)->update('anuncios', $data)){
+                if($this->db->where('usuario_id', $this->ID_USUARIO_EN_SESSION)->where('public_id', $anuncio_id)->where("sta",0)->update('anuncios', $data)){
                     $response['codigo']=0;
                     $response['mensaje']='Su anuncio ya se renovó exitosamente';
                     echo json_encode($response);
@@ -415,7 +415,7 @@ class MiAnuncio_model extends CI_Model {
         $data = array(
             $campo => '',
          );
-            if($this->db->where('usuario_id', $this->USUARIO_EN_SESSION_ID)->where('public_id', $public_id)->where("(sta=0 OR sta=1)")->update('anuncios', $data)){
+            if($this->db->where('usuario_id', $this->ID_USUARIO_EN_SESSION)->where('public_id', $public_id)->where("(sta=0 OR sta=1)")->update('anuncios', $data)){
                 $response['codigo']=0;
             }else{
                 $response['codigo']=1;
@@ -427,7 +427,7 @@ class MiAnuncio_model extends CI_Model {
         /** Guarda imagen en base de datos del usuario.
         * Actualiza registro.
         * */   
-         if($this->db->set("img_$numero", $imagen_nombre)->where('public_id', $anuncio_id)->where("(sta=0 OR sta=1)")->where('usuario_id', $this->USUARIO_EN_SESSION_ID)->update('anuncios')){
+         if($this->db->set("img_$numero", $imagen_nombre)->where('public_id', $anuncio_id)->where("(sta=0 OR sta=1)")->where('usuario_id', $this->ID_USUARIO_EN_SESSION)->update('anuncios')){
             $response['codigo'] = 0;
             $response['mensaje'] = 'La imágen se guardó exitosamente.';    
             $response['path'] = $imagen_path;     

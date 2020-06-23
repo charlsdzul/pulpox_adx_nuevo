@@ -18,8 +18,10 @@
 }
 
 .nav-item {
+	margin: 0.25em;
+	padding: 0.25em;
 	&:hover {
-		background-color: $color_primary_medium_light;
+		background-color: $color_primary_light;
 		.nav-link {
 			color: white;
 		}
@@ -27,7 +29,7 @@
 
 	&:active {
 		background-color: $color_primary;
-		margin: 0;
+		//margin: 0;
 	}
 }
 
@@ -51,5 +53,38 @@
 			background-color: $color_secondary_light;
 			color: white;
 		}
+	}
+}
+
+.btn-pulpox-login {
+	color: white;
+	cursor: pointer;
+
+	&:hover {
+		color: white;
+		background-color: $color_secondary_light;
+	}
+
+	&:active {
+		color: white;
+	}
+}
+
+.btn-pulpox-singup {
+	color: $color_primary;
+	background-color: white;
+	cursor: pointer;
+}
+
+#btn-pulpox-singup {
+	color: $color_primary;
+
+	&:hover {
+		color: white;
+		background-color: $color_secondary_light;
+	}
+
+	&:active {
+		color: white;
 	}
 }

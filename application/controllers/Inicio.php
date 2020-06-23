@@ -11,13 +11,12 @@ class Inicio extends CI_Controller {
         $this->load->library('session'); 
     }
 
-    function index(){      
-        var_dump($this->session->userdata()); 
-        $this->load->view('headers/header-html-mis-anuncios');
+    function index(){              
+        $this->load->view('headers/header-html-inicio');
         $this->load->view('scripts/script-js-general.php');  
         $this->load->view('modules/menu'); 
-        $this->load->view('scripts/script-js-iniciar-sesion.php');      
-
+        $this->load->view('scripts/script-js-iniciar-sesion.php');    
+        $this->load->view('scripts/script-js-logout.php');  
       }
 
 }

@@ -11,11 +11,13 @@ class MisAnuncios extends CI_Controller {
         $this->load->library('session'); 
     }
 
-    function index(){      
+    function index(){    
+      echo 'usuario en sesion: ' . $_SESSION['usuario_id'] ;
         $this->load->view('headers/header-html-mis-anuncios');
         $this->load->view('scripts/script-js-general.php');  
         $this->load->view('modules/menu');       
-        $this->load->view('pages/page-mis-anuncios');  
+        $this->load->view('pages/page-mis-anuncios'); 
+        $this->load->view('scripts/script-js-logout.php');  
         $this->load->view('scripts/script-js-mis-anuncios.php');  
         $this->load->view('scripts/script-js-carrousel.php');     
         $this->load->view('scripts/script-js-asignar-valores.php');  

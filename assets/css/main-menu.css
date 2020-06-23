@@ -15,15 +15,18 @@
   text-align: right;
 }
 
+.nav-item {
+  margin: 0.25em;
+  padding: 0.25em;
+}
 .nav-item:hover {
-  background-color: #b0003b;
+  background-color: #f00050;
 }
 .nav-item:hover .nav-link {
   color: white;
 }
 .nav-item:active {
   background-color: #a30036;
-  margin: 0;
 }
 
 #boton-cuenta {
@@ -42,5 +45,34 @@
 }
 #dropdown_menu .dropdown-item:hover {
   background-color: #f03a0c;
+  color: white;
+}
+
+.btn-pulpox-login {
+  color: white;
+  cursor: pointer;
+}
+.btn-pulpox-login:hover {
+  color: white;
+  background-color: #f03a0c;
+}
+.btn-pulpox-login:active {
+  color: white;
+}
+
+.btn-pulpox-singup {
+  color: #a30036;
+  background-color: white;
+  cursor: pointer;
+}
+
+#btn-pulpox-singup {
+  color: #a30036;
+}
+#btn-pulpox-singup:hover {
+  color: white;
+  background-color: #f03a0c;
+}
+#btn-pulpox-singup:active {
   color: white;
 }

@@ -4,8 +4,10 @@ class MiAnuncio extends CI_Controller {
 
      function __construct() {
         parent::__construct();
+
         $this->load->library('sesiones');
         $this->sesiones->usuarioEstaEnSesion(); 
+
         $this->load->model('mianuncio_model');
         $this->ruta_imagenes_temporales = "imagenes_temporales/anuncios/";   
         $this->carpeta_final_anuncio = "imagenes_anuncios/"; 
@@ -13,20 +15,22 @@ class MiAnuncio extends CI_Controller {
         $this->load->library('validaciones');
         $this->load->helper('url'); 
         $this->NUMERO_IMAGENES = [1,2,3,4,5,6,7,8,9,10];
-        $this->EXTENSIONES_ARCHIVOS_VALIDAS = ['png', 'jpg', 'jpeg'];        
+        $this->EXTENSIONES_ARCHIVOS_VALIDAS = ['png', 'jpg', 'jpeg'];     
     }
 
     function nuevo($anuncio_id = null){
+      echo 'usuario en sesion: ' . $_SESSION['usuario_id'];
       if($anuncio_id==null){
         $id_aleatorio = rand(1000000000, 2000000000);
         redirect("index.php/mianuncio/nuevo/$id_aleatorio");
       }else{
-        if(strlen($anuncio_id)==10){
+        if(strlen($anuncio_id)==10){          
           $data = array('anuncio_id' => $anuncio_id);
           $this->load->view('headers/header-html-mianuncio-nuevo.php');
           $this->load->view('scripts/script-js-general.php');
           $this->load->view('modules/menu');
           $this->load->view('pages/page-anuncio-nuevo',$data);
+          $this->load->view('scripts/script-js-logout.php'); 
           $this->load->view('scripts/script-js-mianuncio-nuevo.php',$data);
           $this->load->view('scripts/script-js-asignar-validaciones-inputs.php');
           $this->load->view('scripts/script-js-validar-imagen.php'); 
@@ -47,6 +51,7 @@ class MiAnuncio extends CI_Controller {
           $this->load->view('scripts/script-js-general.php');
           $this->load->view('modules/menu');
           $this->load->view('pages/page-anuncio-nuevo-preview', $data);
+          $this->load->view('scripts/script-js-logout.php'); 
           $this->load->view('scripts/script-js-mianuncio-nuevo-preview.php');
         }else{
           $id_aleatorio = rand(1000000000, 2000000000);
@@ -69,6 +74,7 @@ class MiAnuncio extends CI_Controller {
           $this->load->view('scripts/script-js-general.php');
           $this->load->view('modules/menu');
           $this->load->view('pages/page-anuncio-editar',$data);
+          $this->load->view('scripts/script-js-logout.php'); 
           $this->load->view('scripts/script-js-mianuncio-editar.php');
           $this->load->view('scripts/script-js-asignar-validaciones-inputs.php');             
           $this->load->view('scripts/script-js-definir-selects-valores.php'); 
@@ -99,6 +105,7 @@ class MiAnuncio extends CI_Controller {
                 $this->load->view('headers/header-html-mianuncio-ver.php');
                 $this->load->view('scripts/script-js-general.php');
                 $this->load->view('modules/menu');
+                $this->load->view('scripts/script-js-logout.php'); 
                 $this->load->view('pages/page-pagina-no-existe', $respuesta);
               }else{              
                 $datos_anuncio = array('datos_anuncio' => $data);
@@ -106,6 +113,7 @@ class MiAnuncio extends CI_Controller {
                 $this->load->view('scripts/script-js-general.php');
                 $this->load->view('modules/menu');
                 $this->load->view('pages/page-anuncio-ver', $datos_anuncio);
+                $this->load->view('scripts/script-js-logout.php'); 
                 $this->load->view('scripts/script-js-mianuncio-ver.php');    
                 $this->load->view('scripts/script-js-carrousel.php');     
                 $this->load->view('scripts/script-js-asignar-valores.php'); 
