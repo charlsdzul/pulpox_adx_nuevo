@@ -4,25 +4,23 @@ class MiAnuncio extends CI_Controller {
 
      function __construct() {
         parent::__construct();
-
         $this->load->library('sesiones');
         $this->sesiones->usuarioEstaEnSesion(); 
-
+        $this->load->helper('url'); 
         $this->load->model('mianuncio_model');
+        $this->load->library('validaciones');
+        
         $this->ruta_imagenes_temporales = "imagenes_temporales/anuncios/";   
         $this->carpeta_final_anuncio = "imagenes_anuncios/"; 
-        $this->carpeta_temporal_anuncio = "imagenes_temporales/anuncios/"; 
-        $this->load->library('validaciones');
-        $this->load->helper('url'); 
+        $this->carpeta_temporal_anuncio = "imagenes_temporales/anuncios/";  
         $this->NUMERO_IMAGENES = [1,2,3,4,5,6,7,8,9,10];
-        $this->EXTENSIONES_ARCHIVOS_VALIDAS = ['png', 'jpg', 'jpeg'];     
+        $this->EXTENSIONES_ARCHIVOS_VALIDAS = ['png', 'jpg', 'jpeg'];         
     }
 
     function nuevo($anuncio_id = null){
-      echo 'usuario en sesion: ' . $_SESSION['usuario_id'];
       if($anuncio_id==null){
         $id_aleatorio = rand(1000000000, 2000000000);
-        redirect("index.php/mianuncio/nuevo/$id_aleatorio");
+        redirect("mi-anuncio/nuevo/$id_aleatorio");
       }else{
         if(strlen($anuncio_id)==10){          
           $data = array('anuncio_id' => $anuncio_id);
@@ -36,7 +34,7 @@ class MiAnuncio extends CI_Controller {
           $this->load->view('scripts/script-js-validar-imagen.php'); 
         }else{
           $id_aleatorio = rand(1000000000, 2000000000);
-          redirect("index.php/mianuncio/nuevo/$id_aleatorio");
+          redirect("mi-anuncio/nuevo/$id_aleatorio");
         }        
       }           
     }

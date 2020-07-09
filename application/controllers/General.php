@@ -36,6 +36,11 @@ class General extends CI_Controller {
       echo json_encode($response);           
     }
 
+    function obtenerAnunciosCantidad(){
+      $response = $this->general_model->obtenerAnunciosCantidad();
+      echo json_encode($response);           
+    }
+
 
       
 }

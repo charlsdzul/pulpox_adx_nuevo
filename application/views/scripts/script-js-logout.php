@@ -2,9 +2,12 @@
 
 $(document).ready(function() {  
 
+
 $("#boton_salir").click(function(){
-  $.post( "usuario/logout", )
-                  .done(function( data ) {                    
+  let csrf = "<?php  echo $this->session->usuario_csrf; ?>";
+  $.get( "usuario/logout",{csrf} )
+                  .done(function( data ) {  
+                    console.log(data)                  
                     let response = JSON.parse(data)                     
                     if(response.codigo == 0){
                       window.location.replace(BASE_URL+response.redirect);                     

@@ -35,6 +35,11 @@ class General_model extends CI_Model {
         return $result;    
     } 
 
+    function obtenerAnunciosCantidad(){        
+        $result = $this->db->select("cantidad")->where("sta",0)->get('cat_anuncios_cantidad')->result();       
+        return $result;    
+    } 
+
 }
 
 ?>

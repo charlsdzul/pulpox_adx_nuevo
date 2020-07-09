@@ -21,6 +21,8 @@ class Usuario_model extends CI_Model {
         $this->session->set_userdata('usuario_nombre', $usuario[0]['nombre']);
         $this->session->set_userdata('usuario_apellido', $usuario[0]['apellido']);
         $this->session->set_userdata('usuario_tipo', $usuario[0]['tipo']);
+        $this->session->set_userdata('usuario_csrf', md5(uniqid(mt_rand(), true)));
+        
         $response['codigo']=0;
         $response['mensaje']='Bienvenido';
         $response['redirect']='misanuncios';

@@ -53,7 +53,12 @@ $route['default_controller'] = 'App';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 
+$route['mis-anuncios'] = '/misanuncios';
+$route['mi-anuncio/nuevo/(:num)'] = '/mianuncio/nuevo/$1';
+$route['mi-anuncio/preview/(:num)'] = '/mianuncio/preview/$1';
+$route['mi-anuncio/editar/(:num)'] = '/mianuncio/editar/$1';
+$route['mi-anuncio/ver/(:num)'] = '/mianuncio/ver/$1';
 
 
-//$route['Anuncio/nuevo'] = 'app/anuncioNuevo';
-//$route['nuevo-anuncio-preview/:anuncio_preview_id'] = 'app/anuncioNuevoPreview/1';
+
+

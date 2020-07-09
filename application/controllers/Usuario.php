@@ -24,13 +24,18 @@ class Usuario extends CI_Controller {
       }
 
       function logout(){   
-        $this->session->sess_destroy();
-        $response['codigo']=0;
-        $response['mensaje']='';
-        $response['redirect']='inicio';
-        echo json_encode($response);
-
-
+        if(isset($_GET['csrf']) && ($_GET['csrf']==$this->session->usuario_csrf) ){
+            $this->session->sess_destroy();
+            $response['codigo']=0;
+            $response['mensaje']='';
+            $response['redirect']='inicio';
+            echo json_encode($response);
+        }else{
+            $response['codigo']=1;
+            $response['mensaje']='Intentaste cerrar sesión.';
+            echo json_encode($response);
+        }        
+        
       }
 
 }
