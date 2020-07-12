@@ -23,9 +23,6 @@
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <script src="https://kit.fontawesome.com/a076d05399.js"></script>
 
-  <script crossorigin src="https://unpkg.com/react@16.13.1/umd/react.production.min.js"></script>
-<script crossorigin src="https://unpkg.com/react-dom@16.13.1/umd/react-dom.production.min.js"></script>
-<script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
-<script src="<?php echo base_url();?>assets/App.js"></script>  
+
 
 </head>

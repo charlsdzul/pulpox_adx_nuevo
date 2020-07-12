@@ -118,6 +118,27 @@ class Validaciones {
       }
     }
 
+    function obtenerNombreDeFrase($valor){
+      /**
+       * Obtiene la sigla de una CIUDAD, ESTADO, SECCION, APARTADO
+       * Requiere el nombre. 
+       * P.eje.: 'Chihuahua'. Devuelve 'CHH'
+       */   
+
+      if($nombreDeFrase = $this->CI->validaciones_model->obtenerNombreDeFrase($valor)){
+        if($nombreDeFrase!=''){
+          return $nombreDeFrase;
+        }else{
+          return 'INDEF';
+        }    
+      }else{
+        $response['codigo']  = 1;
+        $response['mensaje'] = 'No se pudo obtener el nombre de la frase.';  
+        echo json_encode($response);    
+        die(); 
+      }
+    }
+
     function obtenerNombre($valor,$objeto){
       /**
        * Obtiene la sigla de una CIUDAD, ESTADO, SECCION, APARTADO

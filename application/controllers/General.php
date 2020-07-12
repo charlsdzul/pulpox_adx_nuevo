@@ -19,6 +19,12 @@ class General extends CI_Controller {
       echo json_encode($response);           
     }
 
+    function obtenerModalidadesFrase(){
+      $response = $this->general_model->obtenerModalidadesFrase();
+      echo json_encode($response);           
+    }
+
+
     function obtenerSecciones(){
       $response = $this->general_model->obtenerSecciones();
       echo json_encode($response);           

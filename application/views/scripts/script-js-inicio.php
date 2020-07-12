@@ -5,6 +5,10 @@
 
     $(document).ready(function() {          
         asignaListasSelects();    
+
+        $("#btnBuscar").click(function(){
+            buscarAnuncios();
+        });
     });
 
     function asignaListasSelects(){
@@ -13,6 +17,16 @@
         * Asigna lista de ciudades correspondientes a 'Chihuahua'. Inicia en 'Juárez'
         * Al cambiar el Estado, se asignan sus ciudades correspondientes
         */    
+
+        $.get( BASE_URL+"General/obtenerModalidadesFrase", function( response ) {       
+            response = JSON.parse(response);
+            let lista_modalidades='<option value="Todas" selected>Todas</option>';
+            $.each(response, function(key, value){
+                lista_modalidades += `<option value="${value.frase}">${value.frase}</option>`;
+            });
+                $('#slctModalidad').children().remove();
+                $('#slctModalidad').append(lista_modalidades)    
+        });    
 
         $.get( BASE_URL+"General/obtenerEstados", function( response ) {       
             response = JSON.parse(response);
@@ -29,8 +43,8 @@
             $('#slctCiudad').find('option').remove() //Remover options actuales
             $.get( BASE_URL+"General/obtenerCiudades",{estado}, function( response ) {      
                 response = JSON.parse(response);
-                let lista_ciudades='<option value="" disabled selected>Ciudad</option>';
-                    lista_ciudades+='<option value="Todas">Todas</option>';
+                let lista_ciudades='<option value="Todas">Todas</option>';
+                   // lista_ciudades+='<option value="Todas">Todas</option>';
                     $.each(response, function(key, value){
                         lista_ciudades += `<option value="${value.nombre}">${value.nombre}</option>`;
                     }); 
@@ -39,18 +53,6 @@
                     $('#slctCiudad').prop( "disabled", false );   
             });                                   
         })
-
-        $.get( BASE_URL+"General/obtenerModalidades", function( response ) {       
-            response = JSON.parse(response);
-            let lista_modalidades='<option value="" disabled selected>Selecciona</option>';
-
-            $.each(response, function(key, value){
-                lista_modalidades += `<option value="${value.nombre}">${value.nombre}</option>`;
-            });
-
-                $('#modalidad').children().remove();
-                $('#modalidad').append(lista_modalidades)                   
-        });  
 
         $.get(BASE_URL+"General/obtenerSecciones", function( response ) {       
             response = JSON.parse(response);
@@ -82,7 +84,7 @@
         
         $.get(BASE_URL+"General/obtenerAnunciosCantidad", function( response ) {       
             response = JSON.parse(response);
-            let lista_cantidades='<option value="" disabled selected>Selecciona</option>';
+            let lista_cantidades='<option value="10" selected>10</option>';
             $.each(response, function(key, value){
                 lista_cantidades += `<option value="${value.cantidad}">${value.cantidad}</option>`;
             });
@@ -91,5 +93,28 @@
 
         });
     }  
+
+    function buscarAnuncios(){
+        console.log("click");
+
+    let datosBusqueda = {
+        "textoBuscar": $("#txtBusqueda").val(),
+        "modalidad": $("#slctModalidad").val(),
+        "estado": $("#slctEstado").val(),
+        "ciudad": $("#slctCiudad").val(),
+        "seccion": $("#slctSeccion").val(),
+        "apartado": $("#slctApartado").val(),
+        "estado": $("#slctEstado").val(),
+        "numeroMostrar": $("#slctMostrar").val(),
+        }
+        console.log(datosBusqueda);
+
+        $.get((BASE_URL+'inicio/buscarAnuncios/' ), datosBusqueda, function(response){
+            console.log(response);
+        })
+    
+
+
+    }
 
 </script>

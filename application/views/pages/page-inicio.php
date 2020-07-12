@@ -6,10 +6,11 @@
   </div>
   <div class='row justify-content-center m-0'>
     <div class="mt-2 col-10 col-sm-10 col-md-10 col-lg-10 col-xl-10">  
-    <input  id="inpttextBusqueda"type="text" name="" id="">
+    <input  id="txtBusqueda"type="text" name="" id="">
+    <select id="slctModalidad" class="form-control pulpox-validar-select"></select> 
     <select id="slctEstado" class="form-control pulpox-validar-select"></select> 
     <select id="slctCiudad" class="form-control pulpox-validar-select" disabled></select> 
-    <select id="slctSeccion" class="form-control pulpox-validar-select" ></select>  
+    <select id="slctSeccion" class="form-control pulpox-validar-select" ></select> 
     <select id="slctApartado" class="form-control pulpox-validar-select" disabled ></select>  
     <select id="slctMostrar" class="form-control pulpox-validar-select" ></select>  
     <button id="btnBuscar" >Buscar</button>

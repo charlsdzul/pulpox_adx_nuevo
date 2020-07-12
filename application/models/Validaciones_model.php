@@ -64,6 +64,17 @@ class Validaciones_model extends CI_Model {
         }
     }
 
+    function obtenerNombreDeFrase($valor){
+        if($nombre = $this->db->get_where($this->TABLAS["modalidad"], array('frase' =>  $valor))->row()->nombre){ 
+            return $nombre;     
+        }else{
+            $response['codigo']  = 1;
+            $response['mensaje'] = 'No se pudo obtener el nombre de la frase.';  
+            echo json_encode($response);    
+            die(); 
+        }
+    }
+
     function anuncioPerteneceAUsuario($anuncio_id){
         if($query = $this->db->where('public_id',$anuncio_id)->where('usuario_id',$this->USUARIO_EN_SESSION_ID)->get('anuncios')){ 
             if($query->num_rows() > 0){

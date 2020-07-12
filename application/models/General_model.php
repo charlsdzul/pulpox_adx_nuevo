@@ -18,6 +18,11 @@ class General_model extends CI_Model {
         return $result;    
     } 
 
+    function obtenerModalidadesFrase(){   
+        $result =   $this->db->select("frase")->where("sta",0)->order_by('nombre', 'ASC')->get('cat_modalidades')->result();   
+        return $result;    
+    } 
+
     function obtenerSecciones(){        
         $result = $this->db->select("nombre")->select("sigla")->where("sta",0)->order_by('nombre', 'ASC')->get('cat_secciones')->result();       
         return $result;    

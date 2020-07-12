@@ -7,8 +7,10 @@ class Inicio extends CI_Controller {
         //$this->load->library('sesiones');
         //$this->sesiones->usuarioEstaEnSesion(); 
         $this->load->helper('url'); 
-        //$this->load->model('misanuncios_model');
+        $this->load->model('inicio_model');
         $this->load->library('session'); 
+        $this->load->library('validaciones');
+
     }
 
     function index(){              
@@ -19,7 +21,34 @@ class Inicio extends CI_Controller {
         $this->load->view('scripts/script-js-inicio.php');  
         $this->load->view('scripts/script-js-logout.php');  
         $this->load->view('scripts/script-js-iniciar-sesion.php'); 
+    }
+
+    function buscarAnuncios(){
+      
+      $datosBusqueda = $this->input->get();
+
+      if($datosBusqueda){
+         $datosBusqueda['modalidad']= $this->validaciones->obtenerNombreDeFrase($datosBusqueda['modalidad']);
+         $datosBusqueda['estado']= $this->validaciones->obtenerSigla( $datosBusqueda['estado'], 'estado');
+         $datosBusqueda['ciudad']= $this->validaciones->obtenerSigla( $datosBusqueda['ciudad'], 'ciudad');
+         $datosBusqueda['seccion']= $this->validaciones->obtenerSigla( $datosBusqueda['seccion'], 'seccion');
+         $datosBusqueda['apartado']= $this->validaciones->obtenerSigla( $datosBusqueda['apartado'], 'apartado');
+        
+         $this->inicio_model->buscarAnuncios($datosBusqueda);
+
       }
+
+
+      
+      
+    //  var_dump($datosBusqueda);
+
+
+      
+
+    }
+
+
 
 }
 ?>
