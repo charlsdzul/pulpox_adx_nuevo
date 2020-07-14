@@ -7,7 +7,7 @@ class Validaciones_model extends CI_Model {
         parent::__construct();
 
         $this->load->library('sesiones');
-        $this->sesiones->usuarioEstaEnSesion(); 
+        //$this->sesiones->usuarioEstaEnSesion(); 
         $this->USUARIO_EN_SESSION_ID = $this->sesiones->usuarioEnSesion();
         $this->load->database(); 
         $this->TABLAS = [

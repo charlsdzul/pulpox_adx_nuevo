@@ -8,7 +8,7 @@ class Inicio_model extends CI_Model {
         $this->load->library('sesiones');
         $this->sesiones->usuarioEstaEnSesion(); 
 
-        $this->ID_USUARIO_EN_SESSION = $this->sesiones->usuarioEnSesion();
+        //$this->ID_USUARIO_EN_SESSION = $this->sesiones->usuarioEnSesion();
         
         $this->load->library('validaciones');
         $this->load->database(); 
@@ -18,15 +18,23 @@ class Inicio_model extends CI_Model {
 
     function buscarAnuncios($datosBusqueda){ 
 
-        var_dump($datosBusqueda);
+        if($datosBusqueda['modalidad'] == "") {$modalidadCol = "modalidad !=";}
+        else $modalidadCol = "modalidad";
+
+        if($datosBusqueda['ciudad']=="") $ciudadCol = "ciudad !=";
+        else $ciudadCol = "ciudad";
+
+        if($datosBusqueda['apartado']=="") $apartadoCol = "apartado !=";
+        else $apartadoCol = "apartado";
 
         $this->db->select("*")
         ->limit($datosBusqueda['numeroMostrar'])
-        ->order_by('creado', 'DESC')
+        ->order_by('renovado', 'DESC')
+        ->where($modalidadCol,$datosBusqueda['modalidad'])
         ->where("estado",$datosBusqueda['estado'])
-        ->where("ciudad",$datosBusqueda['ciudad'])
+        ->where($ciudadCol,$datosBusqueda['ciudad'])
         ->where("seccion",$datosBusqueda['seccion'])
-        ->where("apartado",$datosBusqueda['apartado'])
+        ->where($apartadoCol,$datosBusqueda['apartado'])
         ->where("sta=0");
 
 
@@ -53,7 +61,7 @@ class Inicio_model extends CI_Model {
                 die();
             }else{
                 $response['codigo']  = 1;
-                $response['mensaje'] = '¡Aún no tiene anuncios!';  
+                $response['mensaje'] = 'No hay resultados.';  
                 echo json_encode($response);    
                 die(); 
             }          
