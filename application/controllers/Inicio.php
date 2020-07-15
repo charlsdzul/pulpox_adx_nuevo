@@ -42,7 +42,7 @@ class Inicio extends CI_Controller {
         if($datosBusqueda['apartado'] =='Todos') $datosBusqueda['apartado']="";
         else $datosBusqueda['apartado']= $this->validaciones->obtenerSigla( $datosBusqueda['apartado'], 'apartado');
   
-        $this->inicio_model->buscarAnuncios($datosBusqueda);
+       $this->inicio_model->buscarAnuncios($datosBusqueda);
 
       }   
       

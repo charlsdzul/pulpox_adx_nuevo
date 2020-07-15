@@ -44,7 +44,6 @@
             $.get( BASE_URL+"General/obtenerCiudades",{estado}, function( response ) {      
                 response = JSON.parse(response);
                 let lista_ciudades='<option value="Todas">Todas</option>';
-                   // lista_ciudades+='<option value="Todas">Todas</option>';
                     $.each(response, function(key, value){
                         lista_ciudades += `<option value="${value.nombre}">${value.nombre}</option>`;
                     }); 
@@ -70,14 +69,13 @@
             $('#slctApartado').find('option').remove() //Remover options actuales
             $.get( BASE_URL+"General/obtenerApartados",{seccion}, function( response ) {      
                 response = JSON.parse(response);                
-                    let lista_apartados='<option value="Todos" selected>Todos</option>';
+                    let lista_apartados='<option value="Todos">Todos</option>';
                     $.each(response, function(key, value){
                         lista_apartados += `<option value="${value.nombre}">${value.nombre}</option>`;
                     }); 
                     $('#slctApartado').children().remove();
                     $('#slctApartado').append(lista_apartados) //Asignar lista de apartado correspondiente según la sección elegida.
                     $('#slctApartado').prop( "disabled", false );
-                    $('#slctApartado').val('');    
                   
             });                     
         })   
@@ -95,7 +93,8 @@
     }  
 
     function buscarAnuncios(){
-        console.log("click");
+
+        
 
     let datosBusqueda = {
         "textoBuscar": $("#txtBusqueda").val(),
@@ -107,10 +106,49 @@
         "estado": $("#slctEstado").val(),
         "numeroMostrar": $("#slctMostrar").val(),
         }
-        console.log(datosBusqueda);
 
         $.get((BASE_URL+'inicio/buscarAnuncios/' ), datosBusqueda, function(response){
-            console.log(response);
+
+
+            response = JSON.parse(response);      
+            console.log(response);      
+            $("tr").remove();
+            $("#pulpox_pagination li").remove();
+
+                if(response.codigo==1){
+
+                }
+
+                else {
+                    
+                    let lista_anuncios= "";
+                            response.forEach(anuncio => {               
+                                lista_anuncios += ` <tr>
+                                <td><a href="${anuncio.public_id}" target="#_blank"> ${anuncio.titulo} </a><span>${anuncio.modalidad}</span> - <span>${anuncio.estado} - ${anuncio.ciudad} 
+                                - ${anuncio.seccion} - ${anuncio.apartado}</span></td> </tr>`;     
+                            });         
+                        
+                            $("#anuncios_table").append(lista_anuncios);
+
+                        
+                            let lista_paginas= "";
+
+                            for (let index = 1; index <= response[0].total_paginas; index++) {
+                                lista_paginas += `  <li class="page-item"><button class="page-link">${index}</button></li>`;                 
+                            }
+
+                        
+                        
+                            $("#pulpox_pagination").append(lista_paginas);
+
+                        
+            
+                }
+
+
+
+
+
         })
     
 

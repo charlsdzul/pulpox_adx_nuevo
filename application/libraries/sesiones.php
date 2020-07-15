@@ -5,7 +5,7 @@ class Sesiones {
   protected $CI;
     public function __construct(){  
       $this->CI =& get_instance(); 
-      $this->CI->load->library('session');       
+      //$this->CI->load->library('session');       
     }
 
     function usuarioEstaEnSesion(){     
@@ -17,7 +17,7 @@ class Sesiones {
     }
 
     function usuarioEnSesion(){
-      return  $this->CI->session->usuario_id;   
+     // return  $this->CI->session->usuario_id;   
     }
         
 }

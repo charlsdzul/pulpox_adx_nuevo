@@ -19,18 +19,37 @@
   <div class='row justify-content-center m-0'>
     <div class="mt-2 col-10 col-sm-10 col-md-10 col-lg-10 col-xl-10">  
     <H1>Resultados</H1>
-    <table id="mis-anuncios-table" class="table table-striped table-sm table-hover" width="100%">
+    <table id="anuncios_table" class="table table-striped table-sm table-hover" width="100%">
         <thead class='pulpox-table--thead' width="100%">
           <tr>        
-            <th class="th-sm d-none d-lg-table-cell">#</th>        
-            <th class="th-sm text-center">Título</th>
-            <th class="th-sm text-center">Contenido</th>
+            <th class="th-sm d-none d-lg-table-cell"></th>        
+      
         </thead>
         <tbody class='pulpox-table-tbody' style="">
         </tbody>
 
+        <tfoot>
+
+        </tfoot>
+
       </table>
+      <nav aria-label="Page navigation example">
+        <ul class="pagination" id="pulpox_pagination">
+       <!--    <li class="page-item"><button class="page-link" href="#">Anterior</button></li>
+          <li class="page-item"><a class="page-link" href="#">1</a></li>
+          <li class="page-item"><a class="page-link" href="#">2</a></li>
+          <li class="page-item"><a class="page-link" href="#">3</a></li>
+          <li class="page-item"><a class="page-link" href="#">Siguiente</a></li> -->
+        </ul>
+      </nav>
 
     </div>
   </div>
+
+
+
+
+
+
+
 </body>

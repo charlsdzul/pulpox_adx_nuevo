@@ -6,7 +6,7 @@ class Inicio_model extends CI_Model {
         parent::__construct();
 
         $this->load->library('sesiones');
-        $this->sesiones->usuarioEstaEnSesion(); 
+        //$this->sesiones->usuarioEstaEnSesion(); 
 
         //$this->ID_USUARIO_EN_SESSION = $this->sesiones->usuarioEnSesion();
         
@@ -28,7 +28,8 @@ class Inicio_model extends CI_Model {
         else $apartadoCol = "apartado";
 
         $this->db->select("*")
-        ->limit($datosBusqueda['numeroMostrar'])
+        //->limit($datosBusqueda['numeroMostrar'])
+
         ->order_by('renovado', 'DESC')
         ->where($modalidadCol,$datosBusqueda['modalidad'])
         ->where("estado",$datosBusqueda['estado'])
@@ -39,10 +40,17 @@ class Inicio_model extends CI_Model {
 
 
         if($query = $this->db->get('anuncios')){  
-            if($query->num_rows()>0){
+
+            $total_anuncios = $query->num_rows();
+            $total_paginas= ceil($total_anuncios/$datosBusqueda['numeroMostrar']);
+
+            if($total_anuncios>0){
+
                 $misanuncios=[]; 
                 $j=0;  
                 foreach ($query->result() as $row){
+                    $misanuncios[$j]['total_anuncios'] = $total_anuncios;
+                    $misanuncios[$j]['total_paginas'] = $total_paginas;
                     $misanuncios[$j]['public_id'] = $row->public_id;
                     $misanuncios[$j]['titulo'] = $row->titulo;
                     $misanuncios[$j]['modalidad'] = $row->modalidad;
@@ -52,11 +60,15 @@ class Inicio_model extends CI_Model {
                     $misanuncios[$j]['apartado'] = $this->validaciones->obtenerNombre($row->apartado, 'apartado');
                     $row->renovado == $row->creado ? $misanuncios[$j]['renovado']= 'NUNCA': $misanuncios[$j]['renovado'] = $this->validaciones->creaFechaConFormato($row->renovado);
                     $row->editado == '0000-00-00 00:00:00' ? $misanuncios[$j]['editado']= 'NUNCA': $misanuncios[$j]['editado'] = $this->validaciones->creaFechaConFormato($row->editado);
-                    $row->sta==0 ? $misanuncios[$j]['renovar'] = $this->validaciones->disponibleParaRenovar($row->renovado):$misanuncios[$j]['renovar'] = 1;
                     $misanuncios[$j]['creado'] = $this->validaciones->creaFechaConFormato($row->creado);
                     $misanuncios[$j]['estatus'] = $this->validaciones->estatusTexto($row->sta);
                     $j++;
-                }              
+
+                    if($j==($datosBusqueda['numeroMostrar'])) break;
+                }       
+                
+                
+
                 echo json_encode($misanuncios);
                 die();
             }else{
