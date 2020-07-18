@@ -3,13 +3,56 @@
         Scripts para Inicio.
     */
 
-    $(document).ready(function() {          
-        asignaListasSelects();    
+    $(document).ready(function() { 
+        
+        $.when(asignaListasSelects())
+        .done(buscarAnunciosGeneral());         
 
         $("#btnBuscar").click(function(){
             buscarAnuncios();
         });
     });
+
+   
+        
+    function buscarAnunciosGeneral(){
+        
+
+    $.get((BASE_URL+'inicio/buscarAnunciosGeneral' ), function(response){
+
+        response = JSON.parse(response);      
+        console.log(response);      
+        $("tr").remove();
+        $("#pulpox_pagination li").remove();
+
+            if(response.codigo==1){
+
+            }
+
+            else {
+                
+                let lista_anuncios= "";
+                        response.forEach(anuncio => {               
+                            lista_anuncios += ` <tr>
+                            <td><a href="${anuncio.public_id}" target="#_blank"> ${anuncio.titulo} </a><span>${anuncio.modalidad}</span> - <span>${anuncio.estado} - ${anuncio.ciudad} 
+                            - ${anuncio.seccion} - ${anuncio.apartado}</span></td> </tr>`;     
+                        });         
+                    
+                        $("#anuncios_table").append(lista_anuncios);
+
+                    
+                        let lista_paginas= "";
+
+                        for (let index = 1; index <= response[0].total_paginas; index++) {
+                            lista_paginas += `  <li class="page-item"><button class="page-link" onclick="buscarPagina(${index})">${index}</button></li>`;                 
+                        }                    
+                    
+                        $("#pulpox_pagination").append(lista_paginas);                    
+        
+            }
+    })
+
+    }
 
     function asignaListasSelects(){
         /**Define lista de datos a los inputs ESTADO, CIUDAD, SECCION, APARTADO    
@@ -30,17 +73,19 @@
 
         $.get( BASE_URL+"General/obtenerEstados", function( response ) {       
             response = JSON.parse(response);
-            let lista_estados='<option value="" disabled selected>Selecciona</option>';
+            let lista_estados='';
             $.each(response, function(key, value){
                 lista_estados += `<option value="${value.nombre}">${value.nombre}</option>`;
             });
                 $('#slctEstado').children().remove();
                 $('#slctEstado').append(lista_estados)    
+                $('#slctEstado').val("Todo México")    
+                $('#slctEstado').change()    
         });        
 
         $('#slctEstado').change(function(){
-            let estado = $('#slctEstado').val();
-            $('#slctCiudad').find('option').remove() //Remover options actuales
+            let estado = $('#slctEstado').val();           
+                $('#slctCiudad').find('option').remove() //Remover options actuales
             $.get( BASE_URL+"General/obtenerCiudades",{estado}, function( response ) {      
                 response = JSON.parse(response);
                 let lista_ciudades='<option value="Todas">Todas</option>';
@@ -49,18 +94,23 @@
                     }); 
                     $('#slctCiudad').children().remove();
                     $('#slctCiudad').append(lista_ciudades) //Asignar lista de apartado correspondiente según la sección elegida.           
-                    $('#slctCiudad').prop( "disabled", false );   
-            });                                   
+                    $('#slctCiudad').val("Todas")      
+            });    
+
+            
+                                       
         })
 
         $.get(BASE_URL+"General/obtenerSecciones", function( response ) {       
             response = JSON.parse(response);
-            let lista_secciones='<option value="" disabled selected>Selecciona</option>';
+            let lista_secciones='';
             $.each(response, function(key, value){
                 lista_secciones += `<option value="${value.nombre}">${value.nombre}</option>`;
             });
             $('#slctSeccion').children().remove(); 
             $('#slctSeccion').append(lista_secciones) 
+            $('#slctSeccion').val("Todas")    
+            $('#slctSeccion').change()    
 
         });
 
@@ -68,26 +118,28 @@
             let seccion = $(this).val();
             $('#slctApartado').find('option').remove() //Remover options actuales
             $.get( BASE_URL+"General/obtenerApartados",{seccion}, function( response ) {      
-                response = JSON.parse(response);                
-                    let lista_apartados='<option value="Todos">Todos</option>';
+                response = JSON.parse(response);  
+                let lista_apartados='<option value="Todas">Todas</option>'; 
                     $.each(response, function(key, value){
                         lista_apartados += `<option value="${value.nombre}">${value.nombre}</option>`;
                     }); 
                     $('#slctApartado').children().remove();
                     $('#slctApartado').append(lista_apartados) //Asignar lista de apartado correspondiente según la sección elegida.
-                    $('#slctApartado').prop( "disabled", false );
+                    $
                   
             });                     
         })   
         
         $.get(BASE_URL+"General/obtenerAnunciosCantidad", function( response ) {       
             response = JSON.parse(response);
-            let lista_cantidades='<option value="10" selected>10</option>';
+            let lista_cantidades='';
             $.each(response, function(key, value){
                 lista_cantidades += `<option value="${value.cantidad}">${value.cantidad}</option>`;
             });
             $('#slctMostrar').children().remove(); 
-            $('#slctMostrar').append(lista_cantidades) 
+            $('#slctMostrar').append(lista_cantidades);
+           // $('#slctMostrar').val(lista_cantidades) 
+            $('#slctMostrar').val($('#slctMostrar').find('option').first().val());
 
         });
     }  
@@ -134,7 +186,7 @@
                             let lista_paginas= "";
 
                             for (let index = 1; index <= response[0].total_paginas; index++) {
-                                lista_paginas += `  <li class="page-item"><button class="page-link">${index}</button></li>`;                 
+                                lista_paginas += `<li class="page-item"><button class="page-link" onclick="buscarPagina(${index})">${index}</button></li>`;                 
                             }
 
                         
@@ -152,6 +204,60 @@
         })
     
 
+
+    }
+
+    function buscarPagina(pagina){         
+
+    let datosBusqueda = {
+        "textoBuscar": $("#txtBusqueda").val(),
+        "modalidad": $("#slctModalidad").val(),
+        "estado": $("#slctEstado").val(),
+        "ciudad": $("#slctCiudad").val(),
+        "seccion": $("#slctSeccion").val(),
+        "apartado": $("#slctApartado").val(),
+        "estado": $("#slctEstado").val(),
+        "numeroMostrar": $("#slctMostrar").val(),
+        "paginaSeleccionada" : pagina,
+        }
+
+        $.get((BASE_URL+'inicio/buscarAnuncios/' ), datosBusqueda, function(response){
+
+            response = JSON.parse(response);      
+            console.log(response);      
+            $("tr").remove();
+            $("#pulpox_pagination li").remove();
+
+                if(response.codigo==1){
+
+                }
+
+                else {
+                    
+                    let lista_anuncios= "";
+                            response.forEach(anuncio => {               
+                                lista_anuncios += ` <tr>
+                                <td><a href="${anuncio.public_id}" target="#_blank"> ${anuncio.titulo} </a><span>${anuncio.modalidad}</span> - <span>${anuncio.estado} - ${anuncio.ciudad} 
+                                - ${anuncio.seccion} - ${anuncio.apartado}</span></td> </tr>`;     
+                            });         
+                        
+                            $("#anuncios_table").append(lista_anuncios);
+
+                        
+                            let lista_paginas= "";
+
+                            for (let index = 1; index <= response[0].total_paginas; index++) {
+                                lista_paginas += `<li class="page-item"><button class="page-link" onclick="buscarPagina(${index})">${index}</button></li>`;                 
+                            }
+
+                        
+                        
+                            $("#pulpox_pagination").append(lista_paginas);
+
+                        
+            
+                }
+        })
 
     }
 

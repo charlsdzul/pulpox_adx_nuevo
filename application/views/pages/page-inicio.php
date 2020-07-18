@@ -9,9 +9,9 @@
     <input  id="txtBusqueda"type="text" name="" id="">
     <select id="slctModalidad" class="form-control pulpox-validar-select"></select> 
     <select id="slctEstado" class="form-control pulpox-validar-select"></select> 
-    <select id="slctCiudad" class="form-control pulpox-validar-select" disabled></select> 
+    <select id="slctCiudad" class="form-control pulpox-validar-select" ></select> 
     <select id="slctSeccion" class="form-control pulpox-validar-select" ></select> 
-    <select id="slctApartado" class="form-control pulpox-validar-select" disabled ></select>  
+    <select id="slctApartado" class="form-control pulpox-validar-select"  ></select>  
     <select id="slctMostrar" class="form-control pulpox-validar-select" ></select>  
     <button id="btnBuscar" >Buscar</button>
     </div>
@@ -35,11 +35,6 @@
       </table>
       <nav aria-label="Page navigation example">
         <ul class="pagination" id="pulpox_pagination">
-       <!--    <li class="page-item"><button class="page-link" href="#">Anterior</button></li>
-          <li class="page-item"><a class="page-link" href="#">1</a></li>
-          <li class="page-item"><a class="page-link" href="#">2</a></li>
-          <li class="page-item"><a class="page-link" href="#">3</a></li>
-          <li class="page-item"><a class="page-link" href="#">Siguiente</a></li> -->
         </ul>
       </nav>
 

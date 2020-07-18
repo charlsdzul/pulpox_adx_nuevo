@@ -29,27 +29,41 @@ class Inicio extends CI_Controller {
 
       if($datosBusqueda){
 
-        if($datosBusqueda['modalidad']=='Todas') $datosBusqueda['modalidad'] = "";
-        else $datosBusqueda['modalidad']= $this->validaciones->obtenerNombreDeFrase($datosBusqueda['modalidad']);
+        if($datosBusqueda['estado']=='Todo México') 
+        {
+          $datosBusqueda['estado'] = "";
+          $this->inicio_model->buscarAnunciosTodoMexico($datosBusqueda);
 
-        $datosBusqueda['estado']= $this->validaciones->obtenerSigla( $datosBusqueda['estado'], 'estado');
+        }else{
 
-        if($datosBusqueda['ciudad'] == 'Todas') $datosBusqueda['ciudad'] = "";
-        else $datosBusqueda['ciudad']= $this->validaciones->obtenerSigla( $datosBusqueda['ciudad'], 'ciudad');
-
-        $datosBusqueda['seccion']= $this->validaciones->obtenerSigla( $datosBusqueda['seccion'], 'seccion');
-
-        if($datosBusqueda['apartado'] =='Todos') $datosBusqueda['apartado']="";
-        else $datosBusqueda['apartado']= $this->validaciones->obtenerSigla( $datosBusqueda['apartado'], 'apartado');
+          if($datosBusqueda['modalidad']=='Todas') $datosBusqueda['modalidad'] = "";
+          else $datosBusqueda['modalidad']= $this->validaciones->obtenerNombreDeFrase($datosBusqueda['modalidad']);
   
-       $this->inicio_model->buscarAnuncios($datosBusqueda);
+          $datosBusqueda['estado']= $this->validaciones->obtenerSigla( $datosBusqueda['estado'], 'estado');
+  
+          if($datosBusqueda['ciudad'] == 'Todas') $datosBusqueda['ciudad'] = "";
+          else $datosBusqueda['ciudad']= $this->validaciones->obtenerSigla( $datosBusqueda['ciudad'], 'ciudad');
+  
+          $datosBusqueda['seccion']= $this->validaciones->obtenerSigla( $datosBusqueda['seccion'], 'seccion');
+  
+          if($datosBusqueda['apartado'] =='Todos') $datosBusqueda['apartado']="";
+          else $datosBusqueda['apartado']= $this->validaciones->obtenerSigla( $datosBusqueda['apartado'], 'apartado');
+    
+         $this->inicio_model->buscarAnuncios($datosBusqueda);
+
+        }
+
+      
 
       }   
       
 
     }
 
+    function buscarAnunciosGeneral(){   
+      $this->inicio_model->buscarAnunciosGeneral();      
 
+    } 
 
 }
 ?>
