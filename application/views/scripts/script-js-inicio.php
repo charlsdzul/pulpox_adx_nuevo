@@ -15,43 +15,41 @@
 
    
         
-    function buscarAnunciosGeneral(){
-        
+    function buscarAnunciosGeneral(){        
 
-    $.get((BASE_URL+'inicio/buscarAnunciosGeneral' ), function(response){
+        $.get((BASE_URL+'inicio/buscarAnunciosGeneral' ), function(response){
 
-        response = JSON.parse(response);      
-        console.log(response);      
-        $("tr").remove();
-        $("#pulpox_pagination li").remove();
+            response = JSON.parse(response);      
+            console.log(response);      
+            $("tr").remove();
+            $("#pulpox_pagination li").remove();
 
-            if(response.codigo==1){
+                if(response.codigo==1){
 
-            }
+                }
 
-            else {
-                
-                let lista_anuncios= "";
-                        response.forEach(anuncio => {               
-                            lista_anuncios += ` <tr>
-                            <td><a href="${anuncio.public_id}" target="#_blank"> ${anuncio.titulo} </a><span>${anuncio.modalidad}</span> - <span>${anuncio.estado} - ${anuncio.ciudad} 
-                            - ${anuncio.seccion} - ${anuncio.apartado}</span></td> </tr>`;     
-                        });         
+                else {
                     
-                        $("#anuncios_table").append(lista_anuncios);
+                    let lista_anuncios= "";
+                            response.forEach(anuncio => {               
+                                lista_anuncios += ` <tr>
+                                <td><a href="${anuncio.public_id}" target="#_blank"> ${anuncio.titulo} </a><span>${anuncio.modalidad}</span> - <span>${anuncio.estado} - ${anuncio.ciudad} 
+                                - ${anuncio.seccion} - ${anuncio.apartado}</span></td> </tr>`;     
+                            });         
+                        
+                            $("#anuncios_table").append(lista_anuncios);
 
-                    
-                        let lista_paginas= "";
+                        
+                            let lista_paginas= "";
 
-                        for (let index = 1; index <= response[0].total_paginas; index++) {
-                            lista_paginas += `  <li class="page-item"><button class="page-link" onclick="buscarPagina(${index})">${index}</button></li>`;                 
-                        }                    
-                    
-                        $("#pulpox_pagination").append(lista_paginas);                    
-        
-            }
-    })
-
+                            for (let index = 1; index <= response[0].total_paginas; index++) {
+                                lista_paginas += `  <li class="page-item"><button class="page-link" onclick="buscarPagina(${index})">${index}</button></li>`;                 
+                            }                    
+                        
+                            $("#pulpox_pagination").append(lista_paginas);                    
+            
+                }
+        })
     }
 
     function asignaListasSelects(){
@@ -119,7 +117,7 @@
             $('#slctApartado').find('option').remove() //Remover options actuales
             $.get( BASE_URL+"General/obtenerApartados",{seccion}, function( response ) {      
                 response = JSON.parse(response);  
-                let lista_apartados='<option value="Todas">Todas</option>'; 
+                let lista_apartados='<option value="Todos">Todas</option>'; 
                     $.each(response, function(key, value){
                         lista_apartados += `<option value="${value.nombre}">${value.nombre}</option>`;
                     }); 
@@ -144,72 +142,70 @@
         });
     }  
 
-    function buscarAnuncios(){
+    function buscarAnuncios(){  
+        let datosBusqueda = {
+            "textoBuscar": $("#txtBusqueda").val(),
+            "modalidad": $("#slctModalidad").val(),
+            "estado": $("#slctEstado").val(),
+            "ciudad": $("#slctCiudad").val(),
+            "seccion": $("#slctSeccion").val(),
+            "apartado": $("#slctApartado").val(),
+            "estado": $("#slctEstado").val(),
+            "numeroMostrar": $("#slctMostrar").val(),
+            }
 
-        
-
-    let datosBusqueda = {
-        "textoBuscar": $("#txtBusqueda").val(),
-        "modalidad": $("#slctModalidad").val(),
-        "estado": $("#slctEstado").val(),
-        "ciudad": $("#slctCiudad").val(),
-        "seccion": $("#slctSeccion").val(),
-        "apartado": $("#slctApartado").val(),
-        "estado": $("#slctEstado").val(),
-        "numeroMostrar": $("#slctMostrar").val(),
-        }
-
-        $.get((BASE_URL+'inicio/buscarAnuncios/' ), datosBusqueda, function(response){
+            $.get((BASE_URL+'inicio/buscarAnuncios/' ), datosBusqueda, function(response){
 
 
-            response = JSON.parse(response);      
-            console.log(response);      
-            $("tr").remove();
-            $("#pulpox_pagination li").remove();
+                response = JSON.parse(response);      
+                console.log(response);      
+                $("tr").remove();
+                $("#pulpox_pagination li").remove();
 
-                if(response.codigo==1){
+                    if(response.codigo==1){
 
-                }
+                    }
 
-                else {
-                    
-                    let lista_anuncios= "";
-                            response.forEach(anuncio => {               
-                                lista_anuncios += ` <tr>
-                                <td><a href="${anuncio.public_id}" target="#_blank"> ${anuncio.titulo} </a><span>${anuncio.modalidad}</span> - <span>${anuncio.estado} - ${anuncio.ciudad} 
-                                - ${anuncio.seccion} - ${anuncio.apartado}</span></td> </tr>`;     
-                            });         
+                    else {
                         
-                            $("#anuncios_table").append(lista_anuncios);
+                        let lista_anuncios= "";
+                                response.forEach(anuncio => {               
+                                    lista_anuncios += ` <tr>
+                                    <td>
+                                    <a href="${anuncio.public_id}" target="#_blank" class="link_anuncio"> ${anuncio.titulo} </a>
+                                    <span class="modalidad_anuncio">${anuncio.modalidad}</span> 
+                                    <span class="datos_anuncio">${anuncio.estado} - ${anuncio.ciudad} 
+                                    / ${anuncio.seccion} - ${anuncio.apartado}
+                                    (${anuncio.renovado})</span></td> </tr>`;     
+                                });         
+                            
+                                $("#anuncios_table").append(lista_anuncios);
 
-                        
-                            let lista_paginas= "";
+                            
+                                let lista_paginas= "";
 
-                            for (let index = 1; index <= response[0].total_paginas; index++) {
-                                lista_paginas += `<li class="page-item"><button class="page-link" onclick="buscarPagina(${index})">${index}</button></li>`;                 
-                            }
+                                for (let index = 1; index <= response[0].total_paginas; index++) {
+                                    lista_paginas += `<li class="page-item"><button class="page-link" onclick="buscarPagina(${index})">${index}</button></li>`;                 
+                                }
 
-                        
-                        
-                            $("#pulpox_pagination").append(lista_paginas);
+                            
+                            
+                                $("#pulpox_pagination").append(lista_paginas);
 
-                        
-            
-                }
-
-
+                            
+                
+                    }
 
 
 
-        })
-    
 
 
+            }) 
     }
 
     function buscarPagina(pagina){         
 
-    let datosBusqueda = {
+        let datosBusqueda = {
         "textoBuscar": $("#txtBusqueda").val(),
         "modalidad": $("#slctModalidad").val(),
         "estado": $("#slctEstado").val(),

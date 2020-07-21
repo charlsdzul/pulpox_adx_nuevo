@@ -5,15 +5,56 @@
     </div> 
   </div>
   <div class='row justify-content-center m-0'>
-    <div class="mt-2 col-10 col-sm-10 col-md-10 col-lg-10 col-xl-10">  
-    <input  id="txtBusqueda"type="text" name="" id="">
-    <select id="slctModalidad" class="form-control pulpox-validar-select"></select> 
-    <select id="slctEstado" class="form-control pulpox-validar-select"></select> 
-    <select id="slctCiudad" class="form-control pulpox-validar-select" ></select> 
-    <select id="slctSeccion" class="form-control pulpox-validar-select" ></select> 
-    <select id="slctApartado" class="form-control pulpox-validar-select"  ></select>  
-    <select id="slctMostrar" class="form-control pulpox-validar-select" ></select>  
-    <button id="btnBuscar" >Buscar</button>
+    <div class="mt-2 col-10 col-sm-10 col-md-10 col-lg-10 col-xl-10" style="background-color:">  
+
+    <div class="form-row">
+      <div class="form-group col-md-3">
+        <label for="inputEmail4">Estado</label>
+        <select id="slctEstado" class="form-control pulpox-validar-select"></select> 
+      </div>
+      <div class="form-group col-md-3">
+        <label for="inputPassword4">Ciudad</label>
+        <select id="slctCiudad" class="form-control pulpox-validar-select" ></select> 
+      </div>
+      <div class="form-group col-md-3">
+        <label for="inputPassword4">Sección</label>
+        <select id="slctSeccion" class="form-control pulpox-validar-select" ></select> 
+      </div>
+      <div class="form-group col-md-3">
+        <label for="inputPassword4">Apartado</label>
+        <select id="slctApartado" class="form-control pulpox-validar-select"  ></select> 
+      </div>
+   </div>
+
+   <div class="form-row">
+      <div class="form-group col-md-6">
+        <label for="inputEmail4">¿Qué buscas?</label>
+        <input  id="txtBusqueda" type="text" name="" id="" class="form-control" >
+      </div>
+      <div class="form-group col-md-3">
+        <label for="inputPassword4">Modalidad</label>
+        <select id="slctModalidad" class="form-control pulpox-validar-select"></select> 
+      </div>
+      <div class="form-group col-md-1">
+        <label for="inputPassword4">Mostrar</label>
+        <select id="slctMostrar" class="form-control pulpox-validar-select" ></select>  
+      </div>
+      <div class="form-group col-md-2">   
+      <label for="inputPassword4"> </label>    
+        <button id="btnBuscar" class="form-control btn btn-pulpox-secondary">Buscar</button>
+      </div>
+   </div>
+
+
+
+    
+   
+   
+    
+   
+     
+    
+   
     </div>
   </div>
   <div class='row justify-content-center m-0'>

@@ -25,40 +25,82 @@ class Inicio extends CI_Controller {
 
     function buscarAnuncios(){
       //var_dump($datosBusqueda);
-      $datosBusqueda = $this->input->get();     
+      $datosBusqueda = $this->input->get();   
 
       if($datosBusqueda){
-
-        if($datosBusqueda['estado']=='Todo México') 
-        {
-          $datosBusqueda['estado'] = "";
-          $this->inicio_model->buscarAnunciosTodoMexico($datosBusqueda);
-
-        }else{
-
-          if($datosBusqueda['modalidad']=='Todas') $datosBusqueda['modalidad'] = "";
-          else $datosBusqueda['modalidad']= $this->validaciones->obtenerNombreDeFrase($datosBusqueda['modalidad']);
-  
-          $datosBusqueda['estado']= $this->validaciones->obtenerSigla( $datosBusqueda['estado'], 'estado');
-  
-          if($datosBusqueda['ciudad'] == 'Todas') $datosBusqueda['ciudad'] = "";
-          else $datosBusqueda['ciudad']= $this->validaciones->obtenerSigla( $datosBusqueda['ciudad'], 'ciudad');
-  
-          $datosBusqueda['seccion']= $this->validaciones->obtenerSigla( $datosBusqueda['seccion'], 'seccion');
-  
-          if($datosBusqueda['apartado'] =='Todos') $datosBusqueda['apartado']="";
-          else $datosBusqueda['apartado']= $this->validaciones->obtenerSigla( $datosBusqueda['apartado'], 'apartado');
-    
-         $this->inicio_model->buscarAnuncios($datosBusqueda);
-
+      
+        
+        //Validación Modalidad
+        if($datosBusqueda['modalidad']=='Todas') $datosBusqueda['modalidad'] = "";
+        else {
+          try{
+          if($datosBusqueda['modalidad']= $this->validaciones->obtenerNombreDeFrase($datosBusqueda['modalidad'])); 
+          else $datosBusqueda['modalidad'] = "";
+          }catch (Exception $e) {
+            $datosBusqueda['modalidad'] = "";
+          }
         }
 
-      
+        //Validación Estado
+        if($datosBusqueda['estado']=='Todo México') $datosBusqueda['estado'] = "";
+        else{
+          try{
+            if($datosBusqueda['estado']= $this->validaciones->obtenerSigla( $datosBusqueda['estado'], 'estado'));
+            else $datosBusqueda['estado'] = "";
+          }catch (Exception $e) {
+            $datosBusqueda['modalidad'] = "";
+          }
+        }
+          
+        if($datosBusqueda['ciudad'] == 'Todas') $datosBusqueda['ciudad'] = "";
+        else{
+          try{
+            if($datosBusqueda['ciudad']= $this->validaciones->obtenerSigla( $datosBusqueda['ciudad'], 'ciudad'));
+            else $datosBusqueda['ciudad'] = "";
+          }catch (Exception $e) {
+            $datosBusqueda['ciudad'] = "";
+          }
+        }       
+        
+        if($datosBusqueda['seccion'] == 'Todas') $datosBusqueda['seccion'] = "";
+        else{
+          try{
+            if($datosBusqueda['seccion']= $this->validaciones->obtenerSigla( $datosBusqueda['seccion'], 'seccion'));
+            else $datosBusqueda['seccion'] = "";
+          }catch (Exception $e) {
+            $datosBusqueda['seccion'] = "";
+          }
+        }      
 
-      }   
-      
+        if($datosBusqueda['apartado'] == 'Todos') $datosBusqueda['apartado'] = "";
+        else{
+          try{
+            if($datosBusqueda['apartado']= $this->validaciones->obtenerSigla( $datosBusqueda['apartado'], 'apartado'));
+            else $datosBusqueda['apartado'] = "";
+          }catch (Exception $e) {
+            $datosBusqueda['apartado'] = "";
+          }
+        } 
+
+        if($datosBusqueda['numeroMostrar'] > 100) $datosBusqueda['numeroMostrar'] = "25";           
+
+        try{
+          $this->inicio_model->buscarAnuncios($datosBusqueda);   
+        }catch (Exception $e) {          
+          $response['codigo']  = 1;
+          $response['mensaje'] = 'Hubo un problema al consultar los anuncios. Intente más tarde.';  
+          echo json_encode($response);    
+          die(); 
+        }
+
+      }         
 
     }
+
+
+
+
+
 
     function buscarAnunciosGeneral(){   
       $this->inicio_model->buscarAnunciosGeneral();      

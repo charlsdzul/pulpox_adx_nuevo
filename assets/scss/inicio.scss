@@ -1,0 +1,17 @@
+@import "../../../pulpox_ads_nuevo/assets/scss/base/config.scss";
+
+.datos_anuncio {
+	color: $color_light_dark;
+}
+
+.link_anuncio {
+	color: $color_primary;
+
+	&:hover {
+		color: $color_info;
+	}
+}
+
+.modalidad_anuncio {
+	color: $color_secondary;
+}
