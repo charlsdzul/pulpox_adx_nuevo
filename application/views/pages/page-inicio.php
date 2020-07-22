@@ -32,7 +32,7 @@
         <input  id="txtBusqueda" type="text" name="" id="" class="form-control" >
       </div>
       <div class="form-group col-md-3">
-        <label for="inputPassword4">Modalidad</label>
+        <label for="inputPassword4">Personas o negocios que..</label>
         <select id="slctModalidad" class="form-control pulpox-validar-select"></select> 
       </div>
       <div class="form-group col-md-1">

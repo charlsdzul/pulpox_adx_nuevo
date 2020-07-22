@@ -13,45 +13,6 @@
         });
     });
 
-   
-        
-    function buscarAnunciosGeneral(){        
-
-        $.get((BASE_URL+'inicio/buscarAnunciosGeneral' ), function(response){
-
-            response = JSON.parse(response);      
-            console.log(response);      
-            $("tr").remove();
-            $("#pulpox_pagination li").remove();
-
-                if(response.codigo==1){
-
-                }
-
-                else {
-                    
-                    let lista_anuncios= "";
-                            response.forEach(anuncio => {               
-                                lista_anuncios += ` <tr>
-                                <td><a href="${anuncio.public_id}" target="#_blank"> ${anuncio.titulo} </a><span>${anuncio.modalidad}</span> - <span>${anuncio.estado} - ${anuncio.ciudad} 
-                                - ${anuncio.seccion} - ${anuncio.apartado}</span></td> </tr>`;     
-                            });         
-                        
-                            $("#anuncios_table").append(lista_anuncios);
-
-                        
-                            let lista_paginas= "";
-
-                            for (let index = 1; index <= response[0].total_paginas; index++) {
-                                lista_paginas += `  <li class="page-item"><button class="page-link" onclick="buscarPagina(${index})">${index}</button></li>`;                 
-                            }                    
-                        
-                            $("#pulpox_pagination").append(lista_paginas);                    
-            
-                }
-        })
-    }
-
     function asignaListasSelects(){
         /**Define lista de datos a los inputs ESTADO, CIUDAD, SECCION, APARTADO    
         * Asigna lista de Estados a 'Estado'. Inicia en 'Chihuahua'
@@ -140,9 +101,46 @@
             $('#slctMostrar').val($('#slctMostrar').find('option').first().val());
 
         });
+    }     
+        
+    function buscarAnunciosGeneral(){   
+
+        $.get((BASE_URL+'inicio/buscarAnunciosGeneral' ), function(response){
+            response = JSON.parse(response);      
+            console.dir(response);      
+            $("tr").remove();
+            $("#pulpox_pagination li").remove();
+
+                if(response.codigo==1){
+
+                } else {
+                    
+                    let lista_anuncios= "";
+                    response.forEach(anuncio => {               
+                        lista_anuncios += ` 
+                        <tr>
+                            <td>
+                                <a href="${anuncio.public_id}" target="#_blank"> ${anuncio.titulo} </a><span>${anuncio.modalidad}</span> - <span>${anuncio.estado} - ${anuncio.ciudad} 
+                                - ${anuncio.seccion} - ${anuncio.apartado}</span>
+                            </td> 
+                        </tr>`;     
+                    });         
+                        
+                    $("#anuncios_table").append(lista_anuncios);
+                        
+                    let lista_paginas= "";
+
+                    for (let index = 1; index <= response[0].total_paginas; index++) {
+                        lista_paginas += `  <li class="page-item"><button class="page-link" onclick="buscarPagina(${index})">${index}</button></li>`;                 
+                    }                    
+                        
+                    $("#pulpox_pagination").append(lista_paginas);                   
+            
+                }
+        })
     }  
 
-    function buscarAnuncios(){  
+    function buscarAnuncios(pagina = 1){  
         let datosBusqueda = {
             "textoBuscar": $("#txtBusqueda").val(),
             "modalidad": $("#slctModalidad").val(),
@@ -152,109 +150,49 @@
             "apartado": $("#slctApartado").val(),
             "estado": $("#slctEstado").val(),
             "numeroMostrar": $("#slctMostrar").val(),
-            }
+            "paginaSeleccionada" : pagina,
+        }
 
-            $.get((BASE_URL+'inicio/buscarAnuncios/' ), datosBusqueda, function(response){
-
+        $.get((BASE_URL+'inicio/buscarAnuncios/' ), datosBusqueda, function(response){
 
                 response = JSON.parse(response);      
-                console.log(response);      
+               console.dir(response);      
                 $("tr").remove();
                 $("#pulpox_pagination li").remove();
 
                     if(response.codigo==1){
 
-                    }
-
-                    else {
+                    } else {
                         
                         let lista_anuncios= "";
-                                response.forEach(anuncio => {               
-                                    lista_anuncios += ` <tr>
+                        let total_paginas = "";
+
+                        Object.values(response).forEach(val  => {       
+                            total_paginas = val.total_paginas;          
+                            lista_anuncios += ` 
+                            <tr>
                                     <td>
-                                    <a href="${anuncio.public_id}" target="#_blank" class="link_anuncio"> ${anuncio.titulo} </a>
-                                    <span class="modalidad_anuncio">${anuncio.modalidad}</span> 
-                                    <span class="datos_anuncio">${anuncio.estado} - ${anuncio.ciudad} 
-                                    / ${anuncio.seccion} - ${anuncio.apartado}
-                                    (${anuncio.renovado})</span></td> </tr>`;     
-                                });         
+                                    <a href="${val.public_id}" target="#_blank" class="link_anuncio"> ${val.titulo} </a>
+                                    <span class="modalidad_anuncio">${val.modalidad}</span> 
+                                    <span class="datos_anuncio">${val.estado} - ${val.ciudad} 
+                                    / ${val.seccion} - ${val.apartado}
+                                    (${val.renovado})</span>
+                                    </td>
+                            </tr>`; 
+                        });     
                             
-                                $("#anuncios_table").append(lista_anuncios);
+                        $("#anuncios_table").append(lista_anuncios);
+                        console.log(response[1])   
+                        let lista_paginas= "";
 
+                        for (let index = 1; index <= total_paginas; index++) {
+                            lista_paginas += `<li class="page-item"><button class="page-link" onclick="buscarAnuncios(${index})">${index}</button></li>`;                 
+                        }                            
                             
-                                let lista_paginas= "";
-
-                                for (let index = 1; index <= response[0].total_paginas; index++) {
-                                    lista_paginas += `<li class="page-item"><button class="page-link" onclick="buscarPagina(${index})">${index}</button></li>`;                 
-                                }
-
-                            
-                            
-                                $("#pulpox_pagination").append(lista_paginas);
-
-                            
+                        $("#pulpox_pagination").append(lista_paginas);                           
                 
                     }
-
-
-
-
-
-            }) 
-    }
-
-    function buscarPagina(pagina){         
-
-        let datosBusqueda = {
-        "textoBuscar": $("#txtBusqueda").val(),
-        "modalidad": $("#slctModalidad").val(),
-        "estado": $("#slctEstado").val(),
-        "ciudad": $("#slctCiudad").val(),
-        "seccion": $("#slctSeccion").val(),
-        "apartado": $("#slctApartado").val(),
-        "estado": $("#slctEstado").val(),
-        "numeroMostrar": $("#slctMostrar").val(),
-        "paginaSeleccionada" : pagina,
-        }
-
-        $.get((BASE_URL+'inicio/buscarAnuncios/' ), datosBusqueda, function(response){
-
-            response = JSON.parse(response);      
-            console.log(response);      
-            $("tr").remove();
-            $("#pulpox_pagination li").remove();
-
-                if(response.codigo==1){
-
-                }
-
-                else {
-                    
-                    let lista_anuncios= "";
-                            response.forEach(anuncio => {               
-                                lista_anuncios += ` <tr>
-                                <td><a href="${anuncio.public_id}" target="#_blank"> ${anuncio.titulo} </a><span>${anuncio.modalidad}</span> - <span>${anuncio.estado} - ${anuncio.ciudad} 
-                                - ${anuncio.seccion} - ${anuncio.apartado}</span></td> </tr>`;     
-                            });         
-                        
-                            $("#anuncios_table").append(lista_anuncios);
-
-                        
-                            let lista_paginas= "";
-
-                            for (let index = 1; index <= response[0].total_paginas; index++) {
-                                lista_paginas += `<li class="page-item"><button class="page-link" onclick="buscarPagina(${index})">${index}</button></li>`;                 
-                            }
-
-                        
-                        
-                            $("#pulpox_pagination").append(lista_paginas);
-
-                        
-            
-                }
-        })
-
+        }) 
     }
 
 </script>
