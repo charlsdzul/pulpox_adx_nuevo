@@ -2,9 +2,9 @@
      
   <div class='row justify-content-center m-0'>  
 
-    <div class="mt-2 col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12"> 
-      <div class='row justify-content-center m-0'>  
-         <h1>PULPOX</h1>
+    <div class="mt-2 col-11 col-sm-11 col-md-11 col-lg-11 col-xl-11"> 
+      <div class='row justify-content-center mt-4 mb-4'>  
+        <img style='width:30em; 'src="../assets/images/pulpox_logo.png" alt="">
       </div> 
     </div> 
 
@@ -59,7 +59,7 @@
       <div class='row justify-content-center m-0'>
         <div class="mt-2 col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">  
 
-            <H1>Resultados</H1>
+            <H4>Resultados</H4>
             <table id="anuncios_table" class="table table-striped table-sm table-hover" width="100%">
               <thead class='pulpox-table--thead' width="100%">
                 <tr>        
