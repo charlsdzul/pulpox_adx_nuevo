@@ -57,15 +57,7 @@ class Inicio_model extends CI_Model {
 
             $contarDesde = (($datosBusqueda['paginaSeleccionada']) * $datosBusqueda['numeroMostrar']) - ($datosBusqueda['numeroMostrar']-1);
             $contarHasta = $datosBusqueda['paginaSeleccionada'] * $datosBusqueda['numeroMostrar'];
-             
-            /*
-                echo " total_anuncios:" .  $total_anuncios . "<br>";
-                echo " total_paginas:" .  $total_paginas . "<br>";
-                echo " pag seleccionada:" .  $datosBusqueda['paginaSeleccionada'] . "<br>";
-                echo " contarDesde:" .  $contarDesde . "<br>";
-                echo " contarHasta:" .  $contarHasta . "<br>";
-            */
-
+    
             if($total_anuncios>0){
 
                 $misanuncios=[]; 
@@ -107,11 +99,9 @@ class Inicio_model extends CI_Model {
         }      
     } 
 
-
     function buscarAnunciosGeneral(){      
 
-        $this->db->select("*")
-        ->limit(25)
+        $this->db->select("public_id,titulo,modalidad,estado,ciudad,seccion,apartado,renovado")       
         ->order_by('renovado', 'DESC')        
         ->where("sta=0");
 
@@ -120,13 +110,14 @@ class Inicio_model extends CI_Model {
         if($query = $this->db->get('anuncios')){  
 
             $total_anuncios = $query->num_rows();
-            $total_paginas= ceil($total_anuncios/$mostrar );
+            $total_paginas= ceil($total_anuncios/$mostrar);
 
             if($total_anuncios>0){
 
                 $misanuncios=[]; 
-                $j=0;  
+                $j=1;  
                 foreach ($query->result() as $row){
+                    $misanuncios[$j]['numero'] = $j;
                     $misanuncios[$j]['total_anuncios'] = $total_anuncios;
                     $misanuncios[$j]['total_paginas'] = $total_paginas;
                     $misanuncios[$j]['public_id'] = $row->public_id;
@@ -136,18 +127,12 @@ class Inicio_model extends CI_Model {
                     $misanuncios[$j]['ciudad'] = $this->validaciones->obtenerNombre($row->ciudad, 'ciudad');
                     $misanuncios[$j]['seccion'] = $this->validaciones->obtenerNombre($row->seccion, 'seccion');
                     $misanuncios[$j]['apartado'] = $this->validaciones->obtenerNombre($row->apartado, 'apartado');
-                    $row->renovado == $row->creado ? $misanuncios[$j]['renovado']= 'NUNCA': $misanuncios[$j]['renovado'] = $this->validaciones->creaFechaConFormato($row->renovado);
-                    $row->editado == '0000-00-00 00:00:00' ? $misanuncios[$j]['editado']= 'NUNCA': $misanuncios[$j]['editado'] = $this->validaciones->creaFechaConFormato($row->editado);
-                    $misanuncios[$j]['creado'] = $this->validaciones->creaFechaConFormato($row->creado);
-                    $misanuncios[$j]['estatus'] = $this->validaciones->estatusTexto($row->sta);
+                    $misanuncios[$j]['renovado'] = $this->validaciones->creaFechaConFormato($row->renovado);
                    
                     if($j==$mostrar ) break;
                     $j++;
 
-                }       
-                
-                
-
+                }  
                 echo json_encode($misanuncios);
                 die();
             }else{

@@ -107,36 +107,38 @@
 
         $.get((BASE_URL+'inicio/buscarAnunciosGeneral' ), function(response){
             response = JSON.parse(response);      
-            console.dir(response);      
             $("tr").remove();
             $("#pulpox_pagination li").remove();
 
-                if(response.codigo==1){
-
-                } else {
+            if(response.codigo==1){
+            } else {               
+                let lista_anuncios= "";
+                let total_paginas = "";
+                Object.values(response).forEach(val  => {       
+                    total_paginas = val.total_paginas;          
+                    lista_anuncios += ` 
+                    <tr>
+                        <td>
+                        <a href="${val.public_id}" target="#_blank" class="link_anuncio"> ${val.titulo} </a>
+                        <span class="modalidad_anuncio">${val.modalidad}</span> 
+                        <span class="datos_anuncio">| ${val.estado} > ${val.ciudad} 
+                        > ${val.seccion} > ${val.apartado} |
+                        (${val.renovado})</span>
+                        </td>
+                    </tr>`; 
+                });      
                     
-                    let lista_anuncios= "";
-                    response.forEach(anuncio => {               
-                        lista_anuncios += ` 
-                        <tr>
-                            <td>
-                                <a href="${anuncio.public_id}" target="#_blank"> ${anuncio.titulo} </a><span>${anuncio.modalidad}</span> - <span>${anuncio.estado} - ${anuncio.ciudad} 
-                                - ${anuncio.seccion} - ${anuncio.apartado}</span>
-                            </td> 
-                        </tr>`;     
-                    });         
-                        
-                    $("#anuncios_table").append(lista_anuncios);
-                        
-                    let lista_paginas= "";
+                $("#anuncios_table").append(lista_anuncios);
+                                  
+                let lista_paginas= "";
+                for (let index = 1; index <= total_paginas; index++) {
+                    lista_paginas += `<li class="page-item"><button class="page-link" onclick="buscarAnuncios(${index})">${index}</button></li>`;                 
+                }                            
+                    
+                $("#pulpox_pagination").append(lista_paginas);  
 
-                    for (let index = 1; index <= response[0].total_paginas; index++) {
-                        lista_paginas += `  <li class="page-item"><button class="page-link" onclick="buscarPagina(${index})">${index}</button></li>`;                 
-                    }                    
-                        
-                    $("#pulpox_pagination").append(lista_paginas);                   
-            
-                }
+
+            }
         })
     }  
 
@@ -155,43 +157,37 @@
 
         $.get((BASE_URL+'inicio/buscarAnuncios/' ), datosBusqueda, function(response){
 
-                response = JSON.parse(response);      
-               console.dir(response);      
-                $("tr").remove();
-                $("#pulpox_pagination li").remove();
+            response = JSON.parse(response);      
+            $("tr").remove();
+            $("#pulpox_pagination li").remove();
+            if(response.codigo==1){
+            } else {                
+                let lista_anuncios= "";
+                let total_paginas = "";
+                Object.values(response).forEach(val  => {       
+                    total_paginas = val.total_paginas;          
+                    lista_anuncios += ` 
+                    <tr>
+                        <td>
+                        <a href="${val.public_id}" target="#_blank" class="link_anuncio"> ${val.titulo} </a>
+                        <span class="modalidad_anuncio">${val.modalidad}</span> 
+                        <span class="datos_anuncio">| ${val.estado} > ${val.ciudad} 
+                        > ${val.seccion} > ${val.apartado} |
+                        (${val.renovado})</span>
+                        </td>
+                    </tr>`; 
+                });     
 
-                    if(response.codigo==1){
+                $("#anuncios_table").append(lista_anuncios);
 
-                    } else {
-                        
-                        let lista_anuncios= "";
-                        let total_paginas = "";
-
-                        Object.values(response).forEach(val  => {       
-                            total_paginas = val.total_paginas;          
-                            lista_anuncios += ` 
-                            <tr>
-                                    <td>
-                                    <a href="${val.public_id}" target="#_blank" class="link_anuncio"> ${val.titulo} </a>
-                                    <span class="modalidad_anuncio">${val.modalidad}</span> 
-                                    <span class="datos_anuncio">${val.estado} - ${val.ciudad} 
-                                    / ${val.seccion} - ${val.apartado}
-                                    (${val.renovado})</span>
-                                    </td>
-                            </tr>`; 
-                        });     
-                            
-                        $("#anuncios_table").append(lista_anuncios);
-                        console.log(response[1])   
-                        let lista_paginas= "";
-
-                        for (let index = 1; index <= total_paginas; index++) {
-                            lista_paginas += `<li class="page-item"><button class="page-link" onclick="buscarAnuncios(${index})">${index}</button></li>`;                 
-                        }                            
-                            
-                        $("#pulpox_pagination").append(lista_paginas);                           
-                
-                    }
+                let lista_paginas= "";
+                for (let index = 1; index <= total_paginas; index++) {
+                    lista_paginas += `<li class="page-item"><button class="page-link" onclick="buscarAnuncios(${index})">${index}</button></li>`;                 
+                }                            
+                    
+                $("#pulpox_pagination").append(lista_paginas);                          
+        
+            }
         }) 
     }
 

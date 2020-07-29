@@ -2,16 +2,17 @@
 
 .datos_anuncio {
 	color: $color_light_dark;
+	font-size: smaller;
 }
 
 .link_anuncio {
-	color: $color_primary;
+	color: $color_info;
 
 	&:hover {
-		color: $color_info;
+		color: $color_info_dark;
 	}
 }
 
 .modalidad_anuncio {
-	color: $color_secondary;
+	color: $color_dark;
 }

@@ -365,15 +365,16 @@ h1 {
 
 .datos_anuncio {
   color: #636161;
+  font-size: smaller;
 }
 
 .link_anuncio {
-  color: #a30036;
+  color: #005fa3;
 }
 .link_anuncio:hover {
-  color: #005fa3;
+  color: #00508a;
 }
 
 .modalidad_anuncio {
-  color: #a32708;
+  color: #3d3c3c;
 }
