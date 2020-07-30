@@ -14,23 +14,23 @@
 
           <div class="form-row">
             <div class="form-group col-12">
-              <label for="inputEmail4">¿Qué buscas?</label>
-              <input  id="txtBusqueda" type="text" name="" id="" class="form-control" >
+              <label class='pulpox-titulo-filtro'>¿Qué buscas?</label>
+              <input id="txtBusqueda" type="text" class="form-control" >
             </div>
             <div class="form-group col-md-12">
-              <label for="inputEmail4">Estado</label>
+              <label class='pulpox-titulo-filtro'>Estado</label>
               <select id="slctEstado" class="form-control pulpox-validar-select"></select> 
             </div>
             <div class="form-group col-12">
-              <label for="inputPassword4">Ciudad</label>
+              <label class='pulpox-titulo-filtro'>Ciudad</label>
               <select id="slctCiudad" class="form-control pulpox-validar-select" ></select> 
             </div>
             <div class="form-group col-12">
-              <label for="inputPassword4">Sección</label>
+              <label class='pulpox-titulo-filtro'>Sección</label>
               <select id="slctSeccion" class="form-control pulpox-validar-select" ></select> 
             </div>
             <div class="form-group col-12">
-              <label for="inputPassword4">Apartado</label>
+              <label class='pulpox-titulo-filtro'>Apartado</label>
               <select id="slctApartado" class="form-control pulpox-validar-select"  ></select> 
             </div>
           </div>
@@ -38,15 +38,15 @@
           <div class="form-row">
            
             <div class="form-group col-12">
-              <label for="inputPassword4">Personas o negocios que..</label>
+              <label class='pulpox-titulo-filtro'>Personas o negocios que..</label>
               <select id="slctModalidad" class="form-control pulpox-validar-select"></select> 
             </div>
             <div class="form-group col-12">
-              <label for="inputPassword4">Mostrar</label>
+              <label class='pulpox-titulo-filtro'>Mostrar</label>
               <select id="slctMostrar" class="form-control pulpox-validar-select" ></select>  
             </div>
             <div class="form-group col-12">   
-            <label for="btnBuscar"> </label>    
+            <label> </label>    
               <button id="btnBuscar" class="form-control btn btn-pulpox-primary">Buscar</button>
             </div>
           </div>

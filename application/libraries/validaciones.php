@@ -6,7 +6,7 @@ class Validaciones {
 
     public function __construct(){
         $this->CI =& get_instance();
-        $this->CI->load->library('sesiones');
+        //$this->CI->load->library('sesiones');
         //$this->CI->sesiones->usuarioEstaEnSesion();         
         $this->CI->load->library('sanitize');
         $this->CI->load->database(); //cargar base de datos

@@ -4,7 +4,7 @@ $(document).ready(function() {
 
 
 $("#boton_salir").click(function(){
-  let csrf = "<?php  echo $this->session->usuario_csrf; ?>";
+  let csrf = "123456";
   $.get( "usuario/logout",{csrf} )
                   .done(function( data ) {  
                     console.log(data)                  

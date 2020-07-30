@@ -154,6 +154,7 @@
             "numeroMostrar": $("#slctMostrar").val(),
             "paginaSeleccionada" : pagina,
         }
+        console.log(datosBusqueda);
 
         $.get((BASE_URL+'inicio/buscarAnuncios/' ), datosBusqueda, function(response){
 

@@ -6,9 +6,9 @@ class Inicio extends CI_Controller {
         parent::__construct();        
         //$this->load->library('sesiones');
         //$this->sesiones->usuarioEstaEnSesion(); 
-       $this->load->helper('url'); 
-       $this->load->model('inicio_model');
-       // $this->load->library('session'); 
+        $this->load->helper('url'); 
+        $this->load->model('inicio_model');
+        $this->load->library('session'); 
         $this->load->library('validaciones');
 
     }
@@ -24,11 +24,10 @@ class Inicio extends CI_Controller {
     }
 
     function buscarAnuncios(){
-      //var_dump($datosBusqueda);
       $datosBusqueda = $this->input->get();   
+     // var_dump($datosBusqueda);
 
-      if($datosBusqueda){
-      
+      if($datosBusqueda){     
         
         //Validación Modalidad
         if($datosBusqueda['modalidad']=='Todas') $datosBusqueda['modalidad'] = "";

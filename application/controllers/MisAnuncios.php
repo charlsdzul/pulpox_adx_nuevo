@@ -12,7 +12,6 @@ class MisAnuncios extends CI_Controller {
     }
 
     function index(){    
-      //echo 'usuario en sesion: ' . $_SESSION['usuario_id'] ;
         $this->load->view('headers/header-html-mis-anuncios');
         $this->load->view('scripts/script-js-general.php');  
         $this->load->view('modules/menu');       

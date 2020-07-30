@@ -48,7 +48,8 @@
               if(usuario!="" && contrasena!="" ){
                   $.post( "usuario/login", { usuario, contrasena})
                   .done(function( data ) {                    
-                    let response = JSON.parse(data)                     
+                    let response = JSON.parse(data)       
+                  console.log(response);              
                     if(response.codigo == 0){
                       window.location.replace(BASE_URL+response.redirect);
 

@@ -18,27 +18,30 @@ class Inicio_model extends CI_Model {
 
     function buscarAnuncios($datosBusqueda){ 
 
-        if($datosBusqueda['modalidad'] == "") $modalidadCol = "modalidad !=''";
+       // var_dump($datosBusqueda);
+
+        if($datosBusqueda['modalidad'] == '') $modalidadCol = "modalidad !=";
         else $modalidadCol = "modalidad";
 
-        if($datosBusqueda['estado']=="") $estadoCol = "estado !=''";
+        if($datosBusqueda['estado']=='') $estadoCol = "estado !=";
         else $estadoCol = "estado";
 
-        if($datosBusqueda['ciudad']=="") $ciudadCol = "ciudad !=''";
+        if($datosBusqueda['ciudad']=='') $ciudadCol = "ciudad !=";
         else $ciudadCol = "ciudad";
 
-        if($datosBusqueda['seccion']=="") $seccionCol = "seccion !=''";
+        if($datosBusqueda['seccion']=='') $seccionCol = "seccion !=";
         else $seccionCol = "seccion";
 
-        if($datosBusqueda['apartado']=="") $apartadoCol = "apartado !=''";
+        if($datosBusqueda['apartado']=='') $apartadoCol = "apartado !=";
         else $apartadoCol = "apartado";
 
-        if($datosBusqueda['textoBuscar']=="") $tituloCol = "titulo !=''";
+        if($datosBusqueda['textoBuscar']=='') $tituloCol = "titulo !=";
         else $tituloCol = "titulo=";
 
-        if($datosBusqueda['textoBuscar']=="") $mensajeCol = "mensaje !=''";
-        else $mensajeCol = "mensaje=";  
+        if($datosBusqueda['textoBuscar']=='') $mensajeCol = "mensaje !=";
+        else $mensajeCol = "mensaje="; 
 
+       // var_dump($datosBusqueda);
         $this->db->select("*")
         ->order_by('renovado', 'DESC')
         ->where($modalidadCol,$datosBusqueda['modalidad'])

@@ -12,7 +12,6 @@ class Usuario_model extends CI_Model {
     function verificarUsuario($usuario,$contrasena){
 
       $query = $this->db->select('id,usuario,correo,nombre,apellido,tipo')->where('contrasena',$contrasena)->where('sta',0)->where('usuario',$usuario)->or_where('correo',$usuario)->get('usuarios');
-
       if ($query->num_rows() == 1){
         $usuario = $query->result_array();  
         $this->session->set_userdata('usuario_id', $usuario[0]['id']);
