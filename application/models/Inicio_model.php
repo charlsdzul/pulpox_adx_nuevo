@@ -18,43 +18,42 @@ class Inicio_model extends CI_Model {
 
     function buscarAnuncios($datosBusqueda){ 
 
-       // var_dump($datosBusqueda);
 
-        if($datosBusqueda['modalidad'] == '') $modalidadCol = "modalidad !=";
+        if($datosBusqueda['modalidad'] == ' ') $modalidadCol = "modalidad !=";
         else $modalidadCol = "modalidad";
 
-        if($datosBusqueda['estado']=='') $estadoCol = "estado !=";
+        if($datosBusqueda['estado']==' ') $estadoCol = "estado !=";
         else $estadoCol = "estado";
 
-        if($datosBusqueda['ciudad']=='') $ciudadCol = "ciudad !=";
+        if($datosBusqueda['ciudad']==' ') $ciudadCol = "ciudad !=";
         else $ciudadCol = "ciudad";
 
-        if($datosBusqueda['seccion']=='') $seccionCol = "seccion !=";
+        if($datosBusqueda['seccion']==' ') $seccionCol = "seccion !=";
         else $seccionCol = "seccion";
 
-        if($datosBusqueda['apartado']=='') $apartadoCol = "apartado !=";
+        if($datosBusqueda['apartado']==' ') $apartadoCol = "apartado !=";
         else $apartadoCol = "apartado";
 
-        if($datosBusqueda['textoBuscar']=='') $tituloCol = "titulo !=";
+        if($datosBusqueda['textoBuscar']==' ') $tituloCol = "titulo !=";
         else $tituloCol = "titulo=";
 
-        if($datosBusqueda['textoBuscar']=='') $mensajeCol = "mensaje !=";
+        if($datosBusqueda['textoBuscar']==' ') $mensajeCol = "mensaje !=";
         else $mensajeCol = "mensaje="; 
 
-       // var_dump($datosBusqueda);
+    
         $this->db->select("*")
         ->order_by('renovado', 'DESC')
         ->where($modalidadCol,$datosBusqueda['modalidad'])
         ->where($estadoCol,$datosBusqueda['estado'])
         ->where($ciudadCol,$datosBusqueda['ciudad'])
         ->where($seccionCol,$datosBusqueda['seccion'])
-        ->where($apartadoCol,$datosBusqueda['apartado'])
-        ->like('titulo', $datosBusqueda['textoBuscar'])
-        ->or_like('mensaje', $datosBusqueda['textoBuscar'])      
-        ->where("sta=0");
+        ->where($apartadoCol,$datosBusqueda['apartado'])            
+        ->where("sta='0'")
+        ->where("(titulo LIKE '%".$datosBusqueda['textoBuscar']."%' OR mensaje LIKE '%".$datosBusqueda['textoBuscar']."%')", NULL, FALSE); 
         
-        if($query = $this->db->get('anuncios')){  
-
+        if($query = $this->db->get('anuncios')){           
+         //print_r($this->db->last_query()); 
+           
             $total_anuncios = $query->num_rows();
             $total_paginas= ceil($total_anuncios/$datosBusqueda['numeroMostrar']);
 

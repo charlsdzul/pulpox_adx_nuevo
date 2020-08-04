@@ -8,9 +8,9 @@
       </div> 
     </div> 
 
-    <div class="mt-2 col-5 col-sm-5 col-md-4 col-lg-3 col-xl-3" style='background-color:'> 
+    <div id="divFiltrosDesktop" class="mt-2 col-5 col-sm-5 col-md-4 col-lg-3 col-xl-3" > 
       <div class='row justify-content-center m-0'>  
-        <div class="mt-2 col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12" style="background-color:">  
+        <div class="mt-2 col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">  
 
           <div class="form-row">
             <div class="form-group col-12">
@@ -55,7 +55,25 @@
       </div>  
     </div> 
 
-    <div class="     col-7 col-sm-7 col-md-7 col-lg-7 col-xl-6" style='background-color:'> 
+    <div id="divFiltrosMovil" class="mt-2 col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12" > 
+      <div class='row justify-content-center m-0'>  
+        <div class="mt-2 col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">  
+
+          <div class="form-row">
+            <div class="form-group col-12">
+
+            <button id="pulpox_btn_filtros">Filtros</button>
+
+
+
+            </div>
+          </div>
+
+        </div>
+      </div>  
+    </div> 
+
+    <div id="divResultados" class="col-7 col-sm-7 col-md-7 col-lg-7 col-xl-6"> 
       <div class='row justify-content-center m-0'>
         <div class="mt-2 col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">  
 

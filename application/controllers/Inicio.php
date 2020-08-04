@@ -30,54 +30,54 @@ class Inicio extends CI_Controller {
       if($datosBusqueda){     
         
         //Validación Modalidad
-        if($datosBusqueda['modalidad']=='Todas') $datosBusqueda['modalidad'] = "";
+        if($datosBusqueda['modalidad']=='Todas') $datosBusqueda['modalidad'] = " ";
         else {
           try{
           if($datosBusqueda['modalidad']= $this->validaciones->obtenerNombreDeFrase($datosBusqueda['modalidad'])); 
-          else $datosBusqueda['modalidad'] = "";
+          else $datosBusqueda['modalidad'] = " ";
           }catch (Exception $e) {
-            $datosBusqueda['modalidad'] = "";
+            $datosBusqueda['modalidad'] = " ";
           }
         }
 
         //Validación Estado
-        if($datosBusqueda['estado']=='Todo México') $datosBusqueda['estado'] = "";
+        if($datosBusqueda['estado']=='Todo México') $datosBusqueda['estado'] = " ";
         else{
           try{
             if($datosBusqueda['estado']= $this->validaciones->obtenerSigla( $datosBusqueda['estado'], 'estado'));
-            else $datosBusqueda['estado'] = "";
+            else $datosBusqueda['estado'] = " ";
           }catch (Exception $e) {
-            $datosBusqueda['modalidad'] = "";
+            $datosBusqueda['modalidad'] = " ";
           }
         }
           
-        if($datosBusqueda['ciudad'] == 'Todas') $datosBusqueda['ciudad'] = "";
+        if($datosBusqueda['ciudad'] == 'Todas') $datosBusqueda['ciudad'] = " ";
         else{
           try{
             if($datosBusqueda['ciudad']= $this->validaciones->obtenerSigla( $datosBusqueda['ciudad'], 'ciudad'));
-            else $datosBusqueda['ciudad'] = "";
+            else $datosBusqueda['ciudad'] = " ";
           }catch (Exception $e) {
-            $datosBusqueda['ciudad'] = "";
+            $datosBusqueda['ciudad'] = " ";
           }
         }       
         
-        if($datosBusqueda['seccion'] == 'Todas') $datosBusqueda['seccion'] = "";
+        if($datosBusqueda['seccion'] == 'Todas') $datosBusqueda['seccion'] = " ";
         else{
           try{
             if($datosBusqueda['seccion']= $this->validaciones->obtenerSigla( $datosBusqueda['seccion'], 'seccion'));
-            else $datosBusqueda['seccion'] = "";
+            else $datosBusqueda['seccion'] = " ";
           }catch (Exception $e) {
-            $datosBusqueda['seccion'] = "";
+            $datosBusqueda['seccion'] = " ";
           }
         }      
 
-        if($datosBusqueda['apartado'] == 'Todos') $datosBusqueda['apartado'] = "";
+        if($datosBusqueda['apartado'] == 'Todos') $datosBusqueda['apartado'] = " ";
         else{
           try{
             if($datosBusqueda['apartado']= $this->validaciones->obtenerSigla( $datosBusqueda['apartado'], 'apartado'));
-            else $datosBusqueda['apartado'] = "";
+            else $datosBusqueda['apartado'] = " ";
           }catch (Exception $e) {
-            $datosBusqueda['apartado'] = "";
+            $datosBusqueda['apartado'] = " ";
           }
         } 
 
