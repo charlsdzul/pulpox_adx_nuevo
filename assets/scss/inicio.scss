@@ -19,4 +19,21 @@
 
 .pulpox-titulo-filtro {
 	font-weight: bold;
+	color: $color_info_dark;
+}
+
+tr:hover {
+	background-color: #e6f4ff;
+
+	a {
+		color: #00508a !important;
+	}
+
+	.modalidad_anuncio {
+		color: #00508a !important;
+	}
+
+	.datos_anuncio {
+		color: #00508a !important;
+	}
 }
