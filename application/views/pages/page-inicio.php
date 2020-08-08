@@ -1,4 +1,16 @@
 <body class='container-fluid p-0'>   
+<br>
+<button class='plpx-btn plpx-btn-white'>White</button>
+<button class='plpx-btn-line plpx-btn-white-line'>White Line</button>
+
+<button class='plpx-btn plpx-btn-primary'>Primary</button>
+<button class='plpx-btn-line plpx-btn-primary-line'>Primary Line</button>
+
+
+<button class='plpx-btn plpx-btn-primary'>Carlos Carlos</button>
+<button class='plpx-btn plpx btn-info'>Carlos</button>
+
+
      
   <div class='row justify-content-center m-0'>  
 
@@ -42,7 +54,7 @@
         </div>
         <div class="form-group col-11 col-sm-6 col-md-2 col-lg-2 col-xl-3">     
               <label></label>        
-              <button id="btnBuscar" class="form-control btn btn-pulpox-primary">Buscar</button>
+              <button id="btnBuscar" class="form-control  btn-pulpox-primary">Buscar</button>
         </div>  
       </div>  
     </div> 

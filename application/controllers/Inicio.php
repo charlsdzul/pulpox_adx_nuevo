@@ -14,8 +14,10 @@ class Inicio extends CI_Controller {
     }
 
     function index(){              
-        $this->load->view('headers/header-html-inicio');
-       $this->load->view('scripts/script-js-general.php');  
+      //  $this->load->view('headers/header-html-inicio');
+        $data = array('paginaNombre' => 'Pulpox: Inicio');
+        $this->load->view('headers/header-html', $data);
+        $this->load->view('scripts/script-js-general.php');  
         $this->load->view('modules/menu');        
         $this->load->view('pages/page-inicio.php');   
         $this->load->view('scripts/script-js-inicio.php');  

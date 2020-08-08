@@ -33,7 +33,7 @@
     </div>
     <?php if (isset($_SESSION['usuario_id'])) { ?> 
       <div class="dropdown" id='dropdown_menu'>
-        <a  class="btn btn-secondary dropdown-toggle" id='boton-cuenta' href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <a  class="dropdown-toggle pulpox-btn-white" id='boton-cuenta' href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         <?php echo $_SESSION['usuario_usuario'] ?>
         </a>
         <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
