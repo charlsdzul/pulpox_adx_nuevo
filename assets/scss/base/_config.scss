@@ -147,6 +147,35 @@ $btn_margin: 0.25em;
 	}
 }
 
+.plpx-btn-secondary {
+	border: 0;
+	background-color: $color_secondary;
+	color: white;
+	&:hover {
+		color: white;
+		background-color: $color_secondary_medium_light;
+	}
+	&:active {
+		color: white;
+		background-color: $color_secondary_dark;
+	}
+}
+
+.plpx-btn-secondary-line {
+	border: 1px solid $color_secondary;
+	background-color: white;
+	color: $color_secondary;
+	&:hover {
+		color: WHITE;
+		background-color: $color_secondary_medium_light;
+	}
+
+	&:active {
+		color: white;
+		background-color: $color_secondary_dark;
+	}
+}
+
 .div_opciones {
 	border: 0;
 	margin-top: 1em;

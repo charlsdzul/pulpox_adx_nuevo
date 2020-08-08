@@ -7,8 +7,8 @@
 <button class='plpx-btn-line plpx-btn-primary-line'>Primary Line</button>
 
 
-<button class='plpx-btn plpx-btn-primary'>Carlos Carlos</button>
-<button class='plpx-btn plpx btn-info'>Carlos</button>
+<button class='plpx-btn plpx-btn-secondary'>Secondary</button>
+<button class='plpx-btn-line plpx-btn-secondary-line'>Secondary Line</button>
 
 
      

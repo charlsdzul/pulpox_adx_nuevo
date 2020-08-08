@@ -109,6 +109,34 @@ h1 {
   background-color: #630021;
 }
 
+.plpx-btn-secondary {
+  border: 0;
+  background-color: #a32708;
+  color: white;
+}
+.plpx-btn-secondary:hover {
+  color: white;
+  background-color: #b02a09;
+}
+.plpx-btn-secondary:active {
+  color: white;
+  background-color: #631805;
+}
+
+.plpx-btn-secondary-line {
+  border: 1px solid #a32708;
+  background-color: white;
+  color: #a32708;
+}
+.plpx-btn-secondary-line:hover {
+  color: WHITE;
+  background-color: #b02a09;
+}
+.plpx-btn-secondary-line:active {
+  color: white;
+  background-color: #631805;
+}
+
 .div_opciones {
   border: 0;
   margin-top: 1em;
