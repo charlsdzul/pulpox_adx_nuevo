@@ -32,302 +32,41 @@ h1 {
   color: #3d3c3c;
 }
 
-/* BOTONES */
-.plpx-btn {
-  margin: 0.25em;
+.plpx-w1 {
+  width: 1em;
+}
+
+.plpx-wf {
+  width: 100%;
+}
+
+.plpx-wa {
+  width: auto;
+}
+
+.plpx-select {
+  border-radius: 4px;
+  border: 1px solid #a36252;
+  color: #a36252;
   padding: 0.35em 0.75em 0.35em 0.75em;
-  border-radius: 4px;
-  box-shadow: 0px 2px 3px 0px rgba(0, 0, 0, 0.5);
+  display: block;
+  width: 100%;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
-.plpx-btn:focus {
+.plpx-select:focus {
   outline: none;
+  box-shadow: 0 0 0 0.1em #a36252;
 }
 
-.plpx-btn-line {
-  margin: 0.25em;
-  padding: 0.3em 0.75em 0.3em 0.75em;
-  border-radius: 4px;
-  box-shadow: 0px 2px 3px 0px rgba(0, 0, 0, 0.5);
-}
-.plpx-btn-line:focus {
-  outline: none;
-}
-
-.plpx-btn-white {
-  border: 0;
-  background-color: white;
-  color: #a30036;
-}
-.plpx-btn-white:hover {
-  color: #a30036;
-  background-color: #f1f1f1;
-}
-.plpx-btn-white:active {
-  color: white;
-  background-color: #cfcaca;
-}
-
-.plpx-btn-white-line {
-  border: 1px solid #eeeeee;
-  background-color: white;
-  color: #a30036;
-}
-.plpx-btn-white-line:hover {
-  color: #a30036;
-  background-color: #f1f1f1;
-}
-.plpx-btn-white-line:active {
-  color: white;
-  background-color: #cfcaca;
-}
-
-.plpx-btn-primary {
-  border: 0;
-  background-color: #a30036;
-  color: white;
-}
-.plpx-btn-primary:hover {
-  color: white;
-  background-color: #b0003b;
-}
-.plpx-btn-primary:active {
-  color: white;
-  background-color: #630021;
-}
-
-.plpx-btn-primary-line {
-  border: 1px solid #a30036;
-  background-color: white;
-  color: #a30036;
-}
-.plpx-btn-primary-line:hover {
-  color: WHITE;
-  background-color: #b0003b;
-}
-.plpx-btn-primary-line:active {
-  color: white;
-  background-color: #630021;
-}
-
-.plpx-btn-secondary {
-  border: 0;
-  background-color: #a32708;
-  color: white;
-}
-.plpx-btn-secondary:hover {
-  color: white;
-  background-color: #b02a09;
-}
-.plpx-btn-secondary:active {
-  color: white;
-  background-color: #631805;
-}
-
-.plpx-btn-secondary-line {
-  border: 1px solid #a32708;
-  background-color: white;
+.plpx-titulo-filtro {
+  font-weight: bold;
   color: #a32708;
-}
-.plpx-btn-secondary-line:hover {
-  color: WHITE;
-  background-color: #b02a09;
-}
-.plpx-btn-secondary-line:active {
-  color: white;
-  background-color: #631805;
 }
 
 .div_opciones {
   border: 0;
   margin-top: 1em;
   text-align: center;
-}
-
-/*
-.plpx-btn-white-line {
-	background-color: white;
-	color: $color_primary;
-	&:hover {
-		color: $color_primary;
-		background-color: $color_gray_light;
-	}
-
-	&:active {
-		color: white;
-		background-color: $color_primary_dark;
-	}
-}*/
-.btn-pulpox-primary {
-  background-color: #a30036;
-  color: white;
-  box-shadow: 0px 10px 10px -5px rgba(0, 0, 0, 0.62);
-}
-.btn-pulpox-primary:hover {
-  color: white;
-  background-color: #f00050;
-}
-.btn-pulpox-primary:active {
-  color: white;
-  background-color: #630021;
-}
-
-.btn-pulpox-primary--line {
-  border-color: #a30036 !important;
-  color: #a30036 !important;
-  box-shadow: 0px 10px 10px -5px rgba(0, 0, 0, 0.62);
-}
-.btn-pulpox-primary--line:hover {
-  color: white;
-  background-color: #f00050;
-}
-.btn-pulpox-primary--line:active {
-  color: white;
-  background-color: #f1f1f1;
-}
-
-.btn-pulpox-primary-disabled {
-  background-color: #631805;
-  color: white;
-}
-
-.btn-pulpox-secondary {
-  background-color: #f03a0c !important;
-  color: white !important;
-  box-shadow: 0px 10px 10px -5px rgba(0, 0, 0, 0.62);
-}
-.btn-pulpox-secondary:hover {
-  color: white !important;
-  background-color: #b02a09 !important;
-}
-.btn-pulpox-secondary:active {
-  color: white !important;
-  background-color: #8a2107 !important;
-}
-
-.btn-pulpox-secondary--line {
-  border-color: #b02a09 !important;
-  color: #b02a09 !important;
-  box-shadow: 0px 10px 10px -5px rgba(0, 0, 0, 0.62);
-}
-.btn-pulpox-secondary--line:hover {
-  color: white !important;
-  background-color: #f03a0c !important;
-}
-.btn-pulpox-secondary--line:active {
-  color: white !important;
-  background-color: #631805 !important;
-}
-
-.btn-pulpox-danger {
-  background-color: #a30010 !important;
-  color: white !important;
-  box-shadow: 0px 10px 10px -5px rgba(0, 0, 0, 0.62);
-}
-.btn-pulpox-danger:hover {
-  color: white !important;
-  background-color: #f00018 !important;
-}
-.btn-pulpox-danger:active {
-  color: white !important;
-  background-color: #63000a !important;
-}
-
-.btn-pulpox-danger--line {
-  border-color: #a30010 !important;
-  color: #a30010 !important;
-  box-shadow: 0px 10px 10px -5px rgba(0, 0, 0, 0.62);
-}
-.btn-pulpox-danger--line:hover {
-  color: white !important;
-  background-color: #f00018 !important;
-}
-.btn-pulpox-danger--line:active {
-  color: white !important;
-  background-color: #63000a !important;
-}
-
-.btn-pulpox-success {
-  background-color: #00a316 !important;
-  color: white !important;
-  box-shadow: 0px 10px 10px -5px rgba(0, 0, 0, 0.62);
-}
-.btn-pulpox-success:hover {
-  color: white !important;
-  background-color: #00f01f !important;
-}
-.btn-pulpox-success:active {
-  color: white !important;
-  background-color: #00630d !important;
-}
-
-.btn-pulpox-success--line {
-  border-color: #00a316 !important;
-  color: #00a316 !important;
-  box-shadow: 0px 10px 10px -5px rgba(0, 0, 0, 0.62);
-}
-.btn-pulpox-success--line:hover {
-  color: white !important;
-  background-color: #00f01f !important;
-}
-.btn-pulpox-success--line:active {
-  color: white !important;
-  background-color: #00630d !important;
-}
-
-.btn-pulpox-warning {
-  box-shadow: 0px 10px 10px -5px rgba(0, 0, 0, 0.62);
-  background-color: #a39600 !important;
-  color: white !important;
-}
-.btn-pulpox-warning:hover {
-  color: #635b00 !important;
-  background-color: #f0dc00 !important;
-}
-.btn-pulpox-warning:active {
-  color: white !important;
-  background-color: #635b00 !important;
-}
-
-.btn-pulpox-warning--line {
-  border-color: #a39600 !important;
-  color: #a39600 !important;
-  box-shadow: 0px 10px 10px -5px rgba(0, 0, 0, 0.62);
-}
-.btn-pulpox-warning--line:hover {
-  color: #635b00 !important;
-  background-color: #f0dc00 !important;
-}
-.btn-pulpox-warning--line:active {
-  color: white !important;
-  background-color: #635b00 !important;
-}
-
-.btn-pulpox-info {
-  background-color: #005fa3 !important;
-  color: white !important;
-  box-shadow: 0px 10px 10px -5px rgba(0, 0, 0, 0.62);
-}
-.btn-pulpox-info:hover {
-  color: white !important;
-  background-color: #008cf0 !important;
-}
-.btn-pulpox-info:active {
-  color: white !important;
-  background-color: #00508a !important;
-}
-
-.btn-pulpox-info--line {
-  border-color: #005fa3 !important;
-  color: #005fa3 !important;
-  box-shadow: 0px 10px 10px -5px rgba(0, 0, 0, 0.62);
-}
-.btn-pulpox-info--line:hover {
-  color: white !important;
-  background-color: #008cf0 !important;
-}
-.btn-pulpox-info--line:active {
-  color: white !important;
-  background-color: #00508a !important;
 }
 
 .pulpox-invalid-feedback {

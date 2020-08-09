@@ -37,6 +37,18 @@ h1 {
 	color: $color_dark;
 }
 
+.plpx-w1 {
+	width: 1em;
+}
+
+.plpx-wf {
+	width: 100%;
+}
+
+.plpx-wa {
+	width: auto;
+}
+
 $border_radius: 4px;
 $border_width: 0.5px;
 $border_color: lightgrey;
@@ -64,334 +76,30 @@ $btn_margin: 0.25em;
 	border-radius: $border_radius;
 }
 
-/* BOTONES */
-
-.plpx-btn {
-	margin: $btn_margin;
+.plpx-select {
+	border-radius: $border_radius;
+	border: 1px solid $color_secondary_opaque;
+	color: $color_secondary_opaque;
 	padding: $btn_padding;
-	border-radius: $border_radius;
-	@include btn_shadow;
+	display: block;
+	width: 100%;
+	transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 
 	&:focus {
 		outline: none;
+		box-shadow: 0 0 0 0.1em $color_secondary_opaque;
 	}
 }
 
-.plpx-btn-line {
-	margin: $btn_margin;
-	padding: $btn_line_padding;
-	border-radius: $border_radius;
-	@include btn_shadow;
-
-	&:focus {
-		outline: none;
-	}
-}
-
-.plpx-btn-white {
-	border: 0;
-	background-color: white;
-	color: $color_primary;
-	&:hover {
-		color: $color_primary;
-		background-color: $color_gray_light;
-	}
-	&:active {
-		color: white;
-		background-color: $color_dark_opaque;
-	}
-}
-
-.plpx-btn-white-line {
-	border: 1px solid rgb(238, 238, 238);
-	background-color: white;
-	color: $color_primary;
-
-	&:hover {
-		color: $color_primary;
-		background-color: $color_gray_light;
-	}
-
-	&:active {
-		color: white;
-		background-color: $color_dark_opaque;
-	}
-}
-
-.plpx-btn-primary {
-	border: 0;
-	background-color: $color_primary;
-	color: white;
-	&:hover {
-		color: white;
-		background-color: $color_primary_medium_light;
-	}
-	&:active {
-		color: white;
-		background-color: $color_primary_dark;
-	}
-}
-
-.plpx-btn-primary-line {
-	border: 1px solid $color_primary;
-	background-color: white;
-	color: $color_primary;
-	&:hover {
-		color: WHITE;
-		background-color: $color_primary_medium_light;
-	}
-
-	&:active {
-		color: white;
-		background-color: $color_primary_dark;
-	}
-}
-
-.plpx-btn-secondary {
-	border: 0;
-	background-color: $color_secondary;
-	color: white;
-	&:hover {
-		color: white;
-		background-color: $color_secondary_medium_light;
-	}
-	&:active {
-		color: white;
-		background-color: $color_secondary_dark;
-	}
-}
-
-.plpx-btn-secondary-line {
-	border: 1px solid $color_secondary;
-	background-color: white;
+.plpx-titulo-filtro {
+	font-weight: bold;
 	color: $color_secondary;
-	&:hover {
-		color: WHITE;
-		background-color: $color_secondary_medium_light;
-	}
-
-	&:active {
-		color: white;
-		background-color: $color_secondary_dark;
-	}
 }
 
 .div_opciones {
 	border: 0;
 	margin-top: 1em;
 	text-align: center;
-}
-
-/*
-.plpx-btn-white-line {
-	background-color: white;
-	color: $color_primary;
-	&:hover {
-		color: $color_primary;
-		background-color: $color_gray_light;
-	}
-
-	&:active {
-		color: white;
-		background-color: $color_primary_dark;
-	}
-}*/
-
-.btn-pulpox-primary {
-	background-color: $color_primary;
-	color: white;
-	@include shadow_div;
-
-	&:hover {
-		color: white;
-		background-color: $color_primary_light;
-	}
-
-	&:active {
-		color: white;
-		background-color: $color_primary_dark;
-	}
-}
-
-.btn-pulpox-primary--line {
-	border-color: $color_primary !important;
-	color: $color_primary !important;
-	@include shadow_div;
-
-	&:hover {
-		color: white;
-		background-color: $color_primary_light;
-	}
-
-	&:active {
-		color: white;
-		background-color: $color_gray_light;
-	}
-}
-
-.btn-pulpox-primary-disabled {
-	background-color: $color_secondary_dark;
-	color: white;
-}
-
-.btn-pulpox-secondary {
-	background-color: $color_secondary_light !important;
-	color: white !important;
-	@include shadow_div;
-
-	&:hover {
-		color: white !important;
-		background-color: $color_secondary_medium_light !important;
-	}
-
-	&:active {
-		color: white !important;
-		background-color: $color_secondary_medium_dark !important;
-	}
-}
-
-.btn-pulpox-secondary--line {
-	border-color: $color_secondary_medium_light !important;
-	color: $color_secondary_medium_light !important;
-	@include shadow_div;
-
-	&:hover {
-		color: white !important;
-		background-color: $color_secondary_light !important;
-	}
-
-	&:active {
-		color: white !important;
-		background-color: $color_secondary_dark !important;
-	}
-}
-
-.btn-pulpox-danger {
-	background-color: $color_danger !important;
-	color: white !important;
-	@include shadow_div;
-
-	&:hover {
-		color: white !important;
-		background-color: $color_danger_light !important;
-	}
-
-	&:active {
-		color: white !important;
-		background-color: $color_danger_dark !important;
-	}
-}
-
-.btn-pulpox-danger--line {
-	border-color: $color_danger !important;
-	color: $color_danger !important;
-	@include shadow_div;
-
-	&:hover {
-		color: white !important;
-		background-color: $color_danger_light !important;
-	}
-
-	&:active {
-		color: white !important;
-		background-color: $color_danger_dark !important;
-	}
-}
-
-.btn-pulpox-success {
-	background-color: $color_success !important;
-	color: white !important;
-	@include shadow_div;
-
-	&:hover {
-		color: white !important;
-		background-color: $color_success_light !important;
-	}
-
-	&:active {
-		color: white !important;
-		background-color: $color_success_dark !important;
-	}
-}
-
-.btn-pulpox-success--line {
-	border-color: $color_success !important;
-	color: $color_success !important;
-	@include shadow_div;
-
-	&:hover {
-		color: white !important;
-		background-color: $color_success_light !important;
-	}
-
-	&:active {
-		color: white !important;
-		background-color: $color_success_dark !important;
-	}
-}
-
-.btn-pulpox-warning {
-	@include shadow_div;
-	background-color: $color_warning !important;
-	color: white !important;
-
-	&:hover {
-		color: #635b00 !important;
-		background-color: $color_warning_light !important;
-	}
-
-	&:active {
-		color: white !important;
-		background-color: $color_warning_dark !important;
-	}
-}
-
-.btn-pulpox-warning--line {
-	border-color: $color_warning !important;
-	color: $color_warning !important;
-	@include shadow_div;
-
-	&:hover {
-		color: #635b00 !important;
-		background-color: $color_warning_light !important;
-	}
-
-	&:active {
-		color: white !important;
-		background-color: $color_warning_dark !important;
-	}
-}
-
-.btn-pulpox-info {
-	background-color: $color_info !important;
-	color: white !important;
-	@include shadow_div;
-
-	&:hover {
-		color: white !important;
-		background-color: $color_info_light !important;
-	}
-
-	&:active {
-		color: white !important;
-		background-color: $color_info_dark !important;
-	}
-}
-
-.btn-pulpox-info--line {
-	border-color: $color_info !important;
-	color: $color_info !important;
-	@include shadow_div;
-
-	&:hover {
-		color: white !important;
-		background-color: $color_info_light !important;
-	}
-
-	&:active {
-		color: white !important;
-		background-color: $color_info_dark !important;
-	}
 }
 
 .pulpox-invalid-feedback {

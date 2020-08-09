@@ -1,0 +1,274 @@
+.plpx-btn {
+	margin: $btn_margin;
+	padding: $btn_padding;
+	border-radius: $border_radius;
+	@include btn_shadow;
+
+	&:focus {
+		outline: none;
+	}
+}
+
+.plpx-btn-line {
+	margin: $btn_margin;
+	padding: $btn_line_padding;
+	border-radius: $border_radius;
+	@include btn_shadow;
+
+	&:focus {
+		outline: none;
+	}
+}
+
+.plpx-btn-white {
+	border: 0;
+	background-color: white;
+	color: $color_primary;
+	&:hover {
+		color: $color_primary;
+		background-color: $color_gray_light;
+	}
+	&:active {
+		color: white;
+		background-color: $color_dark_opaque;
+	}
+}
+
+.plpx-btn-white-disabled {
+	border: 0;
+	background-color: white;
+	color: rgb(212, 209, 209);
+	cursor: not-allowed;
+}
+
+.plpx-btn-white-line {
+	border: 1px solid rgb(238, 238, 238);
+	background-color: white;
+	color: $color_primary;
+
+	&:hover {
+		color: $color_primary;
+		background-color: $color_gray_light;
+	}
+
+	&:active {
+		color: white;
+		background-color: $color_dark_opaque;
+	}
+}
+
+.plpx-btn-primary {
+	border: 0;
+	background-color: $color_primary;
+	color: white;
+	&:hover {
+		color: white;
+		background-color: $color_primary_medium_light;
+	}
+	&:active {
+		color: white;
+		background-color: $color_primary_dark;
+	}
+}
+
+.plpx-btn-primary-disabled {
+	border: 0;
+	background-color: $color_primary_opaque;
+	color: rgb(212, 209, 209);
+	cursor: not-allowed;
+}
+
+.plpx-btn-primary-line {
+	border: 1px solid $color_primary;
+	background-color: white;
+	color: $color_primary;
+	&:hover {
+		color: WHITE;
+		background-color: $color_primary_medium_light;
+	}
+
+	&:active {
+		color: white;
+		background-color: $color_primary_dark;
+	}
+}
+
+.plpx-btn-secondary {
+	border: 0;
+	background-color: $color_secondary;
+	color: white;
+	&:hover {
+		color: white;
+		background-color: $color_secondary_medium_light;
+	}
+	&:active {
+		color: white;
+		background-color: $color_secondary_dark;
+	}
+}
+
+.plpx-btn-secondary-disabled {
+	border: 0;
+	background-color: $color_secondary_opaque;
+	color: rgb(212, 209, 209);
+	cursor: not-allowed;
+}
+
+.plpx-btn-secondary-line {
+	border: 1px solid $color_secondary;
+	background-color: white;
+	color: $color_secondary;
+	&:hover {
+		color: WHITE;
+		background-color: $color_secondary_medium_light;
+	}
+
+	&:active {
+		color: white;
+		background-color: $color_secondary_dark;
+	}
+}
+
+.plpx-btn-danger {
+	border: 0;
+	background-color: $color_danger;
+	color: white;
+	&:hover {
+		color: white;
+		background-color: $color_danger_light;
+	}
+	&:active {
+		color: white;
+		background-color: $color_danger_dark;
+	}
+}
+
+.plpx-btn-danger-disabled {
+	border: 0;
+	background-color: $color_danger_opaque;
+	color: rgb(212, 209, 209);
+	cursor: not-allowed;
+}
+
+.plpx-btn-danger-line {
+	border: 1px solid $color_danger;
+	background-color: white;
+	color: $color_danger;
+	&:hover {
+		color: WHITE;
+		background-color: $color_danger_light;
+	}
+
+	&:active {
+		color: white;
+		background-color: $color_danger_dark;
+	}
+}
+
+.plpx-btn-success {
+	border: 0;
+	background-color: $color_success;
+	color: white;
+	&:hover {
+		color: white;
+		background-color: $color_success_light;
+	}
+	&:active {
+		color: white;
+		background-color: $color_success_dark;
+	}
+}
+
+.plpx-btn-success-disabled {
+	border: 0;
+	background-color: $color_success_opaque;
+	color: rgb(212, 209, 209);
+	cursor: not-allowed;
+}
+
+.plpx-btn-success-line {
+	border: 1px solid $color_success;
+	background-color: white;
+	color: $color_success;
+	&:hover {
+		color: WHITE;
+		background-color: $color_success_light;
+	}
+
+	&:active {
+		color: white;
+		background-color: $color_success_dark;
+	}
+}
+
+.plpx-btn-info {
+	border: 0;
+	background-color: $color_info;
+	color: white;
+	&:hover {
+		color: white;
+		background-color: $color_info_light;
+	}
+	&:active {
+		color: white;
+		background-color: $color_info_dark;
+	}
+}
+
+.plpx-btn-info-disabled {
+	border: 0;
+	background-color: $color_info_opaque;
+	color: rgb(212, 209, 209);
+	cursor: not-allowed;
+}
+
+.plpx-btn-info-line {
+	border: 1px solid $color_info;
+	background-color: white;
+	color: $color_info;
+	&:hover {
+		color: WHITE;
+		background-color: $color_info_light;
+	}
+
+	&:active {
+		color: white;
+		background-color: $color_info_dark;
+	}
+}
+
+.plpx-btn-warning {
+	border: 0;
+	background-color: $color_warning;
+	color: white;
+	&:hover {
+		color: white;
+		background-color: $color_warning_light;
+	}
+	&:active {
+		color: white;
+		background-color: $color_warning_dark;
+	}
+}
+
+.plpx-btn-warning-disabled {
+	border: 0;
+	background-color: $color_warning_opaque;
+	color: rgb(212, 209, 209);
+	cursor: not-allowed;
+}
+
+.plpx-btn-warning-line {
+	border: 1px solid $color_warning;
+	background-color: white;
+	color: $color_warning;
+	&:hover {
+		color: WHITE;
+		background-color: $color_warning_light;
+	}
+
+	&:active {
+		color: white;
+		background-color: $color_warning_dark;
+	}
+}

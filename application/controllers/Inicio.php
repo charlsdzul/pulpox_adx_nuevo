@@ -25,6 +25,12 @@ class Inicio extends CI_Controller {
         $this->load->view('scripts/script-js-iniciar-sesion.php'); 
     }
 
+    function ui(){
+      $data = array('paginaNombre' => 'Pulpox: UI');
+      $this->load->view('headers/header-html', $data);
+      $this->load->view('pages/page-ui.php');   
+    }
+
     function buscarAnuncios(){
       $datosBusqueda = $this->input->get();   
      // var_dump($datosBusqueda);

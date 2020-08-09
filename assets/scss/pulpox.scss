@@ -1,99 +1,17 @@
 @import "../../../pulpox_ads_nuevo/assets/scss/base/config.scss";
-
-/******************************* MENÚ PRINCIPAL */
-
-.main-menu {
-	background-color: $color_primary;
-	box-shadow: 0px 3px 7px 0px rgba(0, 0, 0, 0.62);
-}
-
-.main-menu a {
-	color: white;
-}
-
-.navbar-pulpox .navbar-toggler-icon {
-	background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='30' height='30' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(255, 255, 255, .75)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
-}
-
-#main-menu-toggler {
-	text-align: right;
-}
-
-.nav-item {
-	padding: 0.25em;
-	border-radius: $border_radius;
-
-	&:hover {
-		background-color: white;
-		box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
-		.nav-link {
-			color: $color_primary;
-		}
-	}
-
-	&:active {
-		background-color: $color_gray_light;
-	}
-}
-
-#boton-cuenta {
-	//background-color: $color_secondary_light;
-	//border: 0;
-	//box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
-}
-
-#dropdown_menu {
-	float: right;
-
-	.dropdown-menu {
-		background-color: $color_secondary_medium_dark;
-		padding: 0;
-		left: -4.5em;
-		margin-top: 0.25em;
-	}
-
-	.dropdown-item {
-		&:hover {
-			background-color: $color_secondary_light;
-			color: white;
-		}
-	}
-}
-
-.btn-pulpox-login {
-	color: white;
-	cursor: pointer;
-
-	&:hover {
-		color: white;
-		background-color: $color_secondary_light;
-	}
-
-	&:active {
-		color: white;
-	}
-}
-
-.btn-pulpox-singup {
-	color: $color_primary;
-	background-color: white;
-	cursor: pointer;
-}
-
-#btn-pulpox-singup {
-	color: $color_primary;
-
-	&:hover {
-		color: white;
-		background-color: $color_secondary_light;
-	}
-
-	&:active {
-		color: white;
-	}
-}
+@import "../../../pulpox_ads_nuevo/assets/scss/botones.scss";
+@import "../../../pulpox_ads_nuevo/assets/scss/menu.scss";
 
 /******************************* INICIO */
+
+.plpx-div-1 {
+	background-color: hsl(341, 100%, 99%);
+	padding: 1em;
+	border-radius: 4px;
+	-webkit-box-shadow: 0px 10px 10px -5px rgba(0, 0, 0, 0.62);
+	-moz-box-shadow: 0px 10px 10px -5px rgba(0, 0, 0, 0.62);
+	box-shadow: 0px 5px 10px -5px rgba(0, 0, 0, 0.62);
+}
 
 .datos_anuncio {
 	color: $color_light_dark;
@@ -110,11 +28,6 @@
 
 .modalidad_anuncio {
 	color: $color_dark;
-}
-
-.pulpox-titulo-filtro {
-	font-weight: bold;
-	color: $color_info_dark;
 }
 
 tr:hover {

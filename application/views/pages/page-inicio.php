@@ -1,17 +1,4 @@
-<body class='container-fluid p-0'>   
-<br>
-<button class='plpx-btn plpx-btn-white'>White</button>
-<button class='plpx-btn-line plpx-btn-white-line'>White Line</button>
-
-<button class='plpx-btn plpx-btn-primary'>Primary</button>
-<button class='plpx-btn-line plpx-btn-primary-line'>Primary Line</button>
-
-
-<button class='plpx-btn plpx-btn-secondary'>Secondary</button>
-<button class='plpx-btn-line plpx-btn-secondary-line'>Secondary Line</button>
-
-
-     
+<body class='container-fluid p-0'>        
   <div class='row justify-content-center m-0'>  
 
     <div class="mt-2 col-11 col-sm-11 col-md-11 col-lg-11 col-xl-11"> 
@@ -21,40 +8,38 @@
     </div> 
 
     <div id="divFiltrosDesktop" class="mt-2 col-11 col-sm-11 col-md-11 col-lg-10 col-xl-10" > 
-      <div class='row justify-content-center m-0' style="background-color:hsl(341, 100%, 99%); padding:1em; border-radius: 4px; 	-webkit-box-shadow: 0px 10px 10px -5px rgba(0, 0, 0, 0.62);
-	-moz-box-shadow: 0px 10px 10px -5px rgba(0, 0, 0, 0.62);
-	box-shadow: 0px 10px 10px -5px rgba(0, 0, 0, 0.62);">          
+      <div class='row justify-content-center m-0 plpx-div-1'>          
         <div class="form-group col-11 col-sm-6 col-md-3 col-lg-3 col-xl-3">
-              <label class='pulpox-titulo-filtro'>Estado</label>
-              <select id="slctEstado" class="form-control pulpox-validar-select"></select> 
+              <label class='plpx-titulo-filtro'>Estado</label>
+              <select id="slctEstado" class="plpx-select pulpox-validar-select"></select> 
         </div>
         <div class="form-group col-11 col-sm-6 col-md-3 col-lg-3 col-xl-3">
-              <label class='pulpox-titulo-filtro'>Ciudad</label>
-              <select id="slctCiudad" class="form-control pulpox-validar-select" ></select> 
+              <label class='plpx-titulo-filtro'>Ciudad</label>
+              <select id="slctCiudad" class="plpx-select pulpox-validar-select" ></select> 
         </div>
         <div class="form-group col-11 col-sm-6 col-md-3 col-lg-3 col-xl-3">
-              <label class='pulpox-titulo-filtro'>Sección</label>
-              <select id="slctSeccion" class="form-control pulpox-validar-select" ></select> 
+              <label class='plpx-titulo-filtro'>Sección</label>
+              <select id="slctSeccion" class="plpx-select pulpox-validar-select" ></select> 
         </div>
         <div class="form-group col-11 col-sm-6 col-md-3 col-lg-3 col-xl-3">
-              <label class='pulpox-titulo-filtro'>Apartado</label>
-              <select id="slctApartado" class="form-control pulpox-validar-select"  ></select> 
+              <label class='plpx-titulo-filtro'>Apartado</label>
+              <select id="slctApartado" class="plpx-select pulpox-validar-select"  ></select> 
         </div>            
         <div class="form-group col-11 col-sm-6 col-md-4 col-lg-4 col-xl-3">
-              <label class='pulpox-titulo-filtro'>¿Qué buscas?</label>
-              <input id="txtBusqueda" type="text" class="form-control" >
+              <label class='plpx-titulo-filtro'>¿Qué buscas?</label>
+              <input id="txtBusqueda" type="text" class="plpx-select" >
         </div>        
         <div class="form-group col-11 col-sm-6 col-md-4 col-lg-4 col-xl-3">
-              <label class='pulpox-titulo-filtro'>Personas o negocios que..</label>
-              <select id="slctModalidad" class="form-control pulpox-validar-select"></select> 
+              <label class='plpx-titulo-filtro'>Personas o negocios que..</label>
+              <select id="slctModalidad" class="plpx-select pulpox-validar-select"></select> 
         </div>
         <div class="form-group col-11 col-sm-6 col-md-2 col-lg-2 col-xl-3">
-              <label class='pulpox-titulo-filtro'>Mostrar</label>
-              <select id="slctMostrar" class="form-control pulpox-validar-select" ></select>  
+              <label class='plpx-titulo-filtro'>Mostrar</label>
+              <select id="slctMostrar" class="plpx-select pulpox-validar-select" ></select>  
         </div>
         <div class="form-group col-11 col-sm-6 col-md-2 col-lg-2 col-xl-3">     
               <label></label>        
-              <button id="btnBuscar" class="form-control  btn-pulpox-primary">Buscar</button>
+              <button id="btnBuscar" class="plpx-btn plpx-btn-primary plpx-wf">Buscar</button>
         </div>  
       </div>  
     </div> 
