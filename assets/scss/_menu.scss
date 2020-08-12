@@ -18,6 +18,7 @@
 .nav-item {
 	margin: 0.25em;
 	padding: 0.25em;
+	border-radius: $border_radius;
 	&:hover {
 		background-color: $color_primary_light;
 		.nav-link {
@@ -27,13 +28,11 @@
 
 	&:active {
 		background-color: $color_primary;
-		//margin: 0;
 	}
 }
 
 #boton-cuenta {
-	background-color: $color_secondary_light;
-	border: 0;
+	cursor: pointer;
 }
 
 #dropdown_menu {
@@ -69,20 +68,20 @@
 }
 
 .btn-pulpox-singup {
-	color: $color_primary;
-	background-color: white;
+	color: $color_primary !important;
+	background-color: $color_info;
+	border: none;
 	cursor: pointer;
-}
-
-#btn-pulpox-singup {
-	color: $color_primary;
 
 	&:hover {
-		color: white;
+		color: white !important;
 		background-color: $color_secondary_light;
+		border: none;
 	}
 
 	&:active {
 		color: white;
+		background-color: $color_secondary_medium_dark;
+		border: none;
 	}
 }

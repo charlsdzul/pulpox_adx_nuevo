@@ -3,18 +3,14 @@
 class Inicio extends CI_Controller {    
 
      function __construct() {
-        parent::__construct();        
-        //$this->load->library('sesiones');
-        //$this->sesiones->usuarioEstaEnSesion(); 
+        parent::__construct();   
         $this->load->helper('url'); 
         $this->load->model('inicio_model');
         $this->load->library('session'); 
         $this->load->library('validaciones');
-
     }
 
     function index(){              
-      //  $this->load->view('headers/header-html-inicio');
         $data = array('paginaNombre' => 'Pulpox: Inicio');
         $this->load->view('headers/header-html', $data);
         $this->load->view('scripts/script-js-general.php');  
@@ -32,8 +28,7 @@ class Inicio extends CI_Controller {
     }
 
     function buscarAnuncios(){
-      $datosBusqueda = $this->input->get();   
-     // var_dump($datosBusqueda);
+      $datosBusqueda = $this->input->get();     
 
       if($datosBusqueda){     
         
@@ -104,13 +99,8 @@ class Inicio extends CI_Controller {
 
     }
 
-
-
-
-
-
     function buscarAnunciosGeneral(){   
-      $this->inicio_model->buscarAnunciosGeneral();      
+      $this->inicio_model->buscarAnunciosGeneral();     
 
     } 
 

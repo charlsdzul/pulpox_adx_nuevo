@@ -22,8 +22,8 @@
 
 .plpx-btn-white {
 	border: 0;
-	background-color: white;
-	color: $color_primary;
+	background-color: white !important;
+	color: $color_primary !important;
 	&:hover {
 		color: $color_primary;
 		background-color: $color_gray_light;

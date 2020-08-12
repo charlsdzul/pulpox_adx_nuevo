@@ -1,47 +1,6 @@
 @import "../../../pulpox_ads_nuevo/assets/scss/base/config.scss";
-@import "../../../pulpox_ads_nuevo/assets/scss/botones.scss";
 @import "../../../pulpox_ads_nuevo/assets/scss/menu.scss";
+@import "../../../pulpox_ads_nuevo/assets/scss/botones.scss";
 
-/******************************* INICIO */
-
-.plpx-div-1 {
-	background-color: hsl(341, 100%, 99%);
-	padding: 1em;
-	border-radius: 4px;
-	-webkit-box-shadow: 0px 10px 10px -5px rgba(0, 0, 0, 0.62);
-	-moz-box-shadow: 0px 10px 10px -5px rgba(0, 0, 0, 0.62);
-	box-shadow: 0px 5px 10px -5px rgba(0, 0, 0, 0.62);
-}
-
-.datos_anuncio {
-	color: $color_light_dark;
-	font-size: smaller;
-}
-
-.link_anuncio {
-	color: $color_info;
-
-	&:hover {
-		color: $color_info_dark;
-	}
-}
-
-.modalidad_anuncio {
-	color: $color_dark;
-}
-
-tr:hover {
-	background-color: #e6f4ff;
-
-	a {
-		color: #00508a !important;
-	}
-
-	.modalidad_anuncio {
-		color: #00508a !important;
-	}
-
-	.datos_anuncio {
-		color: #00508a !important;
-	}
-}
+//PÁGINAS
+@import "../../../pulpox_ads_nuevo/assets/scss/inicio.scss";

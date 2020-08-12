@@ -179,26 +179,28 @@
     function buscarAnunciosGeneral(){   
 
         $.get((BASE_URL+'inicio/buscarAnunciosGeneral' ), function(response){
-            response = JSON.parse(response);      
+            response = JSON.parse(response);     
+            console.log(response['pulpox']); 
             $("tr").remove();
             $("#pulpox_pagination li").remove();
 
             if(response.codigo==1){
             } else {               
                 let lista_anuncios= "";
-                let total_paginas = "";
-                Object.values(response).forEach(val  => {       
-                    total_paginas = val.total_paginas;          
-                    lista_anuncios += ` 
-                    <tr>
-                        <td>
-                        <a href="${val.public_id}" target="#_blank" class="link_anuncio"> ${val.titulo} </a>
-                        <span class="modalidad_anuncio">${val.modalidad}</span> 
-                        <span class="datos_anuncio">| ${val.estado} > ${val.ciudad} 
-                        > ${val.seccion} > ${val.apartado} |
-                        (${val.renovado})</span>
-                        </td>
-                    </tr>`; 
+                let total_paginas = response['pulpox'].total_paginas;
+                Object.values(response).forEach(val  => {    
+                    if(val.numero != null){ 
+                        lista_anuncios += ` 
+                        <tr>
+                            <td>
+                            <a href="${val.public_id}" target="#_blank" class="link_anuncio"> ${val.titulo} </a>
+                            <span class="modalidad_anuncio">${val.modalidad}</span> 
+                            <span class="datos_anuncio">| ${val.estado} > ${val.ciudad} 
+                            > ${val.seccion} > ${val.apartado} |
+                            ${val.renovado}</span>
+                            </td>
+                        </tr>`; 
+                    }
                 });      
                     
                 $("#anuncios_table").append(lista_anuncios);
@@ -208,8 +210,9 @@
                     lista_paginas += `<li class="page-item"><button class="page-link" onclick="buscarAnuncios(${index})">${index}</button></li>`;                 
                 }                            
                     
-                $("#pulpox_pagination").append(lista_paginas);  
+                $("#pulpox_pagination").append(lista_paginas); 
 
+                $('#resultadosNumero').text("Está viendo " + response['pulpox'].anuncios_mostrados +  " de " + response['pulpox'].total_anuncios + " anuncios.");
 
             }
         })
@@ -230,16 +233,16 @@
         }      
 
         $.get((BASE_URL+'inicio/buscarAnuncios/' ), datosBusqueda, function(response){
-
-            response = JSON.parse(response);      
+            response = JSON.parse(response);   
+            console.log(response['pulpox']);   
             $("tr").remove();
             $("#pulpox_pagination li").remove();
             if(response.codigo==1){
             } else {                
                 let lista_anuncios= "";
-                let total_paginas = "";
-                Object.values(response).forEach(val  => {       
-                    total_paginas = val.total_paginas;          
+                let total_paginas = response['pulpox'].total_paginas;
+                Object.values(response).forEach(val  => {    
+                if(val.numero != null){
                     lista_anuncios += ` 
                     <tr>
                         <td>
@@ -247,9 +250,12 @@
                         <span class="modalidad_anuncio">${val.modalidad}</span> 
                         <span class="datos_anuncio">| ${val.estado} > ${val.ciudad} 
                         > ${val.seccion} > ${val.apartado} |
-                        (${val.renovado})</span>
+                        ${val.renovado}</span>
                         </td>
                     </tr>`; 
+
+                }
+                    
                 });     
 
                 $("#anuncios_table").append(lista_anuncios);
@@ -259,7 +265,9 @@
                     lista_paginas += `<li class="page-item"><button class="page-link" onclick="buscarAnuncios(${index})">${index}</button></li>`;                 
                 }                            
                     
-                $("#pulpox_pagination").append(lista_paginas);                          
+                $("#pulpox_pagination").append(lista_paginas);   
+
+                $('#resultadosNumero').text("Está viendo " + response['pulpox'].anuncios_mostrados +  " de " + response['pulpox'].total_anuncios + " anuncios.");      
         
             }
         }) 
@@ -410,26 +418,47 @@
 
 
     $('#slctEstado').change(function(){
-        buscarAnuncios(pagina = 1);                                       
+        try {
+            
+        } catch (error) {
+            buscarAnuncios(pagina = 1); 
+        }
+                                              
     })
 
     $('#slctCiudad').change(function(){
-        buscarAnuncios(pagina = 1);                                       
+        try {
+            
+        } catch (error) {
+            buscarAnuncios(pagina = 1); 
+        }                                    
     })
         
 
     $('#slctSeccion').change(function(){
-        buscarAnuncios(pagina = 1);                                       
+        try {
+            
+        } catch (error) {
+            buscarAnuncios(pagina = 1); 
+        }                                      
     })
 
     
     $('#slctApartado').change(function(){
-        buscarAnuncios(pagina = 1);                                       
+        try {
+            
+        } catch (error) {
+            buscarAnuncios(pagina = 1); 
+        }                                      
     })
 
     
     $('#slctModalidad').change(function(){
-        buscarAnuncios(pagina = 1);                                       
+        try {
+            
+        } catch (error) {
+            buscarAnuncios(pagina = 1); 
+        }                                      
     })
         
         

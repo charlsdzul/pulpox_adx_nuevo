@@ -48,7 +48,7 @@
       <div class='row justify-content-center m-0'>
         <div class="mt-2 col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">  
 
-            <H4>Resultados</H4>
+            <H4>Resultados</H4> <span id="resultadosNumero"></span>
             <table id="anuncios_table" class="table table-striped table-sm table-hover" width="100%">
               <thead class='pulpox-table--thead' width="100%">
                 <tr>        

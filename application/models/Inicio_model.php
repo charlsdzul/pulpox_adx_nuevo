@@ -4,20 +4,13 @@ class Inicio_model extends CI_Model {
 
     function __construct(){
         parent::__construct();
-
-        $this->load->library('sesiones');
-        //$this->sesiones->usuarioEstaEnSesion(); 
-
-        //$this->ID_USUARIO_EN_SESSION = $this->sesiones->usuarioEnSesion();
-        
+        $this->load->library('sesiones');    
         $this->load->library('validaciones');
         $this->load->database(); 
-        $this->load->helper('url');    
-             
+        $this->load->helper('url');
     }  
 
     function buscarAnuncios($datosBusqueda){ 
-
 
         if($datosBusqueda['modalidad'] == ' ') $modalidadCol = "modalidad !=";
         else $modalidadCol = "modalidad";
@@ -39,7 +32,6 @@ class Inicio_model extends CI_Model {
 
         if($datosBusqueda['textoBuscar']==' ') $mensajeCol = "mensaje !=";
         else $mensajeCol = "mensaje="; 
-
     
         $this->db->select("*")
         ->order_by('renovado', 'DESC')
@@ -56,6 +48,7 @@ class Inicio_model extends CI_Model {
            
             $total_anuncios = $query->num_rows();
             $total_paginas= ceil($total_anuncios/$datosBusqueda['numeroMostrar']);
+            $mostrados = 0;
 
             $contarDesde = (($datosBusqueda['paginaSeleccionada']) * $datosBusqueda['numeroMostrar']) - ($datosBusqueda['numeroMostrar']-1);
             $contarHasta = $datosBusqueda['paginaSeleccionada'] * $datosBusqueda['numeroMostrar'];
@@ -67,9 +60,7 @@ class Inicio_model extends CI_Model {
                 foreach ($query->result() as $row){
 
                     if($j>=$contarDesde && $j<=$contarHasta){
-                        $misanuncios[$j]['numero'] = $j;
-                        $misanuncios[$j]['total_anuncios'] = $total_anuncios;
-                        $misanuncios[$j]['total_paginas'] = $total_paginas;
+                        $misanuncios[$j]['numero'] = $j;                       
                         $misanuncios[$j]['public_id'] = $row->public_id;
                         $misanuncios[$j]['titulo'] = $j.$row->titulo;
                         $misanuncios[$j]['modalidad'] = $row->modalidad;
@@ -77,14 +68,17 @@ class Inicio_model extends CI_Model {
                         $misanuncios[$j]['ciudad'] = $this->validaciones->obtenerNombre($row->ciudad, 'ciudad');
                         $misanuncios[$j]['seccion'] = $this->validaciones->obtenerNombre($row->seccion, 'seccion');
                         $misanuncios[$j]['apartado'] = $this->validaciones->obtenerNombre($row->apartado, 'apartado');
-                        $misanuncios[$j]['renovado'] = $this->validaciones->creaFechaConFormatoCorto($row->renovado);  
-                    }                   
-                  
+                        $misanuncios[$j]['renovado'] = $this->validaciones->creaFechaConFormatoCorto2($row->renovado);  
+                        $mostrados++;
+                        
+                    }   
                     if($j==$contarHasta) break;
                     $j++; 
-
-                }                  
-      
+                 
+                }    
+                $misanuncios['pulpox']['total_anuncios'] = $total_anuncios;
+                $misanuncios['pulpox']['total_paginas'] = $total_paginas;
+                $misanuncios['pulpox']['anuncios_mostrados'] = $mostrados;
                 echo json_encode($misanuncios);
                 die();
             }else{
@@ -108,6 +102,7 @@ class Inicio_model extends CI_Model {
         ->where("sta=0");
 
         $mostrar = 25;
+        $mostrados = 0;
 
         if($query = $this->db->get('anuncios')){  
 
@@ -118,10 +113,8 @@ class Inicio_model extends CI_Model {
 
                 $misanuncios=[]; 
                 $j=1;  
-                foreach ($query->result() as $row){
+                foreach ($query->result() as $row){                    
                     $misanuncios[$j]['numero'] = $j;
-                    $misanuncios[$j]['total_anuncios'] = $total_anuncios;
-                    $misanuncios[$j]['total_paginas'] = $total_paginas;
                     $misanuncios[$j]['public_id'] = $row->public_id;
                     $misanuncios[$j]['titulo'] = $row->titulo;
                     $misanuncios[$j]['modalidad'] = $row->modalidad;
@@ -129,12 +122,16 @@ class Inicio_model extends CI_Model {
                     $misanuncios[$j]['ciudad'] = $this->validaciones->obtenerNombre($row->ciudad, 'ciudad');
                     $misanuncios[$j]['seccion'] = $this->validaciones->obtenerNombre($row->seccion, 'seccion');
                     $misanuncios[$j]['apartado'] = $this->validaciones->obtenerNombre($row->apartado, 'apartado');
-                    $misanuncios[$j]['renovado'] = $this->validaciones->creaFechaConFormato($row->renovado);
+                    $misanuncios[$j]['renovado'] = $this->validaciones->creaFechaConFormatoCorto2($row->renovado);
+                    $mostrados++;
                    
                     if($j==$mostrar ) break;
                     $j++;
 
                 }  
+                $misanuncios['pulpox']['total_anuncios'] = $total_anuncios;
+                $misanuncios['pulpox']['total_paginas'] = $total_paginas;
+                $misanuncios['pulpox']['anuncios_mostrados'] = $mostrados;
                 echo json_encode($misanuncios);
                 die();
             }else{
