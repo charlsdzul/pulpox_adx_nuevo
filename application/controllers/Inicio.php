@@ -29,12 +29,13 @@ class Inicio extends CI_Controller {
 
     function buscarAnuncios(){
       $datosBusqueda = $this->input->get();     
-
+   //var_dump($datosBusqueda);
       if($datosBusqueda){     
         
         //Validación Modalidad
         if($datosBusqueda['modalidad']=='Todas') $datosBusqueda['modalidad'] = " ";
         else {
+        
           try{
           if($datosBusqueda['modalidad']= $this->validaciones->obtenerNombreDeFrase($datosBusqueda['modalidad'])); 
           else $datosBusqueda['modalidad'] = " ";
@@ -50,7 +51,7 @@ class Inicio extends CI_Controller {
             if($datosBusqueda['estado']= $this->validaciones->obtenerSigla( $datosBusqueda['estado'], 'estado'));
             else $datosBusqueda['estado'] = " ";
           }catch (Exception $e) {
-            $datosBusqueda['modalidad'] = " ";
+            $datosBusqueda['estado'] = " ";
           }
         }
           

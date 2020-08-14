@@ -44,7 +44,6 @@ class Inicio_model extends CI_Model {
         ->where("(titulo LIKE '%".$datosBusqueda['textoBuscar']."%' OR mensaje LIKE '%".$datosBusqueda['textoBuscar']."%')", NULL, FALSE); 
         
         if($query = $this->db->get('anuncios')){           
-         //print_r($this->db->last_query()); 
            
             $total_anuncios = $query->num_rows();
             $total_paginas= ceil($total_anuncios/$datosBusqueda['numeroMostrar']);
@@ -83,7 +82,7 @@ class Inicio_model extends CI_Model {
                 die();
             }else{
                 $response['codigo']  = 1;
-                $response['mensaje'] = 'No hay resultados.';  
+                $response['mensaje'] = 'Lo sentimos, no hay resultados ¡Intenta con otros datos de búsqueda!';  
                 echo json_encode($response);    
                 die(); 
             }          
@@ -136,7 +135,7 @@ class Inicio_model extends CI_Model {
                 die();
             }else{
                 $response['codigo']  = 1;
-                $response['mensaje'] = 'No hay resultados.';  
+                $response['mensaje'] = 'Lo sentimos, no hay resultados ¡Intenta con otros datos de búsqueda!';  
                 echo json_encode($response);    
                 die(); 
             }          

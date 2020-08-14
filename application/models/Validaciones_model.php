@@ -69,7 +69,7 @@ class Validaciones_model extends CI_Model {
             return $nombre;     
         }else{
             $response['codigo']  = 1;
-            $response['mensaje'] = 'No se pudo obtener el nombre de la frase.';  
+            $response['mensaje'] = 'No se pudo obtener el nombre de la frase.2';  
             echo json_encode($response);    
             die(); 
         }

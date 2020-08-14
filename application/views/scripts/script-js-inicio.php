@@ -13,11 +13,12 @@
             $("#divFiltrosDesktop").css("display","none");
             $("#divFiltrosDesktop").removeClass("col-7 col-sm-7 col-md-7 col-lg-7 col-xl-6");
             $("#divResultados").addClass("col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12");
-            buscarAnunciosGeneral();
+            buscarAnunciosGeneralM();
         }else{
             $("#divFiltrosMovil").css("display","none");
             $("#divFiltrosDesktop").css("display","block");
-            $.when(asignaListasSelects()).done(buscarAnunciosGeneral());
+            $.when(asignaListasSelects())
+            .done(buscarAnunciosGeneral());
         }
     });
 
@@ -67,7 +68,7 @@
         </div> 
       `,
       onContentReady:function(){
-        asignaListasSelectsM();
+        asignaListasSelectsM(); 
       },
       buttons: {
         buscarAnuncios: {
@@ -94,7 +95,7 @@
         */    
 
         $.get( BASE_URL+"General/obtenerModalidadesFrase", function( response ) {       
-            response = JSON.parse(response);
+            response = JSON.parse(response); 
             let lista_modalidades='<option value="Todas" selected>Todas</option>';
             $.each(response, function(key, value){
                 lista_modalidades += `<option value="${value.frase}">${value.frase}</option>`;
@@ -180,7 +181,6 @@
 
         $.get((BASE_URL+'inicio/buscarAnunciosGeneral' ), function(response){
             response = JSON.parse(response);     
-            console.log(response['pulpox']); 
             $("tr").remove();
             $("#pulpox_pagination li").remove();
 
@@ -217,6 +217,56 @@
             }
         })
     }  
+    function buscarAnunciosGeneralM(){   
+
+        $.get((BASE_URL+'inicio/buscarAnunciosGeneral' ), function(response){
+
+            response = JSON.parse(response);     
+            $("tr").remove();
+            $("#pulpox_pagination li").remove();
+
+            if(response.codigo==1){
+            } else {    
+                
+                sessionStorage.setItem("inicioBusquedaM_txtBusquedaM", "");
+                sessionStorage.setItem("inicioBusquedaM_slctModalidadM", "Todas");
+                sessionStorage.setItem("inicioBusquedaM_slctEstadoM", "Todo México");
+                sessionStorage.setItem("inicioBusquedaM_slctCiudadM", "Todas");
+                sessionStorage.setItem("inicioBusquedaM_slctSeccionM", "Todas");
+                sessionStorage.setItem("inicioBusquedaM_slctApartadoM", "Todos");
+                sessionStorage.setItem("inicioBusquedaM_slctMostrarM", "25");
+
+                let lista_anuncios= "";
+                let total_paginas = response['pulpox'].total_paginas;
+                Object.values(response).forEach(val  => {    
+                    if(val.numero != null){ 
+                        lista_anuncios += ` 
+                        <tr>
+                            <td>
+                            <a href="${val.public_id}" target="#_blank" class="link_anuncio"> ${val.titulo} </a>
+                            <span class="modalidad_anuncio">${val.modalidad}</span> 
+                            <span class="datos_anuncio">| ${val.estado} > ${val.ciudad} 
+                            > ${val.seccion} > ${val.apartado} |
+                            ${val.renovado}</span>
+                            </td>
+                        </tr>`; 
+                    }
+                });      
+                    
+                $("#anuncios_table").append(lista_anuncios);
+                                
+                let lista_paginas= "";
+                for (let index = 1; index <= total_paginas; index++) {
+                    lista_paginas += `<li class="page-item"><button class="page-link" onclick="buscarAnunciosM(${index})">${index}</button></li>`;                 
+                }                            
+                    
+                $("#pulpox_pagination").append(lista_paginas); 
+
+                $('#resultadosNumero').text("Está viendo " + response['pulpox'].anuncios_mostrados +  " de " + response['pulpox'].total_anuncios + " anuncios.");
+
+            }
+        })
+    }  
 
     function buscarAnuncios(pagina = 1){  
 
@@ -227,18 +277,19 @@
             "ciudad": $("#slctCiudad").val(),
             "seccion": $("#slctSeccion").val(),
             "apartado": $("#slctApartado").val(),
-            "estado": $("#slctEstado").val(),
             "numeroMostrar": $("#slctMostrar").val(),
             "paginaSeleccionada" : pagina,
         }      
 
         $.get((BASE_URL+'inicio/buscarAnuncios/' ), datosBusqueda, function(response){
             response = JSON.parse(response);   
-            console.log(response['pulpox']);   
             $("tr").remove();
             $("#pulpox_pagination li").remove();
             if(response.codigo==1){
-            } else {                
+                $('#resultadosNumero').text(""); 
+                $('#mensajeNoResultados').text(response.mensaje);  
+            } else {     
+                $('#mensajeNoResultados').text("");            
                 let lista_anuncios= "";
                 let total_paginas = response['pulpox'].total_paginas;
                 Object.values(response).forEach(val  => {    
@@ -282,15 +333,13 @@
 
         $.get( BASE_URL+"General/obtenerModalidadesFrase", function( response ) {       
             response = JSON.parse(response);
-            let lista_modalidades='<option value="Todas" selected>Todas</option>';
+            let lista_modalidades='<option value="Todas" selected>'+sessionStorage.getItem("inicioBusquedaM_slctModalidadM")+'</option>';
             $.each(response, function(key, value){
                 lista_modalidades += `<option value="${value.frase}">${value.frase}</option>`;
             });
                 $('#slctModalidadM').children().remove();
                 $('#slctModalidadM').append(lista_modalidades)    
-        });    
-
-        
+        });
 
         $.get( BASE_URL+"General/obtenerEstados", function( response ) {       
             response = JSON.parse(response);
@@ -300,9 +349,8 @@
             });
                 $('#slctEstadoM').children().remove();
                 $('#slctEstadoM').append(lista_estados);    
-                $('#slctEstadoM').val("Todo México") ;   
+                $('#slctEstadoM').val(sessionStorage.getItem("inicioBusquedaM_slctEstadoM")) ;   
                 $('#slctEstadoM').change();
-                console.log("asasa");
         });        
 
         $('#slctEstadoM').change(function(){
@@ -317,10 +365,7 @@
                     $('#slctCiudadM').children().remove();
                     $('#slctCiudadM').append(lista_ciudades) //Asignar lista de apartado correspondiente según la sección elegida.           
                     $('#slctCiudadM').val("Todas")      
-            });    
-
-            
-                                       
+            });                        
         })
 
         $.get(BASE_URL+"General/obtenerSecciones", function( response ) {       
@@ -331,9 +376,8 @@
             });
             $('#slctSeccionM').children().remove(); 
             $('#slctSeccionM').append(lista_secciones) 
-            $('#slctSeccionM').val("Todas")    
-            $('#slctSeccionM').change()    
-
+            $('#slctSeccionM').val(sessionStorage.getItem("inicioBusquedaM_slctSeccionM"))    
+            $('#slctSeccionM').change() 
         });
 
         $('#slctSeccionM').change(function(){
@@ -341,14 +385,13 @@
             $('#slctApartadoM').find('option').remove() //Remover options actuales
             $.get( BASE_URL+"General/obtenerApartados",{seccion}, function( response ) {      
                 response = JSON.parse(response);  
-                let lista_apartados='<option value="Todos">Todas</option>'; 
+                let lista_apartados='<option value="Todos">Todos</option>'; 
                     $.each(response, function(key, value){
                         lista_apartados += `<option value="${value.nombre}">${value.nombre}</option>`;
                     }); 
                     $('#slctApartadoM').children().remove();
                     $('#slctApartadoM').append(lista_apartados) //Asignar lista de apartado correspondiente según la sección elegida.
-                    $
-                  
+                    $('#slctApartadoM').val("Todos")    
             });                     
         })   
         
@@ -361,36 +404,73 @@
             $('#slctMostrarM').children().remove(); 
             $('#slctMostrarM').append(lista_cantidades);
            // $('#slctMostrar').val(lista_cantidades) 
-            $('#slctMostrarM').val($('#slctMostrarM').find('option').first().val());
+            $('#slctMostrarM').val(sessionStorage.getItem("inicioBusquedaM_slctMostrarM"));
 
         });
+
+        $('#txtBusquedaM').val(sessionStorage.getItem("inicioBusquedaM_txtBusquedaM"));
+        console.log(sessionStorage.getItem("inicioBusquedaM_slctApartadoM"))
+        $('#slctCiudadM').val(sessionStorage.getItem("inicioBusquedaM_slctCiudadM")) 
+        $('#slctApartadoM').val(sessionStorage.getItem("inicioBusquedaM_slctApartadoM"))  
+
+         
+
     }   
     
     function buscarAnunciosM(pagina = 1){  
+    
+        //Si la búsqueda es por página (movil)
+       if($("#slctEstadoM").val()==undefined){
 
-        let datosBusqueda = {
+        var datosBusqueda = {
+            "textoBuscar": sessionStorage.getItem("inicioBusquedaM_txtBusquedaM"),
+            "modalidad":sessionStorage.getItem("inicioBusquedaM_slctModalidadM"),
+            "estado": sessionStorage.getItem("inicioBusquedaM_slctEstadoM"),
+            "ciudad": sessionStorage.getItem("inicioBusquedaM_slctCiudadM"),
+            "seccion": sessionStorage.getItem("inicioBusquedaM_slctSeccionM"),
+            "apartado": sessionStorage.getItem("inicioBusquedaM_slctApartadoM"),
+            "numeroMostrar": sessionStorage.getItem("inicioBusquedaM_slctMostrarM"),
+            "paginaSeleccionada" : pagina,
+        }  
+
+        //Si la búsqueda es por el formulario (movil)
+       }else{
+
+        var datosBusqueda = {
             "textoBuscar": $("#txtBusquedaM").val(),
             "modalidad": $("#slctModalidadM").val(),
             "estado": $("#slctEstadoM").val(),
             "ciudad": $("#slctCiudadM").val(),
             "seccion": $("#slctSeccionM").val(),
             "apartado": $("#slctApartadoM").val(),
-            "estado": $("#slctEstadoM").val(),
             "numeroMostrar": $("#slctMostrarM").val(),
             "paginaSeleccionada" : pagina,
-        }      
+        }  
+
+        //Actualiza datos en sessionStorage
+        sessionStorage.setItem("inicioBusquedaM_txtBusquedaM", datosBusqueda.textoBuscar);
+        sessionStorage.setItem("inicioBusquedaM_slctModalidadM", datosBusqueda.modalidad);
+        sessionStorage.setItem("inicioBusquedaM_slctEstadoM",datosBusqueda.estado);
+        sessionStorage.setItem("inicioBusquedaM_slctCiudadM", datosBusqueda.ciudad);
+        sessionStorage.setItem("inicioBusquedaM_slctSeccionM", datosBusqueda.seccion);
+        sessionStorage.setItem("inicioBusquedaM_slctApartadoM", datosBusqueda.apartado);
+        sessionStorage.setItem("inicioBusquedaM_slctMostrarM", datosBusqueda.numeroMostrar);
+
+       }   
 
         $.get((BASE_URL+'inicio/buscarAnuncios/' ), datosBusqueda, function(response){
-
-            response = JSON.parse(response);      
+            response = JSON.parse(response);   
             $("tr").remove();
             $("#pulpox_pagination li").remove();
             if(response.codigo==1){
-            } else {                
+                $('#resultadosNumero').text(""); 
+                $('#mensajeNoResultados').text(response.mensaje);  
+            } else {     
+                $('#mensajeNoResultados').text("");            
                 let lista_anuncios= "";
-                let total_paginas = "";
-                Object.values(response).forEach(val  => {       
-                    total_paginas = val.total_paginas;          
+                let total_paginas = response['pulpox'].total_paginas;
+                Object.values(response).forEach(val  => {    
+                if(val.numero != null){
                     lista_anuncios += ` 
                     <tr>
                         <td>
@@ -398,70 +478,68 @@
                         <span class="modalidad_anuncio">${val.modalidad}</span> 
                         <span class="datos_anuncio">| ${val.estado} > ${val.ciudad} 
                         > ${val.seccion} > ${val.apartado} |
-                        (${val.renovado})</span>
+                        ${val.renovado}</span>
                         </td>
                     </tr>`; 
+
+                }
+                    
                 });     
 
                 $("#anuncios_table").append(lista_anuncios);
 
                 let lista_paginas= "";
                 for (let index = 1; index <= total_paginas; index++) {
-                    lista_paginas += `<li class="page-item"><button class="page-link" onclick="buscarAnuncios(${index})">${index}</button></li>`;                 
+                    lista_paginas += `<li class="page-item"><button class="page-link" onclick="buscarAnunciosM(${index})">${index}</button></li>`;                 
                 }                            
                     
-                $("#pulpox_pagination").append(lista_paginas);                          
+                $("#pulpox_pagination").append(lista_paginas);   
 
+                $('#resultadosNumero').text("Está viendo " + response['pulpox'].anuncios_mostrados +  " de " + response['pulpox'].total_anuncios + " anuncios.");      
+        
             }
         }) 
     }
 
-
     $('#slctEstado').change(function(){
         try {
-            
-        } catch (error) {
             buscarAnuncios(pagina = 1); 
+        } catch (error) {
+           
         }
                                               
     })
 
     $('#slctCiudad').change(function(){
         try {
-            
-        } catch (error) {
             buscarAnuncios(pagina = 1); 
+        } catch (error) {
+         
         }                                    
-    })
-        
+    })        
 
     $('#slctSeccion').change(function(){
         try {
-            
-        } catch (error) {
             buscarAnuncios(pagina = 1); 
+        } catch (error) {
+            
         }                                      
     })
-
     
     $('#slctApartado').change(function(){
         try {
-            
-        } catch (error) {
             buscarAnuncios(pagina = 1); 
+        } catch (error) {
+            
         }                                      
     })
-
-    
+        
     $('#slctModalidad').change(function(){
         try {
-            
-        } catch (error) {
             buscarAnuncios(pagina = 1); 
+        } catch (error) {
+            
         }                                      
-    })
-        
-        
-  
+    })    
 
 </script>

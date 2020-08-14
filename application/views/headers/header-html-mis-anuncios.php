@@ -26,11 +26,4 @@
     <script type="text/javascript" src="<?php echo base_url();?>assets/libs/MDB-Free_4.18.0/js/addons/datatables.min.js"></script>
 
 
-    <!-- Material Icons  -->
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-   
-    <!-- GOOGLE FONTS/ICONS-->
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
-
 </head>

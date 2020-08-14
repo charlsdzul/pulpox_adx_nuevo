@@ -38,3 +38,39 @@ tr:hover {
 		color: #00508a !important;
 	}
 }
+
+#resultadosTitulo {
+	font-size: 2em;
+	color: $color_secondary;
+}
+
+#resultadosNumero {
+	font-size: 1.25em;
+	color: $color_info;
+}
+
+#mensajeNoResultados {
+	font-size: 2em;
+	color: $color_info;
+}
+
+#divFiltrosDesktop {
+	padding: 1em;
+	border-radius: $border_radius;
+	-webkit-box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.75);
+	-moz-box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.75);
+	box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.75);
+}
+
+#pulpox_btn_filtros {
+	border: 0;
+	width: 75%;
+	padding: 0.5em;
+	font-size: 1.25em;
+	background-color: $color_secondary;
+	color: white;
+	&:active {
+		color: white;
+		background-color: $color_secondary_dark;
+	}
+}

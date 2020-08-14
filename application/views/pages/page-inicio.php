@@ -44,18 +44,24 @@
       </div>  
     </div> 
 
+    <div id="divFiltrosMovil" class="mt-2 col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12" > 
+      <div class='row justify-content-center m-0'>  
+            <button class="plpx-btn" id="pulpox_btn_filtros">Filtros</button>         
+      </div>  
+    </div> 
+
     <div id="divResultados" class="col-11 col-sm-11 col-md-11 col-lg-10 col-xl-10 mt-4"> 
       <div class='row justify-content-center m-0'>
         <div class="mt-2 col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">  
 
-            <H4>Resultados</H4> <span id="resultadosNumero"></span>
+            <h1 id=resultadosTitulo>Resultados</h1> <span id="resultadosNumero"></span>
+            <div><span id="mensajeNoResultados"></span></div>
+
             <table id="anuncios_table" class="table table-striped table-sm table-hover" width="100%">
               <thead class='pulpox-table--thead' width="100%">
-                <tr>        
-                  <th class="th-sm d-none d-lg-table-cell"></th>        
-            
+                <tr><th class="th-sm d-none d-lg-table-cell"></th></tr>     
               </thead>
-              <tbody class='pulpox-table-tbody' style="">
+              <tbody class='pulpox-table-tbody'>
               </tbody>
               <tfoot>
               </tfoot>
@@ -69,23 +75,7 @@
       </div>
     </div> 
 
-    <div id="divFiltrosMovil" class="mt-2 col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12" > 
-      <div class='row justify-content-center m-0'>  
-        <div class="mt-2 col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">  
-
-          <div class="form-row">
-            <div class="form-group col-12">
-
-            <button id="pulpox_btn_filtros">Filtros</button>
-
-
-
-            </div>
-          </div>
-
-        </div>
-      </div>  
-    </div> 
+   
 
     
 
