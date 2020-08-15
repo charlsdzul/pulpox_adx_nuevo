@@ -23,67 +23,67 @@
     });
 
     function filtros(){
-
-    $.confirm({
-      icon: 'fas fa-eye',
-      title: '<span class="titulo-confirm">Filtros</span>',
-      type: 'blue', 
-      columnClass: 'large',          
-      backgroundDismiss: true,    
-      closeIcon: true, 
-      content: `
-        <div id="" class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12" > 
-            <div class='row justify-content-center m-0'> 
-                <div class="form-row">
-                    <div class="form-group col-12">
-                      <label class='pulpox-titulo-filtro'>¿Qué buscas?</label>
-                      <input id="txtBusquedaM" type="text" class="form-control" >
+        
+        $.confirm({
+        icon: 'fas fa-eye',
+        title: '<span class="titulo-confirm">Filtros</span>',
+        type: 'blue', 
+        columnClass: 'large',          
+        backgroundDismiss: true,    
+        closeIcon: true, 
+        content: `
+            <div id="" class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12" > 
+                <div class='row justify-content-center m-0'> 
+                    <div class="form-row">
+                        <div class="form-group col-12">
+                        <label class='pulpox-titulo-filtro'>¿Qué buscas?</label>
+                        <input id="txtBusquedaM" type="text" class="form-control" >
+                        </div>
+                        <div class="form-group col-md-12">
+                        <label class='pulpox-titulo-filtro'>Estado</label>
+                        <select id="slctEstadoM" class="form-control pulpox-validar-select"></select> 
+                        </div>
+                        <div class="form-group col-12">
+                        <label class='pulpox-titulo-filtro'>Ciudad</label>
+                        <select id="slctCiudadM" class="form-control pulpox-validar-select" ></select> 
+                        </div>
+                        <div class="form-group col-12">
+                        <label class='pulpox-titulo-filtro'>Sección</label>
+                        <select id="slctSeccionM" class="form-control pulpox-validar-select" ></select> 
+                        </div>
+                        <div class="form-group col-12">
+                        <label class='pulpox-titulo-filtro'>Apartado</label>
+                        <select id="slctApartadoM" class="form-control pulpox-validar-select"  ></select> 
+                        </div> 
+                        <div class="form-group col-12">
+                        <label class='pulpox-titulo-filtro'>Personas o negocios que..</label>
+                        <select id="slctModalidadM" class="form-control pulpox-validar-select"></select> 
+                        </div>
+                        <div class="form-group col-12">
+                        <label class='pulpox-titulo-filtro'>Mostrar</label>
+                        <select id="slctMostrarM" class="form-control pulpox-validar-select" ></select>  
+                        </div>
                     </div>
-                    <div class="form-group col-md-12">
-                      <label class='pulpox-titulo-filtro'>Estado</label>
-                      <select id="slctEstadoM" class="form-control pulpox-validar-select"></select> 
-                    </div>
-                    <div class="form-group col-12">
-                      <label class='pulpox-titulo-filtro'>Ciudad</label>
-                      <select id="slctCiudadM" class="form-control pulpox-validar-select" ></select> 
-                    </div>
-                    <div class="form-group col-12">
-                      <label class='pulpox-titulo-filtro'>Sección</label>
-                      <select id="slctSeccionM" class="form-control pulpox-validar-select" ></select> 
-                    </div>
-                    <div class="form-group col-12">
-                      <label class='pulpox-titulo-filtro'>Apartado</label>
-                      <select id="slctApartadoM" class="form-control pulpox-validar-select"  ></select> 
-                    </div> 
-                    <div class="form-group col-12">
-                      <label class='pulpox-titulo-filtro'>Personas o negocios que..</label>
-                      <select id="slctModalidadM" class="form-control pulpox-validar-select"></select> 
-                    </div>
-                    <div class="form-group col-12">
-                      <label class='pulpox-titulo-filtro'>Mostrar</label>
-                      <select id="slctMostrarM" class="form-control pulpox-validar-select" ></select>  
-                    </div>
-                </div>
-            </div>  
-        </div> 
-      `,
-      onContentReady:function(){
-        asignaListasSelectsM(); 
-      },
-      buttons: {
-        buscarAnuncios: {
-          text: 'Buscar',
-          btnClass: 'btn-pulpox-primary',   
-          action: function(){
-            buscarAnunciosM(pagina = 1);
-          }              
-        }, 
-        cerrarFiltros: {
-          text: 'Cerrar',
-          btnClass: 'btn-pulpox-info--secondary',              
-        },                 
-      }
-    });  
+                </div>  
+            </div> 
+        `,
+        onContentReady:function(){
+            asignaListasSelectsM(); 
+        },
+        buttons: {
+            buscarAnuncios: {
+            text: 'Buscar',
+            btnClass: 'plpx-btn plpx-btn-primary',   
+            action: function(){
+                buscarAnunciosM(pagina = 1);
+            }              
+            }, 
+            cerrarFiltros: {
+            text: 'Cerrar',
+            btnClass: 'plpx-btn plpx-btn-danger-line',              
+            },                 
+        }
+        });  
 
     }
 
@@ -217,6 +217,7 @@
             }
         })
     }  
+    
     function buscarAnunciosGeneralM(){   
 
         $.get((BASE_URL+'inicio/buscarAnunciosGeneral' ), function(response){
@@ -331,6 +332,8 @@
         * Al cambiar el Estado, se asignan sus ciudades correspondientes
         */    
 
+        $('#txtBusquedaM').val(sessionStorage.getItem("inicioBusquedaM_txtBusquedaM"));
+
         $.get( BASE_URL+"General/obtenerModalidadesFrase", function( response ) {       
             response = JSON.parse(response);
             let lista_modalidades='<option value="Todas" selected>'+sessionStorage.getItem("inicioBusquedaM_slctModalidadM")+'</option>';
@@ -339,7 +342,8 @@
             });
                 $('#slctModalidadM').children().remove();
                 $('#slctModalidadM').append(lista_modalidades)    
-        });
+                $('#slctModalidadM').val(sessionStorage.getItem("inicioBusquedaM_slctModalidadM")) ; 
+        })    
 
         $.get( BASE_URL+"General/obtenerEstados", function( response ) {       
             response = JSON.parse(response);
@@ -351,20 +355,30 @@
                 $('#slctEstadoM').append(lista_estados);    
                 $('#slctEstadoM').val(sessionStorage.getItem("inicioBusquedaM_slctEstadoM")) ;   
                 $('#slctEstadoM').change();
-        });        
+        })     
 
         $('#slctEstadoM').change(function(){
+
             let estado = $('#slctEstadoM').val();           
-                $('#slctCiudadM').find('option').remove() //Remover options actuales
+            $('#slctCiudadM').find('option').remove() //Remover options actuales
+
             $.get( BASE_URL+"General/obtenerCiudades",{estado}, function( response ) {      
+
                 response = JSON.parse(response);
                 let lista_ciudades='<option value="Todas">Todas</option>';
+
                     $.each(response, function(key, value){
                         lista_ciudades += `<option value="${value.nombre}">${value.nombre}</option>`;
                     }); 
+
                     $('#slctCiudadM').children().remove();
-                    $('#slctCiudadM').append(lista_ciudades) //Asignar lista de apartado correspondiente según la sección elegida.           
-                    $('#slctCiudadM').val("Todas")      
+                    $('#slctCiudadM').append(lista_ciudades) //Asignar lista de apartado correspondiente según la sección elegida.  
+                    $('#slctCiudadM').val(sessionStorage.getItem("inicioBusquedaM_slctCiudadM"));
+
+                    if($('#slctCiudadM').val() == null){
+                        sessionStorage.setItem("inicioBusquedaM_slctCiudadM", "Todas");
+                        $('#slctCiudadM').val(sessionStorage.getItem("inicioBusquedaM_slctCiudadM"));
+                    }                    
             });                        
         })
 
@@ -378,7 +392,7 @@
             $('#slctSeccionM').append(lista_secciones) 
             $('#slctSeccionM').val(sessionStorage.getItem("inicioBusquedaM_slctSeccionM"))    
             $('#slctSeccionM').change() 
-        });
+        })
 
         $('#slctSeccionM').change(function(){
             let seccion = $(this).val();
@@ -391,9 +405,14 @@
                     }); 
                     $('#slctApartadoM').children().remove();
                     $('#slctApartadoM').append(lista_apartados) //Asignar lista de apartado correspondiente según la sección elegida.
-                    $('#slctApartadoM').val("Todos")    
+                    $('#slctApartadoM').val(sessionStorage.getItem("inicioBusquedaM_slctApartadoM")) 
+
+                     if($('#slctApartadoM').val() == null){
+                        sessionStorage.setItem("inicioBusquedaM_slctApartadoM", "Todos");
+                        $('#slctApartadoM').val(sessionStorage.getItem("inicioBusquedaM_slctApartadoM"));
+                    }                      
             });                     
-        })   
+        }) 
         
         $.get(BASE_URL+"General/obtenerAnunciosCantidad", function( response ) {       
             response = JSON.parse(response);
@@ -403,17 +422,8 @@
             });
             $('#slctMostrarM').children().remove(); 
             $('#slctMostrarM').append(lista_cantidades);
-           // $('#slctMostrar').val(lista_cantidades) 
             $('#slctMostrarM').val(sessionStorage.getItem("inicioBusquedaM_slctMostrarM"));
-
-        });
-
-        $('#txtBusquedaM').val(sessionStorage.getItem("inicioBusquedaM_txtBusquedaM"));
-        console.log(sessionStorage.getItem("inicioBusquedaM_slctApartadoM"))
-        $('#slctCiudadM').val(sessionStorage.getItem("inicioBusquedaM_slctCiudadM")) 
-        $('#slctApartadoM').val(sessionStorage.getItem("inicioBusquedaM_slctApartadoM"))  
-
-         
+        })        
 
     }   
     
@@ -481,7 +491,6 @@
                         ${val.renovado}</span>
                         </td>
                     </tr>`; 
-
                 }
                     
                 });     
@@ -504,8 +513,7 @@
     $('#slctEstado').change(function(){
         try {
             buscarAnuncios(pagina = 1); 
-        } catch (error) {
-           
+        } catch (error) {           
         }
                                               
     })

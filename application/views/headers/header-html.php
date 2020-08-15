@@ -11,33 +11,14 @@
 
   <!-- JS Boostrap, jquery, popper -->
   <script src="<?php echo base_url();?>assets/libs/jquery-3.5.1/jquery-3.5.1.min.js"></script>   
-  <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script> -->
   <script src="<?php echo base_url();?>assets/libs/popper-1.16.0.min.js"></script>
   <script src="<?php echo base_url();?>assets/libs/bootstrap-4.4.1-dist/js/bootstrap.min.js"></script>
 
   <!-- jQueryConfirm -->
- <!--  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css"> -->
- <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script> -->
   <link rel="stylesheet" href="<?php echo base_url();?>assets/libs/jquery-confirm-v3.3.4/css/jquery-confirm.css">
   <script src="<?php echo base_url();?>assets/libs/jquery-confirm-v3.3.4/js/jquery-confirm.js"></script> 
 
    <!-- MDBootstrap Datatables  -->
    <script type="text/javascript" src="<?php echo base_url();?>assets/libs/MDB-Free_4.18.0/js/addons/datatables.min.js"></script>
  
-    
-
-
-  <!-- GOOGLE FONTS/ICONS -->
-  <!-- <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  <script src="https://kit.fontawesome.com/a076d05399.js"></script>-->
-
-   <!-- <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.21/datatables.min.css"/> -->
- 
-  <!-- <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.21/datatables.min.js"></script> -->
-
-
-
-
-
-
 </head>
