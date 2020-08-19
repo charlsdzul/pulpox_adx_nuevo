@@ -13,12 +13,12 @@
           buttons: {
             cerrar: {
               text: 'Cancelar',
-                btnClass: 'btn-pulpox-danger--line',  
+                btnClass: 'plpx-btn plpx-btn-danger-line',  
                 keys: ['escape'], 
             },
             eliminarAnuncio:{
               text: `Sí, eliminar este anuncio`,
-              btnClass: 'btn-pulpox-info',
+              btnClass: 'plpx-btn plpx-btn-info',
               keys: ['enter'], 
               action:function(){
                 let dialog_eliminando = $.dialog({
@@ -42,7 +42,7 @@
                       buttons: {
                         ok_eliminado: {
                           text: 'Ok',
-                          btnClass: 'btn-pulpox-success',    
+                          btnClass: 'plpx-btn plpx-btn-success',    
                           keys: ['enter'],                       
                           action: function(){
                             window.location.replace(window.location.href);
@@ -61,7 +61,7 @@
                       buttons: {
                         ok: {
                           text: 'Ok',
-                            btnClass: 'btn-pulpox-danger--line',
+                            btnClass: 'plpx-btn plpx-btn-danger-line',
                             keys: ['enter'],                        
                         },                  
                       }
@@ -79,7 +79,7 @@
                     buttons: {               
                       ok: {
                         text: 'Ok',
-                          btnClass: 'btn-pulpox-danger--line',
+                          btnClass: 'plpx-btn plpx-btn-danger-line',
                           keys: ['enter'],
                       }, 
                     }

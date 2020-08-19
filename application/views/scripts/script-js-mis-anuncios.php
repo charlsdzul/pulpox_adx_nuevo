@@ -25,7 +25,7 @@
           buttons: {
             OK: {
                 text: 'Cerrar',
-                btnClass: 'btn-pulpox-danger--line',
+                btnClass: 'plpx-btn plpx-btn-danger-line',
                 keys: ['escape'],       
                 action: function(){
                   self.close();
@@ -33,7 +33,7 @@
             },    
             publicar: {
                 text: 'Publicar',
-                btnClass: 'btn-pulpox-info',
+                btnClass: 'plpx-btn plpx-btn-info',
                 keys: ['enter'],       
                 action: function(){
                   window.location.replace(BASE_URL+'mianuncio/nuevo');
@@ -61,23 +61,23 @@
             }
 
             if(mis_anuncios[index].renovar==0){
-              boton_renovar=`<td id='pulpox-td-table'><button class='btn btn-pulpox-info' onclick=renovarAnuncio('${mis_anuncios[index].public_id}')>Renovar</button></td>`;         
+              boton_renovar=`<td class='d-none d-lg-table-cell' id='pulpox-td-table'><button class='plpx-btn plpx-btn-info' onclick=renovarAnuncio('${mis_anuncios[index].public_id}')>Renovar</button></td>`;         
             }   
             
             if(mis_anuncios[index].renovar==1){
-              boton_renovar=`<td id='pulpox-td-table'>-</td>`; 
+              boton_renovar=`<td class='d-none d-lg-table-cell' id='pulpox-td-table'>-</td>`; 
             }      
         
           data += `
             <tr id='${mis_anuncios[index].public_id}'> 
               <th class='d-none d-lg-table-cell'>${index+1}</th>                      
               <td style='word-break: break-all;'>${mis_anuncios[index].titulo}</td>
-              <td id='pulpox-td-table' title='Ver anuncio' id='pulpox-icon--ver' onclick='verAnuncio("${mis_anuncios[index].renovar}","${mis_anuncios[index].renovado}","${mis_anuncios[index].editado}","${mis_anuncios[index].public_id}","${mis_anuncios[index].modalidad}","${mis_anuncios[index].estado}" ,"${mis_anuncios[index].ciudad}","${mis_anuncios[index].seccion}","${mis_anuncios[index].apartado}","${mis_anuncios[index].creado}","${mis_anuncios[index].estatus}")'>  <img src="<?php echo base_url()?>assets/icons/visibility-24px.svg" class='pulpux-icon-ver pulpox-icon'></td>                 
+              <td class='' id='pulpox-td-table'  title='Ver anuncio' id='pulpox-icon--ver' onclick='verAnuncio("${mis_anuncios[index].titulo}","${mis_anuncios[index].renovar}","${mis_anuncios[index].renovado}","${mis_anuncios[index].editado}","${mis_anuncios[index].public_id}","${mis_anuncios[index].modalidad}","${mis_anuncios[index].estado}" ,"${mis_anuncios[index].ciudad}","${mis_anuncios[index].seccion}","${mis_anuncios[index].apartado}","${mis_anuncios[index].creado}","${mis_anuncios[index].estatus}")'>  <img src="<?php echo base_url()?>assets/icons/visibility-24px.svg" class='pulpux-icon-ver pulpox-icon'></td>                 
               ${boton_renovar}
               <td class='d-none d-lg-table-cell'>${mis_anuncios[index].modalidad} </td>
               <td class='d-none d-lg-table-cell'>${mis_anuncios[index].estado} / ${mis_anuncios[index].ciudad}</td>
               <td class='d-none d-lg-table-cell'>${mis_anuncios[index].seccion} / ${mis_anuncios[index].apartado}</td>
-              <td style='word-break: break-all;' class='d-none d-lg-table-cell'>${mis_anuncios[index].public_id}</td>
+              <td class='d-none d-lg-table-cell' style='word-break: break-all;' >${mis_anuncios[index].public_id}</td>
               <td class='d-none d-lg-table-cell'>${mis_anuncios[index].renovado}</td>
               <td class='d-none d-lg-table-cell'>${mis_anuncios[index].creado}</td>
               <td id='pulpox-td-table' style='background-color:${back_color};color:${color};'>${mis_anuncios[index].estatus}</td>     
@@ -100,7 +100,7 @@
         buttons: {
         cerrarVerAnuncio: {
           text: 'Cerrar',
-          btnClass: 'btn-pulpox-danger',
+          btnClass: 'plpx-btn plpx-btn-danger',
           keys: ['enter'],        
         },                 
       }
@@ -108,15 +108,15 @@
     })  
   });
 
-  function verAnuncio(renovar,renovado,editado,id,modalidad,estado,ciudad,seccion,apartado,creado,estatus){
+  function verAnuncio(titulo,renovar,renovado,editado,id,modalidad,estado,ciudad,seccion,apartado,creado,estatus){
     if(window.innerWidth< 960){
-      mostrarDatosMovil(renovar,renovado,editado,id,modalidad,estado,ciudad,seccion,apartado,creado,estatus)
+      mostrarDatosMovil(titulo,renovar,renovado,editado,id,modalidad,estado,ciudad,seccion,apartado,creado,estatus)
     }else{
       window.open(BASE_URL+'mianuncio/ver/'+id, '_blank');
     }
   }
 
-  function mostrarDatosMovil(renovar,renovado,editado,id,modalidad,estado,ciudad,seccion,apartado,creado,estatus){
+  function mostrarDatosMovil(titulo,renovar,renovado,editado,id,modalidad,estado,ciudad,seccion,apartado,creado,estatus){
     $.confirm({
       icon: 'fas fa-info-circle',
       title: '<span class="titulo-confirm">Información de mi anuncio</span>',
@@ -125,6 +125,7 @@
       backgroundDismiss: true,
       content: `
         <div class='contenido-confirm'>   
+         <b>Título:</b> ${titulo}<br>
           <b>ID:</b> ${id}<br>
           <b>Modalidad:</b>  ${modalidad}<br>
           <b>Lugar:</b>  ${estado} / ${ciudad}<br>
@@ -139,12 +140,12 @@
       `,
       closeIcon:true,
       onContentReady:function(){
-        this.buttons.suspenderEstatus.addClass("btn-pulpox-warning--line")
-        this.buttons.activarEstatus.addClass('btn-pulpox-success--line')
-        this.buttons.eliminarAnuncio.addClass('btn-pulpox-danger--line')
-        this.buttons.editarAnuncio.addClass('btn-pulpox-secondary--line')
-        this.buttons.verAnuncioMobil.addClass('btn-pulpox-info--line') 
-        this.buttons.renovarAnuncioMobil.addClass('btn-pulpox-info') 
+        this.buttons.suspenderEstatus.addClass("plpx-btn plpx-btn-warning-line")
+        this.buttons.activarEstatus.addClass('plpx-btn plpx-btn-success-line')
+        this.buttons.eliminarAnuncio.addClass('plpx-btn plpx-btn-danger-line')
+        this.buttons.editarAnuncio.addClass('plpx-btn plpx-btn-secondary-line')
+        this.buttons.verAnuncioMobil.addClass('plpx-btn plpx-btn-info-line') 
+        this.buttons.renovarAnuncioMobil.addClass('plpx-btn plpx-btn-info') 
         $('.div_estatus_actual').css('text-align','center')
         if(estatus=='ACTIVO'){
           $('.div_estatus_actual').css('background-color','#52a35c')
@@ -174,8 +175,6 @@
           this.buttons.editarAnuncio.hide()      
           this.buttons.renovarAnuncioMobil.hide()       
         }
-
-
       },
       buttons: {    
         renovarAnuncioMobil: {
@@ -460,7 +459,7 @@
               buttons: {
                 ok_eliminado: {
                   text: 'Ok',
-                    btnClass: 'btn-pulpox-danger',      
+                    btnClass: 'plpx-btn plpx-btn-danger',      
                 },                  
               }
             }); 
@@ -476,7 +475,7 @@
             buttons: {               
               ok: {
                 text: 'Ok',
-                  btnClass: 'btn-pulpox-danger--line',
+                  btnClass: 'plpx-btn plpx-btn-danger-line',
                   keys: ['enter'],
               }, 
             }
@@ -490,13 +489,13 @@
         cerrarEdicion: {
           text: 'Cerrar',
           id:'editar_boton_cerrar',
-          btnClass: 'btn-pulpox-info editar_boton_cerrar',
+          btnClass: 'plpx-btn plpx-btn-danger editar_boton_cerrar',
           keys: ['escape'],  
         },
         guardarEdicion: {
           text: 'Guardar Edición',
           id:'editar_boton_guardar',
-          btnClass: 'btn-pulpox-info guardarEdicion editar_boton_guardar',
+          btnClass: 'plpx-btn plpx-btn-info guardarEdicion editar_boton_guardar',
           keys: ['enter'],   
           isHidden: true,  
           action: function(){ 
@@ -586,7 +585,7 @@
                 buttons: {
                   OK: {
                       text: 'Ok',
-                      btnClass: 'btn-pulpox-danger',
+                      btnClass: 'plpx-btn plpx-btn-danger',
                       keys: ['enter'],       
                       action: function(){
                         self.close();
@@ -606,7 +605,7 @@
               buttons: {               
                 ok: {
                   text: 'Ok',
-                    btnClass: 'btn-pulpox-danger--line',
+                    btnClass: 'plpx-btn plpx-btn-danger-line',
                     keys: ['enter'],
                 }, 
               }
@@ -616,7 +615,7 @@
       buttons: {
         cerrarVerAnuncio: {
           text: 'Cerrar',
-          btnClass: 'btn-pulpox-info',
+          btnClass: 'plpx-btn plpx-btn-danger',
           keys: ['escape','enter'],        
         },                 
       }

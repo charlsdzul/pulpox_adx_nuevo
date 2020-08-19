@@ -6,7 +6,7 @@ class Usuario_model extends CI_Model {
     function __construct(){
         parent::__construct();     
         $this->load->database();  
-        $this->load->library('session'); 
+       $this->load->library('session'); 
     }
 
     function verificarUsuario($usuario,$contrasena){

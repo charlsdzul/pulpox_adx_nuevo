@@ -4,8 +4,8 @@ $(document).ready(function() {
 
 
 $("#boton_salir").click(function(){
-  let csrf = "123456";
-  $.get( "usuario/logout",{csrf} )
+  let csrf = '<?php echo  $_SESSION['usuario_csrf']; ?>';
+  $.get( "../usuario/logout",{csrf} )
                   .done(function( data ) {  
                     console.log(data)                  
                     let response = JSON.parse(data)                     

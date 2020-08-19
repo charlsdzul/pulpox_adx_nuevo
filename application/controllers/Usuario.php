@@ -19,12 +19,13 @@ class Usuario extends CI_Controller {
             $response['mensaje']='Ingresa tus datos de acceso.';
             echo json_encode($response);
             die();
-        }     
-
+        }    
       }
 
       function logout(){   
-        if(isset($_GET['csrf']) && ($_GET['csrf']==$this->session->usuario_csrf) ){
+
+        if($_GET['csrf']==$this->session->usuario_csrf ){
+
             $this->session->sess_destroy();
             $response['codigo']=0;
             $response['mensaje']='';

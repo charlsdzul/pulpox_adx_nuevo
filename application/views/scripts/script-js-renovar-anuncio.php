@@ -21,12 +21,12 @@ function renovarAnuncio(anuncio_id){
         buttons: {
           cerrar: {
             text: 'Cancelar',
-              btnClass: 'btn-pulpox-danger--line',  
+              btnClass: 'plpx-btn plpx-btn-danger-line',  
               keys: ['escape'], 
           },
-          eliminarAnuncio:{
+          renovarAnuncio:{
             text: `Renovar`,
-            btnClass: 'btn-pulpox-info',
+            btnClass: 'plpx-btn plpx-btn-info',
             keys: ['enter'], 
             action:function(){
               let dialog_renovando = $.dialog({
@@ -51,7 +51,7 @@ function renovarAnuncio(anuncio_id){
                     buttons: {
                       ok_eliminado: {
                         text: 'Ok',
-                        btnClass: 'btn-pulpox-success',    
+                        btnClass: 'plpx-btn plpx-btn-success',    
                         keys: ['enter'],                       
                         action: function(){                          
                           window.location.replace(window.location.href);
@@ -71,7 +71,7 @@ function renovarAnuncio(anuncio_id){
                     buttons: {
                       ok: {
                         text: 'Ok',
-                          btnClass: 'btn-pulpox-danger--line',
+                          btnClass: 'plpx-btn plpx-btn-danger-line',
                           keys: ['enter'],                        
                       },                  
                     }
@@ -89,7 +89,7 @@ function renovarAnuncio(anuncio_id){
                     buttons: {               
                       ok: {
                         text: 'Ok',
-                          btnClass: 'btn-pulpox-danger--line',
+                          btnClass: 'plpx-btn plpx-btn-danger-line',
                           keys: ['enter'],
                       }, 
                     }

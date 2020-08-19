@@ -12,7 +12,8 @@ class MisAnuncios extends CI_Controller {
     }
 
     function index(){    
-        $this->load->view('headers/header-html-mis-anuncios');
+        $data = array('paginaNombre' => 'Pulpox: Mis Anuncios');
+        $this->load->view('headers/header-html', $data);
         $this->load->view('scripts/script-js-general.php');  
         $this->load->view('modules/menu');       
         $this->load->view('pages/page-mis-anuncios'); 

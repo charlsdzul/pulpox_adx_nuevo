@@ -6,12 +6,12 @@
     let type_confirm = ''
     if(estatus== 'ACTIVO' ){
       estatus_boton = 'Sí, quiero suspenderlo'
-      clase_boton = 'btn-pulpox-info'
+      clase_boton = 'plpx-btn plpx-btn-info'
       type_confirm = 'blue'
     }
     if(estatus== 'SUSPENDIDO' ){
       estatus_boton =  'Sí, quiero activarlo'
-      clase_boton = 'btn-pulpox-info'
+      clase_boton = 'plpx-btn plpx-btn-info'
       type_confirm = 'blue'
     }           
       $.confirm({
@@ -28,7 +28,7 @@
         buttons: {
           cerrar: {
             text: 'Cancelar',
-              btnClass: 'btn-pulpox-danger--line',
+              btnClass: 'plpx-btn plpx-btn-danger-line',
               keys: ['escape'],           
           },
           cambiarEstatus:{
@@ -57,7 +57,7 @@
                       buttons: {
                         ok: {
                           text: 'Ok',
-                            btnClass: 'btn-pulpox-success',
+                            btnClass: 'plpx-btn plpx-btn-success',
                             keys: ['enter'],
                             action: function(){
                               window.location.replace(window.location.href);
@@ -76,7 +76,7 @@
                       buttons: {
                         ok: {
                           text: 'Ok',
-                            btnClass: 'btn-pulpox-danger',
+                            btnClass: 'plpx-btn plpx-btn-danger',
                             keys: ['enter'],              
                         },                  
                       }
@@ -94,7 +94,7 @@
                     buttons: {
                     cerrarVerAnuncio: {
                         text: 'Cerrar',
-                        btnClass: 'btn-pulpox-danger',
+                        btnClass: 'plpx-btn plpx-btn-danger',
                         keys: ['enter'],        
                       },                 
                     }
