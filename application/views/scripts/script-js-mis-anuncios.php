@@ -72,7 +72,7 @@
             <tr id='${mis_anuncios[index].public_id}'> 
               <th class='d-none d-lg-table-cell'>${index+1}</th>                      
               <td style='word-break: break-all;'>${mis_anuncios[index].titulo}</td>
-              <td class='' id='pulpox-td-table'  title='Ver anuncio' id='pulpox-icon--ver' onclick='verAnuncio("${mis_anuncios[index].titulo}","${mis_anuncios[index].renovar}","${mis_anuncios[index].renovado}","${mis_anuncios[index].editado}","${mis_anuncios[index].public_id}","${mis_anuncios[index].modalidad}","${mis_anuncios[index].estado}" ,"${mis_anuncios[index].ciudad}","${mis_anuncios[index].seccion}","${mis_anuncios[index].apartado}","${mis_anuncios[index].creado}","${mis_anuncios[index].estatus}")'>  <img src="<?php echo base_url()?>assets/icons/visibility-24px.svg" class='pulpux-icon-ver pulpox-icon'></td>                 
+              <td class='' id='pulpox-td-table'  title='Ver anuncio' id='pulpox-icon--ver' onclick='verAnuncio("${mis_anuncios[index].titulo}","${mis_anuncios[index].renovar}","${mis_anuncios[index].renovado}","${mis_anuncios[index].editado}","${mis_anuncios[index].public_id}","${mis_anuncios[index].modalidad}","${mis_anuncios[index].estado}" ,"${mis_anuncios[index].ciudad}","${mis_anuncios[index].seccion}","${mis_anuncios[index].apartado}","${mis_anuncios[index].creado}","${mis_anuncios[index].estatus}")'> <i class="fas fa-eye plpx-icon-primary pointer"></i></td>                 
               ${boton_renovar}
               <td class='d-none d-lg-table-cell'>${mis_anuncios[index].modalidad} </td>
               <td class='d-none d-lg-table-cell'>${mis_anuncios[index].estado} / ${mis_anuncios[index].ciudad}</td>
@@ -239,64 +239,64 @@
           if(data.codigo==0){
             self.setContent(`         
               <div class="row justify-content-center">
-                <div class="form-group col-11 col-sm-11>
-                  <label for="titulo">Título</label>
-                  <input type="text" id='titulo' class="form-control pulpox-validar" maxlength="50" value='${titulo}' >
+                <div class="form-group col-11 col-sm-11">
+                  <label class="plpx-titulo-filtro">Título</label>
+                  <input type="text" id='titulo' class="plpx-select pulpox-validar" maxlength="50" value='${titulo}' >
                   <div class="pulpox-invalid-feedback">Elije un título</div>
                 </div>
               </div>
               <div class="row justify-content-center">
                 <div class="form-group col-11 col-sm-11">
-                  <label for="mensaje">Anuncio</label>
-                  <textarea id='mensaje' class="form-control pulpox-validar" aria-label="With textarea" rows="10" maxlength="1000">${data.mensaje}</textarea>
+                  <label class="plpx-titulo-filtro">Anuncio</label>
+                  <textarea id='mensaje' class="plpx-select pulpox-validar" aria-label="With textarea" rows="10" maxlength="1000">${data.mensaje}</textarea>
                   <div class="pulpox-invalid-feedback">Escribe tu mensaje</div>
                 </div>
               </div>
               <div class="row justify-content-center">
                 <div class="form-group col-11 col-sm-11">
-                  <label for="estado">Estado*</label>
-                  <select id="estado" class="form-control pulpox-validar-select"></select>   
+                  <label class="plpx-titulo-filtro">Estado*</label>
+                  <select id="estado" class="plpx-select pulpox-validar-select"></select>   
                   <div class="pulpox-invalid-feedback">Elije un Estado</div>
                 </div>
                 <div class="form-group col-11 col-sm-11">
-                  <label for="ciudad">Ciudad</label>
-                  <select id="ciudad" class="form-control pulpox-validar-select"></select>  
+                  <label class="plpx-titulo-filtro">Ciudad</label>
+                  <select id="ciudad" class="plpx-select pulpox-validar-select"></select>  
                   <div class="pulpox-invalid-feedback">Elije una ciudad</div>
                 </div>
               </div>                                              
               <div class="row justify-content-center">
                 <div class="form-group col-11 col-sm-11">
-                  <label for="modalidad">Modalidad</label>
-                  <select id="modalidad" class="form-control pulpox-validar-select"></select>  
+                  <label class="plpx-titulo-filtro">Modalidad</label>
+                  <select id="modalidad" class="plpx-select pulpox-validar-select"></select>  
                   <div class="pulpox-invalid-feedback">Elije una modalidad</div>
                 </div>
                 <div class="form-group col-11 col-sm-11">
-                  <label for="seccion">Sección</label>
-                  <select id="seccion" class="form-control pulpox-validar-select" ></select>  
+                  <label class="plpx-titulo-filtro">Sección</label>
+                  <select id="seccion" class="plpx-select pulpox-validar-select" ></select>  
                   <div class="pulpox-invalid-feedback">Elije una sección</div>
                 </div>  
                 <div class="form-group col-11 col-sm-11">
-                  <label for="apartado">Apartado</label>
-                  <select id="apartado" class="form-control pulpox-validar-select" ></select>  
+                  <label class="plpx-titulo-filtro">Apartado</label>
+                  <select id="apartado" class="plpx-select pulpox-validar-select" ></select>  
                   <div class="pulpox-invalid-feedback">Elije un apartado</div>
                 </div>
               </div>
               <div class="row justify-content-center">
                 <div class="form-group col-11 col-sm-11">
-                  <label for="telefono">Tel (opcional)</label>
-                  <input id='telefono' type="text" class="form-control" maxlength="10" value='${data.telefono}'>
+                  <label class="plpx-titulo-filtro">Tel (opcional)</label>
+                  <input id='telefono' type="text" class="plpx-select" maxlength="10" value='${data.telefono}'>
                   <div class="pulpox-invalid-feedback">Deben ser 10 dígitos.</div>
                   <small  class="form-text text-muted">Ej. 6561234567</small>                
                 </div>
                 <div class="form-group col-11 col-sm-11">
-                  <label for="celular">Cel (opcional)</label>
-                  <input id="celular" type="text" class="form-control" maxlength="10" value='${data.celular}'>
+                  <label class="plpx-titulo-filtro">Cel (opcional)</label>
+                  <input id="celular" type="text" class="plpx-select" maxlength="10" value='${data.celular}'>
                   <div class="pulpox-invalid-feedback">Deben ser 10 dígitos.</div>
                   <small class="form-text text-muted">Ej. 6561234567</small>
                 </div>
                 <div class="form-group col-11 col-sm-11">
-                  <label for="correo">Correo (opcional)</label>
-                  <input id="correo" type="email" class="form-control"  value='${data.correo}'>
+                  <label class="plpx-titulo-filtro">Correo (opcional)</label>
+                  <input id="correo" type="email" class="plpx-select"  value='${data.correo}'>
                   <div class="pulpox-invalid-feedback">Correo inválido</div>
                 </div>                                            
               </div>
@@ -311,10 +311,7 @@
                       </div>
                                             
                       <input id='input-image-1' type="file" style='display:none;' onchange='validarImagen(this,"${id}","1")' data-numero-imagen='1'>
-                    </div>  
-                 <!--    <div id='pulpox-message-principal-1' class="pulpox-message--principal">
-                      <span>Principal</span>
-                    </div>  -->
+                    </div>                  
                     <div id="pulpox-invalid-feedback-1" class="pulpox-invalid-feedback">
                     </div>                        
                   </div>
@@ -489,15 +486,15 @@
         cerrarEdicion: {
           text: 'Cerrar',
           id:'editar_boton_cerrar',
-          btnClass: 'plpx-btn plpx-btn-danger editar_boton_cerrar',
+          btnClass: 'plpx-btn plpx-btn-danger-line',
           keys: ['escape'],  
         },
         guardarEdicion: {
-          text: 'Guardar Edición',
+          text: 'Guardar Edicion',
           id:'editar_boton_guardar',
-          btnClass: 'plpx-btn plpx-btn-info guardarEdicion editar_boton_guardar',
+          btnClass: 'plpx-btn plpx-btn-info',
           keys: ['enter'],   
-          isHidden: true,  
+          //isHidden: true,  
           action: function(){ 
             validaFormulario(id)   
             return false;
@@ -532,15 +529,15 @@
                       <div class="row justify-content-center">
                         <div class="div-modSecApa col-11 col-sm-11">
                             <div class="icon-label mr-3">                             
-                                <img src="${BASE_URL_ROOT}assets/icons/acuerdo.svg" class='pulpox-icon'/> 
+                                <i class="fas fa-handshake fa-lg plpx-icon-primary"></i>
                                 <label id='modalidad_preview'></label>
                             </div>
                             <div class="icon-label mr-3">                             
-                                <img src="${BASE_URL_ROOT}assets/icons/place-24px.svg" class='pulpox-icon'/>  
+                                <i class="fas fa-map-marker-alt fa-lg  plpx-icon-primary"></i>
                                 <label id='estado_ciudad'></label>
                             </div>
                             <div class="icon-label">
-                                <img src="${BASE_URL_ROOT}assets/icons/list-24px.svg" class='pulpox-icon' >
+                                <i class="fas fa-list fa-lg  plpx-icon-primary"></i>
                                 <label id='seccion_apartado'></label>           
                             </div>
                         </div>
@@ -556,15 +553,15 @@
                       <div class="row justify-content-center div-forma-contacto">
                         <div class="col-11 col-sm-11">
                           <div class="mr-3 icon-label div-contacto" id='div_telefono_preview'>
-                            <img src="${BASE_URL_ROOT}assets/icons/phone-24px.svg" id='anuncio-nuevo-preview_icon--lugar' class='pulpox-icon'>
+                          <i class="fas fa-phone-square fa-lg plpx-icon-primary"></i>
                             <label id='telefono_preview'></label>   
                           </div>
                           <div class="mr-3 icon-label div-contacto" id='div_celular_preview'>
-                            <img src="${BASE_URL_ROOT}assets/icons/stay_current_portrait-24px.svg" id='anuncio-nuevo-preview_icon--lugar' class='pulpox-icon'>
+                            <i class="fas fa-mobile-alt fa-lg plpx-icon-primary"></i>
                             <label id='celular_preview'></label>  
                           </div>                        
                           <div class="mr-3 icon-label div-contacto" id='div_correo_preview'>
-                            <img src="${BASE_URL_ROOT}assets/icons/email-24px.svg" class='pulpox-icon'>
+                            <i class="fas fa-envelope fa-lg  plpx-icon-primary"></i>
                             <label id='correo_preview'></label>     
                           </div>
                         </div>

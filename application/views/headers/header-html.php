@@ -8,8 +8,7 @@
 	<!-- CSS -->
   <link rel="stylesheet" href="<?php echo base_url();?>assets/libs/bootstrap-4.4.1-dist/css/bootstrap.min.css">  
   <link rel="stylesheet" href="<?php echo base_url();?>assets/css/pulpox.css">
-  
-  <link rel="stylesheet" href="<?php echo base_url();?>assets/css/mianuncio-nuevo.css">
+  <link rel="stylesheet" href="<?php echo base_url();?>assets/libs/fontawesome-free-5.14.0-web/css/all.min.css">
 
   <!-- JS Boostrap, jquery, popper -->
   <script src="<?php echo base_url();?>assets/libs/jquery-3.5.1/jquery-3.5.1.min.js"></script>   

@@ -22,7 +22,7 @@
             <th class="th-sm">Estatus</th>
           </tr>
         </thead>
-        <tbody class='pulpox-table-tbody' style="">
+        <tbody class='pulpox-table-tbody'>
         </tbody>
         <tfoot>
         <tr>

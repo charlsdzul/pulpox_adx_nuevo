@@ -93,8 +93,8 @@ $btn_margin: 0.25em;
 }
 
 .plpx-titulo-filtro {
-	font-weight: bold;
-	color: $color_secondary;
+	font-weight: bold !important;
+	color: $color_secondary !important;
 }
 
 .div_opciones {
@@ -169,7 +169,7 @@ $btn_margin: 0.25em;
 	display: inline-block;
 }
 
-.pulpux-icon-ver {
+.pointer {
 	cursor: pointer;
 }
 
@@ -236,10 +236,8 @@ $btn_margin: 0.25em;
 	color: orange;
 }
 
-.pulpox-icon {
+.plpx-icon-primary {
 	filter: $color_primary_filter;
-	height: 1.5em;
-	width: 1.5em;
 	display: inline-block;
 }
 
