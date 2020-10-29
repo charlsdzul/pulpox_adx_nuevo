@@ -188,6 +188,8 @@
             } else {               
                 let lista_anuncios= "";
                 let total_paginas = response['pulpox'].total_paginas;
+                let contadorParaAnunciosPublicidad = 1;
+
                 Object.values(response).forEach(val  => {    
                     if(val.numero != null){ 
                         lista_anuncios += ` 
@@ -199,8 +201,22 @@
                             > ${val.seccion} > ${val.apartado} |
                             ${val.renovado}</span>
                             </td>
-                        </tr>`; 
+                        </tr>
+                        `; 
+                        if (contadorParaAnunciosPublicidad==5 || contadorParaAnunciosPublicidad==10  || contadorParaAnunciosPublicidad==15 || contadorParaAnunciosPublicidad==20 || contadorParaAnunciosPublicidad==25)
+                        {
+                            lista_anuncios += `                       
+
+                        <tr class='plpx-resultados-anuncio__table'>
+                            <td >
+                                anuncio
+                            </td>
+                        </tr>
+                        `;  
+                        }
                     }
+
+                    contadorParaAnunciosPublicidad++;
                 });      
                     
                 $("#anuncios_table").append(lista_anuncios);
