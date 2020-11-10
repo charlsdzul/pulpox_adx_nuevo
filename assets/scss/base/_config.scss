@@ -5,7 +5,13 @@
 	src: url("/pulpox_ads_nuevo/assets/fonts/GoogleSans-Regular.woff");
 }
 
+/*-------------------------------------
+GENERAL
+--------------------------------------*/
 * {
+	box-sizing: border-box !important;
+	margin: 0;
+	padding: 0;
 }
 
 *,
@@ -14,14 +20,13 @@
 	box-sizing: border-box;
 }
 
-body {
-	margin: 0;
-	font-family: "PulpoxFonts", "GoogleSans-Regular";
-	background-color: hsl(340, 100%, 98%);
+html {
+	font-size: 62.5%;
 }
 
-a {
-	text-decoration: none;
+body {
+	font-family: "PulpoxFonts", "GoogleSans-Regular";
+	background-color: hsl(340, 100%, 98%);
 }
 
 img {
@@ -30,12 +35,6 @@ img {
 
 li {
 	list-style: none;
-}
-
-h1 {
-	font-size: xx-large;
-	font-weight: 500;
-	color: $color_dark;
 }
 
 .plpx-w1 {
