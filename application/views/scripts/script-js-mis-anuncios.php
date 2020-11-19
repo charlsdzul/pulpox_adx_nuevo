@@ -47,17 +47,14 @@
         for (let index = 0; index < mis_anuncios.length; index++) { 
 
             if(mis_anuncios[index].estatus=='ACTIVO'){
-              back_color ='#52a35c';
-              color = 'white';
+              icono ='../assets/icons/32/activo.png';              
             }
             if(mis_anuncios[index].estatus=='SUSPENDIDO'){
-              back_color = '#a39c52';
-              color = 'white';
+              icono ='../assets/icons/32/suspendido.png';
             }
 
             if(mis_anuncios[index].estatus=='ELIMINADO'){
-              back_color = '#a3525a';
-              color = 'white';
+              icono ='../assets/icons/32/eliminado.png';
             }
 
             if(mis_anuncios[index].renovar==0){
@@ -71,16 +68,15 @@
           data += `
             <tr id='${mis_anuncios[index].public_id}'> 
               <th class='d-none d-lg-table-cell'>${index+1}</th>                      
-              <td style='word-break: break-all;'>${mis_anuncios[index].titulo}</td>
-              <td class='' id='pulpox-td-table'  title='Ver anuncio' id='pulpox-icon--ver' onclick='verAnuncio("${mis_anuncios[index].titulo}","${mis_anuncios[index].renovar}","${mis_anuncios[index].renovado}","${mis_anuncios[index].editado}","${mis_anuncios[index].public_id}","${mis_anuncios[index].modalidad}","${mis_anuncios[index].estado}" ,"${mis_anuncios[index].ciudad}","${mis_anuncios[index].seccion}","${mis_anuncios[index].apartado}","${mis_anuncios[index].creado}","${mis_anuncios[index].estatus}")'> <i class="fas fa-eye plpx-icon-primary pointer"></i></td>                 
+              <td style='word-break: break-all;'><span class='plpx-span-text-3 plpx-span-text-dark'>${mis_anuncios[index].titulo}<span></td>
+              <td class='' id='pulpox-td-table'  title='Ver anuncio' id='plpx-icon-3' onclick='verAnuncio("${mis_anuncios[index].titulo}","${mis_anuncios[index].renovar}","${mis_anuncios[index].renovado}","${mis_anuncios[index].editado}","${mis_anuncios[index].public_id}","${mis_anuncios[index].modalidad}","${mis_anuncios[index].estado}" ,"${mis_anuncios[index].ciudad}","${mis_anuncios[index].seccion}","${mis_anuncios[index].apartado}","${mis_anuncios[index].creado}","${mis_anuncios[index].estatus}")'> <i class="fas fa-eye plpx-icon-primary pointer"></i></td>                 
               ${boton_renovar}
-              <td class='d-none d-lg-table-cell'>${mis_anuncios[index].modalidad} </td>
-              <td class='d-none d-lg-table-cell'>${mis_anuncios[index].estado} / ${mis_anuncios[index].ciudad}</td>
-              <td class='d-none d-lg-table-cell'>${mis_anuncios[index].seccion} / ${mis_anuncios[index].apartado}</td>
-              <td class='d-none d-lg-table-cell' style='word-break: break-all;' >${mis_anuncios[index].public_id}</td>
-              <td class='d-none d-lg-table-cell'>${mis_anuncios[index].renovado}</td>
-              <td class='d-none d-lg-table-cell'>${mis_anuncios[index].creado}</td>
-              <td id='pulpox-td-table' style='background-color:${back_color};color:${color};'>${mis_anuncios[index].estatus}</td>     
+              <td class='d-none d-lg-table-cell'><span class='plpx-span-text-2 plpx-span-text-dark'>${mis_anuncios[index].modalidad}<span></td>
+              <td class='d-none d-lg-table-cell'><span class='plpx-span-text-2 plpx-span-text-dark'>${mis_anuncios[index].estado} / ${mis_anuncios[index].ciudad}<span></td>
+              <td class='d-none d-lg-table-cell'><span class='plpx-span-text-2 plpx-span-text-dark'>${mis_anuncios[index].seccion} / ${mis_anuncios[index].apartado}<span></td>
+              <td class='d-none d-lg-table-cell'><span class='plpx-span-text-2 plpx-span-text-dark'>${mis_anuncios[index].renovado}<span></td>
+              <td class='d-none d-lg-table-cell'><span class='plpx-span-text-2 plpx-span-text-dark'>${mis_anuncios[index].creado}<span></td>
+              <td id='pulpox-td-table'><img src='${icono}' class='plpx-icon-3'/></td>     
             </tr>`;    
         }  
         $('.pulpox-table-tbody').append(data);       
