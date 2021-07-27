@@ -17,7 +17,7 @@ class Inicio extends CI_Controller {
         $this->load->view('modules/menu');        
         $this->load->view('pages/page-inicio.php');   
         $this->load->view('scripts/script-js-inicio.php');  
-        $this->load->view('scripts/script-js-logout.php');  
+        //$this->load->view('scripts/script-js-logout.php');  
         $this->load->view('scripts/script-js-iniciar-sesion.php'); 
     }
 
